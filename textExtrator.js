@@ -1,4 +1,4 @@
-combined_speakers_and_translationsconst { openFilePromise, openTextFilePromise } = require("./filelibs.js");
+const { openFilePromise, openTextFilePromise } = require("./filelibs.js");
 var fs = require("fs");
 
 function readTranscriptAndReturnFullSentences(data) {
