@@ -1,4 +1,5 @@
-const { openFilePromise, openTextFilePromise } = require("./filelibs.js");
+combined_speakers_and_translationsconst { openFilePromise, openTextFilePromise } = require("./filelibs.js");
+var fs = require("fs");
 
 function readTranscriptAndReturnFullSentences(data) {
   let sentences_start_ends = [];
@@ -10,10 +11,12 @@ function readTranscriptAndReturnFullSentences(data) {
 
   let speakers_and_text = [];
   let just_text = [];
+  let speakers_only = [];
   filtered.forEach((element) => {
     let split_speaker_and_text = element.split(": ");
     speakers_and_text.push(element);
     just_text.push(split_speaker_and_text[split_speaker_and_text.length - 1]);
+    speakers_only.push(split_speaker_and_text[0]);
   });
 
   // this is filtering I used from another transcript translation I did, leaving it in as comments because it's useful
@@ -48,7 +51,7 @@ function readTranscriptAndReturnFullSentences(data) {
     });
   });
 
-  return { just_text_filtered, speakers_and_text };
+  return { just_text_filtered, speakers_and_text, speakers_only };
 }
 
 const newShopifyChain = async () => {
@@ -62,8 +65,29 @@ const newShopifyChain = async () => {
   );
 
   let translations = JSON.parse(get_translations);
-  console.log("done");
 
-  // so now we have the original text file and our translated json file, let's make one nice array.};
+  // note that this only works because the sentence count exactly mathches in both the translated text and original text transcription.
+  let combined_speakers_and_translations = [];
+  translations.forEach((translation_obj, i) => {
+    let new_translation_object = {
+      speaker: full_sentences.speakers_only[i],
+      ...translation_obj,
+    };
+    combined_speakers_and_translations.push(new_translation_object);
+  });
+
+  fs.writeFile(
+    "combined_speakers_and_translations.json",
+    JSON.stringify(combined_speakers_and_translations),
+    function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("combined_speakers_and_translations.json was saved!");
+    }
+  );
+  console.log("done");
+};
+// so now we have the original text file and our translated json file, let's make one nice array.};
 
 newShopifyChain();
