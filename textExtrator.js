@@ -39,6 +39,7 @@ function readTranscriptAndReturnFullSentences(data) {
   // VERSION WITH NO PUNCTUATION STRIPPED OUT.
   let all_words = [];
   let all_words_no_special_chars = [];
+  let all_words_no_carriage_returns_string = "";
 
   just_text_filtered.forEach((element) => {
     let words = element.split(" ");
@@ -48,10 +49,18 @@ function readTranscriptAndReturnFullSentences(data) {
       all_words_no_special_chars.push(
         we.replace(/[^\w\s]|_/g, "").replace(/\s+/g, " )")
       );
+      let no_rs = we.replace("\r", "");
+      all_words_no_carriage_returns_string =
+        all_words_no_carriage_returns_string + " " + no_rs;
     });
   });
 
-  return { just_text_filtered, speakers_and_text, speakers_only };
+  return {
+    just_text_filtered,
+    speakers_and_text,
+    speakers_only,
+    all_words_no_carriage_returns_string,
+  };
 }
 
 const newShopifyChain = async () => {
@@ -75,6 +84,18 @@ const newShopifyChain = async () => {
     };
     combined_speakers_and_translations.push(new_translation_object);
   });
+
+  // we need this plain text, stripped out file for the gentle aligner
+  fs.writeFile(
+    "justwords.txt",
+    JSON.stringify(full_sentences.all_words_no_carriage_returns_string),
+    function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("justwords.txt was saved!");
+    }
+  );
 
   fs.writeFile(
     "combined_speakers_and_translations.json",
