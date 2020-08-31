@@ -65,7 +65,7 @@ function readTranscriptAndReturnFullSentences(data) {
 }
 
 const alignGentleResultsWithTranscript = async () => {
-  const get_aligned_results = await openFilePromise("align.json");
+  const get_aligned_results = await openFilePromise("align-not-strict.json");
   let aligned_results = JSON.parse(get_aligned_results);
 
   const text_file_data = await openTextFilePromise(
@@ -150,27 +150,6 @@ const alignGentleResultsWithTranscript = async () => {
     }
   });
 
-  fs.writeFile(
-    "aligned_transcripts_objs.json",
-    JSON.stringify(aligned_transcripts_objs),
-    function (err) {
-      if (err) {
-        return console.log(err);
-      }
-      console.log("aligned_transcripts_objs.json was saved!");
-    }
-  );
-
-  fs.writeFile(
-    "not_aligned_yet.json",
-    JSON.stringify(not_aligned_yet),
-    function (err) {
-      if (err) {
-        return console.log(err);
-      }
-      console.log("not_aligned_yet.json was saved!");
-    }
-  );
   //TODO: go through not_aligned_yet and take care of stragglers, for now just correct by hand
 
   // now that we have the first round done with only single occurences, let's see if we can do a quick look in the remaining spaces
@@ -346,127 +325,64 @@ const alignGentleResultsWithTranscript = async () => {
 
       if (internal_sentence_string === sentence_cleaned) {
         console.log("");
-        done_on_second_pass.push({ element, internal_sentence });
+
+        done_on_second_pass.push({
+          aligned_words_matching: internal_sentence,
+          still_to_be_done_element: element,
+        });
       }
     });
 
     console.log("");
   });
 
-  // on, now from the "not done on first pass" array, find the array_align to search in.
+  let combined = [
+    ...found_alinged_from_still_to_be_done,
+    ...done_on_second_pass,
+  ];
 
-  aligned_transcripts_objs.forEach((aligned, i) => {
-    if (
-      aligned_transcripts_objs[i + 1].just_text_filtered >
-      aligned.just_text_filtered + 1
-    ) {
-      let aligned_word_lower = aligned.word_i;
-      let aligned_word_upper = aligned_transcripts_objs[i + 1].word_i;
+  let sorted_combined = combined.sort((a, b) => {
+    a.still_to_be_done_element.full_sentences_just_text_filtered_i -
+      b.still_to_be_done_element.full_sentences_just_text_filtered_i;
+  });
 
-      let aligned_sliced = aligned_results.words.slice(
-        aligned_word_lower,
-        aligned_word_upper
-      );
-      let words_from_trans_from_align = "";
+  let indexes_done_after_two_passes = [];
+  sorted_combined.forEach((element) => {
+    indexes_done_after_two_passes.push(
+      element.still_to_be_done_element.full_sentences_just_text_filtered_i
+    );
+  });
 
-      aligned_sliced.forEach((element) => {
-        words_from_trans_from_align =
-          words_from_trans_from_align + " " + element.word;
-      });
-      console.log("");
-      let from_just_text_but_not_included = [];
-      full_sentences.just_text_filtered.forEach((element, ii) => {
-        if (
-          ii > aligned.just_text_filtered &&
-          ii < aligned_transcripts_objs[i + 1].just_text_filtered
-        ) {
-          from_just_text_but_not_included.push({
-            just_text_filtered: ii,
-            element: element,
-          });
-        }
-      });
-
-      // now let's go through the just_text_filters we haven't aligned yet and see if they occur only once in our sliced subset of the aligned_results
-      from_just_text_but_not_included.forEach((element) => {
-        let cleaned_element = element.element
-          .replace(/[^\w\s]|_/g, "")
-          .replace(/\s+/g, " ");
-
-        let occurences = words_from_trans_from_align.split(cleaned_element);
-
-        if (cleaned_element.slice(-1) === " ") {
-          cleaned_element = cleaned_element.slice(
-            0,
-            cleaned_element.length - 1
-          );
-        }
-
-        if (occurences.length === 2) {
-          let words = cleaned_element.split(" ");
-
-          if (words.length < 5) {
-            return;
-          }
-
-          let first = words[0].toLowerCase();
-          let second = words[1].toLowerCase();
-          let third = words[2].toLowerCase();
-          let fourth = words[3].toLowerCase();
-          let fifth = words[4].toLowerCase();
-
-          let small_sentence =
-            first + " " + second + " " + third + " " + fourth + " " + fifth;
-
-          console.log(occurences);
-
-          aligned_results.words.forEach((word, word_i) => {
-            let aligned_slice = aligned_results.words.slice(word_i, word_i + 5);
-            let aligned_string = "";
-            aligned_slice.forEach((slice, i) => {
-              if (i !== aligned_slice.length - 1)
-                aligned_string = aligned_string + slice.word + " ";
-              else if (i === aligned_slice.length - 1) {
-                aligned_string = aligned_string + slice.word;
-              }
-            });
-
-            if (aligned_string === cleaned_element) {
-              console.log(occurences);
-              console.log(occurences);
-            }
-          });
-        }
-      });
-
-      console.log(from_not_aligned_inside_our_range);
-      console.log("");
+  let remaining_sents_after_two_passes = [];
+  full_sentences.just_text_filtered.forEach((element, i) => {
+    if (!indexes_done_after_two_passes.includes(i)) {
+      remaining_sents_after_two_passes.push({ element, i });
     }
   });
 
-  //   not_aligned_yet.forEach((not_yet) => {
-  //     let closest_below = 0;
-  //     let closest_above = 0;
-  //     let above_difference = 100;
+  fs.writeFile(
+    "sorted_combined.json",
+    JSON.stringify(aligned_transcripts_objs),
+    function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("sorted_combined.json was saved!");
+    }
+  );
 
-  //     // find the surrounding succesful sentences
-  //     aligned_transcripts_objs.forEach((aligned, i) => {
-  //       if (aligned.just_text_filtered < not_yet.just_text_filtered) {
-  //         closest_below = i;
-  //       }
+  fs.writeFile(
+    "remaining_sents_after_two_passes.json",
+    JSON.stringify(remaining_sents_after_two_passes),
+    function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("remaining_sents_after_two_passes.json was saved!");
+    }
+  );
 
-  //       if (aligned.just_text_filtered > not_yet.just_text_filtered) {
-  //         let new_difference =
-  //           aligned.just_text_filtered - not_yet.just_text_filtered;
-
-  //         if (new_difference < above_difference) {
-  //           above_difference = new_difference;
-  //           closest_above = aligned.just_text_filtered;
-  //         }
-  //       }
-  //     });
-  //     console.log("");
-  //   });
+  console.log(remaining_sents_after_two_passes);
 
   console.log("done");
 };
