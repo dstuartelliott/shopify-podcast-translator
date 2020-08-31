@@ -133,7 +133,7 @@ const alignGentleResultsWithTranscript = async () => {
         // console.log(chars_removed_small_sentence);
 
         if (chars_removed_aligned_string === chars_removed_small_sentence) {
-          console.log("matched");
+          // console.log("matched");
 
           aligned_transcripts_objs.push({
             just_text_filtered: i,
@@ -142,7 +142,7 @@ const alignGentleResultsWithTranscript = async () => {
             word_i: word_i,
           });
           pulled_out.push(i);
-          console.log("matched");
+          // console.log("matched");
         }
       });
 
@@ -177,10 +177,183 @@ const alignGentleResultsWithTranscript = async () => {
 
   let still_to_be_done = [];
   full_sentences.just_text_filtered.forEach((element, i) => {
-    if (!pulled_out.includes(i)) {
-      still_to_be_done.push(element);
+    // if (!pulled_out.includes(i)) {
+    still_to_be_done.push({
+      sentence: element,
+      full_sentences_just_text_filtered_i: i,
+    });
+    // }
+  });
+
+  // this is more expensive search, so we only do it on sentences we couldn't find in the first cheap pass
+
+  let found_alinged_from_still_to_be_done = [];
+
+  let index_of_found_from_sentences = [];
+
+  still_to_be_done.forEach((still_to_be_done_element, i) => {
+    let sentence_cleaned = still_to_be_done_element.sentence
+      .replace(/[^\w\s]|_/g, "")
+      .replace(/\s+/g, " ");
+
+    sentence_cleaned = sentence_cleaned.slice(0, sentence_cleaned.length - 1);
+
+    let sentence_array = sentence_cleaned.split(" ");
+
+    let close_loop = false;
+    aligned_results.words.forEach((aligned_result_word, aligned_i) => {
+      if (close_loop) {
+        return;
+      }
+      let matched_words = 0;
+      let aligned_words_matching = [];
+      // the length of the sentence array we are
+      sentence_array.forEach((sentence_word, sent_i) => {
+        if (aligned_i + sent_i > aligned_results.words.length - 1) {
+          return;
+        }
+
+        let cleaned_aligned_word = aligned_results.words[
+          aligned_i + sent_i
+        ].word
+          .replace(/[^\w\s]|_/g, "")
+          .replace(/\s+/g, " ");
+
+        if (cleaned_aligned_word === sentence_word) {
+          matched_words = matched_words + 1;
+          let word = aligned_results.words[aligned_i + sent_i];
+          let iterator = aligned_i + sent_i;
+          aligned_words_matching.push({ word, iterator });
+        }
+
+        if (matched_words === sentence_array.length) {
+          // console.log("matched");
+          found_alinged_from_still_to_be_done.push({
+            still_to_be_done_element,
+            aligned_words_matching,
+          });
+          index_of_found_from_sentences.push(
+            still_to_be_done_element.full_sentences_just_text_filtered_i
+          );
+
+          close_loop = true;
+        }
+      });
+    });
+  });
+
+  let second_pass_combined = [];
+
+  let not_done_on_first_pass = [];
+  full_sentences.just_text_filtered.forEach((element, i) => {
+    if (!index_of_found_from_sentences.includes(i)) {
+      not_done_on_first_pass.push({
+        sentence: element,
+        full_sentences_just_text_filtered_i: i,
+      });
     }
   });
+
+  let done_on_second_pass = [];
+
+  not_done_on_first_pass.forEach((element) => {
+    // find the element before
+
+    let sentence_cleaned = element.sentence
+      .replace(/[^\w\s]|_/g, "")
+      .replace(/\s+/g, " ");
+
+    if (sentence_cleaned.slice(0, 1) === " ") {
+      sentence_cleaned = sentence_cleaned.slice(1, sentence_cleaned.length);
+    }
+
+    if (
+      sentence_cleaned.slice(
+        sentence_cleaned.length - 1,
+        sentence_cleaned.length
+      ) === " "
+    ) {
+      sentence_cleaned = sentence_cleaned.slice(0, sentence_cleaned.length - 1);
+    }
+
+    let sentence_cleaned_array = sentence_cleaned.split(" ");
+    let before = found_alinged_from_still_to_be_done.filter((e) => {
+      if (
+        e.still_to_be_done_element.full_sentences_just_text_filtered_i ===
+        element.full_sentences_just_text_filtered_i - 1
+      ) {
+        return true;
+      }
+    });
+
+    let before_align_words_iterator = 0;
+
+    if (before[0] !== undefined) {
+      before_align_words_iterator =
+        before[0].aligned_words_matching[0].iterator;
+    }
+
+    let after = found_alinged_from_still_to_be_done.filter((e) => {
+      if (
+        e.still_to_be_done_element.full_sentences_just_text_filtered_i ===
+        element.full_sentences_just_text_filtered_i + 1
+      ) {
+        return true;
+      }
+    });
+
+    let after_align_words_iterator = 0;
+
+    if (after[0] !== undefined) {
+      after_align_words_iterator = after[0].aligned_words_matching[0].iterator;
+    }
+
+    // ok now I have the narrow amount of words I need
+    let align_narrowed = aligned_results.words.slice(
+      before_align_words_iterator,
+      after_align_words_iterator
+    );
+
+    align_narrowed.forEach((ae, i) => {
+      // let's make a sentence
+      let internal_cleaned = sentence_cleaned;
+      if (i + sentence_cleaned_array.length > align_narrowed.length) {
+        return;
+      }
+      let internal_sentence = align_narrowed.slice(
+        i,
+        i + sentence_cleaned_array.length
+      );
+      let internal_sentence_string = "";
+      internal_sentence.forEach((is) => {
+        internal_sentence_string = internal_sentence_string + " " + is.word;
+      });
+
+      internal_sentence_string = internal_sentence_string.slice(
+        1,
+        internal_sentence_string.length
+      );
+
+      internal_sentence_string = internal_sentence_string
+        .replace(/[^\w\s]|_/g, "")
+        .replace(/\s+/g, " ");
+
+      if (sentence_cleaned.length > 19) {
+        internal_sentence_string = internal_sentence_string.slice(0, 20);
+
+        sentence_cleaned = sentence_cleaned.slice(0, 20);
+      }
+
+      if (internal_sentence_string === sentence_cleaned) {
+        console.log("");
+        done_on_second_pass.push({ element, internal_sentence });
+      }
+    });
+
+    console.log("");
+  });
+
+  // on, now from the "not done on first pass" array, find the array_align to search in.
 
   aligned_transcripts_objs.forEach((aligned, i) => {
     if (
