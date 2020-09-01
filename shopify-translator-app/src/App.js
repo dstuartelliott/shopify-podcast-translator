@@ -31,13 +31,16 @@ function App() {
 
   React.useEffect(() => {
     async function getTranscriptSentences() {
-      let data = await playerContext.getMyProfilePromise();
+      let translated_data = await playerContext.getTranslateTextPromise();
+      console.log(translated_data);
+
+      let data = await playerContext.getEnglishTextPromise();
       let local_sentences = [];
 
       // TODO: I could go in and hand correct the data, but I think it's more instructive to show how I deal with bad data
 
       let sentenceAndGoodWord = [];
-      data.translations.forEach((element, i) => {
+      data.english_text.forEach((element, i) => {
         const iterator = element.aligned_words_matching[Symbol.iterator]();
 
         let ii = 0;

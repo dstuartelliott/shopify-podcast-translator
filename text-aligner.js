@@ -360,6 +360,46 @@ const alignGentleResultsWithTranscript = async () => {
     }
   });
 
+  const translations_and_english_data = await openFilePromise(
+    "combined_speakers_and_translations.json"
+  );
+  let translations_and_english = JSON.parse(translations_and_english_data);
+
+  let translations_with_aligned_timing = [];
+
+  translations_and_english.forEach((element, i) => {
+    let from_sorted_combined = sorted_combined.filter(
+      (se) => se.still_to_be_done_element.sentence === element.text_local
+    );
+
+    if (from_sorted_combined.length > 0) {
+      let from_sorted = from_sorted_combined[0];
+      let speaker = element.speaker;
+      let translation = element.translation;
+      translations_with_aligned_timing.push({
+        speaker: speaker,
+        english: from_sorted.still_to_be_done_element.sentence,
+        translation: translation,
+        details: from_sorted,
+        words: from_sorted.aligned_words_matching,
+        full_sentences_i:
+          from_sorted.still_to_be_done_element
+            .full_sentences_just_text_filtered_i,
+      });
+    }
+  });
+
+  fs.writeFile(
+    "translations_with_aligned_timing.json",
+    JSON.stringify(sorted_combined),
+    function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("translations_with_aligned_timing.json was saved!");
+    }
+  );
+
   fs.writeFile(
     "sorted_combined.json",
     JSON.stringify(sorted_combined),

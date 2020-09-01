@@ -3,9 +3,26 @@ export const PlayerContext = createContext();
 
 export const PlayerContextProvider = ({ children }) => {
   const [status, setStatus] = React.useState(null);
-  const getMyProfilePromise = () => {
+  const getEnglishTextPromise = () => {
     let myPromise = new Promise((resolve, reject) => {
-      const apiUrl = "http://localhost:8000/translations";
+      const apiUrl = "http://localhost:8000/englishText";
+      fetch(apiUrl)
+        .then((response) => {
+          let data = response.json();
+          // profileObject = data;
+          //   console.log(data);
+          resolve(data);
+        })
+        .catch((error) => {
+          resolve({ error });
+        });
+    });
+    return myPromise;
+  };
+
+  const getTranslateTextPromise = () => {
+    let myPromise = new Promise((resolve, reject) => {
+      const apiUrl = "http://localhost:8000/translatedText";
       fetch(apiUrl)
         .then((response) => {
           let data = response.json();
@@ -23,7 +40,8 @@ export const PlayerContextProvider = ({ children }) => {
   return (
     <PlayerContext.Provider
       value={{
-        getMyProfilePromise,
+        getEnglishTextPromise,
+        getTranslateTextPromise,
         status,
       }}
     >

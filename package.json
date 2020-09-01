@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "text": "node text-aligner.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
