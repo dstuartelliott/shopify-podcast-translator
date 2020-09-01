@@ -6,12 +6,12 @@ export const PlayerContextProvider = ({ children }) => {
   const getMyProfilePromise = () => {
     let myPromise = new Promise((resolve, reject) => {
       const apiUrl = "http://localhost:8000/translations";
-      fetch(apiUrl, { method: "GET", mode: "no-cors" })
+      fetch(apiUrl)
         .then((response) => {
           let data = response.json();
           // profileObject = data;
-          console.log(data);
-          //resolve(data);
+          //   console.log(data);
+          resolve(data);
         })
         .catch((error) => {
           resolve({ error });

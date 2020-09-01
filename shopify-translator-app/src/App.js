@@ -13,6 +13,7 @@ function App() {
   React.useEffect(() => {
     async function getMeowsFromUser() {
       let data = await playerContext.getMyProfilePromise();
+      console.log(data);
     }
     getMeowsFromUser();
   }, []);
