@@ -13,9 +13,20 @@ function App() {
   const playerContext = React.useContext(PlayerContext);
   const [localSentences, setLocalSetences] = React.useState([]);
 
+  const [timeToJumpTo, setTimeToJumpTo] = React.useState(0.0);
+
+  const [
+    transcriptIndexToHighlight,
+    setTranscriptIndexToHighlight,
+  ] = React.useState();
+
   function handleClickedSentence(event) {
     let word = localSentences[event.currentTarget.id].word.word;
     console.log(word);
+    console.log(event.currentTarget.id);
+
+    setTranscriptIndexToHighlight(parseInt(event.currentTarget.id));
+    setTimeToJumpTo(word.start);
   }
 
   React.useEffect(() => {
@@ -57,6 +68,7 @@ function App() {
         // local_sentences.push(element.still_to_be_done_element.sentence);
       });
       setLocalSetences(sentenceAndGoodWord);
+      setTranscriptIndexToHighlight(0);
       console.log(sentenceAndGoodWord);
     }
     getTranscriptSentences();
@@ -65,27 +77,55 @@ function App() {
   return (
     <div className="App">
       <body>
-        <Player />
+        <Player timeToJumpTo={timeToJumpTo} />
 
-        <div>
+        <TranscriptList>
           {localSentences.map((element, i) => {
+            // console.log(
+            //   setTranscriptIndexToHighlight ===
+            //     element.sentence.full_sentences_just_text_filtered_i
+            // );
+
+            // console.log(setTranscriptIndexToHighlight);
+
+            // console.log(element.sentence.full_sentences_just_text_filtered_i);
+
             return (
-              <Button
-                onClick={handleClickedSentence}
-                id={element.sentence.full_sentences_just_text_filtered_i}
-              >
-                <TranscriptSentence
-                  sentence_object={element}
-                  key={element.sentence.full_sentences_just_text_filtered_i}
-                ></TranscriptSentence>
-              </Button>
+              <TranscriptItem>
+                <Button
+                  onClick={handleClickedSentence}
+                  id={element.sentence.full_sentences_just_text_filtered_i}
+                >
+                  <TranscriptSentence
+                    sentence_object={element}
+                    key={element.sentence.full_sentences_just_text_filtered_i}
+                    highlighted={
+                      transcriptIndexToHighlight !==
+                      element.sentence.full_sentences_just_text_filtered_i
+                    }
+                  ></TranscriptSentence>
+                </Button>
+              </TranscriptItem>
             );
           })}
-        </div>
+        </TranscriptList>
       </body>
     </div>
   );
 }
-const Button = styled.button``;
+const Button = styled.button`
+  background-color: Transparent;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+`;
+const TranscriptList = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`;
+
+const TranscriptItem = styled.div``;
 
 export default App;

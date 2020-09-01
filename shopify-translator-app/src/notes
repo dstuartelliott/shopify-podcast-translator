@@ -10,5 +10,7 @@
 
 In App, maybe move the bad data logic into the server?
 
+Bad word timing logic - calcutlate the average letter/timing length of each word.  So a three-symbol word (use the phenomes for it) equals this length, etc. Oh wait, can't use the phemones, have to use letter counet, 
+
 
 Why did I make this?  I hope to approach my favourite podcasts, who are struggling with advetrsier revenue drying up, and offer them this service as a way to sell acccess to translated episodes, so they can diversify their cashflow.
