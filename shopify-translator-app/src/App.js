@@ -12,6 +12,7 @@ import styled from "styled-components";
 function App() {
   const playerContext = React.useContext(PlayerContext);
   const [localSentences, setLocalSetences] = React.useState([]);
+  const [combinedSentences, setCombinedSentences] = React.useState([]);
 
   const [timeToJumpTo, setTimeToJumpTo] = React.useState(0.0);
 
@@ -32,7 +33,38 @@ function App() {
   React.useEffect(() => {
     async function getTranscriptSentences() {
       let combined = await playerContext.getCombined();
-      console.log(combined);
+      console.log(combined.translations);
+
+      let sentenceAndGoodWordCombined = [];
+      combined.translations.forEach((element, i) => {
+        const iterator = element.words[Symbol.iterator]();
+
+        let ii = 0;
+        let currentCase = "nil";
+        let succesful_word = undefined;
+        while (ii < element.words.length - 1 && succesful_word === undefined) {
+          let aligned_word = element.words[ii];
+
+          if (aligned_word.word.case === "success") {
+            succesful_word = aligned_word;
+          }
+          ii = ii + 1;
+        }
+
+        if (succesful_word !== undefined) {
+          sentenceAndGoodWordCombined.push({
+            english_sentence: element.english,
+            translated_sentence: element.translation,
+            speaker: element.speaker,
+            word: succesful_word,
+            words: element.words,
+          });
+        }
+      });
+
+      setCombinedSentences(sentenceAndGoodWordCombined);
+
+      console.log(sentenceAndGoodWordCombined[0]);
 
       let data = await playerContext.getEnglishTextPromise();
       let local_sentences = [];
@@ -64,11 +96,6 @@ function App() {
             word: succesful_word,
           });
         }
-
-        // let caseFromMatchedWord = "not-found-in-audio";
-        // let index = 0;
-        // while ((caseFromMatchedWord === "not-found-in-audio", i)) {}
-        // local_sentences.push(element.still_to_be_done_element.sentence);
       });
       setLocalSetences(sentenceAndGoodWord);
       setTranscriptIndexToHighlight(0);
