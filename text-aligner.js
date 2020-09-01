@@ -362,7 +362,7 @@ const alignGentleResultsWithTranscript = async () => {
 
   fs.writeFile(
     "sorted_combined.json",
-    JSON.stringify(aligned_transcripts_objs),
+    JSON.stringify(sorted_combined),
     function (err) {
       if (err) {
         return console.log(err);
