@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Player from "./Player.js";
@@ -8,28 +8,65 @@ import TranscriptSentence from "./TranscriptSentence.js";
 import { PlayerContext } from "./PlayerContext";
 
 import styled from "styled-components";
+import Say from "react-say";
+import { useSynthesize } from "react-say";
+import { SayUtterance } from "react-say";
 
 function App() {
+  let speechtext = "hello";
   const playerContext = React.useContext(PlayerContext);
   const [localSentences, setLocalSetences] = React.useState([]);
   const [combinedSentences, setCombinedSentences] = React.useState([]);
 
   const [timeToJumpTo, setTimeToJumpTo] = React.useState(0.0);
+  const [timeToEndOn, setTimeToEndOn] = React.useState(99999999.0);
+
+  const [speakTranslation, setSpeakTranslation] = React.useState(false);
+
+  const utterance = useMemo(
+    () =>
+      new SpeechSynthesisUtterance(
+        "A quick brown fox jumped over the lazy dogs."
+      ),
+    []
+  );
 
   const [
     transcriptIndexToHighlight,
     setTranscriptIndexToHighlight,
   ] = React.useState();
 
+  const selector = useCallback((voices) =>
+    [...voices].find((v) => v.lang === "fr-CA")
+  );
   function handleClickedSentence(event) {
     console.log(event.currentTarget);
     console.log(event.currentTarget.id);
 
     let word = combinedSentences[event.currentTarget.id].word.word;
-    console.log(word);
+
+    let last_word = combinedSentences[event.currentTarget.id].last_word.word;
+
+    let sentence_to_speak = console.log(word);
 
     setTranscriptIndexToHighlight(parseInt(event.currentTarget.id));
     setTimeToJumpTo(word.start);
+
+    console.log(last_word);
+    console.log(last_word.end);
+
+    setTimeToEndOn(last_word.end);
+    console.log(timeToEndOn);
+  }
+  function speakStuff(event) {
+    setSpeakTranslation(true);
+
+    if (speechSynthesis.speaking) {
+      speechSynthesis.pause();
+      setSpeakTranslation(false);
+    } else {
+      playerContext.speakFrench(combinedSentences[0].translated_sentence);
+    }
   }
 
   React.useEffect(() => {
@@ -53,15 +90,43 @@ function App() {
           ii = ii + 1;
         }
 
+        let last_word;
+        if (element.words[element.words.length - 1].word.case === "success") {
+          last_word = element.words[element.words.length - 1];
+        } else {
+          // is the next word available?
+          last_word = undefined;
+        }
+
         if (succesful_word !== undefined) {
           sentenceAndGoodWordCombined.push({
             english_sentence: element.english,
             translated_sentence: element.translation,
             speaker: element.speaker,
             word: succesful_word,
+            last_word: last_word,
             words: element.words,
             full_sentences_i: element.full_sentences_i,
           });
+        }
+      });
+
+      sentenceAndGoodWordCombined.forEach((element, i) => {
+        if (element.last_word === undefined) {
+          console.log(sentenceAndGoodWordCombined[i].last_word);
+
+          if (
+            sentenceAndGoodWordCombined[i + 1] !== undefined &&
+            sentenceAndGoodWordCombined[i + 1].word !== undefined
+          ) {
+            sentenceAndGoodWordCombined[i].last_word =
+              sentenceAndGoodWordCombined[i + 1].word;
+
+            console.log("fixed");
+            console.log(sentenceAndGoodWordCombined[i].last_word);
+          } else {
+            console.log("not fixed");
+          }
         }
       });
 
@@ -111,8 +176,19 @@ function App() {
   return (
     <div className="App">
       <body>
-        <Player timeToJumpTo={timeToJumpTo} />
+        <Button onClick={speakStuff}>Hello</Button>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
 
+        <Player
+          timeToJumpTo={timeToJumpTo}
+          isSpeechPlaying={speakTranslation}
+          timeToEndOn={timeToEndOn}
+          pauseAtEndOfCurrentClip={true}
+        />
         <TranscriptList>
           {combinedSentences.map((element, i) => {
             // console.log(element);

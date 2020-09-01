@@ -3,9 +3,9 @@ import logo from "./logo.svg";
 import "./App.css";
 import styled from "styled-components";
 
-function TranscriptSentence({ sentence_object, highlighted }) {
+function TranscriptSentence({ sentence_object, highlighted, showTranslation }) {
   React.useEffect(() => {
-    console.log(sentence_object);
+    // console.log(sentence_object);
   }, []);
 
   return (

@@ -1,5 +1,7 @@
 import React, { createContext } from "react";
 export const PlayerContext = createContext();
+var voices = speechSynthesis.getVoices();
+let french_voice = voices.filter((v) => v.lang === "fr-CA");
 
 export const PlayerContextProvider = ({ children }) => {
   const [status, setStatus] = React.useState(null);
@@ -19,6 +21,13 @@ export const PlayerContextProvider = ({ children }) => {
     });
     return myPromise;
   };
+
+  function speakFrench(speechToSpeak) {
+    let utterance = new SpeechSynthesisUtterance(speechToSpeak);
+    utterance.voice = french_voice[0];
+
+    speechSynthesis.speak(utterance);
+  }
 
   const getTranslateTextPromise = () => {
     let myPromise = new Promise((resolve, reject) => {
@@ -60,6 +69,7 @@ export const PlayerContextProvider = ({ children }) => {
         getEnglishTextPromise,
         getTranslateTextPromise,
         getCombined,
+        speakFrench,
         status,
       }}
     >

@@ -3,11 +3,24 @@ import logo from "./logo.svg";
 import "./App.css";
 import ReactAudioPlayer from "react-audio-player";
 import styled from "styled-components";
-
-function Player({ timeToJumpTo }) {
+let localEndTime = 999999.0;
+function Player({
+  timeToJumpTo,
+  isSpeechPlaying,
+  timeToEndOn,
+  pauseAtEndOfCurrentClip,
+}) {
   function AnnounceCurrentSentence(e) {
-    // let time_to_search = e.target.currentTime;
-    // console.log(time_to_search);
+    let time_to_search = e.target.currentTime;
+    console.log(time_to_search);
+    console.log({ timeToEndOn });
+    console.log(pauseAtEndOfCurrentClip);
+
+    if (time_to_search > localEndTime && { pauseAtEndOfCurrentClip }) {
+      audioref.current.pause();
+
+      HERE IS WHERE YOU WANT TO SEND A MESSAGE TO CONTEXT TO PLAY THE FRENCH
+    }
   }
 
   React.useEffect(() => {
@@ -17,8 +30,11 @@ function Player({ timeToJumpTo }) {
 
   React.useEffect(() => {
     console.log("updated");
-    audioref.current.currentTime = timeToJumpTo;
-    audioref.current.play();
+    if (isSpeechPlaying === false) {
+      audioref.current.currentTime = timeToJumpTo;
+      localEndTime = timeToEndOn;
+      audioref.current.play();
+    }
   });
 
   const audioref = React.useRef(null);
@@ -28,10 +44,11 @@ function Player({ timeToJumpTo }) {
       <audio
         ref={audioref}
         src="ep374-healthish_tc.mp3"
-        currentTime={5}
+        currentTime={timeToJumpTo}
         controls
       />
       <div>Time to jump to is: {timeToJumpTo}</div>
+      <div>Time to end on is: {timeToEndOn}</div>
     </AudioPlayerDiv>
   );
 
