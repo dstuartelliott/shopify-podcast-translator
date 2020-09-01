@@ -12,7 +12,7 @@ function Player() {
 
   React.useEffect(() => {
     audioref.current.addEventListener("timeupdate", AnnounceCurrentSentence);
-  });
+  }, []);
   const audioref = React.useRef(null);
 
   return (
@@ -25,7 +25,6 @@ function Player() {
 }
 
 const AudioPlayerDiv = styled.div`
-  position: fixed;
   width: 800px;
   height: 50px;
 
