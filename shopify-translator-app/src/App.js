@@ -22,9 +22,11 @@ function App() {
   ] = React.useState();
 
   function handleClickedSentence(event) {
-    let word = localSentences[event.currentTarget.id].word.word;
-    console.log(word);
+    console.log(event.currentTarget);
     console.log(event.currentTarget.id);
+
+    let word = combinedSentences[event.currentTarget.id].word.word;
+    console.log(word);
 
     setTranscriptIndexToHighlight(parseInt(event.currentTarget.id));
     setTimeToJumpTo(word.start);
@@ -58,6 +60,7 @@ function App() {
             speaker: element.speaker,
             word: succesful_word,
             words: element.words,
+            full_sentences_i: element.full_sentences_i,
           });
         }
       });
@@ -66,40 +69,41 @@ function App() {
 
       console.log(sentenceAndGoodWordCombined[0]);
 
-      let data = await playerContext.getEnglishTextPromise();
-      let local_sentences = [];
+      // let data = await playerContext.getEnglishTextPromise();
+      // let local_sentences = [];
 
-      // TODO: I could go in and hand correct the data, but I think it's more instructive to show how I deal with bad data
+      // // TODO: I could go in and hand correct the data, but I think it's more instructive to show how I deal with bad data
 
-      let sentenceAndGoodWord = [];
-      data.english_text.forEach((element, i) => {
-        const iterator = element.aligned_words_matching[Symbol.iterator]();
+      // let sentenceAndGoodWord = [];
+      // data.english_text.forEach((element, i) => {
+      //   const iterator = element.aligned_words_matching[Symbol.iterator]();
 
-        let ii = 0;
-        let currentCase = "nil";
-        let succesful_word = undefined;
-        while (
-          ii < element.aligned_words_matching.length - 1 &&
-          succesful_word === undefined
-        ) {
-          let aligned_word = element.aligned_words_matching[ii];
+      //   let ii = 0;
+      //   let currentCase = "nil";
+      //   let succesful_word = undefined;
+      //   while (
+      //     ii < element.aligned_words_matching.length - 1 &&
+      //     succesful_word === undefined
+      //   ) {
+      //     let aligned_word = element.aligned_words_matching[ii];
 
-          if (aligned_word.word.case === "success") {
-            succesful_word = aligned_word;
-          }
-          ii = ii + 1;
-        }
+      //     if (aligned_word.word.case === "success") {
+      //       succesful_word = aligned_word;
+      //     }
+      //     ii = ii + 1;
+      //   }
 
-        if (succesful_word !== undefined) {
-          sentenceAndGoodWord.push({
-            sentence: element.still_to_be_done_element,
-            word: succesful_word,
-          });
-        }
-      });
-      setLocalSetences(sentenceAndGoodWord);
+      //   if (succesful_word !== undefined) {
+      //     sentenceAndGoodWord.push({
+      //       sentence: element.still_to_be_done_element,
+      //       word: succesful_word,
+      //     });
+      //   }
+      // });
+      // setLocalSetences(sentenceAndGoodWord);
+      // console.log(sentenceAndGoodWord);
+
       setTranscriptIndexToHighlight(0);
-      console.log(sentenceAndGoodWord);
     }
     getTranscriptSentences();
   }, []);
@@ -110,28 +114,19 @@ function App() {
         <Player timeToJumpTo={timeToJumpTo} />
 
         <TranscriptList>
-          {localSentences.map((element, i) => {
-            // console.log(
-            //   setTranscriptIndexToHighlight ===
-            //     element.sentence.full_sentences_just_text_filtered_i
-            // );
-
-            // console.log(setTranscriptIndexToHighlight);
-
-            // console.log(element.sentence.full_sentences_just_text_filtered_i);
-
+          {combinedSentences.map((element, i) => {
+            // console.log(element);
             return (
               <TranscriptItem>
                 <Button
                   onClick={handleClickedSentence}
-                  id={element.sentence.full_sentences_just_text_filtered_i}
+                  id={element.full_sentences_i}
                 >
                   <TranscriptSentence
                     sentence_object={element}
-                    key={element.sentence.full_sentences_just_text_filtered_i}
+                    key={element.full_sentences_i}
                     highlighted={
-                      transcriptIndexToHighlight !==
-                      element.sentence.full_sentences_just_text_filtered_i
+                      transcriptIndexToHighlight !== element.full_sentences_i
                     }
                   ></TranscriptSentence>
                 </Button>
