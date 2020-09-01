@@ -37,11 +37,29 @@ export const PlayerContextProvider = ({ children }) => {
     return myPromise;
   };
 
+  const getCombined = () => {
+    let myPromise = new Promise((resolve, reject) => {
+      const apiUrl = "http://localhost:8000/returnCombined";
+      fetch(apiUrl)
+        .then((response) => {
+          let data = response.json();
+          // profileObject = data;
+          //   console.log(data);
+          resolve(data);
+        })
+        .catch((error) => {
+          resolve({ error });
+        });
+    });
+    return myPromise;
+  };
+
   return (
     <PlayerContext.Provider
       value={{
         getEnglishTextPromise,
         getTranslateTextPromise,
+        getCombined,
         status,
       }}
     >

@@ -31,8 +31,8 @@ function App() {
 
   React.useEffect(() => {
     async function getTranscriptSentences() {
-      let translated_data = await playerContext.getTranslateTextPromise();
-      console.log(translated_data);
+      let combined = await playerContext.getCombined();
+      console.log(combined);
 
       let data = await playerContext.getEnglishTextPromise();
       let local_sentences = [];

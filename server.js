@@ -31,6 +31,18 @@ const returnTraslatedText = async (req, res) => {
   });
 };
 
+const returnCombined = async (req, res) => {
+  //   const allFlights = Object.keys(flights);
+  const get_translations = await openFilePromise(
+    "translations_with_aligned_timing.json"
+  );
+
+  let translations = JSON.parse(get_translations);
+  return res.json({
+    translations,
+  });
+};
+
 app.use(cors());
 
 app.get("/", function (req, res) {
@@ -39,6 +51,7 @@ app.get("/", function (req, res) {
 
 app.get("/englishText", returnEnglishText);
 app.get("/translatedText", returnTraslatedText);
+app.get("/returnCombined", returnCombined);
 
 var server = app.listen(8000, function () {
   var host = server.address().address;

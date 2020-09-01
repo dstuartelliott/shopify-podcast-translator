@@ -380,7 +380,6 @@ const alignGentleResultsWithTranscript = async () => {
         speaker: speaker,
         english: from_sorted.still_to_be_done_element.sentence,
         translation: translation,
-        details: from_sorted,
         words: from_sorted.aligned_words_matching,
         full_sentences_i:
           from_sorted.still_to_be_done_element
@@ -391,7 +390,7 @@ const alignGentleResultsWithTranscript = async () => {
 
   fs.writeFile(
     "translations_with_aligned_timing.json",
-    JSON.stringify(sorted_combined),
+    JSON.stringify(translations_with_aligned_timing),
     function (err) {
       if (err) {
         return console.log(err);
