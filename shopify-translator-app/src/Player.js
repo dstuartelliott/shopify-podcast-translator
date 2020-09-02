@@ -5,7 +5,10 @@ import ReactAudioPlayer from "react-audio-player";
 import styled from "styled-components";
 
 import { PlayerContext } from "./PlayerContext";
-
+import App from "./App";
+import Context from "react-say/lib/Context";
+TODO: Make a player component that has all the information and functions in it.  So that's all positions, all the french synth code, and the start and stop code.
+Having it in the App, and Context, and and Player is too distributed.  
 let localEndTime = 999999.0;
 let currentTimeEndSpeakingFrenchAfter;
 function Player({
