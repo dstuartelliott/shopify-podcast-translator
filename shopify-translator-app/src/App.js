@@ -17,16 +17,23 @@ function App() {
   const [timeToJumpTo, setTimeToJumpTo] = React.useState(0.0);
   const [timeToEndOn, setTimeToEndOn] = React.useState(99999999.0);
 
-  const [speakTranslation, setSpeakTranslation] = React.useState(false);
-
   const {
-    state: { shouldMP3StillPlay, currentTimePlayHead, ...state },
+    state: {
+      shouldMP3StillPlay,
+      currentTimePlayHead,
+      contextSentenceAndGoodWordCombined,
+      speakTranslation,
+      ...state
+    },
     actions: {
       sendUpdatedPlayHeadPosition,
       playSpeechAndThenRestartPlayer,
       pausePlayer,
       startPlayer,
       jumpToEnglishSentenceAndPlay,
+      getContextSentenceAndGoodWordCombined,
+      updateContextSentenceAndGoodWordCombined,
+      setSpeakTranslation,
     },
   } = React.useContext(PlayerBoundariesContext);
 
@@ -48,6 +55,9 @@ function App() {
   );
   function handleClickedSentence(event) {
     // console.log(combinedSentences);
+
+    let stuff = getContextSentenceAndGoodWordCombined;
+    console.log(stuff);
 
     let selected;
     combinedSentences.forEach((sent, i) => {
@@ -101,7 +111,9 @@ function App() {
   }
   function speakStuff(event) {
     // pausePlayer();
-    playSpeechAndThenRestartPlayer(state, "hello");
+
+    setSpeakTranslation(state, !speakTranslation);
+    // playSpeechAndThenRestartPlayer(state, "hello");
 
     // setSpeakTranslation(true);
     // if (speechSynthesis.speaking) {
@@ -157,6 +169,11 @@ function App() {
         }
       });
 
+      updateContextSentenceAndGoodWordCombined(
+        state,
+        sentenceAndGoodWordCombined
+      );
+
       sentenceAndGoodWordCombined.forEach((element, i) => {
         if (element.last_word === undefined) {
           console.log(sentenceAndGoodWordCombined[i].last_word);
@@ -188,7 +205,13 @@ function App() {
   return (
     <div className="App">
       <body>
-        <Button onClick={speakStuff}>Hello</Button>
+        <Button onClick={speakStuff}>
+          {speakTranslation ? (
+            <div>Translation On</div>
+          ) : (
+            <div>Translation Off</div>
+          )}
+        </Button>
         <p></p>
         <p></p>
         <p></p>
@@ -197,7 +220,6 @@ function App() {
 
         <Player
           timeToJumpTo={timeToJumpTo}
-          isSpeechPlaying={speakTranslation}
           timeToEndOn={timeToEndOn}
           pauseAtEndOfCurrentClip={true}
         />

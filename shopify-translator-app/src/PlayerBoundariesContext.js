@@ -3,18 +3,36 @@ export const PlayerBoundariesContext = createContext();
 var voices = speechSynthesis.getVoices();
 let french_voice = voices.filter((v) => v.lang === "fr-CA");
 let current__play_head_time;
+let current_english_item_end;
+let next_english_item_start;
+
 const initialState = {
   shouldMP3StillPlay: false,
   currentTimePlayHead: 0.0,
   timeToPlayFrom: 20.0,
+  contextSentenceAndGoodWordCombined: [],
+  speakTranslation: false,
 };
 
 function reducer(state, action) {
   switch (action.type) {
+    case "update-SentenceAndGoodWordCombined": {
+      console.log("reducer triggered");
+      console.log(action);
+      console.log(state);
+
+      return {
+        ...state,
+        contextSentenceAndGoodWordCombined: action.sentenceAndGoodWordCombined,
+
+        // shouldMP3StillPlay: true,
+      };
+    }
+
     case "update-play-head": {
       //   console.log("reducer triggered");
-      //   console.log(action);
-      //   console.log(state);
+      console.log(action);
+      console.log(state);
 
       return {
         ...state,
@@ -58,6 +76,17 @@ function reducer(state, action) {
       };
     }
 
+    case "set-speak-translation": {
+      //   console.log("reducer triggered");
+      //   console.log(action);
+      console.log(state);
+
+      return {
+        ...state,
+        speakTranslation: action.setSpeech,
+      };
+    }
+
     default: {
       console.log("error");
       console.log(action);
@@ -72,7 +101,9 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
     // console.log("sendUpdatedPlayHeadPosition");
 
     current__play_head_time = currentTime;
-    // console.log(current__play_head_time);
+    console.log(current__play_head_time);
+
+    THIS IS WHERE THE LOGIC TO PLAY THE FRENCH WILL GO 
 
     // dispatch({
     //   type: "update-play-head",
@@ -92,6 +123,18 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
     });
   };
 
+  const setSpeakTranslation = (data, setSpeech) => {
+    dispatch({
+      type: "set-speak-translation",
+      setSpeech: setSpeech,
+      ...data,
+    });
+  };
+
+  const getContextSentenceAndGoodWordCombined = () => {
+    return {};
+  };
+
   const jumpToEnglishSentenceAndPlay = (data, timeToJumpTo, sentence) => {
     // console.log(timeToJumpTo);
     // console.log(data);
@@ -108,6 +151,17 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
       type: "jump-to-english-time",
       time_jump,
       ...data,
+    });
+  };
+
+  const updateContextSentenceAndGoodWordCombined = (
+    data,
+    sentenceAndGoodWordCombined
+  ) => {
+    dispatch({
+      type: "update-SentenceAndGoodWordCombined",
+      ...data,
+      sentenceAndGoodWordCombined: sentenceAndGoodWordCombined,
     });
   };
 
@@ -145,6 +199,9 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
           pausePlayer,
           startPlayer,
           jumpToEnglishSentenceAndPlay,
+          getContextSentenceAndGoodWordCombined,
+          updateContextSentenceAndGoodWordCombined,
+          setSpeakTranslation,
         },
       }}
     >

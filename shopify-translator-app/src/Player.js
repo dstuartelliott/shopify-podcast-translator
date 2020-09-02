@@ -8,12 +8,7 @@ import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
 import App from "./App";
 let playing = false;
 
-function Player({
-  timeToJumpTo,
-  isSpeechPlaying,
-  timeToEndOn,
-  pauseAtEndOfCurrentClip,
-}) {
+function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
   const playerContext = React.useContext(PlayerContext);
 
   const {
