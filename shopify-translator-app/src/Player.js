@@ -11,6 +11,9 @@ import App from "./App";
 import Context from "react-say/lib/Context";
 let localEndTime = 999999.0;
 let currentTimeEndSpeakingFrenchAfter;
+let playing = false;
+var hasLocalUserSaidPlay = false;
+
 function Player({
   timeToJumpTo,
   isSpeechPlaying,
@@ -20,16 +23,32 @@ function Player({
   const playerContext = React.useContext(PlayerContext);
 
   const {
-    state: { shouldMP3StillPlay, currentTimePlayHead, ...state },
-    actions: { sendUpdatedPlayHeadPosition },
+    state: {
+      shouldMP3StillPlay,
+      currentTimePlayHead,
+      timeToPlayFrom,
+      ...state
+    },
+    actions: { sendUpdatedPlayHeadPosition, jumpToEnglishSentenceAndPlay },
   } = React.useContext(PlayerBoundariesContext);
 
-  function AnnounceCurrentSentence(e) {
+  function isPlaying(e) {
+    playing = true;
+    console.log({ playing });
+  }
+
+  function isPaused(e) {
+    playing = false;
+
+    console.log({ playing });
+  }
+
+  function updateTime(e) {
     let time_to_search = e.target.currentTime;
 
-    sendUpdatedPlayHeadPosition((currentTimePlayHead: e.target.currentTime));
+    sendUpdatedPlayHeadPosition(e.target.currentTime);
 
-    console.log(time_to_search);
+    // console.log(time_to_search);
     // console.log({ timeToEndOn });
     // console.log(pauseAtEndOfCurrentClip);
     // if (
@@ -45,24 +64,55 @@ function Player({
   }
 
   React.useEffect(() => {
-    audioref.current.addEventListener("timeupdate", AnnounceCurrentSentence);
+    audioref.current.addEventListener("timeupdate", updateTime);
+
+    audioref.current.addEventListener("play", isPlaying);
+
+    audioref.current.addEventListener("pause", isPaused);
 
     return () => {
       console.log("remove listener");
-      audioref.current.removeEvenetListener(
-        "timeupdate",
-        AnnounceCurrentSentence
-      );
+      audioref.current.removeEventListener("timeupdate", updateTime);
+      audioref.current.removeEventListener("play", isPlaying);
+      audioref.current.removeEventListener("pause", isPaused);
     };
   }, []);
 
   React.useEffect(() => {
-    // console.log("updated");
-    // if (isSpeechPlaying === false) {
-    //   audioref.current.currentTime = timeToJumpTo;
-    //   localEndTime = timeToEndOn;
-    //   audioref.current.play();
-    // }
+    // console.log("useeffect fired");
+    // console.log(shouldMP3StillPlay);
+    // console.log(playing);
+
+    if (shouldMP3StillPlay === false) {
+      // audioref.current.currentTime = timeToJumpTo;
+      // localEndTime = timeToEndOn;
+      audioref.current.pause();
+      playing = false;
+    }
+
+    if (shouldMP3StillPlay && playing === true) {
+      console.log({ timeToPlayFrom });
+      let time_jump = parseFloat(timeToPlayFrom);
+      console.log(time_jump);
+
+      let time_jump_precise = time_jump.toPrecision(2);
+      console.log(time_jump_precise);
+
+      audioref.current.currentTime = time_jump_precise;
+      // localEndTime = timeToEndOn;
+      // audioref.current.play();
+    } else if (shouldMP3StillPlay && playing === false) {
+      console.log({ timeToPlayFrom });
+      let time_jump = parseFloat(timeToPlayFrom);
+      console.log(time_jump);
+
+      let time_jump_precise = time_jump.toPrecision(2);
+      console.log(time_jump_precise);
+
+      audioref.current.currentTime = time_jump_precise;
+      // localEndTime = timeToEndOn;
+      audioref.current.play();
+    }
   });
 
   const audioref = React.useRef(null);

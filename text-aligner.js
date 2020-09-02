@@ -1,4 +1,5 @@
 const { openFilePromise, openTextFilePromise } = require("./filelibs.js");
+const { v4: uuidv4 } = require("uuid");
 
 var fs = require("fs");
 
@@ -384,6 +385,7 @@ const alignGentleResultsWithTranscript = async () => {
         full_sentences_i:
           from_sorted.still_to_be_done_element
             .full_sentences_just_text_filtered_i,
+        uuid: uuidv4(),
       });
     }
   });

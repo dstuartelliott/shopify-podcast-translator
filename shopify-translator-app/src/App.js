@@ -6,6 +6,7 @@ import Transcript from "./Transcript.js";
 import TranscriptSentence from "./TranscriptSentence.js";
 
 import { PlayerContext } from "./PlayerContext";
+import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
 
 import styled from "styled-components";
 import Say from "react-say";
@@ -22,6 +23,17 @@ function App() {
   const [timeToEndOn, setTimeToEndOn] = React.useState(99999999.0);
 
   const [speakTranslation, setSpeakTranslation] = React.useState(false);
+
+  const {
+    state: { shouldMP3StillPlay, currentTimePlayHead, ...state },
+    actions: {
+      sendUpdatedPlayHeadPosition,
+      playSpeechAndThenRestartPlayer,
+      pausePlayer,
+      startPlayer,
+      jumpToEnglishSentenceAndPlay,
+    },
+  } = React.useContext(PlayerBoundariesContext);
 
   const utterance = useMemo(
     () =>
@@ -40,39 +52,53 @@ function App() {
     [...voices].find((v) => v.lang === "fr-CA")
   );
   function handleClickedSentence(event) {
-    console.log(event.currentTarget);
-    console.log(event.currentTarget.id);
+    
+    WHEN YOU COME BACK, ADAPT TO UUID
+    let element = combinedSentences.filter()
+    setTranscriptIndexToHighlight(parseInt(event.currentTarget.id));
 
     let word = combinedSentences[event.currentTarget.id].word.word;
 
     let last_word = combinedSentences[event.currentTarget.id].last_word.word;
 
-    setTranscriptIndexToHighlight(parseInt(event.currentTarget.id));
+    jumpToEnglishSentenceAndPlay(state, word.start, "hello");
+
     setTimeToJumpTo(word.start);
 
-    console.log(last_word);
-    console.log(last_word.end);
+    // console.log(event.currentTarget);
+    // console.log(event.currentTarget.id);
 
-    setTimeToEndOn(last_word.end);
-    console.log(combinedSentences[event.currentTarget.id].translated_sentence);
+    // let word = combinedSentences[event.currentTarget.id].word.word;
 
-    playerContext.setSpeechPhraseFunc(
-      combinedSentences[event.currentTarget.id].translated_sentence
-    );
+    // let last_word = combinedSentences[event.currentTarget.id].last_word.word;
 
-    let phrase = playerContext.getSpeechPhrase();
+    // setTimeToJumpTo(word.start);
 
-    console.log(phrase);
+    // console.log(last_word);
+    // console.log(last_word.end);
+
+    // setTimeToEndOn(last_word.end);
+    // console.log(combinedSentences[event.currentTarget.id].translated_sentence);
+
+    // playerContext.setSpeechPhraseFunc(
+    //   combinedSentences[event.currentTarget.id].translated_sentence
+    // );
+
+    // let phrase = playerContext.getSpeechPhrase();
+
+    // console.log(phrase);
   }
   function speakStuff(event) {
-    setSpeakTranslation(true);
+    // pausePlayer();
+    playSpeechAndThenRestartPlayer(state, "hello");
 
-    if (speechSynthesis.speaking) {
-      speechSynthesis.pause();
-      setSpeakTranslation(false);
-    } else {
-      playerContext.speakFrench(combinedSentences[0].translated_sentence);
-    }
+    // setSpeakTranslation(true);
+    // if (speechSynthesis.speaking) {
+    //   speechSynthesis.pause();
+    //   setSpeakTranslation(false);
+    // } else {
+    //   playerContext.speakFrench(combinedSentences[0].translated_sentence);
+    // }
   }
 
   React.useEffect(() => {
@@ -82,6 +108,8 @@ function App() {
 
       let sentenceAndGoodWordCombined = [];
       combined.translations.forEach((element, i) => {
+        // // TODO: I could go in and hand correct the data, but I think it's more instructive to show how I deal with bad data
+
         const iterator = element.words[Symbol.iterator]();
 
         let ii = 0;
@@ -140,40 +168,6 @@ function App() {
 
       console.log(sentenceAndGoodWordCombined[0]);
 
-      // let data = await playerContext.getEnglishTextPromise();
-      // let local_sentences = [];
-
-      // // TODO: I could go in and hand correct the data, but I think it's more instructive to show how I deal with bad data
-
-      // let sentenceAndGoodWord = [];
-      // data.english_text.forEach((element, i) => {
-      //   const iterator = element.aligned_words_matching[Symbol.iterator]();
-
-      //   let ii = 0;
-      //   let currentCase = "nil";
-      //   let succesful_word = undefined;
-      //   while (
-      //     ii < element.aligned_words_matching.length - 1 &&
-      //     succesful_word === undefined
-      //   ) {
-      //     let aligned_word = element.aligned_words_matching[ii];
-
-      //     if (aligned_word.word.case === "success") {
-      //       succesful_word = aligned_word;
-      //     }
-      //     ii = ii + 1;
-      //   }
-
-      //   if (succesful_word !== undefined) {
-      //     sentenceAndGoodWord.push({
-      //       sentence: element.still_to_be_done_element,
-      //       word: succesful_word,
-      //     });
-      //   }
-      // });
-      // setLocalSetences(sentenceAndGoodWord);
-      // console.log(sentenceAndGoodWord);
-
       setTranscriptIndexToHighlight(0);
     }
     getTranscriptSentences();
@@ -200,10 +194,7 @@ function App() {
             // console.log(element);
             return (
               <TranscriptItem>
-                <Button
-                  onClick={handleClickedSentence}
-                  id={element.full_sentences_i}
-                >
+                <Button onClick={handleClickedSentence} id={element.uuid}>
                   <TranscriptSentence
                     sentence_object={element}
                     key={element.full_sentences_i}
