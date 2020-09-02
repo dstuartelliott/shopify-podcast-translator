@@ -47,8 +47,6 @@ function App() {
 
     let last_word = combinedSentences[event.currentTarget.id].last_word.word;
 
-    let sentence_to_speak = console.log(word);
-
     setTranscriptIndexToHighlight(parseInt(event.currentTarget.id));
     setTimeToJumpTo(word.start);
 
@@ -56,7 +54,15 @@ function App() {
     console.log(last_word.end);
 
     setTimeToEndOn(last_word.end);
-    console.log(timeToEndOn);
+    console.log(combinedSentences[event.currentTarget.id].translated_sentence);
+
+    playerContext.setSpeechPhraseFunc(
+      combinedSentences[event.currentTarget.id].translated_sentence
+    );
+
+    let phrase = playerContext.getSpeechPhrase();
+
+    console.log(phrase);
   }
   function speakStuff(event) {
     setSpeakTranslation(true);

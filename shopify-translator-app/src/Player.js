@@ -3,29 +3,45 @@ import logo from "./logo.svg";
 import "./App.css";
 import ReactAudioPlayer from "react-audio-player";
 import styled from "styled-components";
+
+import { PlayerContext } from "./PlayerContext";
+
 let localEndTime = 999999.0;
+let currentTimeEndSpeakingFrenchAfter;
 function Player({
   timeToJumpTo,
   isSpeechPlaying,
   timeToEndOn,
   pauseAtEndOfCurrentClip,
 }) {
+  const playerContext = React.useContext(PlayerContext);
+
   function AnnounceCurrentSentence(e) {
     let time_to_search = e.target.currentTime;
     console.log(time_to_search);
     console.log({ timeToEndOn });
     console.log(pauseAtEndOfCurrentClip);
+    if (
+      time_to_search > localEndTime && { pauseAtEndOfCurrentClip } &&
+      currentTimeEndSpeakingFrenchAfter !== localEndTime
+    ) {
+      currentTimeEndSpeakingFrenchAfter = localEndTime;
 
-    if (time_to_search > localEndTime && { pauseAtEndOfCurrentClip }) {
       audioref.current.pause();
-
-      HERE IS WHERE YOU WANT TO SEND A MESSAGE TO CONTEXT TO PLAY THE FRENCH
+      // console.log(playerContext.getSpeechPhrase());
+      playerContext.speakFrenchForStoredContextUtterance();
     }
   }
 
   React.useEffect(() => {
     audioref.current.addEventListener("timeupdate", AnnounceCurrentSentence);
-    console.log("updated");
+
+    return () => {
+      audioref.current.removeEvenetListener(
+        "timeupdate",
+        AnnounceCurrentSentence
+      );
+    };
   }, []);
 
   React.useEffect(() => {
