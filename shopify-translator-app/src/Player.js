@@ -5,10 +5,10 @@ import ReactAudioPlayer from "react-audio-player";
 import styled from "styled-components";
 
 import { PlayerContext } from "./PlayerContext";
+import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
+
 import App from "./App";
 import Context from "react-say/lib/Context";
-TODO: Make a player component that has all the information and functions in it.  So that's all positions, all the french synth code, and the start and stop code.
-Having it in the App, and Context, and and Player is too distributed.  
 let localEndTime = 999999.0;
 let currentTimeEndSpeakingFrenchAfter;
 function Player({
@@ -19,27 +19,36 @@ function Player({
 }) {
   const playerContext = React.useContext(PlayerContext);
 
+  const {
+    state: { shouldMP3StillPlay, currentTimePlayHead, ...state },
+    actions: { sendUpdatedPlayHeadPosition },
+  } = React.useContext(PlayerBoundariesContext);
+
   function AnnounceCurrentSentence(e) {
     let time_to_search = e.target.currentTime;
-    console.log(time_to_search);
-    console.log({ timeToEndOn });
-    console.log(pauseAtEndOfCurrentClip);
-    if (
-      time_to_search > localEndTime && { pauseAtEndOfCurrentClip } &&
-      currentTimeEndSpeakingFrenchAfter !== localEndTime
-    ) {
-      currentTimeEndSpeakingFrenchAfter = localEndTime;
 
-      audioref.current.pause();
-      // console.log(playerContext.getSpeechPhrase());
-      playerContext.speakFrenchForStoredContextUtterance();
-    }
+    sendUpdatedPlayHeadPosition((currentTimePlayHead: e.target.currentTime));
+
+    console.log(time_to_search);
+    // console.log({ timeToEndOn });
+    // console.log(pauseAtEndOfCurrentClip);
+    // if (
+    //   time_to_search > localEndTime && { pauseAtEndOfCurrentClip } &&
+    //   currentTimeEndSpeakingFrenchAfter !== localEndTime
+    // ) {
+    //   currentTimeEndSpeakingFrenchAfter = localEndTime;
+
+    //   audioref.current.pause();
+    //   // console.log(playerContext.getSpeechPhrase());
+    //   playerContext.speakFrenchForStoredContextUtterance();
+    // }
   }
 
   React.useEffect(() => {
     audioref.current.addEventListener("timeupdate", AnnounceCurrentSentence);
 
     return () => {
+      console.log("remove listener");
       audioref.current.removeEvenetListener(
         "timeupdate",
         AnnounceCurrentSentence
@@ -48,12 +57,12 @@ function Player({
   }, []);
 
   React.useEffect(() => {
-    console.log("updated");
-    if (isSpeechPlaying === false) {
-      audioref.current.currentTime = timeToJumpTo;
-      localEndTime = timeToEndOn;
-      audioref.current.play();
-    }
+    // console.log("updated");
+    // if (isSpeechPlaying === false) {
+    //   audioref.current.currentTime = timeToJumpTo;
+    //   localEndTime = timeToEndOn;
+    //   audioref.current.play();
+    // }
   });
 
   const audioref = React.useRef(null);

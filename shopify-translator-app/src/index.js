@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { PlayerContextProvider } from "./PlayerContext";
+import { PlayerBoundariesContextProvider } from "./PlayerBoundariesContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <PlayerContextProvider>
-      <App />
-    </PlayerContextProvider>
+    <PlayerBoundariesContextProvider>
+      <PlayerContextProvider>
+        <App />
+      </PlayerContextProvider>
+    </PlayerBoundariesContextProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
