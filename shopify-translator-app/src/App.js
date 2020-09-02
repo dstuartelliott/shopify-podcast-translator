@@ -2,21 +2,16 @@ import React, { useCallback, useMemo } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Player from "./Player.js";
-import Transcript from "./Transcript.js";
 import TranscriptSentence from "./TranscriptSentence.js";
 
 import { PlayerContext } from "./PlayerContext";
 import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
 
 import styled from "styled-components";
-import Say from "react-say";
-import { useSynthesize } from "react-say";
-import { SayUtterance } from "react-say";
 
 function App() {
   let speechtext = "hello";
   const playerContext = React.useContext(PlayerContext);
-  const [localSentences, setLocalSetences] = React.useState([]);
   const [combinedSentences, setCombinedSentences] = React.useState([]);
 
   const [timeToJumpTo, setTimeToJumpTo] = React.useState(0.0);
@@ -52,18 +47,34 @@ function App() {
     [...voices].find((v) => v.lang === "fr-CA")
   );
   function handleClickedSentence(event) {
-    
-    WHEN YOU COME BACK, ADAPT TO UUID
-    let element = combinedSentences.filter()
-    setTranscriptIndexToHighlight(parseInt(event.currentTarget.id));
+    // console.log(combinedSentences);
 
-    let word = combinedSentences[event.currentTarget.id].word.word;
+    let selected;
+    combinedSentences.forEach((sent, i) => {
+      if (sent.uuid === event.currentTarget.id) {
+        selected = { sent, i };
+      }
+    });
 
-    let last_word = combinedSentences[event.currentTarget.id].last_word.word;
+    console.log(selected);
+
+    setTranscriptIndexToHighlight(selected.sent.uuid);
+
+    let word = selected.sent.word.word;
+
+    let last_word = selected.sent.last_word.word;
+
+    console.log(selected.sent.words[0].word.word);
+    console.log(selected.sent.words[1].word.word);
+    console.log(selected.sent.words[2].word.word);
+    console.log("==========");
+
+    console.log(word);
+    console.log(word.start);
 
     jumpToEnglishSentenceAndPlay(state, word.start, "hello");
 
-    setTimeToJumpTo(word.start);
+    // setTimeToJumpTo(word.start);
 
     // console.log(event.currentTarget);
     // console.log(event.currentTarget.id);
@@ -141,6 +152,7 @@ function App() {
             last_word: last_word,
             words: element.words,
             full_sentences_i: element.full_sentences_i,
+            uuid: element.uuid,
           });
         }
       });
@@ -156,10 +168,10 @@ function App() {
             sentenceAndGoodWordCombined[i].last_word =
               sentenceAndGoodWordCombined[i + 1].word;
 
-            console.log("fixed");
-            console.log(sentenceAndGoodWordCombined[i].last_word);
+            // console.log("fixed");
+            // console.log(sentenceAndGoodWordCombined[i].last_word);
           } else {
-            console.log("not fixed");
+            // console.log("not fixed");
           }
         }
       });
@@ -197,10 +209,8 @@ function App() {
                 <Button onClick={handleClickedSentence} id={element.uuid}>
                   <TranscriptSentence
                     sentence_object={element}
-                    key={element.full_sentences_i}
-                    highlighted={
-                      transcriptIndexToHighlight !== element.full_sentences_i
-                    }
+                    key={element.uuid}
+                    highlighted={transcriptIndexToHighlight !== element.uuid}
                   ></TranscriptSentence>
                 </Button>
               </TranscriptItem>

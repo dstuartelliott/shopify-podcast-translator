@@ -1,18 +1,12 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import ReactAudioPlayer from "react-audio-player";
 import styled from "styled-components";
 
 import { PlayerContext } from "./PlayerContext";
 import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
 
 import App from "./App";
-import Context from "react-say/lib/Context";
-let localEndTime = 999999.0;
-let currentTimeEndSpeakingFrenchAfter;
 let playing = false;
-var hasLocalUserSaidPlay = false;
 
 function Player({
   timeToJumpTo,
@@ -34,13 +28,13 @@ function Player({
 
   function isPlaying(e) {
     playing = true;
-    console.log({ playing });
+    // console.log({ playing });
   }
 
   function isPaused(e) {
     playing = false;
 
-    console.log({ playing });
+    // console.log({ playing });
   }
 
   function updateTime(e) {
@@ -98,7 +92,7 @@ function Player({
       let time_jump_precise = time_jump.toPrecision(2);
       console.log(time_jump_precise);
 
-      audioref.current.currentTime = time_jump_precise;
+      audioref.current.currentTime = timeToPlayFrom;
       // localEndTime = timeToEndOn;
       // audioref.current.play();
     } else if (shouldMP3StillPlay && playing === false) {
@@ -109,7 +103,7 @@ function Player({
       let time_jump_precise = time_jump.toPrecision(2);
       console.log(time_jump_precise);
 
-      audioref.current.currentTime = time_jump_precise;
+      audioref.current.currentTime = timeToPlayFrom;
       // localEndTime = timeToEndOn;
       audioref.current.play();
     }
@@ -122,10 +116,10 @@ function Player({
       <audio
         ref={audioref}
         src="ep374-healthish_tc.mp3"
-        currentTime={timeToJumpTo}
+        currentTime={timeToPlayFrom}
         controls
       />
-      <div>Time to jump to is: {timeToJumpTo}</div>
+      <div>Time to jump to is: {timeToPlayFrom}</div>
       <div>Time to end on is: {timeToEndOn}</div>
     </AudioPlayerDiv>
   );

@@ -12,9 +12,9 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case "update-play-head": {
-      console.log("reducer triggered");
-      console.log(action);
-      console.log(state);
+      //   console.log("reducer triggered");
+      //   console.log(action);
+      //   console.log(state);
 
       return {
         ...state,
@@ -23,9 +23,9 @@ function reducer(state, action) {
     }
 
     case "pause-play-head": {
-      console.log("reducer triggered");
-      console.log(action);
-      console.log(state);
+      //   console.log("reducer triggered");
+      //   console.log(action);
+      //   console.log(state);
 
       return {
         shouldMP3StillPlay: false,
@@ -34,9 +34,9 @@ function reducer(state, action) {
     }
 
     case "start-play-head": {
-      console.log("reducer triggered");
-      console.log(action);
-      console.log(state);
+      //   console.log("reducer triggered");
+      //   console.log(action);
+      //   console.log(state);
 
       return {
         shouldMP3StillPlay: true,
@@ -45,9 +45,9 @@ function reducer(state, action) {
     }
 
     case "jump-to-english-time": {
-      console.log("reducer triggered");
-      console.log(action);
-      console.log(state);
+      //   console.log("reducer triggered");
+      //   console.log(action);
+      //   console.log(state);
       console.log(action.timeToPlayFrom);
 
       return {
@@ -69,10 +69,10 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const sendUpdatedPlayHeadPosition = (currentTime) => {
-    console.log("sendUpdatedPlayHeadPosition");
+    // console.log("sendUpdatedPlayHeadPosition");
 
     current__play_head_time = currentTime;
-    console.log(current__play_head_time);
+    // console.log(current__play_head_time);
 
     // dispatch({
     //   type: "update-play-head",
@@ -93,8 +93,8 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
   };
 
   const jumpToEnglishSentenceAndPlay = (data, timeToJumpTo, sentence) => {
-    console.log(timeToJumpTo);
-    console.log(data);
+    // console.log(timeToJumpTo);
+    // console.log(data);
 
     dispatch({
       type: "pause-play-head",
@@ -102,10 +102,8 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
 
     let time_jump = parseFloat(timeToJumpTo);
 
-    let time_jump_precise = time_jump.toPrecision(2);
-    console.log(time_jump);
+    // console.log(time_jump);
 
-    let dave = time_jump;
     dispatch({
       type: "jump-to-english-time",
       time_jump,
