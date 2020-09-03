@@ -26,6 +26,17 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
+    case "time-to-play-from-negative": {
+      console.log("time-to-play-from-negative");
+      console.log(action);
+      console.log(state);
+
+      return {
+        ...state,
+        timeToPlayFrom: -1.0,
+      };
+    }
+
     case "set-uuid": {
       console.log("set-uuid");
       console.log(action.uuid);
@@ -142,9 +153,12 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
     let original_current = current;
     current__play_head_time = currentTime;
     // console.log(current__play_head_time);
+    console.log(contextSentenceAndGoodWordCombined);
 
     contextSentenceAndGoodWordCombined.forEach((sent, i) => {
       if (
+        sent.last_word !== undefined &&
+        sent.word !== undefined &&
         sent.word.word.start < currentTime &&
         sent.last_word.word.end > currentTime
       ) {
@@ -159,67 +173,13 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
 
     console.log(current_uuid);
 
-    // if (
-    //   current.word !== undefined &&
-    //   current__play_head_time > current.last_word.word.end &&
-    //   current__play_head_time - current.last_word.word.end < 0.2
-    // ) {
-    //   // console.log("==========================");
-    //   // console.log("just passed!!!1");
-    //   // console.log("==========================");
-    //   // console.log("==========================");
-    // } else if (current.word === undefined) {
-    //   // console.log("current undefined");
-
-    //   contextSentenceAndGoodWordCombined.forEach((sent, i) => {
-    //     if (
-    //       sent.word.word.start < currentTime &&
-    //       sent.last_word.word.end > currentTime
-    //     ) {
-    //       current = sent;
-    //       next = contextSentenceAndGoodWordCombined[i + 1];
-    //     }
-    //   });
-    // } else if (
-    //   current.word.word.start < currentTime &&
-    //   current.last_word.word.end > currentTime
-    // ) {
-    //   current = current;
-    // } else {
-    //   console.log("searching again");
-
-    //   contextSentenceAndGoodWordCombined.forEach((sent) => {
-    //     if (
-    //       sent.word.word.start < currentTime &&
-    //       sent.last_word.word.end > currentTime
-    //     ) {
-    //       current = sent;
-    //     }
-    //   });
-    // }
-
-    // let's see if current changed after all that
-    // console.log(original_current.uuid);
-    // console.log(current.uuid);
+    dispatch({
+      type: "set-uuuid-highlighted",
+      uuidHighlighted: current.uuid,
+    });
 
     if (current.word !== undefined) {
-      // console.log(current.uuid);
-      // console.log(current.word.word.word);
-      // setUuidToHighLight(current.uuid, "english");
     }
-    // dispatch({
-    //   type: "set-uuuid-highlighted",
-    //   uuidHighlighted: current.uuid,
-    // });
-
-    // if (original_current.uuid !== current.uuid && current.word!== undefined) {
-    //   console.log(current.uuid);
-    //   console.log(current.word.word.word);
-
-    //   // setUuidToHighLight(current.uuid, "english");
-    // }
-
-    // console.log(current);
   };
 
   const pausePlayer = () => {
@@ -231,6 +191,12 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
   const startPlayer = () => {
     dispatch({
       type: "start-play-head",
+    });
+  };
+
+  const setTimeToPlayFromToNegative = () => {
+    dispatch({
+      type: "time-to-play-from-negative",
     });
   };
 
@@ -286,6 +252,8 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
   const updateContextSentenceAndGoodWordCombined = (
     sentenceAndGoodWordCombined
   ) => {
+    contextSentenceAndGoodWordCombined = sentenceAndGoodWordCombined;
+
     dispatch({
       type: "update-SentenceAndGoodWordCombined",
       sentenceAndGoodWordCombined: sentenceAndGoodWordCombined,
@@ -358,6 +326,7 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
           setSpeakTranslation,
           jumpToEnglishSentenceFromUUID,
           setUuidToHighLight,
+          setTimeToPlayFromToNegative,
         },
         current_uuid,
       }}

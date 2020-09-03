@@ -13,7 +13,7 @@ function TranscriptSentence({
   sentence_object,
   highlighted,
   highlightedLang,
-  showTranslation,
+  uuidHighlighted,
 }) {
   const {
     actions: { jumpToEnglishSentenceFromUUID, setUuidToHighLight, playSpeech },
@@ -38,14 +38,14 @@ function TranscriptSentence({
 
       highlighted_english = true;
     }
-    console.log({ uuidHighlightedIndivContext });
+    // console.log({ uuidHighlightedIndivContext });
   }, []);
 
   function handleClickedSentence(event) {
-    updateUUID(sentence_object.uuid);
-
+    //updateUUID(sentence_object.uuid);
     console.log(event);
-    setUuidToHighLight(sentence_object.uuid, LANGUAGES.ENGLISH);
+    // setUuidToHighLight(sentence_object.uuid, LANGUAGES.ENGLISH);
+
     jumpToEnglishSentenceFromUUID(sentence_object.uuid, sentence_object);
   }
 
@@ -57,7 +57,7 @@ function TranscriptSentence({
 
   // this might look ugly, but it's better than nesteed terneries inmho
 
-  if (uuidHighlightedIndivContext === sentence_object.uuid) {
+  if (uuidHighlighted === sentence_object.uuid) {
     return (
       <Wrapper>
         <SentenceAndSpeaker>

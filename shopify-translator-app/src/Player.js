@@ -12,7 +12,7 @@ let playing = false;
 function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
   const {
     state: { shouldMP3StillPlay, timeToPlayFrom },
-    actions: { sendUpdatedPlayHeadPosition },
+    actions: { sendUpdatedPlayHeadPosition, setTimeToPlayFromToNegative },
   } = React.useContext(PlayerBoundariesContext);
 
   const highligherContext = React.useContext(HighlighterContext);
@@ -34,9 +34,9 @@ function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
     let time_to_search = e.target.currentTime;
 
     if (playing) {
-      // sendUpdatedPlayHeadPosition(e.target.currentTime);
-      highligherContext.updateLocalI(e.target.currentTime);
-      highligherContext.current__play_head_time = e.target.currentTime;
+      sendUpdatedPlayHeadPosition(e.target.currentTime);
+      // highligherContext.updateLocalI(e.target.currentTime);
+      // highligherContext.current__play_head_time = e.target.currentTime;
 
       // sendUpdatedPlayHeadPositionToHighighter(e.target.currentTime);
     }
@@ -72,35 +72,44 @@ function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
   }, []);
 
   React.useEffect(() => {
-    console.log("Player useeffect fired");
-    // console.log(shouldMP3StillPlay);
-    console.log({ shouldMP3StillPlay });
+    // console.log("Player useeffect fired");
+    // // console.log(shouldMP3StillPlay);
+    // console.log({ shouldMP3StillPlay });
 
     if (shouldMP3StillPlay === false) {
       // audioref.current.currentTime = timeToJumpTo;
       // localEndTime = timeToEndOn;
       audioref.current.pause();
       playing = false;
-    }
+    } else if (shouldMP3StillPlay && playing === true) {
+      // console.log("shouldMP3StillPlay && playing === true");
 
-    if (shouldMP3StillPlay && playing === true) {
-      console.log({ timeToPlayFrom });
-      let time_jump = parseFloat(timeToPlayFrom);
-      console.log(time_jump);
+      // console.log({ timeToPlayFrom });
+      // let time_jump = parseFloat(timeToPlayFrom);
+      // console.log(time_jump);
 
-      let time_jump_precise = time_jump.toPrecision(2);
-      console.log(time_jump_precise);
+      // let time_jump_precise = time_jump.toPrecision(2);
+      // console.log(time_jump_precise);
 
-      audioref.current.currentTime = timeToPlayFrom;
+      if (timeToPlayFrom > 0) {
+        audioref.current.currentTime = timeToPlayFrom;
+        setTimeToPlayFromToNegative();
+      }
+
+      // I need to change timeToPlayFrom to something that tells the next loop, ignore it
+
       // localEndTime = timeToEndOn;
+
       // audioref.current.play();
     } else if (shouldMP3StillPlay && playing === false) {
-      console.log({ timeToPlayFrom });
-      let time_jump = parseFloat(timeToPlayFrom);
-      console.log(time_jump);
+      // console.log("shouldMP3StillPlay && playing === false");
 
-      let time_jump_precise = time_jump.toPrecision(2);
-      console.log(time_jump_precise);
+      // console.log({ timeToPlayFrom });
+      // let time_jump = parseFloat(timeToPlayFrom);
+      // // console.log(time_jump);
+
+      // let time_jump_precise = time_jump.toPrecision(2);
+      // console.log(time_jump_precise);
 
       audioref.current.currentTime = timeToPlayFrom;
       // localEndTime = timeToEndOn;
