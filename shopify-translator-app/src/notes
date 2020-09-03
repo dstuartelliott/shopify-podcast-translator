@@ -21,3 +21,5 @@ FEATURE - DO THE GOOGLE KNOWLDGE SEARCH THING AND MAYBE GOODREADS?
 
 https://www.npmjs.com/package/react-say
 install react-say
+
+So there may be a weird audio bug where everythime I call state rerender on my transcript list, the player re renders, and when it does, it's almost like a new player and the browser automatically stops it from playing?

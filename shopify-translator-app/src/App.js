@@ -6,6 +6,7 @@ import TranscriptSentence from "./TranscriptSentence.js";
 
 import { PlayerContext } from "./PlayerContext";
 import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
+import { HighlighterContext } from "./HighlighterContext";
 
 import styled from "styled-components";
 
@@ -18,6 +19,7 @@ function App() {
 
   const [timeToJumpTo, setTimeToJumpTo] = React.useState(0.0);
   const [timeToEndOn, setTimeToEndOn] = React.useState(99999999.0);
+  const highligherContext = React.useContext(HighlighterContext);
 
   const {
     state: {
@@ -126,6 +128,13 @@ function App() {
     getTranscriptSentences();
   }, []);
 
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      console.log(highligherContext.current__play_head_time);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="App">
       <Button onClick={speakStuff}>
@@ -141,11 +150,7 @@ function App() {
       <p></p>
       <p></p>
 
-      <Player
-        timeToJumpTo={timeToJumpTo}
-        timeToEndOn={timeToEndOn}
-        pauseAtEndOfCurrentClip={true}
-      />
+      <Player />
       <TranscriptList>
         {contextSentenceAndGoodWordCombined.map((element, i) => {
           // console.log(element.uuid);

@@ -3,6 +3,8 @@ import logo from "./logo.svg";
 import "./App.css";
 import styled from "styled-components";
 import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
+import { HighlighterContext } from "./HighlighterContext";
+
 import { LANGUAGES } from "./constants";
 let highlighted_french = false;
 let highlighted_english = false;
@@ -16,6 +18,11 @@ function TranscriptSentence({
   const {
     actions: { jumpToEnglishSentenceFromUUID, setUuidToHighLight, playSpeech },
   } = React.useContext(PlayerBoundariesContext);
+
+  const {
+    state: { uuidHighlightedIndivContext },
+    actions: { updateUUID },
+  } = React.useContext(HighlighterContext);
 
   React.useEffect(() => {
     highlighted_french = false;
@@ -31,9 +38,12 @@ function TranscriptSentence({
 
       highlighted_english = true;
     }
-  });
+    console.log({ uuidHighlightedIndivContext });
+  }, []);
 
   function handleClickedSentence(event) {
+    updateUUID(sentence_object.uuid);
+
     console.log(event);
     setUuidToHighLight(sentence_object.uuid, LANGUAGES.ENGLISH);
     jumpToEnglishSentenceFromUUID(sentence_object.uuid, sentence_object);
@@ -46,7 +56,8 @@ function TranscriptSentence({
   }
 
   // this might look ugly, but it's better than nesteed terneries inmho
-  if (highlighted && highlightedLang === "french") {
+
+  if (uuidHighlightedIndivContext === sentence_object.uuid) {
     return (
       <Wrapper>
         <SentenceAndSpeaker>
@@ -65,24 +76,7 @@ function TranscriptSentence({
         </SentenceAndSpeaker>
       </Wrapper>
     );
-  } else if (highlighted && highlightedLang === "english") {
-    return (
-      <Wrapper>
-        <SentenceAndSpeaker>
-          <Button onClick={handleClickedSentence}>
-            <SentenceHighlighted>
-              {sentence_object.speaker}: {sentence_object.english_sentence} 🇨🇦
-            </SentenceHighlighted>
-          </Button>
-          <Button onClick={handleTranslatedClickedSentence}>
-            <SentenceHighlighted>
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </SentenceHighlighted>
-          </Button>
-        </SentenceAndSpeaker>
-      </Wrapper>
-    );
-  } else if (!highlighted) {
+  } else {
     return (
       <Wrapper>
         <SentenceAndSpeaker>
@@ -101,6 +95,68 @@ function TranscriptSentence({
       </Wrapper>
     );
   }
+
+  // if (highlighted && highlightedLang === "french") {
+  //   return (
+  //     <Wrapper>
+  //       <Sentence>{uuidHighlightedIndivContext}</Sentence>
+
+  //       <SentenceAndSpeaker>
+  //         <Button onClick={handleClickedSentence}>
+  //           <SentenceHighlighted>
+  //             {sentence_object.speaker}: {sentence_object.english_sentence}
+  //           </SentenceHighlighted>
+  //         </Button>
+  //         <Button onClick={handleTranslatedClickedSentence}>
+  //           <SentenceHighlighted>
+  //             {sentence_object.speaker}: {sentence_object.translated_sentence}
+  //             🇫🇷
+  //             <Button>Play</Button>
+  //           </SentenceHighlighted>
+  //         </Button>
+  //       </SentenceAndSpeaker>
+  //     </Wrapper>
+  //   );
+  // } else if (highlighted && highlightedLang === "english") {
+  //   return (
+  //     <Wrapper>
+  //       <Sentence>{uuidHighlightedIndivContext}</Sentence>
+
+  //       <SentenceAndSpeaker>
+  //         <Button onClick={handleClickedSentence}>
+  //           <SentenceHighlighted>
+  //             {sentence_object.speaker}: {sentence_object.english_sentence} 🇨🇦
+  //           </SentenceHighlighted>
+  //         </Button>
+  //         <Button onClick={handleTranslatedClickedSentence}>
+  //           <SentenceHighlighted>
+  //             {sentence_object.speaker}: {sentence_object.translated_sentence}
+  //           </SentenceHighlighted>
+  //         </Button>
+  //       </SentenceAndSpeaker>
+  //     </Wrapper>
+  //   );
+  // } else if (!highlighted) {
+  //   return (
+  //     <Wrapper>
+  //       <Sentence>hello{uuidHighlightedIndivContext}</Sentence>
+
+  //       <SentenceAndSpeaker>
+  //         <Button onClick={handleClickedSentence}>
+  //           <Sentence>
+  //             {sentence_object.speaker}: {sentence_object.english_sentence}
+  //           </Sentence>
+  //         </Button>
+
+  //         <Button onClick={handleTranslatedClickedSentence}>
+  //           <Sentence>
+  //             {sentence_object.speaker}: {sentence_object.translated_sentence}
+  //           </Sentence>
+  //         </Button>
+  //       </SentenceAndSpeaker>
+  //     </Wrapper>
+  //   );
+  // }
 }
 
 const Button = styled.button`

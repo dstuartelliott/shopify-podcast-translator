@@ -4,17 +4,18 @@ import styled from "styled-components";
 
 import { PlayerContext } from "./PlayerContext";
 import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
+import { HighlighterContext } from "./HighlighterContext";
 
 import App from "./App";
 let playing = false;
 
 function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
-  const playerContext = React.useContext(PlayerContext);
-
   const {
     state: { shouldMP3StillPlay, timeToPlayFrom },
     actions: { sendUpdatedPlayHeadPosition },
   } = React.useContext(PlayerBoundariesContext);
+
+  const highligherContext = React.useContext(HighlighterContext);
 
   function isPlaying(e) {
     playing = true;
@@ -32,7 +33,13 @@ function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
   function updateTime(e) {
     let time_to_search = e.target.currentTime;
 
-    sendUpdatedPlayHeadPosition(e.target.currentTime);
+    if (playing) {
+      // sendUpdatedPlayHeadPosition(e.target.currentTime);
+      highligherContext.updateLocalI(e.target.currentTime);
+      highligherContext.current__play_head_time = e.target.currentTime;
+
+      // sendUpdatedPlayHeadPositionToHighighter(e.target.currentTime);
+    }
 
     // console.log(time_to_search);
     // console.log({ timeToEndOn });

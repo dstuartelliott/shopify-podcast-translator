@@ -10,6 +10,8 @@ let next_english_item_start;
 let contextSentenceAndGoodWordCombined = [];
 
 let current = {};
+
+let current_uuid;
 let next = {};
 
 const initialState = {
@@ -19,6 +21,7 @@ const initialState = {
   contextSentenceAndGoodWordCombined: [],
   speakTranslation: false,
   uuidToHighlight: "",
+  uuidHighlighted: "",
 };
 
 function reducer(state, action) {
@@ -110,6 +113,19 @@ function reducer(state, action) {
       };
     }
 
+    case "set-uuuid-highlighted": {
+      //   console.log("reducer triggered");
+      //   console.log(action);
+      console.log("set-uuuid-highlighted");
+      console.log(state);
+      console.log(action);
+
+      return {
+        ...state,
+        uuidHighlighted: action.uuidHighlighted,
+      };
+    }
+
     default: {
       console.log("error");
       console.log(action);
@@ -125,20 +141,23 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
 
     let original_current = current;
     current__play_head_time = currentTime;
-    console.log(current__play_head_time);
+    // console.log(current__play_head_time);
 
     contextSentenceAndGoodWordCombined.forEach((sent, i) => {
       if (
         sent.word.word.start < currentTime &&
         sent.last_word.word.end > currentTime
       ) {
-        console.log("found time");
-        console.log(sent);
+        // console.log("found time");
+        // console.log(sent);
 
         current = sent;
       }
     });
-    console.log(current);
+
+    current_uuid = current.uuid;
+
+    console.log(current_uuid);
 
     // if (
     //   current.word !== undefined &&
@@ -180,14 +199,27 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
     // }
 
     // let's see if current changed after all that
-    console.log(original_current.uuid);
-    console.log(current.uuid);
+    // console.log(original_current.uuid);
+    // console.log(current.uuid);
 
-    if (original_current.uuid !== current.uuid && current !== undefined) {
+    if (current.word !== undefined) {
+      // console.log(current.uuid);
+      // console.log(current.word.word.word);
       // setUuidToHighLight(current.uuid, "english");
     }
+    // dispatch({
+    //   type: "set-uuuid-highlighted",
+    //   uuidHighlighted: current.uuid,
+    // });
 
-    console.log(current);
+    // if (original_current.uuid !== current.uuid && current.word!== undefined) {
+    //   console.log(current.uuid);
+    //   console.log(current.word.word.word);
+
+    //   // setUuidToHighLight(current.uuid, "english");
+    // }
+
+    // console.log(current);
   };
 
   const pausePlayer = () => {
@@ -327,6 +359,7 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
           jumpToEnglishSentenceFromUUID,
           setUuidToHighLight,
         },
+        current_uuid,
       }}
     >
       {children}

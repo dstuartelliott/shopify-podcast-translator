@@ -5,14 +5,17 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { PlayerContextProvider } from "./PlayerContext";
 import { PlayerBoundariesContextProvider } from "./PlayerBoundariesContext";
+import { HighlighterContextProvider } from "./HighlighterContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <PlayerBoundariesContextProvider>
-      <PlayerContextProvider>
-        <App />
-      </PlayerContextProvider>
-    </PlayerBoundariesContextProvider>
+    <HighlighterContextProvider>
+      <PlayerBoundariesContextProvider>
+        <PlayerContextProvider>
+          <App />
+        </PlayerContextProvider>
+      </PlayerBoundariesContextProvider>
+    </HighlighterContextProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
