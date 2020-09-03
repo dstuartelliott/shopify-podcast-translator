@@ -16,10 +16,23 @@ const initialState = {
   timeToPlayFrom: 0.0,
   contextSentenceAndGoodWordCombined: [],
   speakTranslation: false,
+  uuidToHighlight: "",
 };
 
 function reducer(state, action) {
   switch (action.type) {
+    case "set-uuid": {
+      console.log("set-uuid");
+      console.log(action.uuid);
+
+      return {
+        ...state,
+        uuidToHighlight: action.uuid,
+        contextSentenceAndGoodWordCombined:
+          action.contextSentenceAndGoodWordCombined,
+      };
+    }
+
     case "update-SentenceAndGoodWordCombined": {
       console.log("reducer triggered");
       console.log(action);
@@ -119,9 +132,9 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
       console.log("==========================");
       console.log("==========================");
 
-      setSpeakTranslation(true);
+      // setSpeakTranslation(true);
 
-      playSpeechAndThenRestartPlayer(next, current.translated_sentence);
+      // playSpeechAndThenRestartPlayer(next, current.translated_sentence);
 
       // dispatch({
       //   type: "pause-play-head",
@@ -207,6 +220,22 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
     });
   };
 
+  const jumpToEnglishSentenceFromUUID = (uuid) => {
+    let selected;
+    contextSentenceAndGoodWordCombined.forEach((sent, i) => {
+      if (sent.uuid === uuid) {
+        selected = { sent, i };
+      }
+    });
+
+    let time_jump = parseFloat(selected.sent.word.word.start);
+
+    dispatch({
+      type: "jump-to-english-time",
+      time_jump,
+    });
+  };
+
   const updateContextSentenceAndGoodWordCombined = (
     sentenceAndGoodWordCombined
   ) => {
@@ -233,12 +262,32 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
           " milliseconds."
       );
 
-      jumpToEnglishSentenceAndPlay(nextItem.word.word.start);
+      // jumpToEnglishSentenceAndPlay(nextItem.word.word.start);
 
       console.log(event.utterance.text);
     };
 
     speechSynthesis.speak(utterance);
+  };
+
+  const setUuidToHighLight = (uuid) => {
+    contextSentenceAndGoodWordCombined = contextSentenceAndGoodWordCombined.map(
+      (element) => {
+        if (element.uuid === uuid) {
+          return { ...element, isHighlighted: true };
+        } else {
+          return { ...element, isHighlighted: false };
+        }
+      }
+    );
+
+    console.log(contextSentenceAndGoodWordCombined);
+
+    dispatch({
+      type: "set-uuid",
+      uuid: uuid,
+      contextSentenceAndGoodWordCombined: contextSentenceAndGoodWordCombined,
+    });
   };
 
   return (
@@ -254,6 +303,8 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
           getContextSentenceAndGoodWordCombined,
           updateContextSentenceAndGoodWordCombined,
           setSpeakTranslation,
+          jumpToEnglishSentenceFromUUID,
+          setUuidToHighLight,
         },
       }}
     >

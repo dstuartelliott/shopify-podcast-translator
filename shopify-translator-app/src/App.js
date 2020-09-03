@@ -23,6 +23,7 @@ function App() {
       currentTimePlayHead,
       contextSentenceAndGoodWordCombined,
       speakTranslation,
+      uuidToHighLight,
     },
     actions: {
       sendUpdatedPlayHeadPosition,
@@ -33,6 +34,7 @@ function App() {
       getContextSentenceAndGoodWordCombined,
       updateContextSentenceAndGoodWordCombined,
       setSpeakTranslation,
+      setUuidToHighLight,
     },
   } = React.useContext(PlayerBoundariesContext);
 
@@ -41,9 +43,6 @@ function App() {
     setTranscriptIndexToHighlight,
   ] = React.useState();
 
-  const selector = useCallback((voices) =>
-    [...voices].find((v) => v.lang === "fr-CA")
-  );
   function handleClickedSentence(event) {
     // console.log(combinedSentences);
 
@@ -107,6 +106,10 @@ function App() {
   }
 
   React.useEffect(() => {
+    console.log(uuidToHighLight);
+  });
+
+  React.useEffect(() => {
     async function getTranscriptSentences() {
       let combined = await playerContext.getCombined();
       console.log(combined.translations);
@@ -147,6 +150,7 @@ function App() {
             words: element.words,
             full_sentences_i: element.full_sentences_i,
             uuid: element.uuid,
+            isHighlighted: false,
           });
         }
       });
@@ -183,42 +187,40 @@ function App() {
 
   return (
     <div className="App">
-      <body>
-        <Button onClick={speakStuff}>
-          {speakTranslation ? (
-            <div>Translation On</div>
-          ) : (
-            <div>Translation Off</div>
-          )}
-        </Button>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
+      <Button onClick={speakStuff}>
+        {speakTranslation ? (
+          <div>Translation On</div>
+        ) : (
+          <div>Translation Off</div>
+        )}
+      </Button>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
 
-        <Player
-          timeToJumpTo={timeToJumpTo}
-          timeToEndOn={timeToEndOn}
-          pauseAtEndOfCurrentClip={true}
-        />
-        <TranscriptList>
-          {combinedSentences.map((element, i) => {
-            // console.log(element);
-            return (
-              <TranscriptItem>
-                <Button onClick={handleClickedSentence} id={element.uuid}>
-                  <TranscriptSentence
-                    sentence_object={element}
-                    key={element.uuid}
-                    highlighted={transcriptIndexToHighlight !== element.uuid}
-                  ></TranscriptSentence>
-                </Button>
-              </TranscriptItem>
-            );
-          })}
-        </TranscriptList>
-      </body>
+      <Player
+        timeToJumpTo={timeToJumpTo}
+        timeToEndOn={timeToEndOn}
+        pauseAtEndOfCurrentClip={true}
+      />
+      <TranscriptList>
+        {contextSentenceAndGoodWordCombined.map((element, i) => {
+          // console.log(element.uuid);
+          // console.log(uuidToHighLight);
+
+          return (
+            <TranscriptItem>
+              <TranscriptSentence
+                sentence_object={element}
+                key={element.uuid}
+                highlighted={element.isHighlighted}
+              ></TranscriptSentence>
+            </TranscriptItem>
+          );
+        })}
+      </TranscriptList>
     </div>
   );
 }

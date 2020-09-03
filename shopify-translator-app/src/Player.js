@@ -12,8 +12,8 @@ function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
   const playerContext = React.useContext(PlayerContext);
 
   const {
-    state: { shouldMP3StillPlay, currentTimePlayHead, timeToPlayFrom },
-    actions: { sendUpdatedPlayHeadPosition, jumpToEnglishSentenceAndPlay },
+    state: { shouldMP3StillPlay, timeToPlayFrom },
+    actions: { sendUpdatedPlayHeadPosition },
   } = React.useContext(PlayerBoundariesContext);
 
   function isPlaying(e) {

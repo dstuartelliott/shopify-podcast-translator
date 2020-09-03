@@ -2,36 +2,69 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import styled from "styled-components";
+import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
 
 function TranscriptSentence({ sentence_object, highlighted, showTranslation }) {
-  React.useEffect(() => {
-    // console.log(sentence_object);
-  }, []);
+  const {
+    actions: {
+      jumpToEnglishSentenceFromUUID,
+      setUuidToHighLight,
+      playSpeechAndThenRestartPlayer,
+    },
+  } = React.useContext(PlayerBoundariesContext);
+
+  React.useEffect(() => {});
+
+  function handleClickedSentence(event) {
+    console.log(event);
+    setUuidToHighLight(sentence_object.uuid);
+    jumpToEnglishSentenceFromUUID(sentence_object.uuid);
+  }
+
+  // function handleTranslatedClickedSentence(event) {
+  //   console.log(event);
+  //   setUuidToHighLight(event.currentTarget.id);
+  //   jumpToEnglishSentenceFromUUID(event.currentTarget.id);
+  // }
+
+  // playSpeechAndThenRestartPlayer;
 
   return (
     <Wrapper>
       {highlighted ? (
         <SentenceAndSpeaker>
-          <Sentence>
-            {sentence_object.speaker}: {sentence_object.english_sentence}
-          </Sentence>
-          <Sentence>
-            {sentence_object.speaker}: {sentence_object.translated_sentence}
-          </Sentence>
+          <Button onClick={handleClickedSentence}>
+            <SentenceHighlighted>
+              {sentence_object.speaker}: {sentence_object.english_sentence}
+            </SentenceHighlighted>
+            <SentenceHighlighted>
+              {sentence_object.speaker}: {sentence_object.translated_sentence}
+            </SentenceHighlighted>
+          </Button>
         </SentenceAndSpeaker>
       ) : (
         <SentenceAndSpeaker>
-          <SentenceHighlighted>
-            {sentence_object.speaker}: {sentence_object.english_sentence}
-          </SentenceHighlighted>
-          <SentenceHighlighted>
-            {sentence_object.speaker}: {sentence_object.translated_sentence}
-          </SentenceHighlighted>
+          <Button onClick={handleClickedSentence}>
+            <Sentence>
+              {sentence_object.speaker}: {sentence_object.english_sentence}
+            </Sentence>
+            <Sentence>
+              {sentence_object.speaker}: {sentence_object.translated_sentence}
+            </Sentence>
+          </Button>
         </SentenceAndSpeaker>
       )}
     </Wrapper>
   );
 }
+
+const Button = styled.button`
+  background-color: Transparent;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+`;
 
 const Wrapper = styled.div`
   z-index: 2;
