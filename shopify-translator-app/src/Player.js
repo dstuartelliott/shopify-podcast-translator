@@ -18,6 +18,8 @@ function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
 
   function isPlaying(e) {
     playing = true;
+    speechSynthesis.cancel();
+
     // console.log({ playing });
   }
 

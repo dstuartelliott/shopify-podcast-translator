@@ -3,59 +3,104 @@ import logo from "./logo.svg";
 import "./App.css";
 import styled from "styled-components";
 import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
+import { LANGUAGES } from "./constants";
+let highlighted_french = false;
+let highlighted_english = false;
 
-function TranscriptSentence({ sentence_object, highlighted, showTranslation }) {
+function TranscriptSentence({
+  sentence_object,
+  highlighted,
+  highlightedLang,
+  showTranslation,
+}) {
   const {
-    actions: {
-      jumpToEnglishSentenceFromUUID,
-      setUuidToHighLight,
-      playSpeechAndThenRestartPlayer,
-    },
+    actions: { jumpToEnglishSentenceFromUUID, setUuidToHighLight, playSpeech },
   } = React.useContext(PlayerBoundariesContext);
 
-  React.useEffect(() => {});
+  React.useEffect(() => {
+    highlighted_french = false;
+    highlighted_english = false;
+
+    console.log(highlightedLang);
+    if (highlightedLang === "french") {
+      console.log("HIGHLIGHTING FRENCH");
+      highlighted_french = true;
+    }
+    if (highlightedLang === "english") {
+      console.log("HIGHLIGHTING ENGLISH");
+
+      highlighted_english = true;
+    }
+  });
 
   function handleClickedSentence(event) {
     console.log(event);
-    setUuidToHighLight(sentence_object.uuid);
-    jumpToEnglishSentenceFromUUID(sentence_object.uuid);
+    setUuidToHighLight(sentence_object.uuid, LANGUAGES.ENGLISH);
+    jumpToEnglishSentenceFromUUID(sentence_object.uuid, sentence_object);
   }
 
-  // function handleTranslatedClickedSentence(event) {
-  //   console.log(event);
-  //   setUuidToHighLight(event.currentTarget.id);
-  //   jumpToEnglishSentenceFromUUID(event.currentTarget.id);
-  // }
+  function handleTranslatedClickedSentence(event) {
+    console.log(event);
+    setUuidToHighLight(sentence_object.uuid, LANGUAGES.FRENCH);
+    playSpeech(sentence_object.translated_sentence);
+  }
 
-  // playSpeechAndThenRestartPlayer;
-
-  return (
-    <Wrapper>
-      {highlighted ? (
+  // this might look ugly, but it's better than nesteed terneries inmho
+  if (highlighted && highlightedLang === "french") {
+    return (
+      <Wrapper>
         <SentenceAndSpeaker>
           <Button onClick={handleClickedSentence}>
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </SentenceHighlighted>
+          </Button>
+          <Button onClick={handleTranslatedClickedSentence}>
+            <SentenceHighlighted>
+              {sentence_object.speaker}: {sentence_object.translated_sentence}
+              🇫🇷
+              <Button>Play</Button>
+            </SentenceHighlighted>
+          </Button>
+        </SentenceAndSpeaker>
+      </Wrapper>
+    );
+  } else if (highlighted && highlightedLang === "english") {
+    return (
+      <Wrapper>
+        <SentenceAndSpeaker>
+          <Button onClick={handleClickedSentence}>
+            <SentenceHighlighted>
+              {sentence_object.speaker}: {sentence_object.english_sentence} 🇨🇦
+            </SentenceHighlighted>
+          </Button>
+          <Button onClick={handleTranslatedClickedSentence}>
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </SentenceHighlighted>
           </Button>
         </SentenceAndSpeaker>
-      ) : (
+      </Wrapper>
+    );
+  } else if (!highlighted) {
+    return (
+      <Wrapper>
         <SentenceAndSpeaker>
           <Button onClick={handleClickedSentence}>
             <Sentence>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
+          </Button>
+
+          <Button onClick={handleTranslatedClickedSentence}>
             <Sentence>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </Sentence>
           </Button>
         </SentenceAndSpeaker>
-      )}
-    </Wrapper>
-  );
+      </Wrapper>
+    );
+  }
 }
 
 const Button = styled.button`

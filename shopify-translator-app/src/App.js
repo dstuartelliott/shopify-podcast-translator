@@ -9,10 +9,12 @@ import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
 
 import styled from "styled-components";
 
+import { LANGUAGES } from "./constants";
+
 function App() {
   let speechtext = "hello";
   const playerContext = React.useContext(PlayerContext);
-  const [combinedSentences, setCombinedSentences] = React.useState([]);
+  // const [combinedSentences, setCombinedSentences] = React.useState([]);
 
   const [timeToJumpTo, setTimeToJumpTo] = React.useState(0.0);
   const [timeToEndOn, setTimeToEndOn] = React.useState(99999999.0);
@@ -43,62 +45,6 @@ function App() {
     setTranscriptIndexToHighlight,
   ] = React.useState();
 
-  function handleClickedSentence(event) {
-    // console.log(combinedSentences);
-
-    let stuff = getContextSentenceAndGoodWordCombined;
-    console.log(stuff);
-
-    let selected;
-    combinedSentences.forEach((sent, i) => {
-      if (sent.uuid === event.currentTarget.id) {
-        selected = { sent, i };
-      }
-    });
-
-    console.log(selected);
-
-    setTranscriptIndexToHighlight(selected.sent.uuid);
-
-    let word = selected.sent.word.word;
-
-    let last_word = selected.sent.last_word.word;
-
-    console.log(selected.sent.words[0].word.word);
-    console.log(selected.sent.words[1].word.word);
-    console.log(selected.sent.words[2].word.word);
-    console.log("==========");
-
-    console.log(word);
-    console.log(word.start);
-
-    jumpToEnglishSentenceAndPlay(word.start, "hello");
-
-    // setTimeToJumpTo(word.start);
-
-    // console.log(event.currentTarget);
-    // console.log(event.currentTarget.id);
-
-    // let word = combinedSentences[event.currentTarget.id].word.word;
-
-    // let last_word = combinedSentences[event.currentTarget.id].last_word.word;
-
-    // setTimeToJumpTo(word.start);
-
-    // console.log(last_word);
-    // console.log(last_word.end);
-
-    // setTimeToEndOn(last_word.end);
-    // console.log(combinedSentences[event.currentTarget.id].translated_sentence);
-
-    // playerContext.setSpeechPhraseFunc(
-    //   combinedSentences[event.currentTarget.id].translated_sentence
-    // );
-
-    // let phrase = playerContext.getSpeechPhrase();
-
-    // console.log(phrase);
-  }
   function speakStuff(event) {
     console.log(shouldMP3StillPlay);
     pausePlayer();
@@ -151,11 +97,10 @@ function App() {
             full_sentences_i: element.full_sentences_i,
             uuid: element.uuid,
             isHighlighted: false,
+            highlightedLang: "none",
           });
         }
       });
-
-      updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
 
       sentenceAndGoodWordCombined.forEach((element, i) => {
         if (element.last_word === undefined) {
@@ -176,11 +121,7 @@ function App() {
         }
       });
 
-      setCombinedSentences(sentenceAndGoodWordCombined);
-
-      console.log(sentenceAndGoodWordCombined[0]);
-
-      setTranscriptIndexToHighlight(0);
+      updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
     }
     getTranscriptSentences();
   }, []);
@@ -216,6 +157,7 @@ function App() {
                 sentence_object={element}
                 key={element.uuid}
                 highlighted={element.isHighlighted}
+                highlightedLang={element.highlightedLang}
               ></TranscriptSentence>
             </TranscriptItem>
           );
