@@ -23,7 +23,6 @@ function App() {
       currentTimePlayHead,
       contextSentenceAndGoodWordCombined,
       speakTranslation,
-      ...state
     },
     actions: {
       sendUpdatedPlayHeadPosition,
@@ -36,14 +35,6 @@ function App() {
       setSpeakTranslation,
     },
   } = React.useContext(PlayerBoundariesContext);
-
-  const utterance = useMemo(
-    () =>
-      new SpeechSynthesisUtterance(
-        "A quick brown fox jumped over the lazy dogs."
-      ),
-    []
-  );
 
   const [
     transcriptIndexToHighlight,
@@ -82,7 +73,7 @@ function App() {
     console.log(word);
     console.log(word.start);
 
-    jumpToEnglishSentenceAndPlay(state, word.start, "hello");
+    jumpToEnglishSentenceAndPlay(word.start, "hello");
 
     // setTimeToJumpTo(word.start);
 
@@ -110,18 +101,9 @@ function App() {
     // console.log(phrase);
   }
   function speakStuff(event) {
-    // pausePlayer();
-
-    setSpeakTranslation(state, !speakTranslation);
-    // playSpeechAndThenRestartPlayer(state, "hello");
-
-    // setSpeakTranslation(true);
-    // if (speechSynthesis.speaking) {
-    //   speechSynthesis.pause();
-    //   setSpeakTranslation(false);
-    // } else {
-    //   playerContext.speakFrench(combinedSentences[0].translated_sentence);
-    // }
+    console.log(shouldMP3StillPlay);
+    pausePlayer();
+    // setSpeakTranslation(!speakTranslation);
   }
 
   React.useEffect(() => {
@@ -169,10 +151,7 @@ function App() {
         }
       });
 
-      updateContextSentenceAndGoodWordCombined(
-        state,
-        sentenceAndGoodWordCombined
-      );
+      updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
 
       sentenceAndGoodWordCombined.forEach((element, i) => {
         if (element.last_word === undefined) {

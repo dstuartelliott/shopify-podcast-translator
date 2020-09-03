@@ -12,12 +12,7 @@ function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
   const playerContext = React.useContext(PlayerContext);
 
   const {
-    state: {
-      shouldMP3StillPlay,
-      currentTimePlayHead,
-      timeToPlayFrom,
-      ...state
-    },
+    state: { shouldMP3StillPlay, currentTimePlayHead, timeToPlayFrom },
     actions: { sendUpdatedPlayHeadPosition, jumpToEnglishSentenceAndPlay },
   } = React.useContext(PlayerBoundariesContext);
 
@@ -68,9 +63,9 @@ function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
   }, []);
 
   React.useEffect(() => {
-    // console.log("useeffect fired");
+    console.log("Player useeffect fired");
     // console.log(shouldMP3StillPlay);
-    // console.log(playing);
+    console.log({ shouldMP3StillPlay });
 
     if (shouldMP3StillPlay === false) {
       // audioref.current.currentTime = timeToJumpTo;
