@@ -26,6 +26,18 @@ export default function appReducer(state = initialState, action) {
         translation_playing: true,
         translation_time_code: action.translation_time_code,
         translated_uuid: action.translated_uuid,
+        type_curently_playing: action.type_curently_playing,
+      };
+    }
+
+    case "MARK_ENGLISH_AS_PLAYING": {
+      console.log("action MARK_ENGLISH_AS_PLAYING");
+      return {
+        ...state,
+        translation_playing: false,
+        english_time_code: action.english_time_code,
+        english_uuid: action.english_uuid,
+        type_curently_playing: action.type_curently_playing,
       };
     }
 
@@ -131,5 +143,12 @@ export const getTranslationTimeCodeAndUUID = (state) => {
       timecode: -1.0,
       uuid: "none",
     };
+  }
+};
+
+export const getTypePlaying = (state) => {
+  //    state.current_time;
+  if (state.type_curently_playing !== undefined) {
+    return state.type_curently_playing;
   }
 };

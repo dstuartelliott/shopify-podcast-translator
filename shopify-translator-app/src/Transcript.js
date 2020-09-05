@@ -6,7 +6,7 @@ import { PlayerContext } from "./PlayerContext";
 import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
 import TranscriptSentence from "./TranscriptSentence.js";
 import { useDispatch } from "react-redux";
-import { addTranscript, addCurrentTime } from "./actions";
+import { addTranscript, addCurrentTime, markEnglishAsPlaying } from "./actions";
 import { useSelector } from "react-redux";
 import {
   getSimplifiedSentences,
@@ -101,6 +101,7 @@ function Transcript() {
   React.useEffect(() => {
     let array_i;
 
+    // I realize I can do foreach here, but this way I can break early
     for (let i = 0; i < uuids_and_times.length - 1; i++) {
       if (
         uuids_and_times[i].start < current_time &&
@@ -111,6 +112,9 @@ function Transcript() {
     }
     if (array_i != undefined) {
       setcurrentUUID(uuids_and_times[array_i].uuid);
+      dispatch(
+        markEnglishAsPlaying(current_time, uuids_and_times[array_i].uuid)
+      );
     }
 
     // let current_sentence = uuids_and_times.filter(

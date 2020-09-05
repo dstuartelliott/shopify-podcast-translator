@@ -12,6 +12,7 @@ import {
   jumpToTime,
   markTranslationAsPlaying,
   markTranslationAsDonePlaying,
+  markEnglishAsPlaying,
 } from "./actions";
 import { useDispatch } from "react-redux";
 var voices = speechSynthesis.getVoices();
@@ -66,6 +67,8 @@ function TranscriptSentence({
     dispatch(markTranslationAsDonePlaying());
 
     dispatch(jumpToTime(sentence_object.start));
+
+    dispatch(markEnglishAsPlaying(sentence_object.start, sentence_object.uuid));
   }
 
   function handleTranslatedClickedSentence(event) {
