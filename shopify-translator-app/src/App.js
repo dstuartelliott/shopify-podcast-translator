@@ -3,11 +3,21 @@ import "./App.css";
 import Player2 from "./Player2.js";
 import Transcript from "./Transcript.js";
 import styled from "styled-components";
+import { SpeechSynthContext } from "./SpeechSynthContext";
 
 function App() {
+  const {
+    actions: { playOrPauseSpeechSynth },
+  } = React.useContext(SpeechSynthContext);
+
+  function handleSpeechPlayBtn(event) {
+    playOrPauseSpeechSynth();
+  }
+
   return (
     <div className="App">
       <Player2 />
+      <Button onClick={handleSpeechPlayBtn}> French</Button>
       <Transcript></Transcript>
     </div>
   );

@@ -13,6 +13,7 @@ import {
   getCurrentTime,
   getUUIDsandTimes,
 } from "./reducers";
+let next_start_time;
 
 function Transcript() {
   const playerContext = React.useContext(PlayerContext);
@@ -93,34 +94,44 @@ function Transcript() {
   }, []);
 
   React.useEffect(() => {
-    let current_sentence = uuids_and_times.filter(
-      (s) => s.start < current_time && s.end > current_time
-    );
-    // console.log(current_sentence);
-    // console.log(uuids_and_times);
-    if (current_sentence[0] !== undefined) {
-      setcurrentUUID(current_sentence[0].uuid);
+    let array_i;
+
+    for (let i = 0; i < uuids_and_times.length - 1; i++) {
+      if (
+        uuids_and_times[i].start < current_time &&
+        uuids_and_times[i].end > current_time
+      ) {
+        array_i = i;
+      }
     }
+    if (array_i != undefined) {
+      setcurrentUUID(uuids_and_times[array_i].uuid);
+    }
+
+    // let current_sentence = uuids_and_times.filter(
+    //   (s) => s.start < current_time && s.end > current_time
+    // );
+    // // console.log(current_sentence);
+    // // console.log(uuids_and_times);
+    // if (current_sentence[0] !== undefined) {
+    //   setcurrentUUID(current_sentence[0].uuid);
+    // }
     // console.log(current_sentence);
   }, [current_time]);
 
   return (
     <TranscriptWrapper>
-      <div>
-        hello {current_time} {currentUUID}
-      </div>
-
       <TranscriptList>
         {simplifiedSentences.map((element, i) => {
           // console.log(element.uuid);
           // console.log(uuidToHighLight);
-
           return (
             <TranscriptItem>
               <TranscriptSentence
                 sentence_object={element}
                 key={element.uuid}
-                // highlighted={element.isHighlighted}
+                highlighted={element.uuid === currentUUID}
+                next_start_time={element.next_start_time}
                 // highlightedLang={element.highlightedLang}
                 // uuidHighlighted={uuidHighlighted}
               ></TranscriptSentence>

@@ -6,6 +6,9 @@ import * as serviceWorker from "./serviceWorker";
 import { PlayerContextProvider } from "./PlayerContext";
 import { PlayerBoundariesContextProvider } from "./PlayerBoundariesContext";
 import { HighlighterContextProvider } from "./HighlighterContext";
+
+import { SpeechSynthContextProvider } from "./SpeechSynthContext";
+
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducers";
@@ -18,13 +21,15 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <HighlighterContextProvider>
-        <PlayerBoundariesContextProvider>
-          <PlayerContextProvider>
-            <App />
-          </PlayerContextProvider>
-        </PlayerBoundariesContextProvider>
-      </HighlighterContextProvider>
+      <SpeechSynthContextProvider>
+        <HighlighterContextProvider>
+          <PlayerBoundariesContextProvider>
+            <PlayerContextProvider>
+              <App />
+            </PlayerContextProvider>
+          </PlayerBoundariesContextProvider>
+        </HighlighterContextProvider>
+      </SpeechSynthContextProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
