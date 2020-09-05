@@ -21,11 +21,21 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "MARK_TRANSLATION_AS_PLAYING": {
-      return { ...state, translation_playing: true };
+      return {
+        ...state,
+        translation_playing: true,
+        translation_time_code: action.translation_time_code,
+        translated_uuid: action.translated_uuid,
+      };
     }
 
     case "MARK_TRANSLATION_AS_DONE_PLAYING": {
-      return { ...state, translation_playing: true };
+      return {
+        ...state,
+        translation_playing: false,
+        translation_time_code: -1.0,
+        translated_uuid: "none",
+      };
     }
 
     default:
@@ -99,5 +109,27 @@ export const getTimeToJumpTo = (state) => {
   //    state.current_time;
   if (state.jump_to_time !== undefined) {
     return state.jump_to_time;
+  }
+};
+
+export const getTranslationPlaying = (state) => {
+  //    state.current_time;
+  if (state.translation_playing !== undefined) {
+    return state.translation_playing;
+  }
+};
+
+export const getTranslationTimeCodeAndUUID = (state) => {
+  //    state.current_time;
+  if (state.translation_time_code !== undefined) {
+    return {
+      timecode: state.translation_time_code,
+      uuid: state.translated_uuid,
+    };
+  } else {
+    return {
+      timecode: -1.0,
+      uuid: "none",
+    };
   }
 };

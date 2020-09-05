@@ -9,6 +9,9 @@ import { HighlighterContext } from "./HighlighterContext";
 import App from "./App";
 let playing = false;
 
+
+listen for markTranslationAsPlaying and then move the playhead there but don't play?>
+
 function Player({ timeToJumpTo, timeToEndOn, pauseAtEndOfCurrentClip }) {
   const {
     state: { shouldMP3StillPlay, timeToPlayFrom },

@@ -8,7 +8,11 @@ import { SpeechSynthContext } from "./SpeechSynthContext";
 
 import { LANGUAGES } from "./constants";
 
-import { jumpToTime } from "./actions";
+import {
+  jumpToTime,
+  markTranslationAsPlaying,
+  markTranslationAsDonePlaying,
+} from "./actions";
 import { useDispatch } from "react-redux";
 var voices = speechSynthesis.getVoices();
 let french_voice = voices.filter((v) => v.lang === "fr-CA");
@@ -18,7 +22,8 @@ let highlighted_english = false;
 
 function TranscriptSentence({
   sentence_object,
-  highlighted,
+  englishHighlighted,
+  translatedHightlighted,
   next_start_time,
   highlightedLang,
   uuidHighlighted,
@@ -35,7 +40,7 @@ function TranscriptSentence({
   } = React.useContext(HighlighterContext);
 
   const {
-    actions: { playSpeechInSynthContext },
+    actions: { playSpeechInSynthContext, cancelAllSpeech },
   } = React.useContext(SpeechSynthContext);
 
   React.useEffect(() => {
@@ -56,17 +61,10 @@ function TranscriptSentence({
   }, []);
 
   function handleClickedSentence(event) {
-    //updateUUID(sentence_object.uuid);
     console.log(event);
-    dispatch(jumpToTime(sentence_object.start));
+    cancelAllSpeech();
+    dispatch(markTranslationAsDonePlaying());
 
-    // setUuidToHighLight(sentence_object.uuid, LANGUAGES.ENGLISH);
-
-    // jumpToEnglishSentenceFromUUID(sentence_object.uuid, sentence_object);
-  }
-
-  function handleClickedSentence(event) {
-    console.log(event);
     dispatch(jumpToTime(sentence_object.start));
   }
 
@@ -74,7 +72,9 @@ function TranscriptSentence({
     console.log(event);
     // setUuidToHighLight(sentence_object.uuid, LANGUAGES.FRENCH);
     playSpeechInSynthContext(sentence_object);
-
+    dispatch(
+      markTranslationAsPlaying(sentence_object.start, sentence_object.uuid)
+    );
     // playSpeechInSynthContext(sentence_object);
 
     // dispatch(jumpToTime(sentence_object.start));
@@ -106,32 +106,32 @@ function TranscriptSentence({
 
   // this might look ugly, but it's better than nesteed terneries inmho
 
-  if (highlighted && speechSynthesis.speaking === false) {
+  if (englishHighlighted) {
     return (
       <Wrapper>
-        <SentenceAndSpeaker>
+        <SentenceAndSpeakerSelected>
           <Button onClick={handleClickedSentence}>
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.english_sentence} 🇬🇧
             </SentenceHighlighted>
           </Button>
           <Button onClick={handleTranslatedClickedSentence}>
-            <SentenceHighlighted>
+            <Sentence>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
               <Button>Play</Button>
-            </SentenceHighlighted>
+            </Sentence>
           </Button>
-        </SentenceAndSpeaker>
+        </SentenceAndSpeakerSelected>
       </Wrapper>
     );
-  } else if (highlighted && speechSynthesis.speaking) {
+  } else if (translatedHightlighted) {
     return (
       <Wrapper>
-        <SentenceAndSpeaker>
+        <SentenceAndSpeakerSelected>
           <Button onClick={handleClickedSentence}>
-            <SentenceHighlighted>
+            <Sentence>
               {sentence_object.speaker}: {sentence_object.english_sentence}
-            </SentenceHighlighted>
+            </Sentence>
           </Button>
           <Button onClick={handleTranslatedClickedSentence}>
             <SentenceHighlighted>
@@ -139,7 +139,7 @@ function TranscriptSentence({
               🇫🇷
             </SentenceHighlighted>
           </Button>
-        </SentenceAndSpeaker>
+        </SentenceAndSpeakerSelected>
       </Wrapper>
     );
   } else {
@@ -238,6 +238,10 @@ const Wrapper = styled.div`
 `;
 
 const SentenceAndSpeaker = styled.div``;
+
+const SentenceAndSpeakerSelected = styled.div`
+  border: 2px dashed blue;
+`;
 
 const Speaker = styled.div`
   background-color: white;

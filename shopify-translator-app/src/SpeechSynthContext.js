@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import { jumpToTime } from "./actions";
+import { jumpToTime, markTranslationAsDonePlaying } from "./actions";
 import { useDispatch } from "react-redux";
 var voices = speechSynthesis.getVoices();
 let french_voice = voices.filter((v) => v.lang === "fr-CA");
@@ -15,6 +15,10 @@ export const SpeechSynthContextProvider = ({ children }) => {
     } else if (speechSynthesis.paused) {
       speechSynthesis.resume();
     }
+  };
+
+  const cancelAllSpeech = () => {
+    speechSynthesis.cancel();
   };
 
   const playSpeechInSynthContext = (sentence_object) => {
@@ -37,6 +41,7 @@ export const SpeechSynthContextProvider = ({ children }) => {
 
       if (spaces_left_in_remaining_words.length === 1) {
         const timer = setTimeout(() => {
+          dispatch(markTranslationAsDonePlaying());
           dispatch(jumpToTime(sentence_object.next_start_time));
         }, 1000);
       }
@@ -52,6 +57,7 @@ export const SpeechSynthContextProvider = ({ children }) => {
         actions: {
           playSpeechInSynthContext,
           playOrPauseSpeechSynth,
+          cancelAllSpeech,
         },
       }}
     >

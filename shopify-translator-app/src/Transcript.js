@@ -12,6 +12,8 @@ import {
   getSimplifiedSentences,
   getCurrentTime,
   getUUIDsandTimes,
+  getTranslationPlaying,
+  getTranslationTimeCodeAndUUID,
 } from "./reducers";
 let next_start_time;
 
@@ -21,6 +23,9 @@ function Transcript() {
   let simplifiedSentences = useSelector(getSimplifiedSentences);
   let current_time = useSelector(getCurrentTime);
   let uuids_and_times = useSelector(getUUIDsandTimes);
+
+  let translationPlaying = useSelector(getTranslationPlaying);
+  let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
 
   const [currentUUID, setcurrentUUID] = React.useState("");
 
@@ -130,7 +135,11 @@ function Transcript() {
               <TranscriptSentence
                 sentence_object={element}
                 key={element.uuid}
-                highlighted={element.uuid === currentUUID}
+                englishHighlighted={element.uuid === currentUUID}
+                translatedHightlighted={
+                  element.uuid === translationTimeCodeUUID.uuid &&
+                  translationPlaying
+                }
                 next_start_time={element.next_start_time}
                 // highlightedLang={element.highlightedLang}
                 // uuidHighlighted={uuidHighlighted}
