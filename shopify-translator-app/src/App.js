@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo } from "react";
 import "./App.css";
-import Player from "./Player.js";
+import Player2 from "./Player2.js";
 import Transcript from "./Transcript.js";
 import styled from "styled-components";
 
 function App() {
   return (
     <div className="App">
-      <Player />
+      <Player2 />
       <Transcript></Transcript>
     </div>
   );

@@ -5,9 +5,23 @@ import styled from "styled-components";
 import { PlayerContext } from "./PlayerContext";
 import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
 import TranscriptSentence from "./TranscriptSentence.js";
+import { useDispatch } from "react-redux";
+import { addTranscript, addCurrentTime } from "./actions";
+import { useSelector } from "react-redux";
+import {
+  getSimplifiedSentences,
+  getCurrentTime,
+  getUUIDsandTimes,
+} from "./reducers";
 
 function Transcript() {
   const playerContext = React.useContext(PlayerContext);
+  const dispatch = useDispatch();
+  let simplifiedSentences = useSelector(getSimplifiedSentences);
+  let current_time = useSelector(getCurrentTime);
+  let uuids_and_times = useSelector(getUUIDsandTimes);
+
+  const [currentUUID, setcurrentUUID] = React.useState("");
 
   const {
     state: { contextSentenceAndGoodWordCombined, uuidHighlighted },
@@ -22,9 +36,9 @@ function Transcript() {
   // }, []);
 
   React.useEffect(() => {
+    console.log("Transcript useffect");
     async function getTranscriptSentences() {
       let combined = await playerContext.getCombined();
-      console.log(combined.translations);
 
       let sentenceAndGoodWordCombined = [];
       combined.translations.forEach((element, i) => {
@@ -68,16 +82,54 @@ function Transcript() {
         }
       });
 
-      updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
+      console.log("Transcript useffect");
+
+      console.log(combined.translations);
+      dispatch(addTranscript(sentenceAndGoodWordCombined));
+
+      //updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
     }
     getTranscriptSentences();
   }, []);
 
+  React.useEffect(() => {
+    let current_sentence = uuids_and_times.filter(
+      (s) => s.start < current_time && s.end > current_time
+    );
+    // console.log(current_sentence);
+    // console.log(uuids_and_times);
+    if (current_sentence[0] !== undefined) {
+      setcurrentUUID(current_sentence[0].uuid);
+    }
+    // console.log(current_sentence);
+  }, [current_time]);
+
   return (
     <TranscriptWrapper>
-      <div>hello {uuidHighlighted}</div>
+      <div>
+        hello {current_time} {currentUUID}
+      </div>
 
       <TranscriptList>
+        {simplifiedSentences.map((element, i) => {
+          // console.log(element.uuid);
+          // console.log(uuidToHighLight);
+
+          return (
+            <TranscriptItem>
+              <TranscriptSentence
+                sentence_object={element}
+                key={element.uuid}
+                // highlighted={element.isHighlighted}
+                // highlightedLang={element.highlightedLang}
+                // uuidHighlighted={uuidHighlighted}
+              ></TranscriptSentence>
+            </TranscriptItem>
+          );
+        })}
+      </TranscriptList>
+
+      {/* <TranscriptList>
         {contextSentenceAndGoodWordCombined.map((element, i) => {
           // console.log(element.uuid);
           // console.log(uuidToHighLight);
@@ -94,7 +146,7 @@ function Transcript() {
             </TranscriptItem>
           );
         })}
-      </TranscriptList>
+      </TranscriptList> */}
     </TranscriptWrapper>
   );
 }
