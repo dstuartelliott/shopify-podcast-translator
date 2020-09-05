@@ -11,7 +11,7 @@ export const PlayerContextProvider = ({ children }) => {
   const getSpeechPhrase = () => {
     return speechUtterance;
   };
-
+  test;
   function setSpeechPhraseFunc(phrase) {
     speechUtterance = phrase;
     console.log("setSpeechPhraseFunc");
