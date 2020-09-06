@@ -30,3 +30,16 @@ export const markEnglishAsPlaying = (time, english_uuid) => ({
 export const markTranslationAsDonePlaying = () => ({
   type: "MARK_TRANSLATION_AS_DONE_PLAYING",
 });
+
+export const markTranslationAsDonePlayingPaused = () => ({
+  type: "MARK_TRANSLATION_AS_DONE_PLAYING_PAUSED",
+});
+
+export const markTranslationAsPlayingResumed = () => ({
+  type: "MARK_TRANSLATION_AS_PLAYING_RESUMED",
+});
+
+export const updateSpeechSynthState = (speechSynth) => ({
+  type: "UPDATE_SPEECH_SYNTH_STATE",
+  synth: speechSynth,
+});

@@ -115,7 +115,6 @@ function Player2() {
   return (
     <div>
       <AudioPlayer
-        autoPlay
         src="./ep374-healthish_tc.mp3"
         onPlay={onPlayListen}
         onListen={announceListen}

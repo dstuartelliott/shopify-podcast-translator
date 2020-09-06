@@ -13,6 +13,10 @@ export default function appReducer(state = initialState, action) {
       return { ...state, transcript: action.transcript };
     }
 
+    case "UPDATE_SPEECH_SYNTH_STATE": {
+      return { ...state, synth: action.synth };
+    }
+
     case "JUMP_TO_TIME": {
       console.log("JUMP_TO_TIME");
       console.log(action.time);
@@ -47,6 +51,20 @@ export default function appReducer(state = initialState, action) {
         translation_playing: false,
         translation_time_code: -1.0,
         translated_uuid: "none",
+      };
+    }
+
+    case "MARK_TRANSLATION_AS_DONE_PLAYING_PAUSED": {
+      return {
+        ...state,
+        translation_playing: false,
+      };
+    }
+
+    case "MARK_TRANSLATION_AS_DONE_PLAYING_PAUSED": {
+      return {
+        ...state,
+        translation_playing: false,
       };
     }
 

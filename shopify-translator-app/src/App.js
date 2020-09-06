@@ -14,6 +14,15 @@ function App() {
     playOrPauseSpeechSynth();
   }
 
+  React.useEffect(() => {
+    console.log("app");
+    // speechSynthesis.addEventListener("voiceschanged", function () {
+    //   let voices_new = speechSynthesis.getVoices();
+    //   console.log(voices_new);
+
+    // });
+  }, []);
+
   return (
     <div className="App">
       <Player2 />

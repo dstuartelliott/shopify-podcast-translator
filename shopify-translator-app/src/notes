@@ -31,3 +31,10 @@ TODO - PUT IN LOADING SCREENS
 TODO - SEARCH.  
 
 Those should be the two other features you implement.
+
+
+TODO - FEATURE - PULL THE TEXT TO THE SIDE TO REVEAL.. METADATA?  OTHER LANGUAGES?
+https://polaris.shopify.com/components/titles-and-text/text-container#navigation
+
+
+replace all useSelector with React.useSelector

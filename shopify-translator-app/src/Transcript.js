@@ -73,17 +73,30 @@ function Transcript() {
         }
 
         if (succesful_word !== undefined) {
+          // sentenceAndGoodWordCombined.push({
+          //   english_sentence: element.english,
+          //   translated_sentence: element.translation,
+          //   speaker: element.speaker,
+          //   word: succesful_word,
+          //   last_word: last_word,
+          //   words: element.words,
+          //   full_sentences_i: element.full_sentences_i,
+          //   uuid: element.uuid,
+          //   isHighlighted: false,
+          //   highlightedLang: "none",
+          // });
+
           sentenceAndGoodWordCombined.push({
             english_sentence: element.english,
             translated_sentence: element.translation,
             speaker: element.speaker,
             word: succesful_word,
             last_word: last_word,
-            words: element.words,
-            full_sentences_i: element.full_sentences_i,
+            // words: element.words,
+            // full_sentences_i: element.full_sentences_i,
             uuid: element.uuid,
-            isHighlighted: false,
-            highlightedLang: "none",
+            // isHighlighted: false,
+            // highlightedLang: "none",
           });
         }
       });

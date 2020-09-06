@@ -13,7 +13,12 @@ import {
   markTranslationAsPlaying,
   markTranslationAsDonePlaying,
   markEnglishAsPlaying,
+  markTranslationAsDonePlayingPaused,
 } from "./actions";
+import { useSelector } from "react-redux";
+
+import { getTranslationPlaying } from "./reducers";
+
 import { useDispatch } from "react-redux";
 var voices = speechSynthesis.getVoices();
 let french_voice = voices.filter((v) => v.lang === "fr-CA");
@@ -30,6 +35,7 @@ function TranscriptSentence({
   uuidHighlighted,
 }) {
   const dispatch = useDispatch();
+  let translationPlaying = useSelector(getTranslationPlaying);
 
   const {
     actions: { jumpToEnglishSentenceFromUUID, setUuidToHighLight, playSpeech },
@@ -41,7 +47,11 @@ function TranscriptSentence({
   } = React.useContext(HighlighterContext);
 
   const {
-    actions: { playSpeechInSynthContext, cancelAllSpeech },
+    actions: {
+      playSpeechInSynthContext,
+      cancelAllSpeech,
+      playOrPauseSpeechSynth,
+    },
   } = React.useContext(SpeechSynthContext);
 
   React.useEffect(() => {
@@ -73,38 +83,15 @@ function TranscriptSentence({
 
   function handleTranslatedClickedSentence(event) {
     console.log(event);
-    // setUuidToHighLight(sentence_object.uuid, LANGUAGES.FRENCH);
     playSpeechInSynthContext(sentence_object);
     dispatch(
       markTranslationAsPlaying(sentence_object.start, sentence_object.uuid)
     );
-    // playSpeechInSynthContext(sentence_object);
+  }
 
-    // dispatch(jumpToTime(sentence_object.start));
-
-    // speechSynthesis.cancel();
-
-    // let utterance = new SpeechSynthesisUtterance(
-    //   sentence_object.translated_sentence
-    // );
-    // utterance.voice = french_voice[0];
-
-    // utterance.onend = function (event) {
-    //   console.log(
-    //     "Utterance has finished being spoken after " +
-    //       event.elapsedTime +
-    //       " milliseconds."
-    //   );
-
-    //   if (sentence_object.next_start_time > 0) {
-    //     dispatch(jumpToTime(sentence_object.next_start_time));
-    //   }
-
-    //   console.log(sentence_object.next_start_time);
-    // };
-
-    // speechSynthesis.speak(utterance);
-    // dispatch(jumpToTime(-99.99));
+  function handlePlayPauseTranslation(event) {
+    playOrPauseSpeechSynth();
+    event.stopPropagation();
   }
 
   // this might look ugly, but it's better than nesteed terneries inmho
@@ -115,13 +102,12 @@ function TranscriptSentence({
         <SentenceAndSpeakerSelected>
           <Button onClick={handleClickedSentence}>
             <SentenceHighlighted>
-              {sentence_object.speaker}: {sentence_object.english_sentence} 🇬🇧
+              {sentence_object.speaker}: {sentence_object.english_sentence} 🇬
             </SentenceHighlighted>
           </Button>
           <Button onClick={handleTranslatedClickedSentence}>
             <Sentence>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
-              <Button>Play</Button>
             </Sentence>
           </Button>
         </SentenceAndSpeakerSelected>
@@ -139,7 +125,9 @@ function TranscriptSentence({
           <Button onClick={handleTranslatedClickedSentence}>
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
-              🇫🇷
+              <TranslationButton onClick={handlePlayPauseTranslation}>
+                {translationPlaying ? "Pause" : "Play"}
+              </TranslationButton>
             </SentenceHighlighted>
           </Button>
         </SentenceAndSpeakerSelected>
@@ -163,69 +151,15 @@ function TranscriptSentence({
       </Wrapper>
     );
   }
-
-  // if (highlighted && highlightedLang === "french") {
-  //   return (
-  //     <Wrapper>
-  //       <Sentence>{uuidHighlightedIndivContext}</Sentence>
-
-  //       <SentenceAndSpeaker>
-  //         <Button onClick={handleClickedSentence}>
-  //           <SentenceHighlighted>
-  //             {sentence_object.speaker}: {sentence_object.english_sentence}
-  //           </SentenceHighlighted>
-  //         </Button>
-  //         <Button onClick={handleTranslatedClickedSentence}>
-  //           <SentenceHighlighted>
-  //             {sentence_object.speaker}: {sentence_object.translated_sentence}
-  //             🇫🇷
-  //             <Button>Play</Button>
-  //           </SentenceHighlighted>
-  //         </Button>
-  //       </SentenceAndSpeaker>
-  //     </Wrapper>
-  //   );
-  // } else if (highlighted && highlightedLang === "english") {
-  //   return (
-  //     <Wrapper>
-  //       <Sentence>{uuidHighlightedIndivContext}</Sentence>
-
-  //       <SentenceAndSpeaker>
-  //         <Button onClick={handleClickedSentence}>
-  //           <SentenceHighlighted>
-  //             {sentence_object.speaker}: {sentence_object.english_sentence} 🇨🇦
-  //           </SentenceHighlighted>
-  //         </Button>
-  //         <Button onClick={handleTranslatedClickedSentence}>
-  //           <SentenceHighlighted>
-  //             {sentence_object.speaker}: {sentence_object.translated_sentence}
-  //           </SentenceHighlighted>
-  //         </Button>
-  //       </SentenceAndSpeaker>
-  //     </Wrapper>
-  //   );
-  // } else if (!highlighted) {
-  //   return (
-  //     <Wrapper>
-  //       <Sentence>hello{uuidHighlightedIndivContext}</Sentence>
-
-  //       <SentenceAndSpeaker>
-  //         <Button onClick={handleClickedSentence}>
-  //           <Sentence>
-  //             {sentence_object.speaker}: {sentence_object.english_sentence}
-  //           </Sentence>
-  //         </Button>
-
-  //         <Button onClick={handleTranslatedClickedSentence}>
-  //           <Sentence>
-  //             {sentence_object.speaker}: {sentence_object.translated_sentence}
-  //           </Sentence>
-  //         </Button>
-  //       </SentenceAndSpeaker>
-  //     </Wrapper>
-  //   );
-  // }
 }
+
+const TranslationButton = styled.button`
+  background-color: Transparent;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 2;
+`;
 
 const Button = styled.button`
   background-color: Transparent;

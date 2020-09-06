@@ -1,7 +1,15 @@
 import React, { createContext } from "react";
-import { jumpToTime, markTranslationAsDonePlaying } from "./actions";
 import { useDispatch } from "react-redux";
-var voices = speechSynthesis.getVoices();
+import {
+  jumpToTime,
+  markTranslationAsPlaying,
+  markTranslationAsDonePlaying,
+  markTranslationAsDonePlayingPaused,
+  updateSpeechSynthState,
+} from "./actions";
+
+let voices = speechSynthesis.getVoices();
+console.log(voices);
 let french_voice = voices.filter((v) => v.lang === "fr-CA");
 
 export const SpeechSynthContext = createContext();
@@ -10,11 +18,13 @@ export const SpeechSynthContextProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   const playOrPauseSpeechSynth = () => {
+    console.log("playOrPauseSpeechSynth");
     if (speechSynthesis.speaking) {
       speechSynthesis.pause();
     } else if (speechSynthesis.paused) {
       speechSynthesis.resume();
     }
+    dispatch(updateSpeechSynthState(speechSynthesis));
   };
 
   const cancelAllSpeech = () => {
@@ -49,7 +59,20 @@ export const SpeechSynthContextProvider = ({ children }) => {
 
     speechSynthesis.speak(utterance);
     dispatch(jumpToTime(-99.99));
+    let new_synth = { ...speechSynthesis };
+    console.log(new_synth);
+    dispatch(updateSpeechSynthState(new_synth));
   };
+
+  // for(i = 0; i < voices.length ; i++) {
+  // }
+
+  // chrome loads the voices later than firefox, so we need to add a listener for when they are loaded. See https://stackoverflow.com/questions/21513706/getting-the-list-of-voices-in-speechsynthesis-web-speech-api
+
+  speechSynthesis.addEventListener("voiceschanged", function () {
+    voices = speechSynthesis.getVoices();
+    french_voice = voices.filter((v) => v.lang === "fr-CA");
+  });
 
   return (
     <SpeechSynthContext.Provider
