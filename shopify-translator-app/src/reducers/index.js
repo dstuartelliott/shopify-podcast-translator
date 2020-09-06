@@ -135,6 +135,13 @@ export const getCurrentTime = (state) => {
   }
 };
 
+export const getSynthStateSpeaking = (state) => {
+  //    state.current_time;
+  if (state.synth !== undefined) {
+    return state.synth;
+  }
+};
+
 export const getTimeToJumpTo = (state) => {
   //    state.current_time;
   if (state.jump_to_time !== undefined) {

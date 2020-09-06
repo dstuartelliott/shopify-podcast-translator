@@ -233,7 +233,7 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
 
   const jumpToEnglishSentenceFromUUID = (uuid) => {
     speechSynthesis.cancel();
-
+    console.log("speechSynthesis.cancel");
     let selected;
     contextSentenceAndGoodWordCombined.forEach((sent, i) => {
       if (sent.uuid === uuid) {
@@ -262,6 +262,8 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
 
   const playSpeech = (utteranceString) => {
     speechSynthesis.cancel();
+    console.log("speechSynthesis.cancel");
+
     console.log("playSpeech");
 
     dispatch({

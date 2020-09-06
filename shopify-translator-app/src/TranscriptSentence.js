@@ -17,7 +17,11 @@ import {
 } from "./actions";
 import { useSelector } from "react-redux";
 
-import { getTranslationPlaying } from "./reducers";
+import {
+  getTranslationPlaying,
+  getSynthStateSpeaking,
+  getTranslationTimeCodeAndUUID,
+} from "./reducers";
 
 import { useDispatch } from "react-redux";
 var voices = speechSynthesis.getVoices();
@@ -36,7 +40,8 @@ function TranscriptSentence({
 }) {
   const dispatch = useDispatch();
   let translationPlaying = useSelector(getTranslationPlaying);
-
+  let synthSpeaking = useSelector(getSynthStateSpeaking);
+  let translationUUID = useSelector(getTranslationTimeCodeAndUUID).uuid;
   const {
     actions: { jumpToEnglishSentenceFromUUID, setUuidToHighLight, playSpeech },
   } = React.useContext(PlayerBoundariesContext);
@@ -108,6 +113,11 @@ function TranscriptSentence({
           <Button onClick={handleTranslatedClickedSentence}>
             <Sentence>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
+              <TranslationButton onClick={handlePlayPauseTranslation}>
+                {synthSpeaking && translationUUID === sentence_object.uuid
+                  ? "Pause"
+                  : "Play"}
+              </TranslationButton>
             </Sentence>
           </Button>
         </SentenceAndSpeakerSelected>
@@ -116,6 +126,8 @@ function TranscriptSentence({
   } else if (translatedHightlighted) {
     return (
       <Wrapper>
+        {console.log(synthSpeaking)}
+
         <SentenceAndSpeakerSelected>
           <Button onClick={handleClickedSentence}>
             <Sentence>
@@ -126,7 +138,9 @@ function TranscriptSentence({
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
               <TranslationButton onClick={handlePlayPauseTranslation}>
-                {translationPlaying ? "Pause" : "Play"}
+                {synthSpeaking && translationUUID === sentence_object.uuid
+                  ? "Pause"
+                  : "Play"}
               </TranslationButton>
             </SentenceHighlighted>
           </Button>
@@ -154,8 +168,7 @@ function TranscriptSentence({
 }
 
 const TranslationButton = styled.button`
-  background-color: Transparent;
-  border: none;
+  border: 1px;
   cursor: pointer;
   overflow: hidden;
   z-index: 2;
