@@ -4,7 +4,12 @@ import styled from "styled-components";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { useDispatch } from "react-redux";
-import { jumpToTime, addCurrentTime, markEnglishAsPlaying } from "./actions";
+import {
+  jumpToTime,
+  addCurrentTime,
+  markEnglishAsPlaying,
+  recordMP3PlayerState,
+} from "./actions";
 import {
   getTimeToJumpTo,
   getUUIDsandTimes,
@@ -78,6 +83,10 @@ function Player2() {
     dispatch(addCurrentTime({ current_time }));
   }
 
+  function onPauseListen(event) {
+    dispatch(recordMP3PlayerState("paused"));
+  }
+
   function onPlayListen(event) {
     console.log("onPlayListen");
     console.log(event.srcElement.currentTime);
@@ -109,6 +118,8 @@ function Player2() {
       dispatch(markEnglishAsPlaying(event.srcElement.currentTime, "TBD"));
     }
 
+    dispatch(recordMP3PlayerState("playing"));
+
     console.log(event);
   }
 
@@ -118,6 +129,7 @@ function Player2() {
         src="./ep374-healthish_tc.mp3"
         onPlay={onPlayListen}
         onListen={announceListen}
+        onPause={onPauseListen}
         listenInterval={200}
         ref={audioref}
         // other props here

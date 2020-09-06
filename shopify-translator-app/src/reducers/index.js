@@ -68,6 +68,13 @@ export default function appReducer(state = initialState, action) {
       };
     }
 
+    case "RECORD_MP3_PLAYER_START": {
+      return {
+        ...state,
+        mp3_player_state: action.mp3_player_state,
+      };
+    }
+
     default:
       return state;
   }
@@ -175,5 +182,14 @@ export const getTypePlaying = (state) => {
   //    state.current_time;
   if (state.type_curently_playing !== undefined) {
     return state.type_curently_playing;
+  }
+};
+
+export const getMP3PlayerState = (state) => {
+  //    state.current_time;
+  if (state.mp3_player_state !== undefined) {
+    return state.mp3_player_state;
+  } else {
+    return "TBD";
   }
 };

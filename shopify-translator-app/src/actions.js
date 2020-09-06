@@ -31,6 +31,11 @@ export const markTranslationAsDonePlaying = () => ({
   type: "MARK_TRANSLATION_AS_DONE_PLAYING",
 });
 
+export const recordMP3PlayerState = (player_state) => ({
+  type: "RECORD_MP3_PLAYER_START",
+  mp3_player_state: player_state,
+});
+
 export const markTranslationAsDonePlayingPaused = () => ({
   type: "MARK_TRANSLATION_AS_DONE_PLAYING_PAUSED",
 });

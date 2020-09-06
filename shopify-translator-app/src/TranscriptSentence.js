@@ -21,6 +21,9 @@ import {
   getTranslationPlaying,
   getSynthStateSpeaking,
   getTranslationTimeCodeAndUUID,
+  getTypePlaying,
+  getMP3PlayerState,
+  getCurrentTime,
 } from "./reducers";
 
 import { useDispatch } from "react-redux";
@@ -40,8 +43,15 @@ function TranscriptSentence({
 }) {
   const dispatch = useDispatch();
   let translationPlaying = useSelector(getTranslationPlaying);
+
+  let typePlaying = useSelector(getTypePlaying);
+
   let synthSpeaking = useSelector(getSynthStateSpeaking);
   let translationUUID = useSelector(getTranslationTimeCodeAndUUID).uuid;
+
+  let curentTime = useSelector(getCurrentTime);
+
+  let mp3PlayState = useSelector(getMP3PlayerState);
   const {
     actions: { jumpToEnglishSentenceFromUUID, setUuidToHighLight, playSpeech },
   } = React.useContext(PlayerBoundariesContext);
@@ -100,6 +110,13 @@ function TranscriptSentence({
   }
 
   function handlePlayPauseEnglish(event) {
+    if (mp3PlayState === "playing") {
+      console.log(" handlePlayPauseEnglish pausing");
+      dispatch(jumpToTime(-99.99));
+    } else if (mp3PlayState === "paused") {
+      dispatch(jumpToTime(curentTime));
+    }
+
     event.stopPropagation();
   }
 
@@ -111,7 +128,7 @@ function TranscriptSentence({
         <SentenceAndSpeakerSelected>
           <FlexButton onClick={handleClickedSentence}>
             <TranslationButton onClick={handlePlayPauseEnglish}>
-              Play{" "}
+              {mp3PlayState === "playing" ? "Pause" : "Play"}
             </TranslationButton>
 
             <SentenceHighlighted>
