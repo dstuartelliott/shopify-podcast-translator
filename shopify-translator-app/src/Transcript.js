@@ -152,7 +152,9 @@ function Transcript() {
               <TranscriptSentence
                 sentence_object={element}
                 key={element.uuid}
-                englishHighlighted={element.uuid === currentUUID}
+                englishHighlighted={
+                  element.uuid === currentUUID && translationPlaying === false
+                }
                 translatedHightlighted={
                   element.uuid === translationTimeCodeUUID.uuid &&
                   translationPlaying

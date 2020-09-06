@@ -27,10 +27,10 @@ export const SpeechSynthContextProvider = ({ children }) => {
     if (speechSynthesis.speaking) {
       console.log("speaking, paused");
 
-      speechSynthesis.pause();
+      speechSynthesis.cancel();
       console.log(speechSynthesis);
 
-      dispatch(updateSpeechSynthState(speechSynthesis.speaking));
+      dispatch(updateSpeechSynthState(false));
     } else {
       console.log(utterance);
       console.log(last_boundary);
@@ -46,14 +46,21 @@ export const SpeechSynthContextProvider = ({ children }) => {
           event.target.text.length - 1
         );
 
+        // it is debatable if you should resume at the next word or the last word
+
+        // true_remaining_words = event.target.text.slice(
+        //   event.charIndex + event.charLength,
+        //   event.target.text.length - 1
+        // );
+
         true_remaining_words = event.target.text.slice(
-          event.charIndex + event.charLength,
+          event.charIndex,
           event.target.text.length - 1
         );
 
         last_boundary = event;
         let spaces_left_in_remaining_words = remaining_words.split(" ");
-        dispatch(updateSpeechSynthState(speechSynthesis.speaking));
+        dispatch(updateSpeechSynthState(true));
 
         if (spaces_left_in_remaining_words.length === 1) {
           const timer = setTimeout(() => {
@@ -104,7 +111,9 @@ export const SpeechSynthContextProvider = ({ children }) => {
       if (spaces_left_in_remaining_words.length === 1) {
         const timer = setTimeout(() => {
           dispatch(markTranslationAsDonePlaying());
-          dispatch(jumpToTime(sentence_object.next_start_time));
+
+          // jump to the next one, but this is confusing from a user perspective.
+          // dispatch(jumpToTime(sentence_object.next_start_time));
         }, 1000);
       }
     };

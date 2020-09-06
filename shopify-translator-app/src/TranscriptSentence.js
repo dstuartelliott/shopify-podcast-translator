@@ -99,27 +99,31 @@ function TranscriptSentence({
     event.stopPropagation();
   }
 
+  function handlePlayPauseEnglish(event) {
+    event.stopPropagation();
+  }
+
   // this might look ugly, but it's better than nesteed terneries inmho
 
   if (englishHighlighted) {
     return (
       <Wrapper>
         <SentenceAndSpeakerSelected>
-          <Button onClick={handleClickedSentence}>
+          <FlexButton onClick={handleClickedSentence}>
+            <TranslationButton onClick={handlePlayPauseEnglish}>
+              Play{" "}
+            </TranslationButton>
+
             <SentenceHighlighted>
-              {sentence_object.speaker}: {sentence_object.english_sentence} 🇬
+              {sentence_object.speaker}: {sentence_object.english_sentence}
             </SentenceHighlighted>
-          </Button>
-          <Button onClick={handleTranslatedClickedSentence}>
+          </FlexButton>
+          <FlexButton onClick={handleTranslatedClickedSentence}>
+            <Filler></Filler>
             <Sentence>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
-              <TranslationButton onClick={handlePlayPauseTranslation}>
-                {synthSpeaking && translationUUID === sentence_object.uuid
-                  ? "Pause"
-                  : "Play"}
-              </TranslationButton>
             </Sentence>
-          </Button>
+          </FlexButton>
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -129,21 +133,24 @@ function TranscriptSentence({
         {console.log(synthSpeaking)}
 
         <SentenceAndSpeakerSelected>
-          <Button onClick={handleClickedSentence}>
+          <FlexButton onClick={handleClickedSentence}>
+            <Filler></Filler>
+
             <Sentence>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
-          </Button>
-          <Button onClick={handleTranslatedClickedSentence}>
+          </FlexButton>
+          <FlexButton onClick={handleTranslatedClickedSentence}>
+            <TranslationButton onClick={handlePlayPauseTranslation}>
+              {synthSpeaking && translationUUID === sentence_object.uuid
+                ? "Pause"
+                : "Play"}
+            </TranslationButton>
+
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
-              <TranslationButton onClick={handlePlayPauseTranslation}>
-                {synthSpeaking && translationUUID === sentence_object.uuid
-                  ? "Pause"
-                  : "Play"}
-              </TranslationButton>
             </SentenceHighlighted>
-          </Button>
+          </FlexButton>
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -167,11 +174,28 @@ function TranscriptSentence({
   }
 }
 
+const Filler = styled.div`
+  width: 150px;
+  background-color: white;
+  padding: 7px;
+`;
+
 const TranslationButton = styled.button`
   border: 1px;
+  width: 150px;
   cursor: pointer;
   overflow: hidden;
   z-index: 2;
+`;
+
+const FlexButton = styled.button`
+  display: flex;
+
+  background-color: Transparent;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
 `;
 
 const Button = styled.button`
@@ -189,9 +213,7 @@ const Wrapper = styled.div`
 
 const SentenceAndSpeaker = styled.div``;
 
-const SentenceAndSpeakerSelected = styled.div`
-  border: 2px dashed blue;
-`;
+const SentenceAndSpeakerSelected = styled.div``;
 
 const Speaker = styled.div`
   background-color: white;
