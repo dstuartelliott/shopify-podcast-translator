@@ -36,6 +36,11 @@ Those should be the two other features you implement.
 TODO - FEATURE - PULL THE TEXT TO THE SIDE TO REVEAL.. METADATA?  OTHER LANGUAGES?
 https://polaris.shopify.com/components/titles-and-text/text-container#navigation
 
+TODO - FOCUS: OUTLINE NONE ON THE BUTTONS IS BAD.  BREAKS ACCESIBILITY.  SHOULD PUT IN A KEYBOARD MODIFIER FOR TABS.
+https://www.eventbrite.com/engineering/how-to-fix-the-ugly-focus-ring-and-not-break-accessibility-in-react/
+
+TODO - USE ROUTES, MAKE SEVERAL DIFFERENT EPISODES, FROM A HOME PAGE?
+
 
 replace all useSelector with React.useSelector
 

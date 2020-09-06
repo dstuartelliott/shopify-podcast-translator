@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
 import { HighlighterContext } from "./HighlighterContext";
 import { SpeechSynthContext } from "./SpeechSynthContext";
+import { IoIosPlay, IoIosPause } from "react-icons/io";
 
 import { LANGUAGES } from "./constants";
 
@@ -120,54 +121,61 @@ function TranscriptSentence({
     event.stopPropagation();
   }
 
-  // this might look ugly, but it's better than nesteed terneries inmho
-
+  // this might look ugly, but it's better than a bunch of nesteed ternary statements imho
+  // also, I originally had a Button instead of the  SentenceDiv, but then I got a react warning about nesteed buttons so I've opted
   if (englishHighlighted) {
     return (
       <Wrapper>
         <SentenceAndSpeakerSelected>
-          <FlexButton onClick={handleClickedSentence} id={sentence_object.uuid}>
-            <TranslationButton onClick={handlePlayPauseEnglish}>
-              {mp3PlayState === "playing" ? "Pause" : "Play"}
-            </TranslationButton>
-
+          <SentenceDiv
+            onClick={handleClickedSentence}
+            id={sentence_object.uuid}
+          >
+            <ButtonDiv>
+              <TranslationButton onClick={handlePlayPauseEnglish}>
+                {mp3PlayState === "playing" ? <IoIosPause /> : <IoIosPlay />}
+              </TranslationButton>
+            </ButtonDiv>
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </SentenceHighlighted>
-          </FlexButton>
-          <FlexButton onClick={handleTranslatedClickedSentence}>
-            <Filler></Filler>
+          </SentenceDiv>
+          <SentenceDiv onClick={handleTranslatedClickedSentence}>
             <Sentence>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </Sentence>
-          </FlexButton>
+          </SentenceDiv>
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
   } else if (translatedHightlighted) {
     return (
       <Wrapper>
-        {console.log(synthSpeaking)}
-
         <SentenceAndSpeakerSelected>
-          <FlexButton onClick={handleClickedSentence} id={sentence_object.uuid}>
-            <Filler></Filler>
-
+          <SentenceDiv
+            onClick={handleClickedSentence}
+            id={sentence_object.uuid}
+          >
             <Sentence>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
-          </FlexButton>
-          <FlexButton onClick={handleTranslatedClickedSentence}>
-            <TranslationButton onClick={handlePlayPauseTranslation}>
-              {synthSpeaking && translationUUID === sentence_object.uuid
-                ? "Pause"
-                : "Play"}
-            </TranslationButton>
+          </SentenceDiv>
+
+          <SentenceDiv onClick={handleTranslatedClickedSentence}>
+            <ButtonDiv>
+              <TranslationButton onClick={handlePlayPauseTranslation}>
+                {synthSpeaking && translationUUID === sentence_object.uuid ? (
+                  <IoIosPause />
+                ) : (
+                  <IoIosPlay />
+                )}
+              </TranslationButton>
+            </ButtonDiv>
 
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </SentenceHighlighted>
-          </FlexButton>
+          </SentenceDiv>
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -175,52 +183,61 @@ function TranscriptSentence({
     return (
       <Wrapper>
         <SentenceAndSpeaker>
-          <Button onClick={handleClickedSentence} id={sentence_object.uuid}>
+          <SentenceDiv
+            onClick={handleClickedSentence}
+            id={sentence_object.uuid}
+          >
             <Sentence>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
-          </Button>
-          <Button onClick={handleTranslatedClickedSentence}>
+          </SentenceDiv>
+          <SentenceDiv onClick={handleTranslatedClickedSentence}>
             <Sentence>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </Sentence>
-          </Button>
+          </SentenceDiv>
         </SentenceAndSpeaker>
       </Wrapper>
     );
   }
 }
 
-const Filler = styled.div`
-  width: 150px;
+const ButtonDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: white;
-  padding: 7px;
+  min-width: 139px;
+  text-align: center;
 `;
 
 const TranslationButton = styled.button`
-  border: 1px;
-  width: 150px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   overflow: hidden;
   z-index: 2;
+  border-radius: 100px;
+  border-color: transparent;
+  color: rgba(92, 115, 196);
+  background-color: rgba(237, 237, 237);
+  :focus {
+    outline: none;
+  }
+  align-self: center;
 `;
 
-const FlexButton = styled.button`
+const SentenceDiv = styled.div`
   display: flex;
-
-  background-color: Transparent;
+  flex-direction: row;
   border: none;
   cursor: pointer;
   overflow: hidden;
   z-index: 1;
-`;
-
-const Button = styled.button`
-  background-color: Transparent;
-  border: none;
-  cursor: pointer;
-  overflow: hidden;
-  z-index: 1;
+  font-family: "Open Sans";
+  font-size: 20px;
+  padding-bottom: 20px;
+  max-width: 900px;
 `;
 
 const Wrapper = styled.div`
@@ -238,32 +255,30 @@ const Speaker = styled.div`
   padding: 10px;
   font-family: "Open Sans";
   font-size: 20px;
-  font-weight: 400;
   /* border-bottom: solid 2px white; */
   color: grey;
 `;
 
 const Sentence = styled.div`
   background-color: white;
-  text-align: left;
-  padding: 10px;
-  font-family: "Open Sans";
-  font-size: 20px;
-  font-weight: 400;
+  padding-left: 150px;
   /* border-bottom: solid 2px white; */
   color: grey;
 `;
 
 const SentenceHighlighted = styled.div`
-  background-color: white;
+  /* background-color: white;
   font-family: "Open Sans";
   font-size: 20px;
-  font-weight: 400;
-  /* border-bottom: solid 2px black; */
+  padding-bottom: 20px;
+  width: 800px;
 
-  text-align: left;
-  padding: 10px;
-  color: black;
+   border-bottom: solid 2px black; 
+
+  padding: 10px; */
+  padding-left: 11px;
+
+  color: rgba(26, 26, 26;
 `;
 
 export default TranscriptSentence;

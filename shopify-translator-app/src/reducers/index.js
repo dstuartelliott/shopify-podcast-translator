@@ -35,7 +35,7 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "MARK_ENGLISH_AS_PLAYING": {
-      console.log("action MARK_ENGLISH_AS_PLAYING");
+      // console.log("action MARK_ENGLISH_AS_PLAYING");
       return {
         ...state,
         translation_playing: false,

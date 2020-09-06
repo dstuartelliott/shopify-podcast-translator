@@ -109,6 +109,35 @@ const newShopifyChain = async () => {
   );
   console.log("done");
 };
+
+const justProduceTextForGentleAlignerFromShopifyTranscript = async (
+  filePath,
+  filePrepend
+) => {
+  const text_file_data = await openTextFilePromise(filePath);
+  let full_sentences = readTranscriptAndReturnFullSentences(text_file_data);
+
+  let filename = filePrepend + "_justwords.txt";
+  // we need this plain text, stripped out file for the gentle aligner
+  fs.writeFile(
+    filename,
+    JSON.stringify(full_sentences.all_words_no_carriage_returns_string),
+    function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(filePrepend + "was saved!");
+    }
+  );
+
+  console.log("done");
+};
+
 // so now we have the original text file and our translated json file, let's make one nice array.};
 
-newShopifyChain();
+//newShopifyChain();
+
+justProduceTextForGentleAlignerFromShopifyTranscript(
+  "Pure_Chimp_Transcript.txt",
+  "Pure_Chimp"
+);

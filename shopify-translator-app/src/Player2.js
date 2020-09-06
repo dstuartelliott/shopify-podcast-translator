@@ -62,7 +62,7 @@ function Player2() {
   }, [translation_timecode_uuid]);
 
   function announceListen(event) {
-    console.log(event.srcElement.currentTime);
+    // console.log(event.srcElement.currentTime);
     let current_time = event.srcElement.currentTime;
     let array_i;
 
@@ -72,7 +72,7 @@ function Player2() {
         uuids_and_times[i].start < event.srcElement.currentTime &&
         uuids_and_times[i].end > event.srcElement.currentTime
       ) {
-        console.log("found");
+        // console.log("found");
         array_i = i;
       }
     }
@@ -150,7 +150,8 @@ function Player2() {
 
 const PlayerDiv = styled.div`
   width: 80%;
-  margin: auto;
+  margin-left: 140px;
+  max-width: 800px;
 `;
 
 const PlayerWrapper = styled.div`
