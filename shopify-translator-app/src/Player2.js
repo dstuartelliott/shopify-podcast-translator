@@ -9,6 +9,7 @@ import {
   addCurrentTime,
   markEnglishAsPlaying,
   recordMP3PlayerState,
+  cancelAllSpeech,
 } from "./actions";
 import {
   getTimeToJumpTo,
@@ -18,6 +19,7 @@ import {
 } from "./reducers";
 import { useSelector } from "react-redux";
 import { PlayerContext } from "./PlayerContext";
+import { SpeechSynthContext } from "./SpeechSynthContext";
 
 function Player2() {
   const dispatch = useDispatch();
@@ -28,6 +30,10 @@ function Player2() {
   let uuids_and_times = useSelector(getUUIDsandTimes);
 
   const audioref = React.useRef(null);
+
+  const {
+    actions: { cancelAllSpeech },
+  } = React.useContext(SpeechSynthContext);
 
   React.useEffect(() => {
     console.log("time to jump to useEffect fired");
@@ -90,7 +96,7 @@ function Player2() {
   function onPlayListen(event) {
     console.log("onPlayListen");
     console.log(event.srcElement.currentTime);
-
+    cancelAllSpeech();
     console.log(uuids_and_times);
 
     let array_i;
@@ -125,17 +131,35 @@ function Player2() {
 
   return (
     <div>
-      <AudioPlayer
-        src="./ep374-healthish_tc.mp3"
-        onPlay={onPlayListen}
-        onListen={announceListen}
-        onPause={onPauseListen}
-        listenInterval={200}
-        ref={audioref}
-        // other props here
-      />
+      <PlayerWrapper>
+        <PlayerDiv>
+          <AudioPlayer
+            src="./ep374-healthish_tc.mp3"
+            onPlay={onPlayListen}
+            onListen={announceListen}
+            onPause={onPauseListen}
+            listenInterval={200}
+            ref={audioref}
+            // other props here
+          />
+        </PlayerDiv>
+      </PlayerWrapper>
     </div>
   );
 }
+
+const PlayerDiv = styled.div`
+  width: 80%;
+  margin: auto;
+`;
+
+const PlayerWrapper = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100px;
+  top: 0px;
+  z-index: 99;
+  background-color: white;
+`;
 
 export default Player2;

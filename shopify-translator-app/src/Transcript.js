@@ -16,6 +16,7 @@ import {
   getTranslationTimeCodeAndUUID,
 } from "./reducers";
 let next_start_time;
+let refs = {};
 
 function Transcript() {
   const playerContext = React.useContext(PlayerContext);
@@ -34,12 +35,33 @@ function Transcript() {
     actions: { updateContextSentenceAndGoodWordCombined },
   } = React.useContext(PlayerBoundariesContext);
 
+  const localRef = React.useRef();
+  const otherRef = React.useRef();
+
+  function handleRefsClick(id) {
+    console.log(id);
+    console.log(refs[id]);
+    var element = document.getElementById(id);
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  }
+
   // React.useEffect(() => {
   //   const interval = setInterval(() => {
   //     console.log(highligherContext.current__play_head_time);
   //   }, 1000);
   //   return () => clearInterval(interval);
   // }, []);
+
+  // const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
+
+  // const myRef = React.useRef();
+  // const otherRef = React.useRef();
+
+  // const executeScroll = () => scrollToRef(myRef);
 
   React.useEffect(() => {
     console.log("Transcript useffect");
@@ -105,6 +127,10 @@ function Transcript() {
 
       console.log(combined.translations);
       dispatch(addTranscript(sentenceAndGoodWordCombined));
+      sentenceAndGoodWordCombined.forEach((sent) => {
+        refs[sent.uuid] = React.createRef();
+      });
+      console.log(refs);
 
       //updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
     }
@@ -143,6 +169,13 @@ function Transcript() {
 
   return (
     <TranscriptWrapper>
+      <button
+        onClick={() => handleRefsClick("168830f2-cbf5-4e32-af9b-dd85cf5ae766")}
+      >
+        {" "}
+        Click to scroll{" "}
+      </button>
+
       <TranscriptList>
         {simplifiedSentences.map((element, i) => {
           // console.log(element.uuid);
@@ -167,7 +200,6 @@ function Transcript() {
           );
         })}
       </TranscriptList>
-
       {/* <TranscriptList>
         {contextSentenceAndGoodWordCombined.map((element, i) => {
           // console.log(element.uuid);
@@ -192,7 +224,6 @@ function Transcript() {
 
 const TranscriptWrapper = styled.div`
   background-color: white;
-  top: 0px;
 `;
 
 const TranscriptList = styled.div`

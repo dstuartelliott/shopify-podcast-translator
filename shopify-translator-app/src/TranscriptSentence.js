@@ -175,7 +175,7 @@ function TranscriptSentence({
     return (
       <Wrapper>
         <SentenceAndSpeaker>
-          <Button onClick={handleClickedSentence}>
+          <Button onClick={handleClickedSentence} id={sentence_object.uuid}>
             <Sentence>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>

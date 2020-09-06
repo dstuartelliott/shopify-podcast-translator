@@ -10,10 +10,6 @@ function App() {
     actions: { playOrPauseSpeechSynth },
   } = React.useContext(SpeechSynthContext);
 
-  function handleSpeechPlayBtn(event) {
-    playOrPauseSpeechSynth();
-  }
-
   React.useEffect(() => {
     console.log("app");
     // speechSynthesis.addEventListener("voiceschanged", function () {
@@ -24,13 +20,21 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <AppDiv className="App">
       <Player2 />
-      <Button onClick={handleSpeechPlayBtn}> French</Button>
+      <Spacer></Spacer>
       <Transcript></Transcript>
-    </div>
+    </AppDiv>
   );
 }
+
+const AppDiv = styled.div``;
+
+const Spacer = styled.div`
+  width: 100%;
+  height: 100px;
+`;
+
 const Button = styled.button`
   background-color: Transparent;
   border: none;
