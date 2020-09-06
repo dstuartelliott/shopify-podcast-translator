@@ -14,6 +14,7 @@ import {
   getUUIDsandTimes,
   getTranslationPlaying,
   getTranslationTimeCodeAndUUID,
+  getEnglishUUID,
 } from "./reducers";
 let next_start_time;
 let refs = {};
@@ -27,7 +28,7 @@ function Transcript() {
 
   let translationPlaying = useSelector(getTranslationPlaying);
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
-
+  let english_uuid = useSelector(getEnglishUUID);
   const [currentUUID, setcurrentUUID] = React.useState("");
 
   const {
@@ -167,15 +168,19 @@ function Transcript() {
     // console.log(current_sentence);
   }, [current_time]);
 
+  React.useEffect(() => {
+    let element = document.getElementById(english_uuid);
+    if (element !== null) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest",
+      });
+    }
+  }, [english_uuid]);
+
   return (
     <TranscriptWrapper>
-      <button
-        onClick={() => handleRefsClick("168830f2-cbf5-4e32-af9b-dd85cf5ae766")}
-      >
-        {" "}
-        Click to scroll{" "}
-      </button>
-
       <TranscriptList>
         {simplifiedSentences.map((element, i) => {
           // console.log(element.uuid);

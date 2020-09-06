@@ -142,6 +142,13 @@ export const getCurrentTime = (state) => {
   }
 };
 
+export const getEnglishUUID = (state) => {
+  //    state.current_time;
+  if (state.english_uuid !== undefined) {
+    return state.english_uuid;
+  }
+};
+
 export const getSynthStateSpeaking = (state) => {
   //    state.current_time;
   if (state.synth !== undefined) {

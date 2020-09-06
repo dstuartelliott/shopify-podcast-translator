@@ -126,7 +126,7 @@ function TranscriptSentence({
     return (
       <Wrapper>
         <SentenceAndSpeakerSelected>
-          <FlexButton onClick={handleClickedSentence}>
+          <FlexButton onClick={handleClickedSentence} id={sentence_object.uuid}>
             <TranslationButton onClick={handlePlayPauseEnglish}>
               {mp3PlayState === "playing" ? "Pause" : "Play"}
             </TranslationButton>
@@ -150,7 +150,7 @@ function TranscriptSentence({
         {console.log(synthSpeaking)}
 
         <SentenceAndSpeakerSelected>
-          <FlexButton onClick={handleClickedSentence}>
+          <FlexButton onClick={handleClickedSentence} id={sentence_object.uuid}>
             <Filler></Filler>
 
             <Sentence>
