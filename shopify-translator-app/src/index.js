@@ -21,15 +21,15 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <SpeechSynthContextProvider>
+      {/* <SpeechSynthContextProvider>
         <HighlighterContextProvider>
           <PlayerBoundariesContextProvider>
-            <PlayerContextProvider>
-              <App />
-            </PlayerContextProvider>
+            <PlayerContextProvider> */}
+      <App />
+      {/* </PlayerContextProvider>
           </PlayerBoundariesContextProvider>
         </HighlighterContextProvider>
-      </SpeechSynthContextProvider>
+      </SpeechSynthContextProvider> */}
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

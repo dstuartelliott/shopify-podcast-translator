@@ -6,9 +6,9 @@ import styled from "styled-components";
 import { SpeechSynthContext } from "./SpeechSynthContext";
 
 function App() {
-  const {
-    actions: { playOrPauseSpeechSynth },
-  } = React.useContext(SpeechSynthContext);
+  // const {
+  //   actions: { playOrPauseSpeechSynth },
+  // } = React.useContext(SpeechSynthContext);
 
   React.useEffect(() => {
     console.log("app");
@@ -21,9 +21,10 @@ function App() {
 
   return (
     <AppDiv className="App">
-      <Player2 />
+      test2
+      {/* <Player2 />
       <Spacer></Spacer>
-      <Transcript></Transcript>
+      <Transcript></Transcript> */}
     </AppDiv>
   );
 }

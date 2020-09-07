@@ -110,6 +110,56 @@ const newShopifyChain = async () => {
   console.log("done");
 };
 
+const combineTranslatedAndOriginalIntoFinalDoc = async (
+  transcriptFile,
+  translationsFile,
+  filePrepend
+) => {
+  const text_file_data = await openTextFilePromise(transcriptFile);
+  let full_sentences = readTranscriptAndReturnFullSentences(text_file_data);
+
+  const get_translations = await openFilePromise(translationsFile);
+
+  let translations = JSON.parse(get_translations);
+
+  // note that this only works because the sentence count exactly mathches in both the translated text and original text transcription.
+  let combined_speakers_and_translations = [];
+  translations.forEach((translation_obj, i) => {
+    let new_translation_object = {
+      speaker: full_sentences.speakers_only[i],
+      ...translation_obj,
+    };
+    combined_speakers_and_translations.push(new_translation_object);
+  });
+
+  let just_words_filename = filePrepend + "justwords.txt";
+  // we need this plain text, stripped out file for the gentle aligner
+  fs.writeFile(
+    just_words_filename,
+    JSON.stringify(full_sentences.all_words_no_carriage_returns_string),
+    function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(just_words_filename + " was saved!");
+    }
+  );
+  let combined_filename =
+    filePrepend + "combined_speakers_and_translations.json";
+
+  fs.writeFile(
+    combined_filename,
+    JSON.stringify(combined_speakers_and_translations),
+    function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(combined_filename + "was saved!");
+    }
+  );
+  console.log("done");
+};
+
 const justProduceTextForGentleAlignerFromShopifyTranscript = async (
   filePath,
   filePrepend
@@ -137,7 +187,13 @@ const justProduceTextForGentleAlignerFromShopifyTranscript = async (
 
 //newShopifyChain();
 
-justProduceTextForGentleAlignerFromShopifyTranscript(
+// justProduceTextForGentleAlignerFromShopifyTranscript(
+//   "Pure_Chimp_Transcript.txt",
+//   "Pure_Chimp"
+// );
+
+combineTranslatedAndOriginalIntoFinalDoc(
   "Pure_Chimp_Transcript.txt",
-  "Pure_Chimp"
+  "pure_chimpsentences_and_translations_shopify_fr.json",
+  "pure_chimp_"
 );

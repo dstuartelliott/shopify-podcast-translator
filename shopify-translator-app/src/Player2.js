@@ -128,13 +128,15 @@ function Player2() {
 
     console.log(event);
   }
-
   return (
     <div>
       <PlayerWrapper>
         <PlayerDiv>
           <AudioPlayer
-            src="./ep374-healthish_tc.mp3"
+            // src="./ep374-healthish_tc.mp3"
+            // src="https://cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3
+            // "
+            src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
             onPlay={onPlayListen}
             onListen={announceListen}
             onPause={onPauseListen}
