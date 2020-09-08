@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import styled from "styled-components";
 import { PlayerContext } from "./PlayerContext";
@@ -156,16 +155,6 @@ function Transcript() {
         markEnglishAsPlaying(current_time, uuids_and_times[array_i].uuid)
       );
     }
-
-    // let current_sentence = uuids_and_times.filter(
-    //   (s) => s.start < current_time && s.end > current_time
-    // );
-    // // console.log(current_sentence);
-    // // console.log(uuids_and_times);
-    // if (current_sentence[0] !== undefined) {
-    //   setcurrentUUID(current_sentence[0].uuid);
-    // }
-    // console.log(current_sentence);
   }, [current_time]);
 
   React.useEffect(() => {

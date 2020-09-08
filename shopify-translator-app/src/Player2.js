@@ -9,23 +9,14 @@ import {
   addCurrentTime,
   markEnglishAsPlaying,
   recordMP3PlayerState,
-  cancelAllSpeech,
 } from "./actions";
-import {
-  getTimeToJumpTo,
-  getUUIDsandTimes,
-  getTranslationPlaying,
-  getTranslationTimeCodeAndUUID,
-} from "./reducers";
+import { getTimeToJumpTo, getUUIDsandTimes } from "./reducers";
 import { useSelector } from "react-redux";
-import { PlayerContext } from "./PlayerContext";
 import { SpeechSynthContext } from "./SpeechSynthContext";
 
 function Player2() {
   const dispatch = useDispatch();
   let timeToJumpTo = useSelector(getTimeToJumpTo);
-  let isTranslationPlaying = useSelector(getTranslationPlaying);
-  let translation_timecode_uuid = useSelector(getTranslationTimeCodeAndUUID);
 
   let uuids_and_times = useSelector(getUUIDsandTimes);
 
@@ -50,7 +41,7 @@ function Player2() {
       audioref.current.audio.current.play();
       dispatch(jumpToTime(-1.0));
     }
-  }, [timeToJumpTo]);
+  }, [timeToJumpTo, dispatch]);
 
   // React.useEffect(() => {
   //   if (isTranslationPlaying) {

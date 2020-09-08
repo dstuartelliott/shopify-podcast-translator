@@ -4,10 +4,6 @@ var voices = speechSynthesis.getVoices();
 let french_voice = voices.filter((v) => v.lang === "fr-CA");
 let speechUtterance = "";
 export const PlayerContextProvider = ({ children }) => {
-  let [speechPhrase, setSpeechPhrase] = React.useState();
-
-  const [status, setStatus] = React.useState(null);
-
   const getSpeechPhrase = () => {
     return speechUtterance;
   };
@@ -101,8 +97,6 @@ export const PlayerContextProvider = ({ children }) => {
         getTranslateTextPromise,
         getCombined,
         speakFrench,
-        status,
-        speechPhrase,
         setSpeechPhraseFunc,
         speechUtterance,
         speakFrenchForStoredContextUtterance,

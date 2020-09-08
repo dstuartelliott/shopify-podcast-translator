@@ -1,38 +1,25 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import styled from "styled-components";
-import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
-import { HighlighterContext } from "./HighlighterContext";
 import { SpeechSynthContext } from "./SpeechSynthContext";
 import { IoIosPlay, IoIosPause } from "react-icons/io";
-
-import { LANGUAGES } from "./constants";
 
 import {
   jumpToTime,
   markTranslationAsPlaying,
   markTranslationAsDonePlaying,
   markEnglishAsPlaying,
-  markTranslationAsDonePlayingPaused,
 } from "./actions";
 import { useSelector } from "react-redux";
 
 import {
-  getTranslationPlaying,
   getSynthStateSpeaking,
   getTranslationTimeCodeAndUUID,
-  getTypePlaying,
   getMP3PlayerState,
   getCurrentTime,
 } from "./reducers";
 
 import { useDispatch } from "react-redux";
-var voices = speechSynthesis.getVoices();
-let french_voice = voices.filter((v) => v.lang === "fr-CA");
-
-let highlighted_french = false;
-let highlighted_english = false;
 
 function TranscriptSentence({
   sentence_object,
@@ -43,9 +30,6 @@ function TranscriptSentence({
   uuidHighlighted,
 }) {
   const dispatch = useDispatch();
-  let translationPlaying = useSelector(getTranslationPlaying);
-
-  let typePlaying = useSelector(getTypePlaying);
 
   let synthSpeaking = useSelector(getSynthStateSpeaking);
   let translationUUID = useSelector(getTranslationTimeCodeAndUUID).uuid;
@@ -53,14 +37,6 @@ function TranscriptSentence({
   let curentTime = useSelector(getCurrentTime);
 
   let mp3PlayState = useSelector(getMP3PlayerState);
-  const {
-    actions: { jumpToEnglishSentenceFromUUID, setUuidToHighLight, playSpeech },
-  } = React.useContext(PlayerBoundariesContext);
-
-  const {
-    state: { uuidHighlightedIndivContext },
-    actions: { updateUUID },
-  } = React.useContext(HighlighterContext);
 
   const {
     actions: {
@@ -69,23 +45,6 @@ function TranscriptSentence({
       playOrPauseSpeechSynth,
     },
   } = React.useContext(SpeechSynthContext);
-
-  React.useEffect(() => {
-    highlighted_french = false;
-    highlighted_english = false;
-
-    console.log(highlightedLang);
-    if (highlightedLang === "french") {
-      console.log("HIGHLIGHTING FRENCH");
-      highlighted_french = true;
-    }
-    if (highlightedLang === "english") {
-      console.log("HIGHLIGHTING ENGLISH");
-
-      highlighted_english = true;
-    }
-    // console.log({ uuidHighlightedIndivContext });
-  }, []);
 
   function handleClickedSentence(event) {
     console.log(event);
@@ -249,15 +208,15 @@ const SentenceAndSpeaker = styled.div``;
 
 const SentenceAndSpeakerSelected = styled.div``;
 
-const Speaker = styled.div`
-  background-color: white;
-  text-align: left;
-  padding: 10px;
-  font-family: "Open Sans";
-  font-size: 20px;
-  /* border-bottom: solid 2px white; */
-  color: grey;
-`;
+// const Speaker = styled.div`
+//   background-color: white;
+//   text-align: left;
+//   padding: 10px;
+//   font-family: "Open Sans";
+//   font-size: 20px;
+//   /* border-bottom: solid 2px white; */
+//   color: grey;
+// `;
 
 const Sentence = styled.div`
   background-color: white;

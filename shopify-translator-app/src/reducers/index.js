@@ -61,13 +61,6 @@ export default function appReducer(state = initialState, action) {
       };
     }
 
-    case "MARK_TRANSLATION_AS_DONE_PLAYING_PAUSED": {
-      return {
-        ...state,
-        translation_playing: false,
-      };
-    }
-
     case "RECORD_MP3_PLAYER_START": {
       return {
         ...state,

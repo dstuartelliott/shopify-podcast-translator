@@ -2,12 +2,9 @@ import React, { createContext } from "react";
 import { useDispatch } from "react-redux";
 import {
   jumpToTime,
-  markTranslationAsPlaying,
   markTranslationAsDonePlaying,
-  markTranslationAsDonePlayingPaused,
   updateSpeechSynthState,
 } from "./actions";
-import { combineReducers } from "redux";
 
 let voices = speechSynthesis.getVoices();
 console.log(voices);
@@ -67,6 +64,7 @@ export const SpeechSynthContextProvider = ({ children }) => {
             dispatch(markTranslationAsDonePlaying());
             // dispatch(jumpToTime(sentence_object.next_start_time));
           }, 1000);
+          console.log(timer);
         }
       };
 
@@ -115,6 +113,7 @@ export const SpeechSynthContextProvider = ({ children }) => {
           // jump to the next one, but this is confusing from a user perspective.
           // dispatch(jumpToTime(sentence_object.next_start_time));
         }, 1000);
+        console.log(timer);
       }
     };
 
