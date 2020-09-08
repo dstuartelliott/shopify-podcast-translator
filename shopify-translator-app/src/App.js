@@ -19,7 +19,7 @@ function App() {
   }, []);
 
   if (isMobile) {
-    return <div> This content is unavailable on mobile</div>;
+    return <div> Mobile version coming soon (like, in a day) </div>;
   } else {
     return (
       <AppDiv className="App">
