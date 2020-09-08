@@ -7,7 +7,7 @@ import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { isMobile } from "react-device-detect";
-
+import ScrollableText from "./ScrollableText.js";
 function App() {
   React.useEffect(() => {
     console.log("app");
@@ -27,7 +27,9 @@ function App() {
 
         <AppProvider i18n={enTranslations}>
           <Player2 />
-          <Transcript></Transcript>
+
+          {/* <ScrollableText></ScrollableText> */}
+          {/* <Transcript></Transcript> */}
         </AppProvider>
       </AppDiv>
     );

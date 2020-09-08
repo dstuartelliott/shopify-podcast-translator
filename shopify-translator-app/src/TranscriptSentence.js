@@ -80,30 +80,37 @@ function TranscriptSentence({
     event.stopPropagation();
   }
 
+  let buttonSize = 15;
   // this might look ugly, but it's better than a bunch of nesteed ternary statements imho
   // also, I originally had a Button instead of the  SentenceDiv, but then I got a react warning about nesteed buttons so I've opted
   if (englishHighlighted) {
     return (
       <Wrapper>
         <SentenceAndSpeakerSelected>
-          <SentenceDiv
+          <SentencePlayingDiv
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
           >
-            <ButtonDiv>
+            <ButtonDiv
+              style={{ justiftyContent: "center", alignItems: "center" }}
+            >
               <TranslationButton onClick={handlePlayPauseEnglish}>
-                {mp3PlayState === "playing" ? <IoIosPause /> : <IoIosPlay />}
+                {mp3PlayState === "playing" ? (
+                  <IoIosPause size={buttonSize} />
+                ) : (
+                  <IoIosPlay size={buttonSize} />
+                )}
               </TranslationButton>
             </ButtonDiv>
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </SentenceHighlighted>
-          </SentenceDiv>
-          <SentenceDiv onClick={handleTranslatedClickedSentence}>
+          </SentencePlayingDiv>
+          <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
             <Sentence>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </Sentence>
-          </SentenceDiv>
+          </SentencePlayingDiv>
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -111,22 +118,22 @@ function TranscriptSentence({
     return (
       <Wrapper>
         <SentenceAndSpeakerSelected>
-          <SentenceDiv
+          <SentencePlayingDiv
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
           >
             <Sentence>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
-          </SentenceDiv>
+          </SentencePlayingDiv>
 
-          <SentenceDiv onClick={handleTranslatedClickedSentence}>
+          <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
             <ButtonDiv>
               <TranslationButton onClick={handlePlayPauseTranslation}>
                 {synthSpeaking && translationUUID === sentence_object.uuid ? (
-                  <IoIosPause />
+                  <IoIosPause size={buttonSize} />
                 ) : (
-                  <IoIosPlay />
+                  <IoIosPlay size={buttonSize} />
                 )}
               </TranslationButton>
             </ButtonDiv>
@@ -134,7 +141,7 @@ function TranscriptSentence({
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </SentenceHighlighted>
-          </SentenceDiv>
+          </SentencePlayingDiv>
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -171,15 +178,14 @@ const ButtonDiv = styled.div`
 `;
 
 const TranslationButton = styled.button`
-  width: 40px;
-  height: 40px;
   cursor: pointer;
+
   overflow: hidden;
-  z-index: 2;
-  border-radius: 100px;
+  z-index: 200;
+  border-radius: 25px;
   border-color: transparent;
   color: rgba(92, 115, 196);
-  background-color: rgba(237, 237, 237);
+  background-color: transparent;
   :focus {
     outline: none;
   }
@@ -191,7 +197,16 @@ const SentenceDiv = styled.div`
   flex-direction: row;
   border: none;
   cursor: pointer;
-  overflow: hidden;
+  z-index: 1;
+  padding-bottom: 20px;
+  max-width: 900px;
+`;
+
+const SentencePlayingDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  border: none;
+  cursor: pointer;
   z-index: 1;
   padding-bottom: 20px;
   max-width: 900px;
@@ -213,9 +228,10 @@ const Sentence = styled.div`
 `;
 
 const SentenceHighlighted = styled.div`
+  background-color: white;
   padding-left: 11px;
 
-  color: rgba(26, 26, 26;
+  color: rgba(26, 26, 26);
 `;
 
 export default TranscriptSentence;

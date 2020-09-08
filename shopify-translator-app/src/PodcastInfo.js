@@ -62,7 +62,7 @@ const PodcastInfoWrapper = styled.div`
   max-width: 780px;
   min-width: 650px;
 
-  background-color: white;
+  background-color: transparent;
   margin-left: 140px;
   padding: 10px;
   border: 2px solid #eec200;

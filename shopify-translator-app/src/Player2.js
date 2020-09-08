@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components";
-import AudioPlayer from "react-h5-audio-player";
+import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { useDispatch } from "react-redux";
 import PodcastInfo from "./PodcastInfo.js";
@@ -15,6 +15,7 @@ import {
 import { getTimeToJumpTo, getUUIDsandTimes } from "./reducers";
 import { useSelector } from "react-redux";
 import { SpeechSynthContext } from "./SpeechSynthContext";
+import Transcript from "./Transcript";
 
 function Player2() {
   const dispatch = useDispatch();
@@ -132,15 +133,20 @@ function Player2() {
             // src="./ep374-healthish_tc.mp3"
             // src="https://cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3
             // "
+
+            // controls here: https://static.hanzluo.com/react-h5-audio-player-storybook/index.html?path=/docs/layouts--default-story
             src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
             onPlay={onPlayListen}
             onListen={announceListen}
             onPause={onPauseListen}
             listenInterval={200}
             ref={audioref}
+            customAdditionalControls={[]}
+
             // other props here
           />
         </PlayerDiv>
+        <Transcript></Transcript>
       </PlayerWrapper>
     </div>
   );
@@ -154,12 +160,11 @@ const PlayerDiv = styled.div`
 `;
 
 const PlayerWrapper = styled.div`
-  position: fixed;
+  /* position: fixed;
   width: 100%;
-  height: 320px;
   top: 0px;
   z-index: 99;
-  background-color: white;
+  background-color: transparent; */
 `;
 
 export default Player2;
