@@ -193,8 +193,6 @@ const SentenceDiv = styled.div`
   cursor: pointer;
   overflow: hidden;
   z-index: 1;
-  font-family: "Open Sans";
-  font-size: 20px;
   padding-bottom: 20px;
   max-width: 900px;
 `;
@@ -208,33 +206,13 @@ const SentenceAndSpeaker = styled.div``;
 
 const SentenceAndSpeakerSelected = styled.div``;
 
-// const Speaker = styled.div`
-//   background-color: white;
-//   text-align: left;
-//   padding: 10px;
-//   font-family: "Open Sans";
-//   font-size: 20px;
-//   /* border-bottom: solid 2px white; */
-//   color: grey;
-// `;
-
 const Sentence = styled.div`
   background-color: white;
   padding-left: 150px;
-  /* border-bottom: solid 2px white; */
   color: grey;
 `;
 
 const SentenceHighlighted = styled.div`
-  /* background-color: white;
-  font-family: "Open Sans";
-  font-size: 20px;
-  padding-bottom: 20px;
-  width: 800px;
-
-   border-bottom: solid 2px black; 
-
-  padding: 10px; */
   padding-left: 11px;
 
   color: rgba(26, 26, 26;

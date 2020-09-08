@@ -4,6 +4,8 @@ import styled from "styled-components";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { useDispatch } from "react-redux";
+import PodcastInfo from "./PodcastInfo.js";
+
 import {
   jumpToTime,
   addCurrentTime,
@@ -137,6 +139,7 @@ function Player2() {
             // other props here
           />
         </PlayerDiv>
+        <PodcastInfo />
       </PlayerWrapper>
     </div>
   );
@@ -151,7 +154,7 @@ const PlayerDiv = styled.div`
 const PlayerWrapper = styled.div`
   position: fixed;
   width: 100%;
-  height: 100px;
+  height: 140px;
   top: 0px;
   z-index: 99;
   background-color: white;
