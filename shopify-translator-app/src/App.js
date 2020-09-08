@@ -19,7 +19,16 @@ function App() {
   }, []);
 
   if (isMobile) {
-    return <div> Mobile site coming soon! Soon as in one day.</div>;
+    return (
+      <div>
+        Mobile site coming soon! Soon as in one day. In the meantime, check out
+        the{" "}
+        <a href={"https://david-elliott-shopify-portfolio.netlify.app/"}>
+          story
+        </a>{" "}
+        of how I made it.
+      </div>
+    );
   } else {
     return (
       <AppDiv className="App">
