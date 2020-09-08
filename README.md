@@ -25,6 +25,6 @@ Some other interesting tidbits behind the making of this app -
 - It's a little incomplete. There can be some weird behaviour because of state jumps. However, considering that the assigned challenges were limited in scope, I figure a bit of incompleteness for the application project is acceptable.
 - This will be my graduation project for my Bootcamp, so I intend to expand it quite a bit! There's no reason I can't add more languages, or explore searching the text, or add meta-data from others APIs, etc.
 
-Please note that the correct branch is the "Redux" branch - not Master.  
+Please note that the correct branch is the "Redux" branch - not Master.  Which you are on!
 
 
