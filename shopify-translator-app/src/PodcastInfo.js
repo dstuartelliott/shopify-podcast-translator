@@ -7,9 +7,7 @@ function PodcastInfo() {
       <PodcastImageTitle>
         <HeroImg image_source={HeroSrc}></HeroImg>
         <PodcastTitle>
-          <displayXlarge>
-            The Pre-Launch Strategies of a Million-Dollar Brand
-          </displayXlarge>
+          The Pre-Launch Strategies of a Million-Dollar Brand
         </PodcastTitle>
       </PodcastImageTitle>
       <PodcastText>
@@ -32,7 +30,7 @@ const HeroImg = styled.div`
   background-image: url("${(props) => props.image_source}");
   height: 100px;
   width: 250px;
-  background-position: middle;
+  background-position: right;
   background-size: cover;
   background-repeat: no-repeat;
 `;
@@ -45,6 +43,16 @@ const PodcastImageTitle = styled.div`
 const PodcastTitle = styled.div`
   text-align: left;
   padding: 20px;
+
+  font-size: 27px;
+  line-height: 36px;
+  font-weight: 500;
+
+  @media (max-width: 800px) {
+    font-size: 27px;
+    line-height: 36px;
+    font-weight: 500;
+  }
 `;
 
 const PodcastInfoWrapper = styled.div`

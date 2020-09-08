@@ -14,6 +14,9 @@ import {
   getTranslationTimeCodeAndUUID,
   getEnglishUUID,
 } from "./reducers";
+
+import SpinnerJustKF from "./SpinnerJustKF";
+
 let refs = {};
 
 function Transcript() {
@@ -27,9 +30,11 @@ function Transcript() {
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
   let english_uuid = useSelector(getEnglishUUID);
   const [currentUUID, setcurrentUUID] = React.useState("");
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
   React.useEffect(() => {
     console.log("Transcript useffect");
+
     async function getTranscriptSentences() {
       let combined = await playerContext.getCombined();
 
@@ -82,6 +87,8 @@ function Transcript() {
             // isHighlighted: false,
             // highlightedLang: "none",
           });
+
+          setIsLoaded(true);
         }
       });
 
@@ -134,55 +141,96 @@ function Transcript() {
     }
   }, [english_uuid]);
 
-  return (
-    <TranscriptWrapper>
-      <Spacer></Spacer>
+  if (isLoaded === false) {
+    console.log({ isLoaded });
+    return (
+      <Loading>
+        <LoadingFlex>
+          <LoadingSpinner>
+            <SpinnerJustKF></SpinnerJustKF>
+          </LoadingSpinner>
+          <LoadingText>
+            Loading up{" "}
+            <a href={"https://www.justheard.ca:8000/returnCombined"}>
+              transcript.
+            </a>
+          </LoadingText>
+        </LoadingFlex>
+      </Loading>
+    );
+  } else {
+    console.log(isLoaded);
 
-      <TranscriptList>
-        {simplifiedSentences.map((element, i) => {
-          // console.log(element.uuid);
-          // console.log(uuidToHighLight);
-          return (
-            <TranscriptItem>
-              <TranscriptSentence
-                sentence_object={element}
-                key={element.uuid}
-                englishHighlighted={
-                  element.uuid === currentUUID && translationPlaying === false
-                }
-                translatedHightlighted={
-                  element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying
-                }
-                next_start_time={element.next_start_time}
-                // highlightedLang={element.highlightedLang}
-                // uuidHighlighted={uuidHighlighted}
-              ></TranscriptSentence>
-            </TranscriptItem>
-          );
-        })}
-      </TranscriptList>
-      {/* <TranscriptList>
-        {contextSentenceAndGoodWordCombined.map((element, i) => {
-          // console.log(element.uuid);
-          // console.log(uuidToHighLight);
+    return (
+      <TranscriptWrapper>
+        <Spacer></Spacer>
 
-          return (
-            <TranscriptItem>
-              <TranscriptSentence
-                sentence_object={element}
-                key={element.uuid}
-                highlighted={element.isHighlighted}
-                highlightedLang={element.highlightedLang}
-                uuidHighlighted={uuidHighlighted}
-              ></TranscriptSentence>
-            </TranscriptItem>
-          );
-        })}
-      </TranscriptList> */}
-    </TranscriptWrapper>
-  );
+        <TranscriptList>
+          {simplifiedSentences.map((element, i) => {
+            // console.log(element.uuid);
+            // console.log(uuidToHighLight);
+            return (
+              <TranscriptItem>
+                <TranscriptSentence
+                  sentence_object={element}
+                  key={element.uuid}
+                  englishHighlighted={
+                    element.uuid === currentUUID && translationPlaying === false
+                  }
+                  translatedHightlighted={
+                    element.uuid === translationTimeCodeUUID.uuid &&
+                    translationPlaying
+                  }
+                  next_start_time={element.next_start_time}
+                  // highlightedLang={element.highlightedLang}
+                  // uuidHighlighted={uuidHighlighted}
+                ></TranscriptSentence>
+              </TranscriptItem>
+            );
+          })}
+        </TranscriptList>
+
+        {/* <TranscriptList>
+          {contextSentenceAndGoodWordCombined.map((element, i) => {
+            // console.log(element.uuid);
+            // console.log(uuidToHighLight);
+  
+            return (
+              <TranscriptItem>
+                <TranscriptSentence
+                  sentence_object={element}
+                  key={element.uuid}
+                  highlighted={element.isHighlighted}
+                  highlightedLang={element.highlightedLang}
+                  uuidHighlighted={uuidHighlighted}
+                ></TranscriptSentence>
+              </TranscriptItem>
+            );
+          })}
+        </TranscriptList> */}
+      </TranscriptWrapper>
+    );
+  }
 }
+const LoadingSpinner = styled.div`
+  padding-left: 160px;
+`;
+
+const LoadingText = styled.div`
+  text-align: center;
+`;
+
+const LoadingFlex = styled.div`
+  padding-top: 40px;
+`;
+
+const Loading = styled.div`
+  position: relative;
+  top: 350px;
+  height: 300px;
+  width: 400px;
+  margin-left: 350px;
+`;
 
 const Spacer = styled.div`
   width: 100%;
