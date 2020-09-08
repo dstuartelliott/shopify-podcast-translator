@@ -24,7 +24,8 @@ function PodcastInfo() {
 }
 
 const PodcastText = styled.div`
-  padding-top: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 `;
 
 const HeroImg = styled.div`
@@ -42,7 +43,7 @@ const PodcastImageTitle = styled.div`
 `;
 
 const PodcastTitle = styled.div`
-  text-align: center;
+  text-align: left;
   padding: 20px;
 `;
 
