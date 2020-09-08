@@ -22,7 +22,6 @@ function App() {
       <GlobalStyles></GlobalStyles>
       <AppProvider i18n={enTranslations}>
         <Player2 />
-        <Spacer></Spacer>
         <Transcript></Transcript>
       </AppProvider>
     </AppDiv>
@@ -31,14 +30,8 @@ function App() {
 
 const AppDiv = styled.div``;
 
-const Spacer = styled.div`
-  width: 100%;
-  height: 140px;
-`;
-
 const GlobalStyles = createGlobalStyle`
   * {
-    font-family: 'Lato', sans-serif;
 
   }
 
@@ -68,9 +61,13 @@ nav
 
 displayXlarge
 {
-  font-size: 42px;
+  /* font-size: 42px;
   line-height: 44px;
-  font-weight: 500;
+  font-weight: 500; */
+
+  font-size: 27px;
+    line-height: 36px;
+    font-weight: 500;
 
   @media (max-width: 800px) {
     font-size: 27px;
@@ -143,18 +140,6 @@ text-transform: uppercase;
 line-height: 16px;
 font-weight: 600;
 text-transform: uppercase;
-    }
-}
-body
-{
-  font-size: 14px;
-line-height: 20px;
-font-weight: 400;
-
-  @media (max-width: 800px) {
-    font-size: 15px;
-line-height: 20px;
-font-weight: 400;
     }
 }
 

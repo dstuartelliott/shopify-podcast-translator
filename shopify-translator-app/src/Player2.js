@@ -125,6 +125,8 @@ function Player2() {
   return (
     <div>
       <PlayerWrapper>
+        <PodcastInfo />
+
         <PlayerDiv>
           <AudioPlayer
             // src="./ep374-healthish_tc.mp3"
@@ -139,7 +141,6 @@ function Player2() {
             // other props here
           />
         </PlayerDiv>
-        <PodcastInfo />
       </PlayerWrapper>
     </div>
   );
@@ -148,13 +149,14 @@ function Player2() {
 const PlayerDiv = styled.div`
   width: 80%;
   margin-left: 140px;
-  max-width: 800px;
+  width: 800px;
+  padding-top: 10px;
 `;
 
 const PlayerWrapper = styled.div`
   position: fixed;
   width: 100%;
-  height: 140px;
+  height: 320px;
   top: 0px;
   z-index: 99;
   background-color: white;

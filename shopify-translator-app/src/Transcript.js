@@ -123,17 +123,21 @@ function Transcript() {
 
   React.useEffect(() => {
     let element = document.getElementById(english_uuid);
-    if (element !== null) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "nearest",
-      });
+    console.log(english_uuid);
+    if (english_uuid !== "c50b4669-de43-4277-9c0f-38bb0453d1d8") {
+      if (element !== null) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
     }
   }, [english_uuid]);
 
   return (
     <TranscriptWrapper>
+      <Spacer></Spacer>
+
       <TranscriptList>
         {simplifiedSentences.map((element, i) => {
           // console.log(element.uuid);
@@ -179,6 +183,11 @@ function Transcript() {
     </TranscriptWrapper>
   );
 }
+
+const Spacer = styled.div`
+  width: 100%;
+  height: 340px;
+`;
 
 const TranscriptWrapper = styled.div`
   background-color: white;
