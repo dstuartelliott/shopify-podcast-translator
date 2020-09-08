@@ -7,28 +7,10 @@ import { isMobile } from "react-device-detect";
 function PodcastInfo() {
   // fake mobile
   if (isMobile) {
-    return (
-      <Wrapper>
-        <PodcastInfoSectionMB>
-          <PodcastImageTitleMB>
-            <HeroImgMB image_source={HeroSrc}></HeroImgMB>
-            <PodcastTitleMB>
-              The Pre-Launch Strategies of a Million-Dollar Brand
-            </PodcastTitleMB>
-          </PodcastImageTitleMB>
-          <PodcastTextMB>
-            Making it easier to keep track of daily hydration goals, Emily Chong
-            and Nathan Chan started Healthish and created sleek water bottles
-            with timestamps. In this episode of Shopify Masters, we chat with
-            Nathan and Emily on product development and building their business
-            through influencer marketing.
-          </PodcastTextMB>
-        </PodcastInfoSectionMB>
-      </Wrapper>
-    );
+    return <div>mobile</div>;
   } else
     return (
-      <PodcastInfoSection>
+      <PodcastInfoWrapper>
         <PodcastImageTitle>
           <HeroImg image_source={HeroSrc}></HeroImg>
           <PodcastTitle>
@@ -42,57 +24,9 @@ function PodcastInfo() {
           and Emily on product development and building their business through
           influencer marketing.
         </PodcastText>
-      </PodcastInfoSection>
+      </PodcastInfoWrapper>
     );
 }
-
-//Mobile
-const Wrapper = styled.div`
-  padding-top: 20px;
-`;
-
-const PodcastInfoSectionMB = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  max-width: 80%;
-  background-color: transparent;
-  padding: 10px;
-  border: 2px solid #eec200;
-  border-radius: 6px;
-  margin: auto;
-`;
-
-const PodcastImageTitleMB = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const HeroImgMB = styled.div`
-  background-image: url("${(props) => props.image_source}");
-  height: 100px;
-  width: 250px;
-  background-position: left;
-  background-size: cover;
-  background-repeat: no-repeat;
-`;
-
-const PodcastTitleMB = styled.div`
-  text-align: left;
-  padding-top: 10px;
-
-  font-size: 27px;
-  line-height: 36px;
-  font-weight: 500;
-`;
-
-const PodcastTextMB = styled.div`
-  padding-top: 5px;
-  padding-bottom: 5px;
-`;
-
-// Desktop
 
 const PodcastText = styled.div`
   padding-top: 5px;
@@ -128,7 +62,7 @@ const PodcastTitle = styled.div`
   }
 `;
 
-const PodcastInfoSection = styled.div`
+const PodcastInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
