@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
+import { isMobile } from "react-device-detect";
 
 function App() {
   React.useEffect(() => {
@@ -17,15 +18,19 @@ function App() {
     // });
   }, []);
 
-  return (
-    <AppDiv className="App">
-      <GlobalStyles></GlobalStyles>
-      <AppProvider i18n={enTranslations}>
-        <Player2 />
-        <Transcript></Transcript>
-      </AppProvider>
-    </AppDiv>
-  );
+  if (isMobile) {
+    return <div> Mobile site coming soon! Soon as in one day.</div>;
+  } else {
+    return (
+      <AppDiv className="App">
+        <GlobalStyles></GlobalStyles>
+        <AppProvider i18n={enTranslations}>
+          <Player2 />
+          <Transcript></Transcript>
+        </AppProvider>
+      </AppDiv>
+    );
+  }
 }
 
 const AppDiv = styled.div``;

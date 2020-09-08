@@ -12,16 +12,17 @@ import { SpeechSynthContextProvider } from "./SpeechSynthContext";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducers";
+import { isMobile } from "react-device-detect";
 
 const store = createStore(
   reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <SpeechSynthContextProvider>
+if (isMobile) {
+  ReactDOM.render(
+    <React.StrictMode>
+      <Provider store={store}>
         <HighlighterContextProvider>
           <PlayerBoundariesContextProvider>
             <PlayerContextProvider>
@@ -29,11 +30,28 @@ ReactDOM.render(
             </PlayerContextProvider>
           </PlayerBoundariesContextProvider>
         </HighlighterContextProvider>
-      </SpeechSynthContextProvider>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+      </Provider>
+    </React.StrictMode>,
+    document.getElementById("root")
+  );
+} else {
+  ReactDOM.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <SpeechSynthContextProvider>
+          <HighlighterContextProvider>
+            <PlayerBoundariesContextProvider>
+              <PlayerContextProvider>
+                <App />
+              </PlayerContextProvider>
+            </PlayerBoundariesContextProvider>
+          </HighlighterContextProvider>
+        </SpeechSynthContextProvider>
+      </Provider>
+    </React.StrictMode>,
+    document.getElementById("root")
+  );
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
