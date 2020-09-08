@@ -52,14 +52,14 @@ function Player2() {
     }
   }, [timeToJumpTo]);
 
-  React.useEffect(() => {
-    if (isTranslationPlaying) {
-      if (translation_timecode_uuid.timecode > 0) {
-        audioref.current.audio.current.currentTime =
-          translation_timecode_uuid.timecode;
-      }
-    }
-  }, [translation_timecode_uuid]);
+  // React.useEffect(() => {
+  //   if (isTranslationPlaying) {
+  //     if (translation_timecode_uuid.timecode > 0) {
+  //       audioref.current.audio.current.currentTime =
+  //         translation_timecode_uuid.timecode;
+  //     }
+  //   }
+  // }, [translation_timecode_uuid]);
 
   function announceListen(event) {
     // console.log(event.srcElement.currentTime);
