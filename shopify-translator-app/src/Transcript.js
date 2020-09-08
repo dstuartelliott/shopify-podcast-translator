@@ -128,18 +128,6 @@ function Transcript() {
     // eslint-disable-next-line
   }, [current_time]);
 
-  function ScrollToBottom() {
-    let element = document.getElementById(
-      "ddcec5dc-f824-4a60-94d1-30aa6e841b28"
-    );
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-    console.log(element);
-    console.log("ScrollToBottom");
-  }
-
   React.useEffect(() => {
     let element = document.getElementById(english_uuid);
     console.log(english_uuid);
@@ -241,11 +229,6 @@ const Loading = styled.div`
   height: 300px;
   width: 400px;
   margin-left: 350px;
-`;
-
-const Spacer = styled.div`
-  width: 100%;
-  height: 340px;
 `;
 
 const Line = styled.div`

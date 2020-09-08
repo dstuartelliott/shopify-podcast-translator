@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import Player2 from "./Player2.js";
-import Transcript from "./Transcript.js";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
