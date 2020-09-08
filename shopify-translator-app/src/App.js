@@ -3,6 +3,7 @@ import "./App.css";
 import Player2 from "./Player2.js";
 import Transcript from "./Transcript.js";
 import styled from "styled-components";
+import PodcastInfo from "./PodcastInfo.js";
 
 function App() {
   React.useEffect(() => {
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <AppDiv className="App">
+      <PodcastInfo />
       <Player2 />
       <Spacer></Spacer>
       <Transcript></Transcript>
