@@ -1,6 +1,6 @@
 # shopify-podcast-translator
 
-Check it out -->
+Check it out the app in action! -->
 https://david-elliott-shopify-personal-project.netlify.app/
 
 
