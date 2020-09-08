@@ -35,7 +35,6 @@ function App() {
         <GlobalStyles></GlobalStyles>
         <AppProvider i18n={enTranslations}>
           <Player2 />
-          <Transcript></Transcript>
         </AppProvider>
       </AppDiv>
     );
