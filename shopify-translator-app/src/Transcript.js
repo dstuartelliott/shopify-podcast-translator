@@ -128,16 +128,26 @@ function Transcript() {
     // eslint-disable-next-line
   }, [current_time]);
 
+  function ScrollToBottom() {
+    let element = document.getElementById(
+      "ddcec5dc-f824-4a60-94d1-30aa6e841b28"
+    );
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+    console.log(element);
+    console.log("ScrollToBottom");
+  }
+
   React.useEffect(() => {
     let element = document.getElementById(english_uuid);
     console.log(english_uuid);
-    if (english_uuid !== "c50b4669-de43-4277-9c0f-38bb0453d1d8") {
-      if (element !== null) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }
+    if (element !== null) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
     }
   }, [english_uuid]);
 
@@ -163,29 +173,28 @@ function Transcript() {
 
     return (
       <TranscriptWrapper>
-        <Spacer></Spacer>
-
+        <Divider>
+          <Line></Line>
+        </Divider>
         <TranscriptList>
           {simplifiedSentences.map((element, i) => {
             // console.log(element.uuid);
             // console.log(uuidToHighLight);
             return (
-              <TranscriptItem>
-                <TranscriptSentence
-                  sentence_object={element}
-                  key={element.uuid}
-                  englishHighlighted={
-                    element.uuid === currentUUID && translationPlaying === false
-                  }
-                  translatedHightlighted={
-                    element.uuid === translationTimeCodeUUID.uuid &&
-                    translationPlaying
-                  }
-                  next_start_time={element.next_start_time}
-                  // highlightedLang={element.highlightedLang}
-                  // uuidHighlighted={uuidHighlighted}
-                ></TranscriptSentence>
-              </TranscriptItem>
+              <TranscriptSentence
+                sentence_object={element}
+                key={element.uuid}
+                englishHighlighted={
+                  element.uuid === currentUUID && translationPlaying === false
+                }
+                translatedHightlighted={
+                  element.uuid === translationTimeCodeUUID.uuid &&
+                  translationPlaying
+                }
+                next_start_time={element.next_start_time}
+                // highlightedLang={element.highlightedLang}
+                // uuidHighlighted={uuidHighlighted}
+              ></TranscriptSentence>
             );
           })}
         </TranscriptList>
@@ -208,10 +217,12 @@ function Transcript() {
             );
           })}
         </TranscriptList> */}
+        <FooterHiderForScrollBar> </FooterHiderForScrollBar>
       </TranscriptWrapper>
     );
   }
 }
+
 const LoadingSpinner = styled.div`
   padding-left: 160px;
 `;
@@ -237,16 +248,35 @@ const Spacer = styled.div`
   height: 340px;
 `;
 
-const TranscriptWrapper = styled.div`
-  background-color: white;
+const Line = styled.div`
+  border-top: 1px solid #eec200;
+  margin-left: 130px;
+  width: 800px;
 `;
+
+const Divider = styled.div`
+  padding: 10px;
+`;
+
+const FooterHiderForScrollBar = styled.div`
+  position: fixed;
+  z-index: 99;
+  background-color: white;
+  height: 15px;
+  width: 100%;
+  bottom: 0px;
+`;
+
+const TranscriptWrapper = styled.div``;
 
 const TranscriptList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  height: 600px;
+  overflow: scroll;
+  width: 940px;
+  scrollbar-width: 10px;
 `;
-
-const TranscriptItem = styled.div``;
 
 export default Transcript;
