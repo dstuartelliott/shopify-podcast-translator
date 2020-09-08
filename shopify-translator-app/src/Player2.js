@@ -5,6 +5,7 @@ import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { useDispatch } from "react-redux";
 import PodcastInfo from "./PodcastInfo.js";
+import Modal from "react-overlays/Modal";
 
 import {
   jumpToTime,
@@ -19,6 +20,21 @@ import Transcript from "./Transcript";
 
 function Player2() {
   const dispatch = useDispatch();
+
+  const RandomlyPositionedModal = styled(Modal)`
+    position: fixed;
+    width: 400px;
+    z-index: 1040;
+    top: ${() => 50 + 10}%;
+    left: ${() => 50 + 10}%;
+    border: 1px solid #e5e5e5;
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+  `;
+
+  const [show, setShow] = React.useState(false);
+
   let timeToJumpTo = useSelector(getTimeToJumpTo);
 
   let uuids_and_times = useSelector(getUUIDsandTimes);
@@ -39,11 +55,23 @@ function Player2() {
       //   console.log(audioref.current.audio.current);
       //   console.log(audioref.current.audio.current.currentTime);
 
-      audioref.current.audio.current.currentTime = timeToJumpTo;
       //   console.log("should be jumpinto to " + timeToJumpTo);
-      audioref.current.audio.current.play();
-      dispatch(jumpToTime(-1.0));
+      let promise = audioref.current.audio.current.play();
+      if (promise !== undefined) {
+        promise
+          .then((_) => {
+            audioref.current.audio.current.currentTime = timeToJumpTo;
+            dispatch(jumpToTime(-1.0));
+
+            // Autoplay started!
+          })
+          .catch((error) => {
+            setShow(true);
+            console.log("nope");
+          });
+      }
     }
+
     // eslint-disable-next-line
   }, [timeToJumpTo]);
 
@@ -142,15 +170,32 @@ function Player2() {
             listenInterval={200}
             ref={audioref}
             customAdditionalControls={[]}
+            autoPlay={false}
 
             // other props here
           />
         </PlayerDiv>
         <Transcript></Transcript>
       </PlayerWrapper>
+      <ModalWrapper>
+        <RandomlyPositionedModal
+          show={show}
+          onHide={() => setShow(false)}
+          aria-labelledby="modal-label"
+        >
+          <div>
+            <h4 id="modal-label">Text in a modal</h4>
+            <p>
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </p>
+          </div>
+        </RandomlyPositionedModal>
+      </ModalWrapper>
     </div>
   );
 }
+
+const ModalWrapper = styled.div``;
 
 const PlayerDiv = styled.div`
   width: 80%;

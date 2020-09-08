@@ -23,13 +23,15 @@ if (isMobile) {
   ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>
-        <HighlighterContextProvider>
-          <PlayerBoundariesContextProvider>
-            <PlayerContextProvider>
-              <App />
-            </PlayerContextProvider>
-          </PlayerBoundariesContextProvider>
-        </HighlighterContextProvider>
+        <SpeechSynthContextProvider>
+          <HighlighterContextProvider>
+            <PlayerBoundariesContextProvider>
+              <PlayerContextProvider>
+                <App />
+              </PlayerContextProvider>
+            </PlayerBoundariesContextProvider>
+          </HighlighterContextProvider>
+        </SpeechSynthContextProvider>
       </Provider>
     </React.StrictMode>,
     document.getElementById("root")

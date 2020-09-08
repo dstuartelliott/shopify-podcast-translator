@@ -5,6 +5,7 @@ import {
   markTranslationAsDonePlaying,
   updateSpeechSynthState,
 } from "./actions";
+import { isMobile } from "react-device-detect";
 
 let voices = speechSynthesis.getVoices();
 console.log(voices);
@@ -131,10 +132,15 @@ export const SpeechSynthContextProvider = ({ children }) => {
 
   // chrome loads the voices later than firefox, so we need to add a listener for when they are loaded. See https://stackoverflow.com/questions/21513706/getting-the-list-of-voices-in-speechsynthesis-web-speech-api
 
-  speechSynthesis.addEventListener("voiceschanged", function () {
-    voices = speechSynthesis.getVoices();
-    french_voice = voices.filter((v) => v.lang === "fr-CA");
-  });
+  // TODO: Investigate why this crashes.
+  // for some reason, this crashes mobile.  ,
+
+  if (isMobile === false) {
+    speechSynthesis.addEventListener("voiceschanged", function () {
+      voices = speechSynthesis.getVoices();
+      french_voice = voices.filter((v) => v.lang === "fr-CA");
+    });
+  }
 
   return (
     <SpeechSynthContext.Provider

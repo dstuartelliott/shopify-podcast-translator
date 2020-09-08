@@ -18,22 +18,21 @@ function App() {
     // });
   }, []);
 
-  if (isMobile) {
-    return <div> Mobile version coming soon (like, in a day) </div>;
-  } else {
-    return (
-      <AppDiv className="App">
-        <GlobalStyles></GlobalStyles>
+  // if (isMobile) {
+  //   return <div> Mobile version coming soon (like, in a day) </div>;
+  // } else {
+  return (
+    <AppDiv className="App">
+      <GlobalStyles></GlobalStyles>
 
-        <AppProvider i18n={enTranslations}>
-          <Player2 />
-
-          {/* <ScrollableText></ScrollableText> */}
-          {/* <Transcript></Transcript> */}
-        </AppProvider>
-      </AppDiv>
-    );
-  }
+      <AppProvider i18n={enTranslations}>
+        <Player2 />
+        {/* <ScrollableText></ScrollableText> */}
+        {/* <Transcript></Transcript> */}
+      </AppProvider>
+    </AppDiv>
+  );
+  // }
 }
 
 const AppDiv = styled.div``;
