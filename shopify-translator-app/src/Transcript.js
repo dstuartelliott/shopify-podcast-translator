@@ -205,6 +205,10 @@ function Transcript() {
             );
           })}
         </TranscriptList> */}
+        <BottomDivider>
+          <Line></Line>
+        </BottomDivider>
+
         <FooterHiderForScrollBar> </FooterHiderForScrollBar>
       </TranscriptWrapper>
     );
@@ -232,22 +236,33 @@ const Loading = styled.div`
 `;
 
 const Line = styled.div`
-  border-top: 1px solid #eec200;
+  border-top: 1px solid #f4f6f8;
   margin-left: 130px;
   width: 800px;
 `;
 
 const Divider = styled.div`
   padding: 10px;
+  bottom: -10px;
+  position: relative;
+  z-index: 99;
+`;
+
+const BottomDivider = styled.div`
+  padding: 10px;
+  top: -25px;
+  position: relative;
+  z-index: 99;
 `;
 
 const FooterHiderForScrollBar = styled.div`
-  position: fixed;
-  z-index: 99;
+  z-index: 98;
   background-color: white;
-  height: 15px;
+  height: 25px;
   width: 100%;
   bottom: 0px;
+  top: -36px;
+  position: relative;
 `;
 
 const TranscriptWrapper = styled.div``;

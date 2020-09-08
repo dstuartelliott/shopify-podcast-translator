@@ -223,13 +223,13 @@ const SentenceAndSpeakerSelected = styled.div``;
 
 const Sentence = styled.div`
   background-color: white;
-  padding-left: 150px;
+  padding-left: 140px;
   color: grey;
 `;
 
 const SentenceHighlighted = styled.div`
   background-color: white;
-  padding-left: 11px;
+  padding-left: 1px;
 
   color: rgba(26, 26, 26);
 `;
