@@ -19,7 +19,7 @@ export const PlayerContextProvider = ({ children }) => {
 
   const getEnglishTextPromise = () => {
     let myPromise = new Promise((resolve, reject) => {
-      const apiUrl = "http://localhost:8000/englishText";
+      const apiUrl = "https://www.justheard.ca:8000/englishText";
       fetch(apiUrl)
         .then((response) => {
           let data = response.json();
@@ -62,7 +62,7 @@ export const PlayerContextProvider = ({ children }) => {
 
   const getTranslateTextPromise = () => {
     let myPromise = new Promise((resolve, reject) => {
-      const apiUrl = "http://localhost:8000/translatedText";
+      const apiUrl = "https://www.justheard.ca:8000/translatedText";
       fetch(apiUrl)
         .then((response) => {
           let data = response.json();
@@ -79,7 +79,7 @@ export const PlayerContextProvider = ({ children }) => {
 
   const getCombined = () => {
     let myPromise = new Promise((resolve, reject) => {
-      const apiUrl = "http://localhost:8000/returnCombined";
+      const apiUrl = "https://www.justheard.ca:8000/returnCombined";
       fetch(apiUrl)
         .then((response) => {
           let data = response.json();
