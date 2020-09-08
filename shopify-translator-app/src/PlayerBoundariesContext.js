@@ -4,15 +4,11 @@ import { LANGUAGES } from "./constants";
 export const PlayerBoundariesContext = createContext();
 var voices = speechSynthesis.getVoices();
 let french_voice = voices.filter((v) => v.lang === "fr-CA");
-let current__play_head_time;
-let current_english_item_end;
-let next_english_item_start;
 let contextSentenceAndGoodWordCombined = [];
 
 let current = {};
 
 let current_uuid;
-let next = {};
 
 const initialState = {
   shouldMP3StillPlay: true,
@@ -150,9 +146,6 @@ export const PlayerBoundariesContextProvider = ({ children }) => {
   const sendUpdatedPlayHeadPosition = (currentTime) => {
     // console.log("sendUpdatedPlayHeadPosition");
 
-    let original_current = current;
-    current__play_head_time = currentTime;
-    // console.log(current__play_head_time);
     console.log(contextSentenceAndGoodWordCombined);
 
     contextSentenceAndGoodWordCombined.forEach((sent, i) => {

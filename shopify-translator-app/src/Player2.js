@@ -41,7 +41,8 @@ function Player2() {
       audioref.current.audio.current.play();
       dispatch(jumpToTime(-1.0));
     }
-  }, [timeToJumpTo, dispatch]);
+    // eslint-disable-next-line
+  }, [timeToJumpTo]);
 
   // React.useEffect(() => {
   //   if (isTranslationPlaying) {

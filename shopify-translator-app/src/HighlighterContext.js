@@ -4,7 +4,6 @@ export const HighlighterContext = createContext();
 let localSentenceAndGoodWordCombined = [];
 let current = {};
 let current__play_head_time;
-let updated_play_time;
 let current_local_uuid;
 const initialState = {
   uuidHighlightedIndivContext: "100",
@@ -45,7 +44,6 @@ export const HighlighterContextProvider = ({ children }) => {
   const updateLocalI = (currentTime) => {
     console.log("sendUpdatedPlayHeadPosition");
 
-    let original_current = current;
     current__play_head_time = currentTime;
     console.log(current__play_head_time);
 

@@ -2,10 +2,9 @@ import React from "react";
 import "./App.css";
 import styled from "styled-components";
 import { PlayerContext } from "./PlayerContext";
-import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
 import TranscriptSentence from "./TranscriptSentence.js";
 import { useDispatch } from "react-redux";
-import { addTranscript, addCurrentTime, markEnglishAsPlaying } from "./actions";
+import { addTranscript, markEnglishAsPlaying } from "./actions";
 import { useSelector } from "react-redux";
 import {
   getSimplifiedSentences,
@@ -15,7 +14,6 @@ import {
   getTranslationTimeCodeAndUUID,
   getEnglishUUID,
 } from "./reducers";
-let next_start_time;
 let refs = {};
 
 function Transcript() {
@@ -30,39 +28,6 @@ function Transcript() {
   let english_uuid = useSelector(getEnglishUUID);
   const [currentUUID, setcurrentUUID] = React.useState("");
 
-  const {
-    state: { contextSentenceAndGoodWordCombined, uuidHighlighted },
-    actions: { updateContextSentenceAndGoodWordCombined },
-  } = React.useContext(PlayerBoundariesContext);
-
-  const localRef = React.useRef();
-  const otherRef = React.useRef();
-
-  function handleRefsClick(id) {
-    console.log(id);
-    console.log(refs[id]);
-    var element = document.getElementById(id);
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
-  }
-
-  // React.useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     console.log(highligherContext.current__play_head_time);
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
-  // const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
-
-  // const myRef = React.useRef();
-  // const otherRef = React.useRef();
-
-  // const executeScroll = () => scrollToRef(myRef);
-
   React.useEffect(() => {
     console.log("Transcript useffect");
     async function getTranscriptSentences() {
@@ -72,10 +37,7 @@ function Transcript() {
       combined.translations.forEach((element, i) => {
         // // TODO: I could go in and hand correct the data, but I think it's more instructive to show how I deal with bad data
 
-        const iterator = element.words[Symbol.iterator]();
-
         let ii = 0;
-        let currentCase = "nil";
         let succesful_word = undefined;
         while (ii < element.words.length - 1 && succesful_word === undefined) {
           let aligned_word = element.words[ii];
@@ -135,6 +97,7 @@ function Transcript() {
       //updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
     }
     getTranscriptSentences();
+    // eslint-disable-next-line
   }, []);
 
   React.useEffect(() => {
@@ -149,12 +112,13 @@ function Transcript() {
         array_i = i;
       }
     }
-    if (array_i != undefined) {
+    if (array_i !== undefined) {
       setcurrentUUID(uuids_and_times[array_i].uuid);
       dispatch(
         markEnglishAsPlaying(current_time, uuids_and_times[array_i].uuid)
       );
     }
+    // eslint-disable-next-line
   }, [current_time]);
 
   React.useEffect(() => {
