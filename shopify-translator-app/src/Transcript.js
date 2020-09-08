@@ -14,6 +14,7 @@ import {
   getTranslationTimeCodeAndUUID,
   getEnglishUUID,
 } from "./reducers";
+import { isMobile } from "react-device-detect";
 
 import SpinnerJustKF from "./SpinnerJustKF";
 
@@ -151,7 +152,8 @@ function Transcript() {
     }
   }, [english_uuid]);
 
-  if (isLoaded === false) {
+  // Mobile loading
+  if (isMobile && isLoaded === false) {
     console.log({ isLoaded });
     return (
       <Loading>
@@ -168,9 +170,65 @@ function Transcript() {
         </LoadingFlex>
       </Loading>
     );
-  } else {
-    console.log(isLoaded);
+  }
 
+  // Desktop loading
+  if (isMobile == false && isLoaded === false) {
+    console.log({ isLoaded });
+    return (
+      <Loading>
+        <LoadingFlex>
+          <LoadingSpinner>
+            <SpinnerJustKF></SpinnerJustKF>
+          </LoadingSpinner>
+          <LoadingText>
+            Loading up{" "}
+            <a href={"https://www.justheard.ca:8000/returnCombined"}>
+              transcript.
+            </a>
+          </LoadingText>
+        </LoadingFlex>
+      </Loading>
+    );
+  }
+
+  // Mobile version
+  if (isMobile && isLoaded) {
+    return (
+      <TranscriptWrapper>
+        <Divider>
+          <LineMB></LineMB>
+        </Divider>
+        <TranscriptListMB>
+          {simplifiedSentences.map((element, i) => {
+            // console.log(element.uuid);
+            // console.log(uuidToHighLight);
+            return (
+              <TranscriptSentence
+                sentence_object={element}
+                key={element.uuid}
+                englishHighlighted={
+                  element.uuid === currentUUID && translationPlaying === false
+                }
+                translatedHightlighted={
+                  element.uuid === translationTimeCodeUUID.uuid &&
+                  translationPlaying
+                }
+                next_start_time={element.next_start_time}
+                // highlightedLang={element.highlightedLang}
+                // uuidHighlighted={uuidHighlighted}
+              ></TranscriptSentence>
+            );
+          })}
+        </TranscriptListMB>
+
+        <FooterHiderForScrollBar> </FooterHiderForScrollBar>
+      </TranscriptWrapper>
+    );
+  }
+
+  // Desktop version
+  if (isMobile == false && isLoaded) {
     return (
       <TranscriptWrapper>
         <Divider>
@@ -199,24 +257,6 @@ function Transcript() {
           })}
         </TranscriptList>
 
-        {/* <TranscriptList>
-          {contextSentenceAndGoodWordCombined.map((element, i) => {
-            // console.log(element.uuid);
-            // console.log(uuidToHighLight);
-  
-            return (
-              <TranscriptItem>
-                <TranscriptSentence
-                  sentence_object={element}
-                  key={element.uuid}
-                  highlighted={element.isHighlighted}
-                  highlightedLang={element.highlightedLang}
-                  uuidHighlighted={uuidHighlighted}
-                ></TranscriptSentence>
-              </TranscriptItem>
-            );
-          })}
-        </TranscriptList> */}
         <FooterHiderForScrollBar> </FooterHiderForScrollBar>
       </TranscriptWrapper>
     );
@@ -243,11 +283,25 @@ const Loading = styled.div`
   margin-left: 350px;
 `;
 
-const Spacer = styled.div`
-  width: 100%;
-  height: 340px;
+// Mobile
+
+const TranscriptListMB = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 600px;
+  overflow: scroll;
+  width: 80%;
+  scrollbar-width: 10px;
 `;
 
+const LineMB = styled.div`
+  border-top: 1px solid #eec200;
+  margin-left: 20px;
+  width: 90%;
+`;
+
+// Desktop
 const Line = styled.div`
   border-top: 1px solid #eec200;
   margin-left: 130px;

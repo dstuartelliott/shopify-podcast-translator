@@ -6,6 +6,7 @@ import "react-h5-audio-player/lib/styles.css";
 import { useDispatch } from "react-redux";
 import PodcastInfo from "./PodcastInfo.js";
 import Modal from "react-overlays/Modal";
+import { isMobile } from "react-device-detect";
 
 import {
   jumpToTime,
@@ -151,49 +152,97 @@ function Player2() {
 
     console.log(event);
   }
-  return (
-    <div>
-      <PlayerWrapper>
-        <PodcastInfo />
 
-        <PlayerDiv>
-          <AudioPlayer
-            // src="./ep374-healthish_tc.mp3"
-            // src="https://cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3
-            // "
+  if (isMobile) {
+    return (
+      <div>
+        <PlayerWrapper>
+          <PodcastInfo />
 
-            // controls here: https://static.hanzluo.com/react-h5-audio-player-storybook/index.html?path=/docs/layouts--default-story
-            src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
-            onPlay={onPlayListen}
-            onListen={announceListen}
-            onPause={onPauseListen}
-            listenInterval={200}
-            ref={audioref}
-            customAdditionalControls={[]}
-            autoPlay={false}
+          <PlayerDivMB>
+            <AudioPlayer
+              src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
+              onPlay={onPlayListen}
+              onListen={announceListen}
+              onPause={onPauseListen}
+              listenInterval={200}
+              ref={audioref}
+              customAdditionalControls={[]}
+              autoPlay={false}
 
-            // other props here
-          />
-        </PlayerDiv>
-        <Transcript></Transcript>
-      </PlayerWrapper>
-      <ModalWrapper>
-        <RandomlyPositionedModal
-          show={show}
-          onHide={() => setShow(false)}
-          aria-labelledby="modal-label"
-        >
-          <div>
-            <h4 id="modal-label">Text in a modal</h4>
-            <p>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </p>
-          </div>
-        </RandomlyPositionedModal>
-      </ModalWrapper>
-    </div>
-  );
+              // other props here
+            />
+          </PlayerDivMB>
+          <Transcript></Transcript>
+        </PlayerWrapper>
+        <ModalWrapper>
+          <RandomlyPositionedModal
+            show={show}
+            onHide={() => setShow(false)}
+            aria-labelledby="modal-label"
+          >
+            <div>
+              <h4 id="modal-label">Text in a modal</h4>
+              <p>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </p>
+            </div>
+          </RandomlyPositionedModal>
+        </ModalWrapper>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <PlayerWrapper>
+          <PodcastInfo />
+
+          <PlayerDiv>
+            <AudioPlayer
+              // src="./ep374-healthish_tc.mp3"
+              // src="https://cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3
+              // "
+
+              // controls here: https://static.hanzluo.com/react-h5-audio-player-storybook/index.html?path=/docs/layouts--default-story
+              src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
+              onPlay={onPlayListen}
+              onListen={announceListen}
+              onPause={onPauseListen}
+              listenInterval={200}
+              ref={audioref}
+              customAdditionalControls={[]}
+              autoPlay={false}
+
+              // other props here
+            />
+          </PlayerDiv>
+          <Transcript></Transcript>
+        </PlayerWrapper>
+        <ModalWrapper>
+          <RandomlyPositionedModal
+            show={show}
+            onHide={() => setShow(false)}
+            aria-labelledby="modal-label"
+          >
+            <div>
+              <h4 id="modal-label">Text in a modal</h4>
+              <p>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </p>
+            </div>
+          </RandomlyPositionedModal>
+        </ModalWrapper>
+      </div>
+    );
+  }
 }
+
+//Mobile
+const PlayerDivMB = styled.div`
+  width: 85%;
+  padding-top: 10px;
+  margin: auto;
+`;
 
 const ModalWrapper = styled.div``;
 
