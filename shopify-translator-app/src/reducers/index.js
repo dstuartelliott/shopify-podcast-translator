@@ -88,6 +88,16 @@ export default function appReducer(state = initialState, action) {
       };
     }
 
+    case "UPDATE_PODCAST_INFO_TOGGLE_STATE": {
+      console.log("UPDATE_PODCAST_INFO_TOGGLE_STATE");
+      console.log(action.podcast_info_collapsed);
+
+      return {
+        ...state,
+        podcast_info_collapsed: action.podcast_info_collapsed,
+      };
+    }
+
     default:
       return state;
   }
@@ -234,12 +244,37 @@ export const getPodcastInfosSize = (state) => {
   if (state.dim !== undefined) {
     return {
       open: state.dim.height_for_podcast_info_open,
-      collapsed: state.dim.height_for_text_collapsed,
+      collapsed: state.dim.height_for_podcast_info_collapsed,
     };
   } else {
     return {
       open: "100px",
       collapsed: "0px",
     };
+  }
+};
+
+export const getPodcastInfoDimensions = (state) => {
+  //    state.current_time;
+  if (state.podcast_info_dimensions !== undefined) {
+    return {
+      podcast_info_dimensions: state.podcast_info_dimensions,
+    };
+  } else {
+    return {
+      open: "100px",
+      collapsed: "0px",
+    };
+  }
+};
+
+export const getPodcastToggleState = (state) => {
+  //    state.current_time;
+  if (state.podcast_info_collapsed !== undefined) {
+    return {
+      podcast_info_collapsed: state.podcast_info_collapsed,
+    };
+  } else {
+    return { podcast_info_collapsed: false };
   }
 };

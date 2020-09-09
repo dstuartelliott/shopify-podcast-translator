@@ -13,14 +13,29 @@ import {
   addCurrentTime,
   markEnglishAsPlaying,
   recordMP3PlayerState,
+  updatePodcastInfoDimensions,
+  updateWindowDimensions,
 } from "./actions";
-import { getTimeToJumpTo, getUUIDsandTimes } from "./reducers";
+import {
+  getTimeToJumpTo,
+  getUUIDsandTimes,
+  getPodcastToggleState,
+} from "./reducers";
 import { useSelector } from "react-redux";
 import { SpeechSynthContext } from "./SpeechSynthContext";
 import Transcript from "./Transcript";
+import useSize from "@react-hook/size";
 
 function Player2() {
   const dispatch = useDispatch();
+  const TopItemsRef = React.useRef(null);
+  const AudioDivRef = React.useRef(null);
+
+  let podcast_toggle_state = useSelector(getPodcastToggleState);
+  const audioref = React.useRef(null);
+
+  let [TopPartWitdh, TopPartHeight] = useSize(TopItemsRef);
+  let [audioWidth, audioHeight] = useSize(AudioDivRef);
 
   const RandomlyPositionedModal = styled(Modal)`
     position: fixed;
@@ -40,11 +55,23 @@ function Player2() {
 
   let uuids_and_times = useSelector(getUUIDsandTimes);
 
-  const audioref = React.useRef(null);
-
   const {
     actions: { cancelAllSpeech },
   } = React.useContext(SpeechSynthContext);
+
+  // React.useEffect(() => {
+  //   console.log("Player2 useEffect ");
+  //   dispatch(updatePodcastInfoDimensions([width, height]));
+  // }, []);
+
+  React.useEffect(() => {
+    console.log(" toggle state changed");
+    console.log(TopPartHeight);
+  }, [podcast_toggle_state]);
+
+  // React.useEffect(() => {
+  //   dispatch(updatePodcastInfoDimensions([width, height]));
+  // }, [podcast_toggle_state]);
 
   React.useEffect(() => {
     console.log("time to jump to useEffect fired");
@@ -85,6 +112,20 @@ function Player2() {
   //   }
   // }, [translation_timecode_uuid]);
 
+  function getRoomForText(podcastInfoHeight, ControllerHeight) {
+    const { innerWidth: width, innerHeight: height } = window;
+    let height_for_text = height - (podcastInfoHeight + ControllerHeight);
+
+    // add 20 for the top padding on the TopPart
+
+    console.log(height); // 667
+    console.log(podcastInfoHeight); //226
+    console.log(ControllerHeight); // 89
+    console.log(height_for_text); // 343
+
+    return height_for_text + 40;
+  }
+
   function announceListen(event) {
     // console.log(event.srcElement.currentTime);
     let current_time = event.srcElement.currentTime;
@@ -118,7 +159,20 @@ function Player2() {
   }
 
   function onPlayListen(event) {
+    console.log([audioWidth, audioHeight]);
     console.log("onPlayListen");
+    console.log([TopPartHeight]);
+
+    let room = getRoomForText(TopPartHeight, audioHeight);
+
+    let height_for_text_open = parseInt(room) + "px";
+
+    dispatch(
+      updateWindowDimensions({
+        height_for_text_open,
+      })
+    );
+
     console.log(event.srcElement.currentTime);
     cancelAllSpeech();
     console.log(uuids_and_times);
@@ -157,22 +211,24 @@ function Player2() {
     return (
       <div>
         <PlayerWrapper>
-          <PodcastInfo />
+          <TopPart ref={TopItemsRef} style={{ paddingTop: "20px" }}>
+            <PodcastInfo />
 
-          <PlayerDivMB>
-            <AudioPlayer
-              src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
-              onPlay={onPlayListen}
-              onListen={announceListen}
-              onPause={onPauseListen}
-              listenInterval={200}
-              ref={audioref}
-              customAdditionalControls={[]}
-              autoPlay={false}
+            <PlayerDivMB ref={AudioDivRef}>
+              <AudioPlayer
+                src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
+                onPlay={onPlayListen}
+                onListen={announceListen}
+                onPause={onPauseListen}
+                listenInterval={200}
+                ref={audioref}
+                customAdditionalControls={[]}
+                autoPlay={false}
 
-              // other props here
-            />
-          </PlayerDivMB>
+                // other props here
+              />
+            </PlayerDivMB>
+          </TopPart>
           <Transcript></Transcript>
         </PlayerWrapper>
         <ModalWrapper>
@@ -237,9 +293,11 @@ function Player2() {
   }
 }
 
+const TopPart = styled.div``;
+
 //Mobile
 const PlayerDivMB = styled.div`
-  width: 85%;
+  width: 98%;
   padding-top: 10px;
   margin: auto;
 `;

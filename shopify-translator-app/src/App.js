@@ -32,7 +32,7 @@ function App() {
 
   function handleResize() {
     const { innerWidth: width, innerHeight: height } = window;
-    let height_for_text_open = Math.round(height * 0.66);
+    let height_for_text_open = Math.round(height * 0.5);
     let height_for_text_collapsed = Math.round(height * 0.2);
 
     let height_for_podcast_info_open = Math.round(height * 0.8);
@@ -60,7 +60,7 @@ function App() {
 
   function initWindowSizes() {
     const { innerWidth: width, innerHeight: height } = window;
-    let height_for_text_open = Math.round(height * 0.66);
+    let height_for_text_open = Math.round(height * 0.5);
     let height_for_text_collapsed = Math.round(height * 0.2);
 
     let height_for_podcast_info_open = Math.round(height * 0.8);

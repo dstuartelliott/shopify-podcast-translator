@@ -14,13 +14,15 @@ import {
   getTranslationTimeCodeAndUUID,
   getEnglishUUID,
   getTextSize,
+  getPodcastToggleState,
+  getPodcastInfoDimensions,
+  getMP3PlayerState,
 } from "./reducers";
 import { isMobile } from "react-device-detect";
 
 import SpinnerJustKF from "./SpinnerJustKF";
 
 let refs = {};
-
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
   let height_for_text = Math.round(height * 0.66);
@@ -31,12 +33,25 @@ function getWindowDimensions() {
     height_for_text,
   };
 }
+
+function getRoomForText(podcastInfoHeight, ControllerHeight) {
+  const { innerWidth: width, innerHeight: height } = window;
+  let height_for_text = height - (podcastInfoHeight + ControllerHeight);
+
+  return height_for_text;
+}
+
 function Transcript() {
   const playerContext = React.useContext(PlayerContext);
   const dispatch = useDispatch();
   let simplifiedSentences = useSelector(getSimplifiedSentences);
   let current_time = useSelector(getCurrentTime);
   let uuids_and_times = useSelector(getUUIDsandTimes);
+  let podcast_toggle_state = useSelector(getPodcastToggleState);
+
+  let podcast_player_state = useSelector(getMP3PlayerState);
+
+  let podcast_info_collapsed_size = useSelector(getPodcastInfoDimensions);
 
   let text_size = useSelector(getTextSize);
 
@@ -45,6 +60,9 @@ function Transcript() {
   let english_uuid = useSelector(getEnglishUUID);
   const [currentUUID, setcurrentUUID] = React.useState("");
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const [roomForText, setRoomForText] = React.useState("0px");
+
+  const [playerWasClicked, setplayerWasClicked] = React.useState(false);
 
   const [windowDimensions, setWindowDimensions] = React.useState(
     getWindowDimensions()
@@ -132,6 +150,33 @@ function Transcript() {
   }, []);
 
   React.useEffect(() => {
+    console.log(" useEffect podcast_player_state");
+    console.log(podcast_player_state);
+    if (
+      podcast_player_state === "playing" ||
+      podcast_player_state === "paused"
+    ) {
+      setplayerWasClicked(true);
+      console.log("setting player state");
+      console.log(podcast_player_state);
+
+      console.log(" toggle state changed");
+      console.log(podcast_toggle_state);
+      console.log(
+        podcast_info_collapsed_size.podcast_info_dimensions.height_collapsed
+      );
+      let room = getRoomForText(
+        podcast_info_collapsed_size.podcast_info_dimensions.height_collapsed,
+        110
+      );
+      console.log(room);
+      let room_string = parseInt(room) + "px";
+      console.log(room_string);
+      setRoomForText(room_string);
+    }
+  }, [podcast_player_state]);
+
+  React.useEffect(() => {
     let array_i;
 
     // I realize I can do foreach here, but this way I can break early
@@ -162,6 +207,24 @@ function Transcript() {
       });
     }
   }, [english_uuid]);
+
+  React.useEffect(() => {
+    // if (podcast_info_collapsed_size.podcast_info_dimensions !== undefined) {
+    //   console.log(" toggle state changed");
+    //   console.log(podcast_toggle_state);
+    //   console.log(
+    //     podcast_info_collapsed_size.podcast_info_dimensions.height_collapsed
+    //   );
+    //   let room = getRoomForText(
+    //     podcast_info_collapsed_size.podcast_info_dimensions.height_collapsed,
+    //     110
+    //   );
+    //   console.log(room);
+    //   let room_string = parseInt(room) + "px";
+    //   console.log(room_string);
+    //   setRoomForText(room_string);
+    // }
+  }, [podcast_toggle_state]);
 
   // Mobile loading
   if (isMobile && isLoaded === false) {
@@ -204,7 +267,12 @@ function Transcript() {
   }
 
   // Mobile version
-  if (isMobile && isLoaded) {
+  if (
+    isMobile &&
+    isLoaded &&
+    podcast_toggle_state.podcast_info_collapsed &&
+    playerWasClicked
+  ) {
     console.log({ text_size });
 
     return (
@@ -238,6 +306,37 @@ function Transcript() {
           })}
         </TranscriptListMB>
 
+        <FooterHiderForScrollBar> </FooterHiderForScrollBar>
+      </TranscriptWrappeMB>
+    );
+  }
+
+  if (isMobile && playerWasClicked === false) {
+    console.log(playerWasClicked);
+    return (
+      <TranscriptWrappeMB>
+        {playerWasClicked}
+        Mobile devices require you to click play first!
+      </TranscriptWrappeMB>
+    );
+  }
+
+  if (
+    isMobile &&
+    isLoaded &&
+    podcast_toggle_state.podcast_info_collapsed === false
+  ) {
+    console.log({ text_size });
+
+    return (
+      <TranscriptWrappeMB>
+        <Divider>
+          <LineMB></LineMB>
+          {/* {windowDimensions.height}
+          <p></p>
+          {windowDimensions.height_for_text} */}
+        </Divider>
+        Trancripts minimal version here
         <FooterHiderForScrollBar> </FooterHiderForScrollBar>
       </TranscriptWrappeMB>
     );
@@ -303,14 +402,14 @@ const Loading = styled.div`
 // Mobile
 
 const TranscriptWrappeMB = styled.div`
-  background-color: red;
+  background-color: white;
+  padding-top: 10px;
 `;
 
 const TranscriptListMB = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* background-image: url("${(props) => props.image_source}"); */
   height: ${(props) => props.textHeight};
 
   overflow: scroll;

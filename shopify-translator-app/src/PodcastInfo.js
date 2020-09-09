@@ -5,24 +5,61 @@ import HeroSrc from "./images/shopify_masters_hero.jpg";
 import { isMobile } from "react-device-detect";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { getPodcastInfosSize } from "./reducers";
-import { updatePodcastInfoDimensions } from "./actions";
+import {
+  updatePodcastInfoDimensions,
+  updatePodcastToggleState,
+} from "./actions";
+import PodcastInfoExpanded from "./PodcastInfoExpanded";
+import PodcastInfoCollapsed from "./PodcastInfoCollapsed";
+
+import useSize from "@react-hook/size";
 
 function PodcastInfo() {
+  const dispatch = useDispatch();
+
   let [topVisible, setTopVisible] = React.useState(false);
 
   function hideTopToggleClick(event) {
-    setTopVisible(!topVisible);
-  }
+    if (topVisible === true) {
+      setTopVisible(false);
+      dispatch(updatePodcastToggleState(true));
+    } else if (topVisible === false) {
+      setTopVisible(true);
+      dispatch(updatePodcastToggleState(false));
+    }
+    dispatch(
+      updatePodcastInfoDimensions({ width_collapsed, height_collapsed })
+    );
 
+    //dispatch(updatePodcastInfoDimensions({ width, height }));
+  }
   let podcast_info_size = useSelector(getPodcastInfosSize);
 
+  React.useEffect(() => {
+    dispatch(
+      updatePodcastInfoDimensions({ width_collapsed, height_collapsed })
+    );
+    dispatch(updatePodcastToggleState(!topVisible));
+  }, []);
+
+  const PodcastInfoSectionMBCollapsed_target = React.useRef(null);
+  const nomarltarget = React.useRef(null);
+
+  const Desktop_target = React.useRef(null);
+
+  let [width_collapsed, height_collapsed] = useSize(
+    PodcastInfoSectionMBCollapsed_target
+  );
+
   if (isMobile && topVisible === false) {
-    console.log({ podcast_info_size });
+    console.log([width_collapsed, height_collapsed]);
 
     return (
-      <WrapperCollapased>
+      // <PodcastInfoCollapsed>hello</PodcastInfoCollapsed>
+      <WrapperCollapased ref={PodcastInfoSectionMBCollapsed_target}>
         <PodcastInfoSectionMBCollapsed>
           <HeroImgMB image_source={HeroSrc}></HeroImgMB>
           {podcast_info_size.collapsed}
@@ -39,7 +76,6 @@ function PodcastInfo() {
         </PodcastInfoSectionMBCollapsed>
       </WrapperCollapased>
     );
-    return <div>mobile</div>;
   }
 
   if (isMobile && topVisible) {
@@ -72,14 +108,13 @@ function PodcastInfo() {
 
   if (isMobile === false) {
     return (
-      <PodcastInfoWrapper>
+      <PodcastInfoWrapper ref={Desktop_target}>
         <PodcastImageTitle>
           <HeroImg image_source={HeroSrc}></HeroImg>
           <PodcastTitle>
             The Pre-Launch Strategies of a Million-Dollar Brand
           </PodcastTitle>
         </PodcastImageTitle>
-
         <PodcastText>
           Making it easier to keep track of daily hydration goals, Emily Chong
           and Nathan Chan started Healthish and created sleek water bottles with
@@ -165,15 +200,10 @@ const PodcastInfoSectionMBCollapsed = styled.div`
   margin: auto;
 `;
 
-const WrapperCollapased = styled.div`
-  padding-top: 20px;
-  height: ${(props) => props.infoSize};
-`;
+const WrapperCollapased = styled.div``;
 
 //Mobile
-const Wrapper = styled.div`
-  padding-top: 20px;
-`;
+const Wrapper = styled.div``;
 
 const PodcastInfoSectionMB = styled.div`
   display: flex;
