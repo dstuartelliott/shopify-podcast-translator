@@ -224,6 +224,7 @@ function Player2() {
                 ref={audioref}
                 customAdditionalControls={[]}
                 autoPlay={false}
+                customVolumeControls={[]}
 
                 // other props here
               />

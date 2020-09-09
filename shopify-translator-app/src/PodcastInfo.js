@@ -58,11 +58,9 @@ function PodcastInfo() {
     console.log([width_collapsed, height_collapsed]);
 
     return (
-      // <PodcastInfoCollapsed>hello</PodcastInfoCollapsed>
       <WrapperCollapased ref={PodcastInfoSectionMBCollapsed_target}>
         <PodcastInfoSectionMBCollapsed>
           <HeroImgMB image_source={HeroSrc}></HeroImgMB>
-          {podcast_info_size.collapsed}
           <TextAndButtonCollapsed>
             <PodcastTitleMBCollapsed>
               The Pre-Launch Strategies of a Million-Dollar Brand

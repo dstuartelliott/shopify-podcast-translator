@@ -19,6 +19,7 @@ import {
   getMP3PlayerState,
 } from "./reducers";
 import { isMobile } from "react-device-detect";
+import { IoMdLock } from "react-icons/io";
 
 import SpinnerJustKF from "./SpinnerJustKF";
 
@@ -208,24 +209,6 @@ function Transcript() {
     }
   }, [english_uuid]);
 
-  React.useEffect(() => {
-    // if (podcast_info_collapsed_size.podcast_info_dimensions !== undefined) {
-    //   console.log(" toggle state changed");
-    //   console.log(podcast_toggle_state);
-    //   console.log(
-    //     podcast_info_collapsed_size.podcast_info_dimensions.height_collapsed
-    //   );
-    //   let room = getRoomForText(
-    //     podcast_info_collapsed_size.podcast_info_dimensions.height_collapsed,
-    //     110
-    //   );
-    //   console.log(room);
-    //   let room_string = parseInt(room) + "px";
-    //   console.log(room_string);
-    //   setRoomForText(room_string);
-    // }
-  }, [podcast_toggle_state]);
-
   // Mobile loading
   if (isMobile && isLoaded === false) {
     console.log({ isLoaded });
@@ -315,8 +298,14 @@ function Transcript() {
     console.log(playerWasClicked);
     return (
       <TranscriptWrappeMB>
-        {playerWasClicked}
-        Mobile devices require you to click play first!
+        <UnlockWarning>
+          <div>
+            <IoMdLock size={60} color={"#EEC200"}></IoMdLock>
+          </div>
+          <WarningText>
+            Mobile devices require you to click play first!
+          </WarningText>
+        </UnlockWarning>
       </TranscriptWrappeMB>
     );
   }
@@ -378,6 +367,21 @@ function Transcript() {
     );
   }
 }
+
+const WarningText = styled.div`
+  padding: 10px;
+  color: ##573b00;
+`;
+
+const UnlockWarning = styled.div`
+  width: 250px;
+  background-color: #f4f6f8;
+  border-radius: 10px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+`;
 
 const LoadingSpinner = styled.div`
   padding-left: 160px;
