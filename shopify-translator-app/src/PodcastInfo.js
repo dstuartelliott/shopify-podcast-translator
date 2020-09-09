@@ -14,6 +14,12 @@ import {
 } from "./actions";
 import PodcastInfoExpanded from "./PodcastInfoExpanded";
 import PodcastInfoCollapsed from "./PodcastInfoCollapsed";
+import {
+  IoIosPlayCircle,
+  IoIosPause,
+  IoMdRewind,
+  IoIosFastforward,
+} from "react-icons/io";
 
 import useSize from "@react-hook/size";
 
@@ -66,6 +72,12 @@ function PodcastInfo() {
               The Pre-Launch Strategies of a Million-Dollar Brand
             </PodcastTitleMBCollapsed>
             <ShowHideCollapsed>
+              <CollaposedPlayerButtons>
+                <IoMdRewind size={20}></IoMdRewind>
+                <IoIosPlayCircle size={30}></IoIosPlayCircle>
+
+                <IoIosFastforward size={20}></IoIosFastforward>
+              </CollaposedPlayerButtons>
               <ShowHideButtonCollapsed onClick={hideTopToggleClick}>
                 <MdExpandMore size={30}></MdExpandMore>
               </ShowHideButtonCollapsed>
@@ -125,11 +137,22 @@ function PodcastInfo() {
   }
 }
 
+const CollaposedPlayerButtons = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  margin: auto;
+  padding: 10px;
+`;
+
 const ShowHideCollapsed = styled.div`
   width: 100%;
   height: 1px;
   text-align: right;
   background-color: transparent;
+  color: #454f5b;
 `;
 
 const ShowHideExpanded = styled.div`
@@ -138,7 +161,7 @@ const ShowHideExpanded = styled.div`
 `;
 
 const ShowHideButtonCollapsed = styled.button`
-  margin-top: 10px;
+  margin-top: -25px;
 
   cursor: pointer;
   width: 40px;

@@ -319,13 +319,11 @@ function Transcript() {
 
     return (
       <TranscriptWrappeMB>
-        <Divider>
-          <LineMB></LineMB>
-          {/* {windowDimensions.height}
-          <p></p>
-          {windowDimensions.height_for_text} */}
-        </Divider>
-        Trancripts minimal version here
+        <UnlockWarning>
+          <WarningText>
+            Minimize the podcast text at the top to reveal the transcript!
+          </WarningText>
+        </UnlockWarning>
         <FooterHiderForScrollBar> </FooterHiderForScrollBar>
       </TranscriptWrappeMB>
     );
