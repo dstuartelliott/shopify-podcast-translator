@@ -13,6 +13,7 @@ import {
   getTranslationPlaying,
   getTranslationTimeCodeAndUUID,
   getEnglishUUID,
+  getTextSize,
 } from "./reducers";
 import { isMobile } from "react-device-detect";
 
@@ -36,6 +37,8 @@ function Transcript() {
   let simplifiedSentences = useSelector(getSimplifiedSentences);
   let current_time = useSelector(getCurrentTime);
   let uuids_and_times = useSelector(getUUIDsandTimes);
+
+  let text_size = useSelector(getTextSize);
 
   let translationPlaying = useSelector(getTranslationPlaying);
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
@@ -202,6 +205,8 @@ function Transcript() {
 
   // Mobile version
   if (isMobile && isLoaded) {
+    console.log({ text_size });
+
     return (
       <TranscriptWrappeMB>
         <Divider>
@@ -210,7 +215,7 @@ function Transcript() {
           <p></p>
           {windowDimensions.height_for_text} */}
         </Divider>
-        <TranscriptListMB textHeight={windowDimensions.height_for_text}>
+        <TranscriptListMB textHeight={text_size.open}>
           {simplifiedSentences.map((element, i) => {
             // console.log(element.uuid);
             // console.log(uuidToHighLight);
@@ -240,6 +245,7 @@ function Transcript() {
 
   // Desktop version
   if (isMobile == false && isLoaded) {
+    console.log(text_size);
     return (
       <TranscriptWrapper>
         <Divider>

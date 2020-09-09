@@ -31,19 +31,66 @@ function App() {
   }
 
   function handleResize() {
-    console.log("handleResize");
-
     const { innerWidth: width, innerHeight: height } = window;
-    let height_for_text = Math.round(height * 0.66);
-    height_for_text = parseInt(height_for_text) + "px";
-    console.log(height_for_text);
-    dispatch(updateWindowDimensions({ width, height, height_for_text }));
+    let height_for_text_open = Math.round(height * 0.66);
+    let height_for_text_collapsed = Math.round(height * 0.2);
+
+    let height_for_podcast_info_open = Math.round(height * 0.8);
+
+    let height_for_podcast_info_collapsed = Math.round(height * 0.33);
+
+    height_for_text_open = parseInt(height_for_text_open) + "px";
+    height_for_text_collapsed = parseInt(height_for_text_collapsed) + "px";
+    height_for_podcast_info_open =
+      parseInt(height_for_podcast_info_open) + "px";
+    height_for_podcast_info_collapsed =
+      parseInt(height_for_podcast_info_collapsed) + "px";
+
+    dispatch(
+      updateWindowDimensions({
+        width,
+        height,
+        height_for_text_open,
+        height_for_text_collapsed,
+        height_for_podcast_info_open,
+        height_for_podcast_info_collapsed,
+      })
+    );
+  }
+
+  function initWindowSizes() {
+    const { innerWidth: width, innerHeight: height } = window;
+    let height_for_text_open = Math.round(height * 0.66);
+    let height_for_text_collapsed = Math.round(height * 0.2);
+
+    let height_for_podcast_info_open = Math.round(height * 0.8);
+
+    let height_for_podcast_info_collapsed = Math.round(height * 0.33);
+
+    height_for_text_open = parseInt(height_for_text_open) + "px";
+    height_for_text_collapsed = parseInt(height_for_text_collapsed) + "px";
+    height_for_podcast_info_open =
+      parseInt(height_for_podcast_info_open) + "px";
+    height_for_podcast_info_collapsed =
+      parseInt(height_for_podcast_info_collapsed) + "px";
+
+    dispatch(
+      updateWindowDimensions({
+        width,
+        height,
+        height_for_text_open,
+        height_for_text_collapsed,
+        height_for_podcast_info_open,
+        height_for_podcast_info_collapsed,
+      })
+    );
   }
 
   React.useEffect(() => {
     console.log("app");
     window.addEventListener("resize", handleResize);
 
+    initWindowSizes();
     // speechSynthesis.addEventListener("voiceschanged", function () {
     //   let voices_new = speechSynthesis.getVoices();
     //   console.log(voices_new);

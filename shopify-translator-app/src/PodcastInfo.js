@@ -4,6 +4,9 @@ import HeroSrc from "./images/shopify_masters_hero.jpg";
 
 import { isMobile } from "react-device-detect";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
+import { useSelector } from "react-redux";
+
+import { getControlsSize } from "./reducers";
 
 function PodcastInfo() {
   let [topVisible, setTopVisible] = React.useState(false);
@@ -11,6 +14,8 @@ function PodcastInfo() {
   function hideTopToggleClick(event) {
     setTopVisible(!topVisible);
   }
+
+  let control_size = useSelector(getControlsSize);
 
   if (isMobile && topVisible === false) {
     return (

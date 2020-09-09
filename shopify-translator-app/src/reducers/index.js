@@ -203,3 +203,33 @@ export const getMP3PlayerState = (state) => {
     return "TBD";
   }
 };
+
+export const getTextSize = (state) => {
+  //    state.current_time;
+  if (state.dim !== undefined) {
+    return {
+      open: state.dim.height_for_text_open,
+      collapsed: state.dim.height_for_text_collapsed,
+    };
+  } else {
+    return {
+      open: "100px",
+      collapsed: "0px",
+    };
+  }
+};
+
+export const getPodcastInfosSize = (state) => {
+  //    state.current_time;
+  if (state.dim !== undefined) {
+    return {
+      open: state.dim.height_for_podcast_info_open,
+      collapsed: state.dim.height_for_podcast_info_open,
+    };
+  } else {
+    return {
+      open: "100px",
+      collapsed: "0px",
+    };
+  }
+};
