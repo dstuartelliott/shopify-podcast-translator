@@ -68,6 +68,16 @@ export default function appReducer(state = initialState, action) {
       };
     }
 
+    case "UPDATE_WINDOW_DIMENSIONS": {
+      // console.log("UPDATE_WINDOW_DIMENSIONS");
+      // console.log(action.dim);
+
+      return {
+        ...state,
+        dim: action.dim,
+      };
+    }
+
     default:
       return state;
   }

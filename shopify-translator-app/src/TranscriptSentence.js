@@ -11,6 +11,7 @@ import {
   markEnglishAsPlaying,
 } from "./actions";
 import { useSelector } from "react-redux";
+import { isMobile } from "react-device-detect";
 
 import {
   getSynthStateSpeaking,
@@ -83,90 +84,235 @@ function TranscriptSentence({
   let buttonSize = 15;
   // this might look ugly, but it's better than a bunch of nesteed ternary statements imho
   // also, I originally had a Button instead of the  SentenceDiv, but then I got a react warning about nesteed buttons so I've opted
-  if (englishHighlighted) {
-    return (
-      <Wrapper>
-        <SentenceAndSpeakerSelected>
-          <SentencePlayingDiv
-            onClick={handleClickedSentence}
-            id={sentence_object.uuid}
-          >
-            <ButtonDiv
-              style={{ justiftyContent: "center", alignItems: "center" }}
+
+  if (isMobile) {
+    if (englishHighlighted) {
+      return (
+        <Wrapper>
+          <SentenceAndSpeakerSelected>
+            <SentencePlayingDivMB
+              onClick={handleClickedSentence}
+              id={sentence_object.uuid}
             >
-              <TranslationButton onClick={handlePlayPauseEnglish}>
-                {mp3PlayState === "playing" ? (
-                  <IoIosPause size={buttonSize} />
-                ) : (
-                  <IoIosPlay size={buttonSize} />
-                )}
-              </TranslationButton>
-            </ButtonDiv>
-            <SentenceHighlighted>
-              {sentence_object.speaker}: {sentence_object.english_sentence}
-            </SentenceHighlighted>
-          </SentencePlayingDiv>
-          <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
-            <Sentence>
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </Sentence>
-          </SentencePlayingDiv>
-        </SentenceAndSpeakerSelected>
-      </Wrapper>
-    );
-  } else if (translatedHightlighted) {
-    return (
-      <Wrapper>
-        <SentenceAndSpeakerSelected>
-          <SentencePlayingDiv
-            onClick={handleClickedSentence}
-            id={sentence_object.uuid}
-          >
-            <Sentence>
-              {sentence_object.speaker}: {sentence_object.english_sentence}
-            </Sentence>
-          </SentencePlayingDiv>
+              <ButtonDivMB
+                style={{ justiftyContent: "center", alignItems: "center" }}
+              >
+                <TranslationButtonDB onClick={handlePlayPauseEnglish}>
+                  {mp3PlayState === "playing" ? (
+                    <IoIosPause size={buttonSize} />
+                  ) : (
+                    <IoIosPlay size={buttonSize} />
+                  )}
+                </TranslationButtonDB>
+              </ButtonDivMB>
+              <SentenceHighlightedMB>
+                {sentence_object.speaker}: {sentence_object.english_sentence}
+              </SentenceHighlightedMB>
+            </SentencePlayingDivMB>
+            <SentencePlayingDivMB onClick={handleTranslatedClickedSentence}>
+              <SentenceMB>
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </SentenceMB>
+            </SentencePlayingDivMB>
+          </SentenceAndSpeakerSelected>
+        </Wrapper>
+      );
+    } else if (translatedHightlighted) {
+      return (
+        <Wrapper>
+          <SentenceAndSpeakerSelected>
+            <SentencePlayingDivMB
+              onClick={handleClickedSentence}
+              id={sentence_object.uuid}
+            >
+              <SentenceMB>
+                {sentence_object.speaker}: {sentence_object.english_sentence}
+              </SentenceMB>
+            </SentencePlayingDivMB>
 
-          <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
-            <ButtonDiv>
-              <TranslationButton onClick={handlePlayPauseTranslation}>
-                {synthSpeaking && translationUUID === sentence_object.uuid ? (
-                  <IoIosPause size={buttonSize} />
-                ) : (
-                  <IoIosPlay size={buttonSize} />
-                )}
-              </TranslationButton>
-            </ButtonDiv>
+            <SentencePlayingDivMB onClick={handleTranslatedClickedSentence}>
+              <ButtonDivMB>
+                <TranslationButtonDB onClick={handlePlayPauseTranslation}>
+                  {synthSpeaking && translationUUID === sentence_object.uuid ? (
+                    <IoIosPause size={buttonSize} />
+                  ) : (
+                    <IoIosPlay size={buttonSize} />
+                  )}
+                </TranslationButtonDB>
+              </ButtonDivMB>
 
-            <SentenceHighlighted>
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </SentenceHighlighted>
-          </SentencePlayingDiv>
-        </SentenceAndSpeakerSelected>
-      </Wrapper>
-    );
-  } else {
-    return (
-      <Wrapper>
-        <SentenceAndSpeaker>
-          <SentenceDiv
-            onClick={handleClickedSentence}
-            id={sentence_object.uuid}
-          >
-            <Sentence>
-              {sentence_object.speaker}: {sentence_object.english_sentence}
-            </Sentence>
-          </SentenceDiv>
-          <SentenceDiv onClick={handleTranslatedClickedSentence}>
-            <Sentence>
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </Sentence>
-          </SentenceDiv>
-        </SentenceAndSpeaker>
-      </Wrapper>
-    );
+              <SentenceHighlighted>
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </SentenceHighlighted>
+            </SentencePlayingDivMB>
+          </SentenceAndSpeakerSelected>
+        </Wrapper>
+      );
+    } else {
+      return (
+        <Wrapper>
+          <SentenceAndSpeaker>
+            <SentenceDivMB
+              onClick={handleClickedSentence}
+              id={sentence_object.uuid}
+            >
+              <SentenceMB>
+                {sentence_object.speaker}: {sentence_object.english_sentence}
+              </SentenceMB>
+            </SentenceDivMB>
+            <SentenceDivMB onClick={handleTranslatedClickedSentence}>
+              <SentenceMB>
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </SentenceMB>
+            </SentenceDivMB>
+          </SentenceAndSpeaker>
+        </Wrapper>
+      );
+    }
+  }
+  if (isMobile === false) {
+    if (englishHighlighted) {
+      return (
+        <Wrapper>
+          <SentenceAndSpeakerSelected>
+            <SentencePlayingDiv
+              onClick={handleClickedSentence}
+              id={sentence_object.uuid}
+            >
+              <ButtonDiv
+                style={{ justiftyContent: "center", alignItems: "center" }}
+              >
+                <TranslationButton onClick={handlePlayPauseEnglish}>
+                  {mp3PlayState === "playing" ? (
+                    <IoIosPause size={buttonSize} />
+                  ) : (
+                    <IoIosPlay size={buttonSize} />
+                  )}
+                </TranslationButton>
+              </ButtonDiv>
+              <SentenceHighlighted>
+                {sentence_object.speaker}: {sentence_object.english_sentence}
+              </SentenceHighlighted>
+            </SentencePlayingDiv>
+            <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
+              <Sentence>
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </Sentence>
+            </SentencePlayingDiv>
+          </SentenceAndSpeakerSelected>
+        </Wrapper>
+      );
+    } else if (translatedHightlighted) {
+      return (
+        <Wrapper>
+          <SentenceAndSpeakerSelected>
+            <SentencePlayingDiv
+              onClick={handleClickedSentence}
+              id={sentence_object.uuid}
+            >
+              <Sentence>
+                {sentence_object.speaker}: {sentence_object.english_sentence}
+              </Sentence>
+            </SentencePlayingDiv>
+
+            <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
+              <ButtonDiv>
+                <TranslationButton onClick={handlePlayPauseTranslation}>
+                  {synthSpeaking && translationUUID === sentence_object.uuid ? (
+                    <IoIosPause size={buttonSize} />
+                  ) : (
+                    <IoIosPlay size={buttonSize} />
+                  )}
+                </TranslationButton>
+              </ButtonDiv>
+
+              <SentenceHighlighted>
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </SentenceHighlighted>
+            </SentencePlayingDiv>
+          </SentenceAndSpeakerSelected>
+        </Wrapper>
+      );
+    } else {
+      return (
+        <Wrapper>
+          <SentenceAndSpeaker>
+            <SentenceDiv
+              onClick={handleClickedSentence}
+              id={sentence_object.uuid}
+            >
+              <Sentence>
+                {sentence_object.speaker}: {sentence_object.english_sentence}
+              </Sentence>
+            </SentenceDiv>
+            <SentenceDiv onClick={handleTranslatedClickedSentence}>
+              <Sentence>
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </Sentence>
+            </SentenceDiv>
+          </SentenceAndSpeaker>
+        </Wrapper>
+      );
+    }
   }
 }
+
+// Mobile
+
+const SentencePlayingDivMB = styled.div`
+  display: flex;
+  flex-direction: row;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  padding-bottom: 10px;
+`;
+
+const SentenceDivMB = styled.div`
+  display: flex;
+  flex-direction: row;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  padding-bottom: 10px;
+`;
+
+const SentenceMB = styled.div`
+  background-color: white;
+  padding-left: 11px;
+  color: grey;
+  margin-right: 0px;
+`;
+const SentenceHighlightedMB = styled.div`
+  background-color: white;
+  padding-left: 11px;
+
+  color: rgba(26, 26, 26);
+`;
+
+const ButtonDivMB = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  text-align: center;
+`;
+
+const TranslationButtonDB = styled.button`
+  cursor: pointer;
+
+  overflow: hidden;
+  z-index: 200;
+  border-radius: 25px;
+  border-color: transparent;
+  color: rgba(92, 115, 196);
+  background-color: transparent;
+  :focus {
+    outline: none;
+  }
+  align-self: center;
+`;
+
+// Desktop
 
 const ButtonDiv = styled.div`
   display: flex;

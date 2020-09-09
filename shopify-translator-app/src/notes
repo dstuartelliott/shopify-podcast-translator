@@ -54,3 +54,7 @@ Only be used for length text such as terms of service or other legal disclaimers
 yarn add react-spinners
 
 npm install --save @emotion/core
+
+
+I put the window dimensions into my reducers.  I know I coould call window dimensions elsewhere, at the component level, but I think it's good to have all state flow through the redux model, if I'm going to make choices about responding to it.
+

@@ -8,14 +8,48 @@ import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { isMobile } from "react-device-detect";
 import ScrollableText from "./ScrollableText.js";
+import { useDispatch } from "react-redux";
+
+import { updateWindowDimensions } from "./actions";
+
 function App() {
+  const [windowDimensions, setWindowDimensions] = React.useState(
+    getWindowDimensions()
+  );
+
+  const dispatch = useDispatch();
+
+  function getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    let height_for_text = Math.round(height * 0.66);
+    height_for_text = parseInt(height_for_text) + "px";
+    return {
+      width,
+      height,
+      height_for_text,
+    };
+  }
+
+  function handleResize() {
+    console.log("handleResize");
+
+    const { innerWidth: width, innerHeight: height } = window;
+    let height_for_text = Math.round(height * 0.66);
+    height_for_text = parseInt(height_for_text) + "px";
+    console.log(height_for_text);
+    dispatch(updateWindowDimensions({ width, height, height_for_text }));
+  }
+
   React.useEffect(() => {
     console.log("app");
+    window.addEventListener("resize", handleResize);
+
     // speechSynthesis.addEventListener("voiceschanged", function () {
     //   let voices_new = speechSynthesis.getVoices();
     //   console.log(voices_new);
 
     // });
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // if (isMobile) {

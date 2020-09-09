@@ -48,3 +48,8 @@ export const updateSpeechSynthState = (speechSynth) => ({
   type: "UPDATE_SPEECH_SYNTH_STATE",
   synth: speechSynth,
 });
+
+export const updateWindowDimensions = (dim) => ({
+  type: "UPDATE_WINDOW_DIMENSIONS",
+  dim: dim,
+});

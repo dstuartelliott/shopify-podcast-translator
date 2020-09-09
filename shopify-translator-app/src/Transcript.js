@@ -20,6 +20,16 @@ import SpinnerJustKF from "./SpinnerJustKF";
 
 let refs = {};
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  let height_for_text = Math.round(height * 0.66);
+  height_for_text = parseInt(height_for_text) + "px";
+  return {
+    width,
+    height,
+    height_for_text,
+  };
+}
 function Transcript() {
   const playerContext = React.useContext(PlayerContext);
   const dispatch = useDispatch();
@@ -33,7 +43,16 @@ function Transcript() {
   const [currentUUID, setcurrentUUID] = React.useState("");
   const [isLoaded, setIsLoaded] = React.useState(false);
 
+  const [windowDimensions, setWindowDimensions] = React.useState(
+    getWindowDimensions()
+  );
+
+  function handleResize() {
+    setWindowDimensions(getWindowDimensions());
+  }
+
   React.useEffect(() => {
+    window.addEventListener("resize", handleResize);
     console.log("Transcript useffect");
 
     async function getTranscriptSentences() {
@@ -105,6 +124,7 @@ function Transcript() {
       //updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
     }
     getTranscriptSentences();
+    return () => window.removeEventListener("resize", handleResize);
     // eslint-disable-next-line
   }, []);
 
@@ -128,18 +148,6 @@ function Transcript() {
     }
     // eslint-disable-next-line
   }, [current_time]);
-
-  function ScrollToBottom() {
-    let element = document.getElementById(
-      "ddcec5dc-f824-4a60-94d1-30aa6e841b28"
-    );
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-    console.log(element);
-    console.log("ScrollToBottom");
-  }
 
   React.useEffect(() => {
     let element = document.getElementById(english_uuid);
@@ -195,11 +203,14 @@ function Transcript() {
   // Mobile version
   if (isMobile && isLoaded) {
     return (
-      <TranscriptWrapper>
+      <TranscriptWrappeMB>
         <Divider>
           <LineMB></LineMB>
+          {/* {windowDimensions.height}
+          <p></p>
+          {windowDimensions.height_for_text} */}
         </Divider>
-        <TranscriptListMB>
+        <TranscriptListMB textHeight={windowDimensions.height_for_text}>
           {simplifiedSentences.map((element, i) => {
             // console.log(element.uuid);
             // console.log(uuidToHighLight);
@@ -223,7 +234,7 @@ function Transcript() {
         </TranscriptListMB>
 
         <FooterHiderForScrollBar> </FooterHiderForScrollBar>
-      </TranscriptWrapper>
+      </TranscriptWrappeMB>
     );
   }
 
@@ -285,13 +296,19 @@ const Loading = styled.div`
 
 // Mobile
 
+const TranscriptWrappeMB = styled.div`
+  background-color: red;
+`;
+
 const TranscriptListMB = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 600px;
+  /* background-image: url("${(props) => props.image_source}"); */
+  height: ${(props) => props.textHeight};
+
   overflow: scroll;
-  width: 80%;
+  width: 95%;
   scrollbar-width: 10px;
 `;
 
