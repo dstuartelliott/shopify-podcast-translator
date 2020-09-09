@@ -78,6 +78,16 @@ export default function appReducer(state = initialState, action) {
       };
     }
 
+    case "UPDATE_TOP_PODCAST_INFO_DIMENSIONS": {
+      // console.log("UPDATE_WINDOW_DIMENSIONS");
+      // console.log(action.dim);
+
+      return {
+        ...state,
+        podcast_info_dimensions: action.podcast_info_dimensions,
+      };
+    }
+
     default:
       return state;
   }
@@ -224,7 +234,7 @@ export const getPodcastInfosSize = (state) => {
   if (state.dim !== undefined) {
     return {
       open: state.dim.height_for_podcast_info_open,
-      collapsed: state.dim.height_for_podcast_info_open,
+      collapsed: state.dim.height_for_text_collapsed,
     };
   } else {
     return {

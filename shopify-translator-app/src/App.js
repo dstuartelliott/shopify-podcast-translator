@@ -37,7 +37,7 @@ function App() {
 
     let height_for_podcast_info_open = Math.round(height * 0.8);
 
-    let height_for_podcast_info_collapsed = Math.round(height * 0.33);
+    let height_for_podcast_info_collapsed = Math.round(height * 0.1);
 
     height_for_text_open = parseInt(height_for_text_open) + "px";
     height_for_text_collapsed = parseInt(height_for_text_collapsed) + "px";
@@ -65,7 +65,7 @@ function App() {
 
     let height_for_podcast_info_open = Math.round(height * 0.8);
 
-    let height_for_podcast_info_collapsed = Math.round(height * 0.33);
+    let height_for_podcast_info_collapsed = Math.round(height * 0.1);
 
     height_for_text_open = parseInt(height_for_text_open) + "px";
     height_for_text_collapsed = parseInt(height_for_text_collapsed) + "px";

@@ -53,3 +53,8 @@ export const updateWindowDimensions = (dim) => ({
   type: "UPDATE_WINDOW_DIMENSIONS",
   dim: dim,
 });
+
+export const updatePodcastInfoDimensions = (podcast_info_dimensions) => ({
+  type: "UPDATE_TOP_PODCAST_INFO_DIMENSIONS",
+  podcast_info_dimensions: podcast_info_dimensions,
+});

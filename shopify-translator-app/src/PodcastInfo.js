@@ -6,7 +6,8 @@ import { isMobile } from "react-device-detect";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { useSelector } from "react-redux";
 
-import { getControlsSize } from "./reducers";
+import { getPodcastInfosSize } from "./reducers";
+import { updatePodcastInfoDimensions } from "./actions";
 
 function PodcastInfo() {
   let [topVisible, setTopVisible] = React.useState(false);
@@ -15,14 +16,16 @@ function PodcastInfo() {
     setTopVisible(!topVisible);
   }
 
-  let control_size = useSelector(getControlsSize);
+  let podcast_info_size = useSelector(getPodcastInfosSize);
 
   if (isMobile && topVisible === false) {
+    console.log({ podcast_info_size });
+
     return (
-      <Wrapper>
+      <WrapperCollapased>
         <PodcastInfoSectionMBCollapsed>
           <HeroImgMB image_source={HeroSrc}></HeroImgMB>
-
+          {podcast_info_size.collapsed}
           <TextAndButtonCollapsed>
             <PodcastTitleMBCollapsed>
               The Pre-Launch Strategies of a Million-Dollar Brand
@@ -34,7 +37,7 @@ function PodcastInfo() {
             </ShowHideCollapsed>
           </TextAndButtonCollapsed>
         </PodcastInfoSectionMBCollapsed>
-      </Wrapper>
+      </WrapperCollapased>
     );
     return <div>mobile</div>;
   }
@@ -160,6 +163,11 @@ const PodcastInfoSectionMBCollapsed = styled.div`
   border: 2px solid #eec200;
   border-radius: 6px;
   margin: auto;
+`;
+
+const WrapperCollapased = styled.div`
+  padding-top: 20px;
+  height: ${(props) => props.infoSize};
 `;
 
 //Mobile
