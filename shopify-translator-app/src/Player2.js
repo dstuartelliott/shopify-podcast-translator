@@ -6,6 +6,7 @@ import "react-h5-audio-player/lib/styles.css";
 import { useDispatch } from "react-redux";
 import PodcastInfo from "./PodcastInfo.js";
 import { isMobile } from "react-device-detect";
+import { MP3_PLAYER_STATES } from "./constants";
 
 import {
   jumpToTime,
@@ -50,39 +51,116 @@ function Player2() {
   //   //eslint-disable-next-line
   // }, [podcast_toggle_state]);
 
+  // backup
+  // React.useEffect(() => {
+  //   console.log("time to jump to useEffect fired");
+
+  //   if (timeToJumpTo === -200.0) {
+  //     audioref.current.audio.current.play();
+  //   }
+
+  //   if (timeToJumpTo === -99.99) {
+  //     audioref.current.audio.current.pause();
+  //   } else if (timeToJumpTo > 0.0) {
+  //     //   console.log(audioref);
+  //     //   console.log(audioref.current);
+  //     //   console.log(audioref.current.audio.current);
+  //     //   console.log(audioref.current.audio.current.currentTime);
+
+  //     //   console.log("should be jumpinto to " + timeToJumpTo);
+  //     let promise = audioref.current.audio.current.play();
+  //     if (promise !== undefined) {
+  //       promise
+  //         .then((_) => {
+  //           audioref.current.audio.current.currentTime = timeToJumpTo;
+  //           dispatch(jumpToTime(-1.0));
+
+  //           // Autoplay started!
+  //         })
+  //         .catch((error) => {
+  //           console.log("nope");
+  //         });
+  //     }
+  //   }
+
+  //   // eslint-disable-next-line
+  // }, [timeToJumpTo]);
+
   React.useEffect(() => {
     console.log("time to jump to useEffect fired");
 
-    if (timeToJumpTo === -200.0) {
-      audioref.current.audio.current.play();
-    }
-
-    if (timeToJumpTo === -99.99) {
-      audioref.current.audio.current.pause();
-    } else if (timeToJumpTo > 0.0) {
+    if (timeToJumpTo > 0.0) {
       //   console.log(audioref);
       //   console.log(audioref.current);
       //   console.log(audioref.current.audio.current);
       //   console.log(audioref.current.audio.current.currentTime);
 
       //   console.log("should be jumpinto to " + timeToJumpTo);
-      let promise = audioref.current.audio.current.play();
-      if (promise !== undefined) {
-        promise
-          .then((_) => {
-            audioref.current.audio.current.currentTime = timeToJumpTo;
-            dispatch(jumpToTime(-1.0));
 
-            // Autoplay started!
-          })
-          .catch((error) => {
-            console.log("nope");
-          });
-      }
+      audioref.current.audio.current.currentTime = timeToJumpTo;
+
+      // let promise = audioref.current.audio.current.play();
+      // if (promise !== undefined) {
+      //   promise
+      //     .then((_) => {
+      //       audioref.current.audio.current.currentTime = timeToJumpTo;
+      //       // dispatch(jumpToTime(-1.0));
+
+      //       // Autoplay started!
+      //     })
+      //     .catch((error) => {
+      //       console.log("nope");
+      //     });
+      // }
     }
 
     // eslint-disable-next-line
   }, [timeToJumpTo]);
+
+  React.useEffect(() => {
+    if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
+      audioref.current.audio.current.play();
+    } else if (mp3PlayerState === MP3_PLAYER_STATES.PAUSED) {
+      audioref.current.audio.current.pause();
+    }
+  }, [mp3PlayerState]);
+
+  // React.useEffect(() => {
+  //   console.log("time to jump to useEffect fired");
+
+  //   if (mp3PlayerState === "paused") {
+  //   }
+
+  //   if (timeToJumpTo === -200.0) {
+  //     audioref.current.audio.current.play();
+  //   }
+
+  //   if (timeToJumpTo === -99.99) {
+  //     audioref.current.audio.current.pause();
+  //   } else if (timeToJumpTo > 0.0) {
+  //     //   console.log(audioref);
+  //     //   console.log(audioref.current);
+  //     //   console.log(audioref.current.audio.current);
+  //     //   console.log(audioref.current.audio.current.currentTime);
+
+  //     //   console.log("should be jumpinto to " + timeToJumpTo);
+  //     let promise = audioref.current.audio.current.play();
+  //     if (promise !== undefined) {
+  //       promise
+  //         .then((_) => {
+  //           audioref.current.audio.current.currentTime = timeToJumpTo;
+  //           dispatch(jumpToTime(-1.0));
+
+  //           // Autoplay started!
+  //         })
+  //         .catch((error) => {
+  //           console.log("nope");
+  //         });
+  //     }
+  //   }
+
+  //   // eslint-disable-next-line
+  // }, [mp3PlayerState]);
 
   function getRoomForText(podcastInfoHeight, ControllerHeight) {
     //eslint-disable-next-line
@@ -129,7 +207,7 @@ function Player2() {
   }
 
   function onPauseListen(event) {
-    dispatch(recordMP3PlayerState("paused"));
+    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
   }
 
   function onPlayListen(event) {
@@ -179,7 +257,7 @@ function Player2() {
         dispatch(markEnglishAsPlaying(event.srcElement.currentTime, "TBD"));
       }
 
-      dispatch(recordMP3PlayerState("playing"));
+      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
 
       console.log(event);
     }

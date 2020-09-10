@@ -3,7 +3,7 @@ import "./App.css";
 import styled from "styled-components";
 import { SpeechSynthContext } from "./SpeechSynthContext";
 import { IoIosPlay, IoIosPause } from "react-icons/io";
-
+import { MP3_PLAYER_STATES } from "./constants";
 import {
   jumpToTime,
   markTranslationAsPlaying,
@@ -52,7 +52,7 @@ function TranscriptSentence({
     console.log(event);
     cancelAllSpeech();
     dispatch(markTranslationAsDonePlaying());
-    dispatch(recordMP3PlayerState("playing"));
+    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
 
     dispatch(jumpToTime(sentence_object.start));
     console.log("------------ markEnglish");
@@ -63,11 +63,16 @@ function TranscriptSentence({
   }
 
   function handleTranslatedClickedSentence(event) {
+    console.log(
+      "=========================================================================="
+    );
+
     console.log(event);
     playSpeechInSynthContext(sentence_object);
     dispatch(
       markTranslationAsPlaying(sentence_object.start, sentence_object.uuid)
     );
+    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
   }
 
   function handlePlayPauseTranslation(event) {
@@ -76,11 +81,15 @@ function TranscriptSentence({
   }
 
   function handlePlayPauseEnglish(event) {
-    if (mp3PlayState === "playing") {
-      console.log(" handlePlayPauseEnglish pausing");
-      dispatch(jumpToTime(-99.99));
-    } else if (mp3PlayState === "paused") {
-      dispatch(jumpToTime(curentTime));
+    console.log(" handlePlayPauseEnglish pausing");
+    console.log(" ***********************************");
+
+    if (mp3PlayState === MP3_PLAYER_STATES.PAUSED) {
+      // dispatch(jumpToTime(-99.99));
+      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+    } else if (mp3PlayState === MP3_PLAYER_STATES.PLAYING) {
+      // dispatch(jumpToTime(curentTime));
+      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
     }
 
     event.stopPropagation();

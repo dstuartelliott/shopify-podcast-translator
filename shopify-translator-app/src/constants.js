@@ -3,4 +3,10 @@ const LANGUAGES = {
   FRENCH: "french",
   NONE: "none",
 };
-export { LANGUAGES };
+
+const MP3_PLAYER_STATES = {
+  PAUSED: "paused",
+  PLAYING: "playing",
+};
+
+export { LANGUAGES, MP3_PLAYER_STATES };
