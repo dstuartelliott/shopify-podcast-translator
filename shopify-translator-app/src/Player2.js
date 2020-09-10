@@ -9,7 +9,6 @@ import { isMobile } from "react-device-detect";
 import { MP3_PLAYER_STATES } from "./constants";
 
 import {
-  jumpToTime,
   addCurrentTime,
   markEnglishAsPlaying,
   recordMP3PlayerState,
@@ -18,7 +17,6 @@ import {
 import {
   getTimeToJumpTo,
   getUUIDsandTimes,
-  getPodcastToggleState,
   getMP3PlayerState,
 } from "./reducers";
 import { useSelector } from "react-redux";
@@ -31,7 +29,6 @@ function Player2() {
   const TopItemsRef = React.useRef(null);
   const AudioDivRef = React.useRef(null);
 
-  let podcast_toggle_state = useSelector(getPodcastToggleState);
   const audioref = React.useRef(null);
 
   let [TopPartHeight] = useSize(TopItemsRef);

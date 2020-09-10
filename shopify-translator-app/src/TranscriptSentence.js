@@ -36,8 +36,6 @@ function TranscriptSentence({
   let synthSpeaking = useSelector(getSynthStateSpeaking);
   let translationUUID = useSelector(getTranslationTimeCodeAndUUID).uuid;
 
-  let curentTime = useSelector(getCurrentTime);
-
   let mp3PlayState = useSelector(getMP3PlayerState);
 
   const {
