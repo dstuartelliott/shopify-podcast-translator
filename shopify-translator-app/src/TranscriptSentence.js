@@ -18,7 +18,6 @@ import {
   getSynthStateSpeaking,
   getTranslationTimeCodeAndUUID,
   getMP3PlayerState,
-  getCurrentTime,
 } from "./reducers";
 
 import { useDispatch } from "react-redux";
