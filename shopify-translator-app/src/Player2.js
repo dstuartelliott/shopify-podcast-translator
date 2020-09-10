@@ -112,7 +112,7 @@ function Player2() {
     console.log(ControllerHeight); // 89
     console.log(height_for_text); // 343
 
-    return height_for_text + 40;
+    return height_for_text + 200;
   }
 
   function announceListen(event) {

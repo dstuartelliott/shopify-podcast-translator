@@ -246,9 +246,6 @@ function Transcript() {
       <TranscriptWrappeMB>
         <Divider>
           <LineMB></LineMB>
-          {/* {windowDimensions.height}
-          <p></p>
-          {windowDimensions.height_for_text} */}
         </Divider>
         <TranscriptListMB textHeight={text_size.open}>
           {simplifiedSentences.map((element, i) => {
@@ -272,6 +269,9 @@ function Transcript() {
             );
           })}
         </TranscriptListMB>
+        <Divider>
+          <LineMB></LineMB>
+        </Divider>
 
         <FooterHiderForScrollBar> </FooterHiderForScrollBar>
       </TranscriptWrappeMB>
