@@ -134,8 +134,6 @@ function Transcript() {
         refs[sent.uuid] = React.createRef();
       });
       console.log(refs);
-      yarn build
-      shopify-translator-app
       //updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
     }
     getTranscriptSentences();
