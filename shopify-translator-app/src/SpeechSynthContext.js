@@ -8,7 +8,6 @@ import {
 import { isMobile } from "react-device-detect";
 
 let voices = speechSynthesis.getVoices();
-console.log(voices);
 let french_voice = voices.filter((v) => v.lang === "fr-CA");
 let utterance;
 let last_boundary;

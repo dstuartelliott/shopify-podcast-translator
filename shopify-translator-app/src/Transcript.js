@@ -23,7 +23,6 @@ import { IoMdLock } from "react-icons/io";
 
 import SpinnerJustKF from "./SpinnerJustKF";
 
-let refs = {};
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
   let height_for_text = Math.round(height * 0.66);
@@ -67,9 +66,10 @@ function Transcript() {
 
   React.useEffect(() => {
     window.addEventListener("resize", handleResize);
-    console.log("Transcript useffect");
 
     async function getTranscriptSentences() {
+      console.log("expensive transcript operation");
+
       let combined = await playerContext.getCombined();
 
       let sentenceAndGoodWordCombined = [];
@@ -126,15 +126,7 @@ function Transcript() {
         }
       });
 
-      console.log("Transcript useffect");
-
-      console.log(combined.translations);
       dispatch(addTranscript(sentenceAndGoodWordCombined));
-      sentenceAndGoodWordCombined.forEach((sent) => {
-        refs[sent.uuid] = React.createRef();
-      });
-      console.log(refs);
-      //updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
     }
     getTranscriptSentences();
     return () => window.removeEventListener("resize", handleResize);
@@ -142,8 +134,8 @@ function Transcript() {
   }, []);
 
   React.useEffect(() => {
-    console.log(" useEffect podcast_player_state");
-    console.log(podcast_player_state);
+    // console.log(" useEffect podcast_player_state");
+    // console.log(podcast_player_state);
     if (
       podcast_player_state === "playing" ||
       podcast_player_state === "paused"
@@ -174,8 +166,13 @@ function Transcript() {
       }
     }
     if (array_i !== undefined) {
+      console.log("------------ setcurrentUUID");
+
       console.log("Transcript 177");
       setcurrentUUID(uuids_and_times[array_i].uuid);
+
+      console.log("------------ markEnglish");
+
       console.log("Transcript 179");
 
       dispatch(
@@ -187,8 +184,7 @@ function Transcript() {
 
   React.useEffect(() => {
     let element = document.getElementById(english_uuid);
-    console.log(english_uuid);
-    if (element !== null) {
+    if (element !== null && element !== undefined) {
       element.scrollIntoView({
         behavior: "smooth",
         block: "center",
@@ -198,7 +194,6 @@ function Transcript() {
 
   // Mobile loading
   if (isMobile && isLoaded === false) {
-    console.log({ isLoaded });
     return (
       <Loading>
         <LoadingFlex>
@@ -218,7 +213,6 @@ function Transcript() {
 
   // Desktop loading
   if (isMobile === false && isLoaded === false) {
-    console.log({ isLoaded });
     return (
       <Loading>
         <LoadingFlex>
@@ -243,8 +237,6 @@ function Transcript() {
     podcast_toggle_state.podcast_info_collapsed &&
     playerWasClicked
   ) {
-    console.log({ text_size });
-
     return (
       <TranscriptWrappeMB>
         <Divider>
@@ -302,8 +294,6 @@ function Transcript() {
     isLoaded &&
     podcast_toggle_state.podcast_info_collapsed === false
   ) {
-    console.log({ text_size });
-
     return (
       <TranscriptWrappeMB>
         <UnlockWarning>
@@ -318,7 +308,6 @@ function Transcript() {
 
   // Desktop version
   if (isMobile === false && isLoaded) {
-    console.log(text_size);
     return (
       <TranscriptWrapper>
         <Divider>

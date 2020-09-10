@@ -44,11 +44,11 @@ function Player2() {
     actions: { cancelAllSpeech },
   } = React.useContext(SpeechSynthContext);
 
-  React.useEffect(() => {
-    console.log(" toggle state changed");
-    console.log(TopPartHeight);
-    //eslint-disable-next-line
-  }, [podcast_toggle_state]);
+  // React.useEffect(() => {
+  //   console.log(" toggle state changed");
+  //   console.log(TopPartHeight);
+  //   //eslint-disable-next-line
+  // }, [podcast_toggle_state]);
 
   React.useEffect(() => {
     console.log("time to jump to useEffect fired");

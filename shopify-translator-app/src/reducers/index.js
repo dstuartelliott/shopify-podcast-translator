@@ -7,8 +7,8 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "ADD_TRANSCRIPT": {
-      console.log("ADD_TRANSCRIPT");
-      console.log(action.transcript);
+      // console.log("ADD_TRANSCRIPT");
+      // console.log(action.transcript);
 
       return { ...state, transcript: action.transcript };
     }
@@ -93,9 +93,6 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "UPDATE_PODCAST_INFO_TOGGLE_STATE": {
-      console.log("UPDATE_PODCAST_INFO_TOGGLE_STATE");
-      console.log(action.podcast_info_collapsed);
-
       return {
         ...state,
         podcast_info_collapsed: action.podcast_info_collapsed,

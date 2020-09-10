@@ -85,7 +85,6 @@ function App() {
   }
 
   React.useEffect(() => {
-    console.log("app");
     window.addEventListener("resize", handleResize);
 
     initWindowSizes();
