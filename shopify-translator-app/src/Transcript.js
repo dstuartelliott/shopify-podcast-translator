@@ -35,13 +35,6 @@ function getWindowDimensions() {
   };
 }
 
-function getRoomForText(podcastInfoHeight, ControllerHeight) {
-  const { innerWidth: width, innerHeight: height } = window;
-  let height_for_text = height - (podcastInfoHeight + ControllerHeight);
-
-  return height_for_text;
-}
-
 function Transcript() {
   const playerContext = React.useContext(PlayerContext);
   const dispatch = useDispatch();
@@ -166,14 +159,6 @@ function Transcript() {
       console.log(
         podcast_info_collapsed_size.podcast_info_dimensions.height_collapsed
       );
-      let room = getRoomForText(
-        podcast_info_collapsed_size.podcast_info_dimensions.height_collapsed,
-        110
-      );
-      console.log(room);
-      let room_string = parseInt(room) + "px";
-      console.log(room_string);
-      setRoomForText(room_string);
     }
   }, [podcast_player_state]);
 
@@ -230,7 +215,7 @@ function Transcript() {
   }
 
   // Desktop loading
-  if (isMobile == false && isLoaded === false) {
+  if (isMobile === false && isLoaded === false) {
     console.log({ isLoaded });
     return (
       <Loading>
@@ -330,7 +315,7 @@ function Transcript() {
   }
 
   // Desktop version
-  if (isMobile == false && isLoaded) {
+  if (isMobile === false && isLoaded) {
     console.log(text_size);
     return (
       <TranscriptWrapper>
