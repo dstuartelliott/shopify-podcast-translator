@@ -7,10 +7,18 @@ import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
-import { getPodcastInfosSize } from "./reducers";
+import {
+  getPodcastInfosSize,
+  getCurrentTime,
+  getMP3PlayerState,
+} from "./reducers";
 import {
   updatePodcastInfoDimensions,
   updatePodcastToggleState,
+  jumpToTime,
+  markEnglishAsPlaying,
+  recordMP3PlayerState,
+  addCurrentTime,
 } from "./actions";
 import PodcastInfoExpanded from "./PodcastInfoExpanded";
 import PodcastInfoCollapsed from "./PodcastInfoCollapsed";
@@ -25,8 +33,48 @@ import useSize from "@react-hook/size";
 
 function PodcastInfo() {
   const dispatch = useDispatch();
+  let current_time = useSelector(getCurrentTime);
+
+  let [playState, setPlayState] = React.useState("paused");
 
   let [topVisible, setTopVisible] = React.useState(false);
+  let mp3PlayState = useSelector(getMP3PlayerState);
+
+  function handlePlayClickButton(event) {
+    console.log(current_time);
+    if (playState === "paused") {
+      if (current_time === undefined) {
+        dispatch(jumpToTime(-200.0));
+        // dispatch(markEnglishAsPlaying(0.0, "TBD"));
+
+        // dispatch(recordMP3PlayerState("playing"));
+      } else {
+        dispatch(jumpToTime(current_time));
+      }
+      setPlayState("playing");
+    } else if (playState === "playing") {
+      console.log("=-=======pausing");
+      if (mp3PlayState === "playing") {
+        console.log(" handlePlayPauseEnglish pausing");
+        dispatch(jumpToTime(-99.99));
+      } else if (mp3PlayState === "paused") {
+        dispatch(jumpToTime(current_time));
+      }
+      setPlayState("paused");
+    }
+  }
+
+  function jumpFwd(event) {
+    if (current_time !== undefined) {
+      dispatch(jumpToTime(current_time + 15.0));
+    }
+  }
+
+  function jumpBack(event) {
+    if (current_time !== undefined) {
+      dispatch(jumpToTime(current_time - 15.0));
+    }
+  }
 
   function hideTopToggleClick(event) {
     if (topVisible === true) {
@@ -73,10 +121,20 @@ function PodcastInfo() {
             </PodcastTitleMBCollapsed>
             <ShowHideCollapsed>
               <CollaposedPlayerButtons>
-                <IoMdRewind size={20}></IoMdRewind>
-                <IoIosPlayCircle size={30}></IoIosPlayCircle>
+                <PlayButton onClick={jumpBack}>
+                  <IoMdRewind size={20}></IoMdRewind>
+                </PlayButton>
+                <PlayButton onClick={handlePlayClickButton}>
+                  {playState === "playing" ? (
+                    <IoIosPause size={20}></IoIosPause>
+                  ) : (
+                    <IoIosPlayCircle size={30}></IoIosPlayCircle>
+                  )}
+                </PlayButton>
 
-                <IoIosFastforward size={20}></IoIosFastforward>
+                <PlayButton onClick={jumpFwd}>
+                  <IoIosFastforward size={20}></IoIosFastforward>
+                </PlayButton>
               </CollaposedPlayerButtons>
               <ShowHideButtonCollapsed onClick={hideTopToggleClick}>
                 <MdExpandMore size={30}></MdExpandMore>
@@ -137,14 +195,30 @@ function PodcastInfo() {
   }
 }
 
+const PlayButton = styled.button`
+  cursor: pointer;
+  width: 50px;
+  height: 40px;
+  overflow: hidden;
+  z-index: 200;
+  border-color: transparent;
+  background-color: transparent;
+  /* border: 1px dashed #f49342; */
+  :focus {
+    outline: none;
+  }
+  align-self: center;
+`;
+
 const CollaposedPlayerButtons = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 100px;
+  width: 130px;
   margin: auto;
-  padding: 10px;
+  padding-left: 10px;
+  padding-top: 10px;
 `;
 
 const ShowHideCollapsed = styled.div`

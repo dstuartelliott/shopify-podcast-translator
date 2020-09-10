@@ -54,7 +54,7 @@ function Player2() {
   let timeToJumpTo = useSelector(getTimeToJumpTo);
 
   let uuids_and_times = useSelector(getUUIDsandTimes);
-
+  var noPlay = React.createElement("foo-bar", { className: "bar" }, "");
   const {
     actions: { cancelAllSpeech },
   } = React.useContext(SpeechSynthContext);
@@ -75,6 +75,11 @@ function Player2() {
 
   React.useEffect(() => {
     console.log("time to jump to useEffect fired");
+
+    if (timeToJumpTo === -200.0) {
+      audioref.current.audio.current.play();
+    }
+
     if (timeToJumpTo === -99.99) {
       audioref.current.audio.current.pause();
     } else if (timeToJumpTo > 0.0) {
@@ -225,27 +230,15 @@ function Player2() {
                 customAdditionalControls={[]}
                 autoPlay={false}
                 customVolumeControls={[]}
-
+                showJumpControls={false}
+                showControls={false}
+                // customIcons={{ play: noPlay }}
                 // other props here
               />
             </PlayerDivMB>
           </TopPart>
           <Transcript></Transcript>
         </PlayerWrapper>
-        <ModalWrapper>
-          <RandomlyPositionedModal
-            show={show}
-            onHide={() => setShow(false)}
-            aria-labelledby="modal-label"
-          >
-            <div>
-              <h4 id="modal-label">Text in a modal</h4>
-              <p>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </p>
-            </div>
-          </RandomlyPositionedModal>
-        </ModalWrapper>
       </div>
     );
   } else {
@@ -275,20 +268,6 @@ function Player2() {
           </PlayerDiv>
           <Transcript></Transcript>
         </PlayerWrapper>
-        <ModalWrapper>
-          <RandomlyPositionedModal
-            show={show}
-            onHide={() => setShow(false)}
-            aria-labelledby="modal-label"
-          >
-            <div>
-              <h4 id="modal-label">Text in a modal</h4>
-              <p>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </p>
-            </div>
-          </RandomlyPositionedModal>
-        </ModalWrapper>
       </div>
     );
   }
@@ -302,8 +281,6 @@ const PlayerDivMB = styled.div`
   padding-top: 10px;
   margin: auto;
 `;
-
-const ModalWrapper = styled.div``;
 
 const PlayerDiv = styled.div`
   width: 80%;
