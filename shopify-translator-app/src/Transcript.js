@@ -344,7 +344,7 @@ function Transcript() {
 
 const WarningText = styled.div`
   padding: 10px;
-  color: ##573b00;
+  /* color: #573b00; */
 `;
 
 const UnlockWarning = styled.div`
