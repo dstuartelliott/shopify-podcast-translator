@@ -69,7 +69,7 @@ export const SpeechSynthContextProvider = ({ children }) => {
       };
 
       speechSynthesis.speak(utterance);
-      dispatch(jumpToTime(-99.99));
+      // dispatch(jumpToTime(-99.99));
       dispatch(updateSpeechSynthState(speechSynthesis.speaking));
     }
   };
@@ -122,7 +122,7 @@ export const SpeechSynthContextProvider = ({ children }) => {
     // };
 
     speechSynthesis.speak(utterance);
-    dispatch(jumpToTime(-99.99));
+    // dispatch(jumpToTime(-99.99));
     dispatch(updateSpeechSynthState(speechSynthesis.speaking));
   };
 

@@ -38,6 +38,7 @@ function Player2() {
 
   let mp3PlayerState = useSelector(getMP3PlayerState);
   let uuids_and_times = useSelector(getUUIDsandTimes);
+
   const {
     actions: { cancelAllSpeech },
   } = React.useContext(SpeechSynthContext);
@@ -177,28 +178,28 @@ function Player2() {
   function announceListen(event) {
     // console.log(event.srcElement.currentTime);
     let current_time = event.srcElement.currentTime;
-    let array_i;
+    // let array_i;
 
-    // I realize I can do foreach here, but this way I can break early
-    for (let i = 0; i < uuids_and_times.length - 1; i++) {
-      if (
-        uuids_and_times[i].start < event.srcElement.currentTime &&
-        uuids_and_times[i].end > event.srcElement.currentTime
-      ) {
-        // console.log("found");
-        array_i = i;
-      }
-    }
+    // // I realize I can do foreach here, but this way I can break early
+    // for (let i = 0; i < uuids_and_times.length - 1; i++) {
+    //   if (
+    //     uuids_and_times[i].start < event.srcElement.currentTime &&
+    //     uuids_and_times[i].end > event.srcElement.currentTime
+    //   ) {
+    //     // console.log("found");
+    //     array_i = i;
+    //   }
+    // }
 
-    if (array_i !== undefined) {
-      console.log("Player 2 135");
-      dispatch(
-        markEnglishAsPlaying(
-          event.srcElement.currentTime,
-          uuids_and_times[array_i].uuid
-        )
-      );
-    }
+    // if (array_i !== undefined) {
+    //   console.log("Player 2 135");
+    //   dispatch(
+    //     markEnglishAsPlaying(
+    //       event.srcElement.currentTime,
+    //       uuids_and_times[array_i].uuid
+    //     )
+    //   );
+    // }
 
     dispatch(addCurrentTime({ current_time }));
   }

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { PlayerContext } from "./PlayerContext";
 import TranscriptSentence from "./TranscriptSentence.js";
 import { useDispatch } from "react-redux";
-import { addTranscript, markEnglishAsPlaying } from "./actions";
+import { addTranscript } from "./actions";
 import { useSelector } from "react-redux";
 import {
   getSimplifiedSentences,
@@ -17,6 +17,8 @@ import {
   getPodcastToggleState,
   getPodcastInfoDimensions,
   getMP3PlayerState,
+  // getSynthStateSpeaking,
+  // getTypePlaying,
 } from "./reducers";
 import { isMobile } from "react-device-detect";
 import { IoMdLock } from "react-icons/io";
@@ -47,6 +49,10 @@ function Transcript() {
   let podcast_info_collapsed_size = useSelector(getPodcastInfoDimensions);
 
   let text_size = useSelector(getTextSize);
+
+  // let synth_state_speaking = useSelector(getSynthStateSpeaking);
+
+  // let type_currently_playing = useSelector(getTypePlaying);
 
   let translationPlaying = useSelector(getTranslationPlaying);
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
@@ -165,20 +171,22 @@ function Transcript() {
         array_i = i;
       }
     }
-    if (array_i !== undefined) {
-      console.log("------------ setcurrentUUID");
 
-      console.log("Transcript 177");
+    if (array_i !== undefined) {
+      // console.log("------------ setcurrentUUID");
+
+      // console.log("Transcript 177");
       setcurrentUUID(uuids_and_times[array_i].uuid);
 
-      console.log("------------ markEnglish");
+      // console.log("------------ markEnglish");
 
-      console.log("Transcript 179");
+      // console.log("Transcript 179");
 
-      dispatch(
-        markEnglishAsPlaying(current_time, uuids_and_times[array_i].uuid)
-      );
+      // dispatch(
+      //   markEnglishAsPlaying(current_time, uuids_and_times[array_i].uuid)
+      // );
     }
+
     // eslint-disable-next-line
   }, [current_time]);
 
