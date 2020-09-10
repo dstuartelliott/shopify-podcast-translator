@@ -15,66 +15,68 @@ import {
 import {
   updatePodcastInfoDimensions,
   updatePodcastToggleState,
-  jumpToTime,
-  markEnglishAsPlaying,
-  recordMP3PlayerState,
-  addCurrentTime,
+  // jumpToTime,
+  // markEnglishAsPlaying,
+  // recordMP3PlayerState,
+  // addCurrentTime,
 } from "./actions";
 import PodcastInfoExpanded from "./PodcastInfoExpanded";
 import PodcastInfoCollapsed from "./PodcastInfoCollapsed";
-import {
-  IoIosPlayCircle,
-  IoIosPause,
-  IoMdRewind,
-  IoIosFastforward,
-} from "react-icons/io";
+// import {
+//   IoIosPlayCircle,
+//   IoIosPause,
+//   IoMdRewind,
+//   IoIosFastforward,
+// } from "react-icons/io";
 
 import useSize from "@react-hook/size";
 
 function PodcastInfo() {
   const dispatch = useDispatch();
-  let current_time = useSelector(getCurrentTime);
 
-  let [playState, setPlayState] = React.useState("paused");
+  // let current_time = useSelector(getCurrentTime);
+  // let [playState, setPlayState] = React.useState("paused");
+  // let mp3PlayState = useSelector(getMP3PlayerState);
 
   let [topVisible, setTopVisible] = React.useState(false);
-  let mp3PlayState = useSelector(getMP3PlayerState);
 
-  function handlePlayClickButton(event) {
-    console.log(current_time);
-    if (playState === "paused") {
-      if (current_time === undefined) {
-        dispatch(jumpToTime(-200.0));
-        // dispatch(markEnglishAsPlaying(0.0, "TBD"));
+  // TODO Add back in when contols finished
 
-        // dispatch(recordMP3PlayerState("playing"));
-      } else {
-        dispatch(jumpToTime(current_time));
-      }
-      setPlayState("playing");
-    } else if (playState === "playing") {
-      console.log("=-=======pausing");
-      if (mp3PlayState === "playing") {
-        console.log(" handlePlayPauseEnglish pausing");
-        dispatch(jumpToTime(-99.99));
-      } else if (mp3PlayState === "paused") {
-        dispatch(jumpToTime(current_time));
-      }
-      setPlayState("paused");
-    }
-  }
+  // function handlePlayClickButton(event) {
+  //   console.log(current_time);
+  //   if (playState === "paused") {
+  //     if (current_time === undefined) {
+  //       dispatch(jumpToTime(-200.0));
+  //       // dispatch(markEnglishAsPlaying(0.0, "TBD"));
 
-  function jumpFwd(event) {
-    if (current_time !== undefined) {
-      dispatch(jumpToTime(current_time + 15.0));
-    }
-  }
+  //       // dispatch(recordMP3PlayerState("playing"));
+  //     } else {
+  //       dispatch(jumpToTime(current_time));
+  //     }
+  //     setPlayState("playing");
+  //   } else if (playState === "playing") {
+  //     console.log("=-=======pausing");
+  //     if (mp3PlayState === "playing") {
+  //       console.log(" handlePlayPauseEnglish pausing");
+  //       dispatch(jumpToTime(-99.99));
+  //     } else if (mp3PlayState === "paused") {
+  //       dispatch(jumpToTime(current_time));
+  //     }
+  //     setPlayState("paused");
+  //   }
+  // }
 
-  function jumpBack(event) {
-    if (current_time !== undefined) {
-      dispatch(jumpToTime(current_time - 15.0));
-    }
-  }
+  // function jumpFwd(event) {
+  //   if (current_time !== undefined) {
+  //     dispatch(jumpToTime(current_time + 15.0));
+  //   }
+  // }
+
+  // function jumpBack(event) {
+  //   if (current_time !== undefined) {
+  //     dispatch(jumpToTime(current_time - 15.0));
+  //   }
+  // }
 
   function hideTopToggleClick(event) {
     if (topVisible === true) {
@@ -90,17 +92,16 @@ function PodcastInfo() {
 
     //dispatch(updatePodcastInfoDimensions({ width, height }));
   }
-  let podcast_info_size = useSelector(getPodcastInfosSize);
 
   React.useEffect(() => {
     dispatch(
       updatePodcastInfoDimensions({ width_collapsed, height_collapsed })
     );
     dispatch(updatePodcastToggleState(!topVisible));
+    // eslint-disable-next-line
   }, []);
 
   const PodcastInfoSectionMBCollapsed_target = React.useRef(null);
-  const nomarltarget = React.useRef(null);
 
   const Desktop_target = React.useRef(null);
 
@@ -120,7 +121,7 @@ function PodcastInfo() {
               The Pre-Launch Strategies of a Million-Dollar Brand
             </PodcastTitleMBCollapsed>
             <ShowHideCollapsed>
-              <CollaposedPlayerButtons>
+              {/* <CollaposedPlayerButtons>
                 <PlayButton onClick={jumpBack}>
                   <IoMdRewind size={20}></IoMdRewind>
                 </PlayButton>
@@ -135,7 +136,8 @@ function PodcastInfo() {
                 <PlayButton onClick={jumpFwd}>
                   <IoIosFastforward size={20}></IoIosFastforward>
                 </PlayButton>
-              </CollaposedPlayerButtons>
+              </CollaposedPlayerButtons> */}
+
               <ShowHideButtonCollapsed onClick={hideTopToggleClick}>
                 <MdExpandMore size={30}></MdExpandMore>
               </ShowHideButtonCollapsed>
@@ -171,7 +173,6 @@ function PodcastInfo() {
         </PodcastInfoSectionMB>
       </Wrapper>
     );
-    return <div>mobile</div>;
   }
 
   if (isMobile === false) {
@@ -195,31 +196,31 @@ function PodcastInfo() {
   }
 }
 
-const PlayButton = styled.button`
-  cursor: pointer;
-  width: 50px;
-  height: 40px;
-  overflow: hidden;
-  z-index: 200;
-  border-color: transparent;
-  background-color: transparent;
-  /* border: 1px dashed #f49342; */
-  :focus {
-    outline: none;
-  }
-  align-self: center;
-`;
+// const PlayButton = styled.button`
+//   cursor: pointer;
+//   width: 50px;
+//   height: 40px;
+//   overflow: hidden;
+//   z-index: 200;
+//   border-color: transparent;
+//   background-color: transparent;
+//   /* border: 1px dashed #f49342; */
+//   :focus {
+//     outline: none;
+//   }
+//   align-self: center;
+// `;
 
-const CollaposedPlayerButtons = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 130px;
-  margin: auto;
-  padding-left: 10px;
-  padding-top: 10px;
-`;
+// const CollaposedPlayerButtons = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: space-between;
+//   width: 130px;
+//   margin: auto;
+//   padding-left: 10px;
+//   padding-top: 10px;
+// `;
 
 const ShowHideCollapsed = styled.div`
   width: 100%;
@@ -235,7 +236,7 @@ const ShowHideExpanded = styled.div`
 `;
 
 const ShowHideButtonCollapsed = styled.button`
-  margin-top: -25px;
+  margin-top: 25px;
 
   cursor: pointer;
   width: 40px;

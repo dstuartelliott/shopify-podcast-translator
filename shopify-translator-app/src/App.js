@@ -7,7 +7,6 @@ import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { isMobile } from "react-device-detect";
-import ScrollableText from "./ScrollableText.js";
 import { useDispatch } from "react-redux";
 
 import { updateWindowDimensions } from "./actions";
@@ -108,8 +107,6 @@ function App() {
 
       <AppProvider i18n={enTranslations}>
         <Player2 />
-        {/* <ScrollableText></ScrollableText> */}
-        {/* <Transcript></Transcript> */}
       </AppProvider>
     </AppDiv>
   );

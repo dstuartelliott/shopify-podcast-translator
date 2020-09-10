@@ -415,7 +415,7 @@ const TranscriptListMB = styled.div`
   height: ${(props) => props.textHeight};
 
   overflow: scroll;
-  width: 95%;
+  width: 100%;
   scrollbar-width: 10px;
 `;
 

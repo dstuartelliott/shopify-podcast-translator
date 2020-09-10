@@ -232,6 +232,7 @@ function Player2() {
                 customVolumeControls={[]}
                 showJumpControls={false}
                 showControls={false}
+                style={{ outline: "none", paddingBottom: "0px" }}
                 // customIcons={{ play: noPlay }}
                 // other props here
               />
