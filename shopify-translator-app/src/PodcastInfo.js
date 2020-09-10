@@ -20,8 +20,6 @@ import {
   // recordMP3PlayerState,
   // addCurrentTime,
 } from "./actions";
-import PodcastInfoExpanded from "./PodcastInfoExpanded";
-import PodcastInfoCollapsed from "./PodcastInfoCollapsed";
 // import {
 //   IoIosPlayCircle,
 //   IoIosPause,

@@ -1,11 +1,10 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components";
-import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
+import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { useDispatch } from "react-redux";
 import PodcastInfo from "./PodcastInfo.js";
-import Modal from "react-overlays/Modal";
 import { isMobile } from "react-device-detect";
 
 import {
@@ -13,7 +12,6 @@ import {
   addCurrentTime,
   markEnglishAsPlaying,
   recordMP3PlayerState,
-  updatePodcastInfoDimensions,
   updateWindowDimensions,
 } from "./actions";
 import {
@@ -34,27 +32,12 @@ function Player2() {
   let podcast_toggle_state = useSelector(getPodcastToggleState);
   const audioref = React.useRef(null);
 
-  let [TopPartWitdh, TopPartHeight] = useSize(TopItemsRef);
+  let [TopPartHeight] = useSize(TopItemsRef);
   let [audioWidth, audioHeight] = useSize(AudioDivRef);
-
-  const RandomlyPositionedModal = styled(Modal)`
-    position: fixed;
-    width: 400px;
-    z-index: 1040;
-    top: ${() => 50 + 10}%;
-    left: ${() => 50 + 10}%;
-    border: 1px solid #e5e5e5;
-    background-color: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    padding: 20px;
-  `;
-
-  const [show, setShow] = React.useState(false);
 
   let timeToJumpTo = useSelector(getTimeToJumpTo);
 
   let uuids_and_times = useSelector(getUUIDsandTimes);
-  var noPlay = React.createElement("foo-bar", { className: "bar" }, "");
   const {
     actions: { cancelAllSpeech },
   } = React.useContext(SpeechSynthContext);
@@ -67,6 +50,7 @@ function Player2() {
   React.useEffect(() => {
     console.log(" toggle state changed");
     console.log(TopPartHeight);
+    //eslint-disable-next-line
   }, [podcast_toggle_state]);
 
   // React.useEffect(() => {
@@ -99,7 +83,6 @@ function Player2() {
             // Autoplay started!
           })
           .catch((error) => {
-            setShow(true);
             console.log("nope");
           });
       }
@@ -118,6 +101,7 @@ function Player2() {
   // }, [translation_timecode_uuid]);
 
   function getRoomForText(podcastInfoHeight, ControllerHeight) {
+    //eslint-disable-next-line
     const { innerWidth: width, innerHeight: height } = window;
     let height_for_text = height - (podcastInfoHeight + ControllerHeight);
 
