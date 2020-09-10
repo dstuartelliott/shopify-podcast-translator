@@ -21,10 +21,10 @@ I sat down and figured out what I would need to do -
 
 Some other interesting tidbits behind the making of this app -
 - I'm running my own Node Express server to serve out the data. I have a bunch of juicy JSON files from all the transcribing code I've written.
-- The app uses the SpeechSynthesis feature of modern desktop browsers - so a mobile version of the app would require a different strategy (I'm thinking of just recording a web speech synth version right from the browser output and serving out a seperate MP3 for mobile apps).
+- The app uses the SpeechSynthesis feature of modern desktop browsers.  There are a few differences in player permissions and voices arrays, but it totally works on mobile.  That version is live!
 - It's a little incomplete. There can be some weird behaviour because of state jumps. However, considering that the assigned challenges were limited in scope, I figure a bit of incompleteness for the application project is acceptable.
 - This will be my graduation project for my Bootcamp, so I intend to expand it quite a bit! There's no reason I can't add more languages, or explore searching the text, or add meta-data from others APIs, etc.
 
-Please note that the correct branch is the "Redux" branch - not Master.  Which you are on!
+Please note that the correct branch is the "Redux2" branch - not Master.  Which you are on!
 
 
