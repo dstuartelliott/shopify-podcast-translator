@@ -174,7 +174,10 @@ function Transcript() {
       }
     }
     if (array_i !== undefined) {
+      console.log("Transcript 177");
       setcurrentUUID(uuids_and_times[array_i].uuid);
+      console.log("Transcript 179");
+
       dispatch(
         markEnglishAsPlaying(current_time, uuids_and_times[array_i].uuid)
       );

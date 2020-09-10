@@ -9,6 +9,7 @@ import {
   markTranslationAsPlaying,
   markTranslationAsDonePlaying,
   markEnglishAsPlaying,
+  recordMP3PlayerState,
 } from "./actions";
 import { useSelector } from "react-redux";
 import { isMobile } from "react-device-detect";
@@ -51,8 +52,12 @@ function TranscriptSentence({
     console.log(event);
     cancelAllSpeech();
     dispatch(markTranslationAsDonePlaying());
+    dispatch(recordMP3PlayerState("playing"));
 
     dispatch(jumpToTime(sentence_object.start));
+    console.log("------------ markEnglish");
+
+    console.log("TranscriptSentence 57");
 
     dispatch(markEnglishAsPlaying(sentence_object.start, sentence_object.uuid));
   }

@@ -18,6 +18,7 @@ import {
   getTimeToJumpTo,
   getUUIDsandTimes,
   getPodcastToggleState,
+  getMP3PlayerState,
 } from "./reducers";
 import { useSelector } from "react-redux";
 import { SpeechSynthContext } from "./SpeechSynthContext";
@@ -37,25 +38,17 @@ function Player2() {
 
   let timeToJumpTo = useSelector(getTimeToJumpTo);
 
+  let mp3PlayerState = useSelector(getMP3PlayerState);
   let uuids_and_times = useSelector(getUUIDsandTimes);
   const {
     actions: { cancelAllSpeech },
   } = React.useContext(SpeechSynthContext);
-
-  // React.useEffect(() => {
-  //   console.log("Player2 useEffect ");
-  //   dispatch(updatePodcastInfoDimensions([width, height]));
-  // }, []);
 
   React.useEffect(() => {
     console.log(" toggle state changed");
     console.log(TopPartHeight);
     //eslint-disable-next-line
   }, [podcast_toggle_state]);
-
-  // React.useEffect(() => {
-  //   dispatch(updatePodcastInfoDimensions([width, height]));
-  // }, [podcast_toggle_state]);
 
   React.useEffect(() => {
     console.log("time to jump to useEffect fired");
@@ -91,15 +84,6 @@ function Player2() {
     // eslint-disable-next-line
   }, [timeToJumpTo]);
 
-  // React.useEffect(() => {
-  //   if (isTranslationPlaying) {
-  //     if (translation_timecode_uuid.timecode > 0) {
-  //       audioref.current.audio.current.currentTime =
-  //         translation_timecode_uuid.timecode;
-  //     }
-  //   }
-  // }, [translation_timecode_uuid]);
-
   function getRoomForText(podcastInfoHeight, ControllerHeight) {
     //eslint-disable-next-line
     const { innerWidth: width, innerHeight: height } = window;
@@ -132,6 +116,7 @@ function Player2() {
     }
 
     if (array_i !== undefined) {
+      console.log("Player 2 135");
       dispatch(
         markEnglishAsPlaying(
           event.srcElement.currentTime,
@@ -148,52 +133,56 @@ function Player2() {
   }
 
   function onPlayListen(event) {
-    console.log([audioWidth, audioHeight]);
-    console.log("onPlayListen");
-    console.log([TopPartHeight]);
+    if (mp3PlayerState !== "playing") {
+      console.log([audioWidth, audioHeight]);
+      console.log("onPlayListen");
+      console.log([TopPartHeight]);
 
-    let room = getRoomForText(TopPartHeight, audioHeight);
+      let room = getRoomForText(TopPartHeight, audioHeight);
 
-    let height_for_text_open = parseInt(room) + "px";
+      let height_for_text_open = parseInt(room) + "px";
 
-    dispatch(
-      updateWindowDimensions({
-        height_for_text_open,
-      })
-    );
-
-    console.log(event.srcElement.currentTime);
-    cancelAllSpeech();
-    console.log(uuids_and_times);
-
-    let array_i;
-
-    // I realize I can do foreach here, but this way I can break early
-    for (let i = 0; i < uuids_and_times.length - 1; i++) {
-      if (
-        uuids_and_times[i].start < event.srcElement.currentTime &&
-        uuids_and_times[i].end > event.srcElement.currentTime
-      ) {
-        console.log("found");
-        array_i = i;
-      }
-    }
-
-    console.log(array_i);
-    if (array_i !== undefined) {
       dispatch(
-        markEnglishAsPlaying(
-          event.srcElement.currentTime,
-          uuids_and_times[array_i].uuid
-        )
+        updateWindowDimensions({
+          height_for_text_open,
+        })
       );
-    } else {
-      dispatch(markEnglishAsPlaying(event.srcElement.currentTime, "TBD"));
+
+      console.log(event.srcElement.currentTime);
+      cancelAllSpeech();
+      console.log(uuids_and_times);
+
+      let array_i;
+
+      // I realize I can do foreach here, but this way I can break early
+      for (let i = 0; i < uuids_and_times.length - 1; i++) {
+        if (
+          uuids_and_times[i].start < event.srcElement.currentTime &&
+          uuids_and_times[i].end > event.srcElement.currentTime
+        ) {
+          console.log("found");
+          array_i = i;
+        }
+      }
+
+      console.log(array_i);
+      if (array_i !== undefined) {
+        console.log("Player 2 185");
+
+        dispatch(
+          markEnglishAsPlaying(
+            event.srcElement.currentTime,
+            uuids_and_times[array_i].uuid
+          )
+        );
+      } else {
+        dispatch(markEnglishAsPlaying(event.srcElement.currentTime, "TBD"));
+      }
+
+      dispatch(recordMP3PlayerState("playing"));
+
+      console.log(event);
     }
-
-    dispatch(recordMP3PlayerState("playing"));
-
-    console.log(event);
   }
 
   if (isMobile) {
