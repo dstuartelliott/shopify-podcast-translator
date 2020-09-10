@@ -121,7 +121,7 @@ function TranscriptSentence({
               </SentenceHighlightedMB>
             </SentencePlayingDivMB>
             <SentencePlayingDivMB onClick={handleTranslatedClickedSentence}>
-              <SentenceMB>
+              <SentenceMB className="”notranslate”">
                 {sentence_object.speaker}: {sentence_object.translated_sentence}
               </SentenceMB>
             </SentencePlayingDivMB>
@@ -152,7 +152,7 @@ function TranscriptSentence({
                 </TranslationButtonDB>
               </ButtonDivMB>
 
-              <SentenceHighlighted>
+              <SentenceHighlighted className="”notranslate”">
                 {sentence_object.speaker}: {sentence_object.translated_sentence}
               </SentenceHighlighted>
             </SentencePlayingDivMB>
@@ -172,7 +172,7 @@ function TranscriptSentence({
               </SentenceMB>
             </SentenceDivMB>
             <SentenceDivMB onClick={handleTranslatedClickedSentence}>
-              <SentenceMB>
+              <SentenceMB className="”notranslate”">
                 {sentence_object.speaker}: {sentence_object.translated_sentence}
               </SentenceMB>
             </SentenceDivMB>
@@ -206,7 +206,7 @@ function TranscriptSentence({
               </SentenceHighlighted>
             </SentencePlayingDiv>
             <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
-              <Sentence>
+              <Sentence className="”notranslate”">
                 {sentence_object.speaker}: {sentence_object.translated_sentence}
               </Sentence>
             </SentencePlayingDiv>
@@ -237,7 +237,7 @@ function TranscriptSentence({
                 </TranslationButton>
               </ButtonDiv>
 
-              <SentenceHighlighted>
+              <SentenceHighlighted className="”notranslate”">
                 {sentence_object.speaker}: {sentence_object.translated_sentence}
               </SentenceHighlighted>
             </SentencePlayingDiv>
@@ -257,7 +257,7 @@ function TranscriptSentence({
               </Sentence>
             </SentenceDiv>
             <SentenceDiv onClick={handleTranslatedClickedSentence}>
-              <Sentence>
+              <Sentence className="”notranslate”">
                 {sentence_object.speaker}: {sentence_object.translated_sentence}
               </Sentence>
             </SentenceDiv>
