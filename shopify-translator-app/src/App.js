@@ -1,17 +1,16 @@
 import React from "react";
 import "./App.css";
 import Player2 from "./Player2.js";
-import Transcript from "./Transcript.js";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
-import { isMobile } from "react-device-detect";
 import { useDispatch } from "react-redux";
 
 import { updateWindowDimensions } from "./actions";
 
 function App() {
+  //eslint-disable-next-line
   const [windowDimensions, setWindowDimensions] = React.useState(
     getWindowDimensions()
   );
@@ -90,12 +89,8 @@ function App() {
     window.addEventListener("resize", handleResize);
 
     initWindowSizes();
-    // speechSynthesis.addEventListener("voiceschanged", function () {
-    //   let voices_new = speechSynthesis.getVoices();
-    //   console.log(voices_new);
-
-    // });
     return () => window.removeEventListener("resize", handleResize);
+    // eslint-disable-next-line
   }, []);
 
   // if (isMobile) {
@@ -112,7 +107,7 @@ function App() {
   );
   // }
 }
-
+//test
 const AppDiv = styled.div``;
 
 const GlobalStyles = createGlobalStyle`

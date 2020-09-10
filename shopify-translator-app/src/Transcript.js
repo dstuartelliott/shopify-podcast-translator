@@ -54,10 +54,9 @@ function Transcript() {
   let english_uuid = useSelector(getEnglishUUID);
   const [currentUUID, setcurrentUUID] = React.useState("");
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const [roomForText, setRoomForText] = React.useState("0px");
 
   const [playerWasClicked, setplayerWasClicked] = React.useState(false);
-
+  // eslint-disable-next-line
   const [windowDimensions, setWindowDimensions] = React.useState(
     getWindowDimensions()
   );
@@ -135,7 +134,8 @@ function Transcript() {
         refs[sent.uuid] = React.createRef();
       });
       console.log(refs);
-
+      yarn build
+      shopify-translator-app
       //updateContextSentenceAndGoodWordCombined(sentenceAndGoodWordCombined);
     }
     getTranscriptSentences();
@@ -160,6 +160,7 @@ function Transcript() {
         podcast_info_collapsed_size.podcast_info_dimensions.height_collapsed
       );
     }
+    // eslint-disable-next-line
   }, [podcast_player_state]);
 
   React.useEffect(() => {

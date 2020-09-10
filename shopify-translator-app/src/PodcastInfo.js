@@ -4,14 +4,8 @@ import HeroSrc from "./images/shopify_masters_hero.jpg";
 
 import { isMobile } from "react-device-detect";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
-import {
-  getPodcastInfosSize,
-  getCurrentTime,
-  getMP3PlayerState,
-} from "./reducers";
 import {
   updatePodcastInfoDimensions,
   updatePodcastToggleState,
