@@ -6,6 +6,9 @@ import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch } from "react-redux";
+import Top from "./Top";
+import Player from "./Player";
+import Scrolltext from "./Scrolltext";
 
 import { updateWindowDimensions } from "./actions";
 
@@ -100,15 +103,15 @@ function App() {
       <GlobalStyles></GlobalStyles>
 
       <AppProvider i18n={enTranslations}>
-        <Item1>
+        <TopDiv>
           <Top></Top>
-        </Item1>
+        </TopDiv>
 
         <Player></Player>
 
-        <Item2>
+        <ScrollDiv>
           <Scrolltext></Scrolltext>
-        </Item2>
+        </ScrollDiv>
       </AppProvider>
     </FleXApp>
   );
@@ -116,10 +119,10 @@ function App() {
 }
 //test
 const FleXApp = styled.div``;
-const Item1 = styled.div`
+const TopDiv = styled.div`
   background-color: transparent;
 `;
-const Item2 = styled.div`
+const ScrollDiv = styled.div`
   background-color: yellow;
 `;
 

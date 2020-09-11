@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "./logo.svg";
 import Top from "./Top";
-import Middle from "./Middle";
 import styled from "styled-components";
 import Scrolltext from "./Scrolltext";
 import "./App.css";
