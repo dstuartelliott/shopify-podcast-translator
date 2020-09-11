@@ -9,9 +9,7 @@ import styled from "styled-components";
 import Scrolltext from "./Scrolltext";
 import "./App.css";
 import AudioPlayer from "react-h5-audio-player";
-
 import R5stylesSmall from "./r5Audiostyles.css";
-import R5stylesBig from "./r5Audiostyles_big.css";
 
 import { MP3_PLAYER_STATES } from "./constants";
 import {
@@ -46,73 +44,29 @@ function Player() {
 
   let translationPlaying = useSelector(getTranslationPlaying);
 
-  const audiorefBIG = React.useRef(null);
-  const audiorefSMALL = React.useRef(null);
-
-  const [styleOption, setStylePlayerOption] = React.useState("small");
-
-  let window_dimensions = useSelector(getWindowDimensions);
+  const audioref = React.useRef(null);
 
   const {
     actions: { cancelAllSpeech },
   } = React.useContext(SpeechSynthContext);
 
   React.useEffect(() => {
-    if (styleOption === "small") {
-      if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
-        audiorefSMALL.current.audio.current.play();
-      } else if (mp3PlayerState === MP3_PLAYER_STATES.PAUSED) {
-        audiorefSMALL.current.audio.current.pause();
-      }
-    } else if (styleOption === "big") {
-      if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
-        audiorefBIG.current.audio.current.play();
-      } else if (mp3PlayerState === MP3_PLAYER_STATES.PAUSED) {
-        audiorefBIG.current.audio.current.pause();
-      }
+    if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
+      audioref.current.audio.current.play();
+    } else if (mp3PlayerState === MP3_PLAYER_STATES.PAUSED) {
+      audioref.current.audio.current.pause();
     }
   }, [mp3PlayerState]);
 
   React.useEffect(() => {
     console.log("time to jump to useEffect fired");
 
-    if (styleOption === "small") {
-      if (timeToJumpTo > 0.0) {
-        audiorefSMALL.current.audio.current.currentTime = timeToJumpTo;
-      }
-    } else if (styleOption === "big") {
-      if (timeToJumpTo > 0.0) {
-        audiorefBIG.current.audio.current.currentTime = timeToJumpTo;
-      }
+    if (timeToJumpTo > 0.0) {
+      audioref.current.audio.current.currentTime = timeToJumpTo;
     }
 
     // eslint-disable-next-line
   }, [timeToJumpTo]);
-
-  React.useEffect(() => {
-    console.log("re-render");
-
-    // eslint-disable-next-line
-  }, []);
-
-  React.useEffect(() => {
-    if (
-      window_dimensions !== undefined &&
-      window_dimensions.window_dimensions !== undefined
-    ) {
-      // console.log(window_dimensions.window_dimensions.width);
-
-      if (window_dimensions.window_dimensions.width > 480) {
-        // console.log("setting big");
-        // console.log({ styleOption });
-        setStylePlayerOption("big");
-      } else if (window_dimensions.window_dimensions.width < 480) {
-        // console.log("setting small");
-        // console.log({ styleOption });
-        setStylePlayerOption("small");
-      }
-    }
-  }, [window_dimensions]);
 
   function announceListen(event) {
     let current_time = event.srcElement.currentTime;
@@ -344,56 +298,30 @@ function Player() {
     }
   }
 
-  if (styleOption === "big") {
-    return (
-      <PlayerWrapper>
-        {styleOption}
-        <AudioPlayer
-          src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
-          customAdditionalControls={[]}
-          onPlay={onPlayListen}
-          onListen={announceListen}
-          listenInterval={200}
-          onPause={onPauseListen}
-          autoPlay={false}
-          customVolumeControls={[]}
-          ref={audiorefBIG}
-          // style={{
-          //   rhap_container.background-color: "red"
-          //   outline: "none", paddingBottom: "0px" }}
-          styles={!R5stylesBig}
+  return (
+    <PlayerWrapper id={"hello"}>
+      <AudioPlayer
+        src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
+        customAdditionalControls={[]}
+        onPlay={onPlayListen}
+        onListen={announceListen}
+        listenInterval={200}
+        onPause={onPauseListen}
+        autoPlay={false}
+        customVolumeControls={[]}
+        ref={audioref}
+        style={{
+          outline: "none",
+          paddingBottom: "0px",
+        }}
+        styles={R5stylesSmall}
+        id={"hello2"}
 
-          // customIcons={{ play: noPlay }}
-          // other props here
-        />
-      </PlayerWrapper>
-    );
-  } else if (styleOption === "small") {
-    return (
-      <PlayerWrapper>
-        {styleOption}
-
-        <AudioPlayer
-          src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
-          customAdditionalControls={[]}
-          onPlay={onPlayListen}
-          onListen={announceListen}
-          listenInterval={200}
-          onPause={onPauseListen}
-          autoPlay={false}
-          customVolumeControls={[]}
-          ref={audiorefSMALL}
-          // style={{
-          //   rhap_container.background-color: "red"
-          //   outline: "none", paddingBottom: "0px" }}
-          styles={!R5stylesSmall}
-
-          // customIcons={{ play: noPlay }}
-          // other props here
-        />
-      </PlayerWrapper>
-    );
-  }
+        // customIcons={{ play: noPlay }}
+        // other props here
+      />
+    </PlayerWrapper>
+  );
 }
 const PlayerWrapper = styled.div``;
 

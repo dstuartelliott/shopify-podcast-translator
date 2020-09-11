@@ -236,13 +236,12 @@ const TranscriptList = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   overflow: scroll;
-  width: 80%;
-  scrollbar-width: 10px;
+  width: 97%;
+  overflow-x: hidden; //horizontal
 
   bottom: 20px;
-  top: 300px;
+  top: 280px;
   position: absolute;
-  margin-left: 10%;
   @media (max-width: 600px) {
     top: 200px;
     bottom: 20px;
@@ -250,8 +249,8 @@ const TranscriptList = styled.div`
 `;
 
 const ScrollText = styled.div`
-  width: 80%;
-  scrollbar-width: 10px;
+  max-width: 985px;
+
   background-color: transparent;
   overflow: scroll;
   bottom: 20px;

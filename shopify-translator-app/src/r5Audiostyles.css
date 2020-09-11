@@ -6,7 +6,8 @@
   font-family: inherit;
   width: 100%;
   padding: 10px 15px;
-  background-color: green;
+  background-color: white;
+  max-width: 1000px;
 
   box-shadow: 0 0 0px 0 rgba(0, 0, 0, 0.2);
 }

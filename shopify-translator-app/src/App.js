@@ -103,9 +103,16 @@ function App() {
       <GlobalStyles></GlobalStyles>
 
       <AppProvider i18n={enTranslations}>
+        <DividerTop>
+          <ThickLine></ThickLine>
+        </DividerTop>
+
         <TopDiv>
           <Top></Top>
         </TopDiv>
+        <Divider>
+          <Line></Line>
+        </Divider>
 
         <Player></Player>
 
@@ -118,9 +125,23 @@ function App() {
   // }
 }
 
-//test
+const Line = styled.div`
+  border-top: 1px solid #eec200;
+  @media (max-width: 600px) {
+    border-top: 1px solid white;
+  }
+`;
 
-//test
+const ThickLine = styled.div`
+  border-top: 3px solid #eec200;
+  @media (max-width: 600px) {
+    border-top: 1px solid white;
+  }
+`;
+
+const Divider = styled.div``;
+const DividerTop = styled.div``;
+
 const FleXApp = styled.div``;
 const TopDiv = styled.div`
   background-color: transparent;
