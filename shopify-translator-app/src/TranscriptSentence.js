@@ -78,7 +78,11 @@ function TranscriptSentence({
     console.log(event);
     playSpeechInSynthContext(sentence_object);
     dispatch(
-      markTranslationAsPlaying(sentence_object.start, sentence_object.uuid)
+      markTranslationAsPlaying({
+        translation_time_code: sentence_object.start,
+        translated_uuid: sentence_object.uuid,
+        type_curently_playing: "Translation",
+      })
     );
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
   }

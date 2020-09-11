@@ -13,11 +13,17 @@ export const jumpToTime = (time) => ({
   time,
 });
 
-export const markTranslationAsPlaying = ({ time, translated_uuid }) => ({
+export const markTranslationAsPlaying = ({
+  translation_time_code,
+  translated_uuid,
+  type_curently_playing,
+}) => ({
   type: "MARK_TRANSLATION_AS_PLAYING",
-  translation_time_code: time,
+  translation_time_code: translation_time_code,
   translated_uuid: translated_uuid,
-  type_curently_playing: "Translation",
+  type_curently_playing: type_curently_playing,
+
+  // type_curently_playing: "Translation",
 });
 
 export const markEnglishAsPlaying = ({
