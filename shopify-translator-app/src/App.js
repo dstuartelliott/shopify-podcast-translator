@@ -83,7 +83,7 @@ function App() {
       })
     );
   }
-
+  //test
   React.useEffect(() => {
     window.addEventListener("resize", handleResize);
 
@@ -96,17 +96,33 @@ function App() {
   //   return <div> Mobile version coming soon (like, in a day) </div>;
   // } else {
   return (
-    <AppDiv className="App">
+    <FleXApp>
       <GlobalStyles></GlobalStyles>
 
       <AppProvider i18n={enTranslations}>
-        <Player2 />
+        <Item1>
+          <Top></Top>
+        </Item1>
+
+        <Player></Player>
+
+        <Item2>
+          <Scrolltext></Scrolltext>
+        </Item2>
       </AppProvider>
-    </AppDiv>
+    </FleXApp>
   );
   // }
 }
 //test
+const FleXApp = styled.div``;
+const Item1 = styled.div`
+  background-color: transparent;
+`;
+const Item2 = styled.div`
+  background-color: yellow;
+`;
+
 const AppDiv = styled.div``;
 
 const GlobalStyles = createGlobalStyle`

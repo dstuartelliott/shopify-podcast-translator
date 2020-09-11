@@ -17,6 +17,7 @@ import {
   getPodcastToggleState,
   getPodcastInfoDimensions,
   getMP3PlayerState,
+  getWindowDimensions,
   // getSynthStateSpeaking,
   // getTypePlaying,
 } from "./reducers";
@@ -25,16 +26,16 @@ import { IoMdLock } from "react-icons/io";
 
 import SpinnerJustKF from "./SpinnerJustKF";
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  let height_for_text = Math.round(height * 0.66);
-  height_for_text = parseInt(height_for_text) + "px";
-  return {
-    width,
-    height,
-    height_for_text,
-  };
-}
+// function getWindowDimensions() {
+//   const { innerWidth: width, innerHeight: height } = window;
+//   let height_for_text = Math.round(height * 0.66);
+//   height_for_text = parseInt(height_for_text) + "px";
+//   return {
+//     width,
+//     height,
+//     height_for_text,
+//   };
+// }
 
 function Transcript() {
   const playerContext = React.useContext(PlayerContext);
@@ -49,6 +50,7 @@ function Transcript() {
   let podcast_info_collapsed_size = useSelector(getPodcastInfoDimensions);
 
   let text_size = useSelector(getTextSize);
+  let window_dimensions = useSelector(getWindowDimensions);
 
   // let synth_state_speaking = useSelector(getSynthStateSpeaking);
 
@@ -61,14 +63,11 @@ function Transcript() {
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   const [playerWasClicked, setplayerWasClicked] = React.useState(false);
-  // eslint-disable-next-line
-  const [windowDimensions, setWindowDimensions] = React.useState(
-    getWindowDimensions()
-  );
 
-  function handleResize() {
-    setWindowDimensions(getWindowDimensions());
-  }
+  const [new_text_size, setNew_text_size] = React.useState();
+  // eslint-disable-next-line
+
+  function handleResize() {}
 
   React.useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -200,6 +199,26 @@ function Transcript() {
     }
   }, [english_uuid]);
 
+  React.useEffect(() => {
+    console.log("windows dimensions");
+    console.log({ window_dimensions });
+    // let's
+    if (window_dimensions.window_dimensions !== undefined) {
+      console.log(window_dimensions.window_dimensions.height);
+
+      let potential_text_size =
+        window_dimensions.window_dimensions.height * 0.8;
+      if (potential_text_size < 500) {
+        let text_size_string = parseFloat(500.0) + "px";
+        setNew_text_size(text_size_string);
+      } else {
+        let text_size_string =
+          parseFloat(window_dimensions.window_dimensions.height * 0.8) + "px";
+        setNew_text_size(text_size_string);
+      }
+    }
+  }, [window_dimensions]);
+
   // Mobile loading
   if (isMobile && isLoaded === false) {
     return (
@@ -250,7 +269,7 @@ function Transcript() {
         <Divider>
           <LineMB></LineMB>
         </Divider>
-        <TranscriptListMB textHeight={text_size.open}>
+        <TranscriptListMB textHeight={new_text_size}>
           {simplifiedSentences.map((element, i) => {
             // console.log(element.uuid);
             // console.log(uuidToHighLight);
@@ -318,6 +337,7 @@ function Transcript() {
   if (isMobile === false && isLoaded) {
     return (
       <TranscriptWrapper>
+        {new_text_size}
         <Divider>
           <Line></Line>
         </Divider>
@@ -435,7 +455,6 @@ const TranscriptList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 600px;
   overflow: scroll;
   width: 940px;
   scrollbar-width: 10px;

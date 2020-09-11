@@ -323,7 +323,9 @@ function Player2() {
   }
 }
 
-const TopPart = styled.div``;
+const TopPart = styled.div`
+  height: 50%;
+`;
 
 //Mobile
 const PlayerDivMB = styled.div`

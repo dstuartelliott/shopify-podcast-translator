@@ -240,6 +240,19 @@ export const getTextSize = (state) => {
   }
 };
 
+export const getWindowDimensions = (state) => {
+  //    state.current_time;
+  if (state !== undefined) {
+    return {
+      window_dimensions: state.dim,
+    };
+  } else {
+    return {
+      window_dimensions: {},
+    };
+  }
+};
+
 export const getPodcastInfosSize = (state) => {
   //    state.current_time;
   if (state.dim !== undefined) {
