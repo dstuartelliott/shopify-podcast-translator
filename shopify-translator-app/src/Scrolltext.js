@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import styled from "styled-components";
 import "./App.css";
 import { PlayerContext } from "./PlayerContext";
@@ -38,6 +37,9 @@ function Scrolltext() {
 
   let current_time = useSelector(getCurrentTime);
   let podcast_player_state = useSelector(getMP3PlayerState);
+
+
+sometime the english_uuid is getting updated from the player   .  weird.  start there tomorrow.
 
   React.useEffect(() => {
     async function getTranscriptSentences() {
@@ -93,11 +95,14 @@ function Scrolltext() {
   }, []);
 
   React.useEffect(() => {
+    console.log("english UUID changed");
+    console.log(english_uuid);
+
     let element = document.getElementById(english_uuid);
     if (element !== null && element !== undefined) {
       element.scrollIntoView({
         behavior: "smooth",
-        block: "center",
+        block: "start",
       });
     }
   }, [english_uuid]);

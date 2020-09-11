@@ -99,7 +99,7 @@ function App() {
   //   return <div> Mobile version coming soon (like, in a day) </div>;
   // } else {
   return (
-    <FleXApp>
+    <FleXApp className="App">
       <GlobalStyles></GlobalStyles>
 
       <AppProvider i18n={enTranslations}>
@@ -117,6 +117,9 @@ function App() {
   );
   // }
 }
+
+//test
+
 //test
 const FleXApp = styled.div``;
 const TopDiv = styled.div`
