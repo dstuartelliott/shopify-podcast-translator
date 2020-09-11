@@ -24,6 +24,11 @@ import {
   updateWindowDimensions,
 } from "./actions";
 
+let prev;
+let next;
+let current;
+let last_time_frame;
+
 function Player() {
   const dispatch = useDispatch();
 
@@ -61,6 +66,114 @@ function Player() {
     let current_time = event.srcElement.currentTime;
 
     dispatch(addCurrentTime({ current_time }));
+
+    if (Math.abs(last_time_frame - current_time) > 2.0) {
+      console.log("========----==========================================");
+
+      console.log("likely jog");
+      aSynchFindUUID(current_time);
+    }
+
+    last_time_frame = current_time;
+  }
+
+  async function aSynchFindUUID(current_time) {
+    console.log("aSynchFindUUID findUUID");
+
+    let array_i;
+    let least_total_abs_value_dist = 99999999999999;
+    let closest_to_start = 9999999999999999.0;
+    let closest_to_previous_end = 99999999999.0;
+    for (let i = 0; i < uuids_and_times.length - 1; i++) {
+      // console.log(current_time);
+      // console.log(uuids_and_times[i].start);
+      // console.log(uuids_and_times[i].end);
+
+      if (
+        current_time > uuids_and_times[i].start &&
+        current_time < uuids_and_times[i].end
+      ) {
+        array_i = i;
+        console.log("found");
+        console.log("------------------");
+      }
+
+      // let distance_to_start = current_time - uuids_and_times[i].start;
+
+      // if (distance_to_start > 0 && distance_to_start < closest_to_start) {
+      //   closest_to_start = distance_to_start;
+      //   array_i = i;
+      // }
+
+      // let total_abs_value_dist = distance_to_start + distance_to_end;
+
+      // if (total_abs_value_dist < least_total_abs_value_dist) {
+      //   least_total_abs_value_dist = total_abs_value_dist;
+
+      //   array_i = i;
+
+      //   // if (current_time < uuids_and_times[i].end) {
+      //   //   least_total_abs_value_dist = total_abs_value_dist;
+
+      //   //   array_i = i;
+      //   // }
+    }
+
+    if (array_i === undefined) {
+      console.log("array_i wasa undefined");
+      for (let i = 0; i < uuids_and_times.length - 1; i++) {
+        let distance_to_previous_end = uuids_and_times[i].end - current_time;
+
+        if (
+          distance_to_previous_end > 0 &&
+          distance_to_previous_end < closest_to_previous_end
+        ) {
+          closest_to_previous_end = distance_to_previous_end;
+          array_i = i;
+        }
+      }
+    }
+
+    console.log("current time:");
+
+    console.log(current_time);
+
+    console.log(closest_to_start);
+    console.log(array_i);
+    console.log(uuids_and_times[array_i]);
+
+    if (array_i === 0) {
+      prev = uuids_and_times[array_i];
+    } else {
+      prev = uuids_and_times[array_i - 1];
+    }
+
+    if (array_i === [uuids_and_times.length - 1]) {
+      next = uuids_and_times[array_i];
+    } else {
+      next = uuids_and_times[array_i + 1];
+    }
+
+    current = uuids_and_times[array_i];
+
+    console.log(array_i);
+    if (array_i !== undefined) {
+      console.log("Player  133");
+
+      dispatch(
+        markEnglishAsPlaying({
+          time_code_from_player: current_time,
+          english_time_code_from_db: current.start,
+          english_uuid: current.uuid,
+          type_curently_playing: "English",
+          prev_uuid: prev.start,
+          prev_tc: prev.start,
+          next_uuid: next.uuid,
+          next_uuid: next.uuid,
+          next_tc: next.start,
+        })
+      );
+    }
   }
 
   function onPauseListen(event) {
@@ -71,40 +184,95 @@ function Player() {
     if (mp3PlayerState !== "playing") {
       console.log("onPlayListen");
 
-      console.log(event.srcElement.currentTime);
-      cancelAllSpeech();
-      console.log(uuids_and_times);
+      // TODO: Change back from true
+      if (
+        current === undefined ||
+        next.start - event.srcElement.currentTime < 3.0 ||
+        true
+      ) {
+        let current_time = event.srcElement.currentTime;
+        console.log(event.srcElement.currentTime);
+        cancelAllSpeech();
+        console.log(uuids_and_times);
 
-      let array_i;
-
-      // I realize I can do foreach here, but this way I can break early
-      for (let i = 0; i < uuids_and_times.length - 1; i++) {
-        if (
-          uuids_and_times[i].start < event.srcElement.currentTime &&
-          uuids_and_times[i].end > event.srcElement.currentTime
-        ) {
-          console.log("found");
-          array_i = i;
+        let array_i;
+        let least_total_abs_value_dist = 99999999999999;
+        let closest_to_start = 9999999999999999.0;
+        let closest_to_previous_end = 99999999999.0;
+        for (let i = 0; i < uuids_and_times.length - 1; i++) {
+          if (
+            current_time > uuids_and_times[i].start &&
+            current_time < uuids_and_times[i].end
+          ) {
+            array_i = i;
+            console.log("found");
+            console.log("------------------");
+          }
         }
+
+        if (array_i === undefined) {
+          console.log("array_i wasa undefined");
+          for (let i = 0; i < uuids_and_times.length - 1; i++) {
+            let distance_to_previous_end =
+              uuids_and_times[i].end - current_time;
+
+            if (
+              distance_to_previous_end > 0 &&
+              distance_to_previous_end < closest_to_previous_end
+            ) {
+              closest_to_previous_end = distance_to_previous_end;
+              array_i = i;
+            }
+          }
+        }
+
+        console.log("current time:");
+
+        console.log(current_time);
+
+        console.log(closest_to_start);
+        console.log(array_i);
+        console.log(uuids_and_times[array_i]);
+
+        if (array_i === 0) {
+          prev = uuids_and_times[array_i];
+        } else {
+          prev = uuids_and_times[array_i - 1];
+        }
+
+        if (array_i === [uuids_and_times.length - 1]) {
+          next = uuids_and_times[array_i];
+        } else {
+          next = uuids_and_times[array_i + 1];
+        }
+
+        current = uuids_and_times[array_i];
+
+        console.log(array_i);
+        if (array_i !== undefined) {
+          console.log("Player  133");
+
+          dispatch(
+            markEnglishAsPlaying({
+              time_code_from_player: current_time,
+              english_time_code_from_db: current.start,
+              english_uuid: current.uuid,
+              type_curently_playing: "English",
+              prev_uuid: prev.start,
+              prev_tc: prev.start,
+              next_uuid: next.uuid,
+              next_uuid: next.uuid,
+              next_tc: next.start,
+            })
+          );
+        } else {
+          dispatch(markEnglishAsPlaying(event.srcElement.currentTime, "TBD"));
+        }
+
+        dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+
+        console.log(event);
       }
-
-      console.log(array_i);
-      if (array_i !== undefined) {
-        console.log("Player 2 185");
-
-        dispatch(
-          markEnglishAsPlaying(
-            event.srcElement.currentTime,
-            uuids_and_times[array_i].uuid
-          )
-        );
-      } else {
-        dispatch(markEnglishAsPlaying(event.srcElement.currentTime, "TBD"));
-      }
-
-      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
-
-      console.log(event);
     }
   }
 

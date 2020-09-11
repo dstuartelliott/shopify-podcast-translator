@@ -43,9 +43,14 @@ export default function appReducer(state = initialState, action) {
       return {
         ...state,
         translation_playing: false,
-        english_time_code: action.english_time_code,
+        time_code_from_player: action.time_code_from_player,
+        english_time_code_from_db: action.english_time_code_from_db,
         english_uuid: action.english_uuid,
         type_curently_playing: action.type_curently_playing,
+        prev_uuid: action.prev_uuid,
+        prev_tc: action.prev_tc,
+        next_uuid: action.next_uuid,
+        next_tc: action.next_tc,
       };
     }
 

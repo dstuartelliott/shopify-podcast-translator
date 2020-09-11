@@ -167,6 +167,8 @@ function Transcript() {
         uuids_and_times[i].start < current_time &&
         uuids_and_times[i].end > current_time
       ) {
+        console.log("found in Transcript useeffect")
+
         array_i = i;
       }
     }

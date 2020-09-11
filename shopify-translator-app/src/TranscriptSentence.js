@@ -58,7 +58,15 @@ function TranscriptSentence({
 
     console.log("TranscriptSentence 57");
 
-    dispatch(markEnglishAsPlaying(sentence_object.start, sentence_object.uuid));
+    dispatch(
+      markEnglishAsPlaying({
+        english_time_code_from_db: sentence_object.start,
+        english_uuid: sentence_object.uuid,
+        type_curently_playing: "English",
+      })
+    );
+
+    //dispatch(markEnglishAsPlaying(sentence_object.start, sentence_object.uuid));
   }
 
   function handleTranslatedClickedSentence(event) {

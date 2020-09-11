@@ -126,7 +126,7 @@ const TopDiv = styled.div`
   background-color: transparent;
 `;
 const ScrollDiv = styled.div`
-  background-color: yellow;
+  background-color: transparent;
 `;
 
 const AppDiv = styled.div``;

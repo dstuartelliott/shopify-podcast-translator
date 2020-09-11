@@ -18,15 +18,22 @@ import {
   getMP3PlayerState,
 } from "./reducers";
 
+import { isMobile } from "react-device-detect";
+import { IoMdLock } from "react-icons/io";
+
+import SpinnerJustKF from "./SpinnerJustKF";
+
 function Scrolltext() {
   const playerContext = React.useContext(PlayerContext);
 
-  const [isLoaded, setIsLoaded] = React.useState(false);
   const dispatch = useDispatch();
 
   let simplifiedSentences = useSelector(getSimplifiedSentences);
 
   const [currentUUID, setcurrentUUID] = React.useState("");
+
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
   const [playerWasClicked, setplayerWasClicked] = React.useState(false);
 
   let translationPlaying = useSelector(getTranslationPlaying);
@@ -37,9 +44,6 @@ function Scrolltext() {
 
   let current_time = useSelector(getCurrentTime);
   let podcast_player_state = useSelector(getMP3PlayerState);
-
-
-sometime the english_uuid is getting updated from the player   .  weird.  start there tomorrow.
 
   React.useEffect(() => {
     async function getTranscriptSentences() {
@@ -102,27 +106,27 @@ sometime the english_uuid is getting updated from the player   .  weird.  start 
     if (element !== null && element !== undefined) {
       element.scrollIntoView({
         behavior: "smooth",
-        block: "start",
+        block: "nearest",
       });
     }
+    setcurrentUUID(english_uuid);
   }, [english_uuid]);
 
   React.useEffect(() => {
-    let array_i;
-
-    // I realize I can do foreach here, but this way I can break early
-    for (let i = 0; i < uuids_and_times.length - 1; i++) {
-      if (
-        uuids_and_times[i].start < current_time &&
-        uuids_and_times[i].end > current_time
-      ) {
-        array_i = i;
-      }
-    }
-    if (array_i !== undefined) {
-      setcurrentUUID(uuids_and_times[array_i].uuid);
-    }
-
+    // let array_i;
+    // // I realize I can do foreach here, but this way I can break early
+    // for (let i = 0; i < uuids_and_times.length - 1; i++) {
+    //   if (
+    //     uuids_and_times[i].start < current_time &&
+    //     uuids_and_times[i].end > current_time
+    //   ) {
+    //     console.log("found in ScrollText useeffect");
+    //     array_i = i;
+    //   }
+    // }
+    // if (array_i !== undefined) {
+    //   setcurrentUUID(uuids_and_times[array_i].uuid);
+    // }
     // eslint-disable-next-line
   }, [current_time]);
 
@@ -145,6 +149,38 @@ sometime the english_uuid is getting updated from the player   .  weird.  start 
     }
     // eslint-disable-next-line
   }, [podcast_player_state]);
+
+  if (isMobile && playerWasClicked === false) {
+    console.log(playerWasClicked);
+    return (
+      <UnlockWarning>
+        <div>
+          <IoMdLock size={60} color={"#EEC200"}></IoMdLock>
+        </div>
+        <WarningText>
+          Mobile devices require you to click play first!
+        </WarningText>
+      </UnlockWarning>
+    );
+  }
+
+  if (isLoaded === false) {
+    return (
+      <Loading>
+        <LoadingFlex>
+          <LoadingSpinner>
+            <SpinnerJustKF></SpinnerJustKF>
+          </LoadingSpinner>
+          <LoadingText>
+            Loading up{" "}
+            <a href={"https://www.justheard.ca:8000/returnCombined"}>
+              transcript.
+            </a>
+          </LoadingText>
+        </LoadingFlex>
+      </Loading>
+    );
+  }
 
   return (
     <ScrollWrapper>
@@ -210,6 +246,40 @@ const ScrollText = styled.div`
     top: 200px;
     bottom: 20px;
   }
+`;
+
+const LoadingText = styled.div``;
+
+const LoadingFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Loading = styled.div`
+  margin: auto;
+  background-color: white;
+  padding-top: 20px;
+`;
+
+const LoadingSpinner = styled.div`
+  padding-left: 20px;
+`;
+
+const WarningText = styled.div`
+  padding: 10px;
+  /* color: #573b00; */
+`;
+
+const UnlockWarning = styled.div`
+  width: 250px;
+  background-color: #f4f6f8;
+  border-radius: 10px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 `;
 
 export default Scrolltext;

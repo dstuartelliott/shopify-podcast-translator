@@ -20,11 +20,26 @@ export const markTranslationAsPlaying = (time, translated_uuid) => ({
   type_curently_playing: "Translation",
 });
 
-export const markEnglishAsPlaying = (time, english_uuid) => ({
+export const markEnglishAsPlaying = ({
+  time_code_from_player,
+  english_time_code_from_db,
+  english_uuid,
+  type_curently_playing,
+  prev_uuid,
+  prev_tc,
+  next_uuid,
+  next_tc,
+}) => ({
   type: "MARK_ENGLISH_AS_PLAYING",
-  english_time_code: time,
+  time_code_from_player: time_code_from_player,
+  english_time_code_from_db: english_time_code_from_db,
   english_uuid: english_uuid,
-  type_curently_playing: "English",
+  type_curently_playing: type_curently_playing,
+  prev_uuid: prev_uuid,
+  prev_tc: prev_tc,
+  next_uuid,
+  next_uuid,
+  next_tc: next_tc,
 });
 
 export const markTranslationAsDonePlaying = () => ({
