@@ -178,6 +178,13 @@ export const getEnglishUUID = (state) => {
   }
 };
 
+export const getTranslatedUUID = (state) => {
+  //    state.current_time;
+  if (state.translated_uuid !== undefined) {
+    return state.translated_uuid;
+  }
+};
+
 export const getSynthStateSpeaking = (state) => {
   //    state.current_time;
   if (state.synth !== undefined) {

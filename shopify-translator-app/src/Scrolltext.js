@@ -16,6 +16,7 @@ import {
   getUUIDsandTimes,
   getCurrentTime,
   getMP3PlayerState,
+  getTranslatedUUID,
 } from "./reducers";
 
 import { isMobile } from "react-device-detect";
@@ -31,6 +32,7 @@ function Scrolltext() {
   let simplifiedSentences = useSelector(getSimplifiedSentences);
 
   const [currentUUID, setcurrentUUID] = React.useState("");
+  const [translatedUUID, setTranslatedUUID] = React.useState("");
 
   const [isLoaded, setIsLoaded] = React.useState(false);
 
@@ -40,6 +42,8 @@ function Scrolltext() {
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
 
   let english_uuid = useSelector(getEnglishUUID);
+  let translated_uuid = useSelector(getTranslatedUUID);
+
   let uuids_and_times = useSelector(getUUIDsandTimes);
 
   let current_time = useSelector(getCurrentTime);
@@ -111,6 +115,17 @@ function Scrolltext() {
     }
     setcurrentUUID(english_uuid);
   }, [english_uuid]);
+
+  // React.useEffect(() => {
+  //   let element = document.getElementById(translated_uuid + "trans");
+  //   if (element !== null && element !== undefined) {
+  //     element.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "nearest",
+  //     });
+  //   }
+  //   setTranslatedUUID(translated_uuid);
+  // }, [translated_uuid]);
 
   React.useEffect(() => {
     // let array_i;
@@ -195,6 +210,7 @@ function Scrolltext() {
               englishHighlighted={
                 element.uuid === currentUUID && translationPlaying === false
               }
+              translatedUUID={element.uuid + "trans"}
               translatedHightlighted={
                 element.uuid === translationTimeCodeUUID.uuid &&
                 translationPlaying

@@ -27,6 +27,7 @@ function TranscriptSentence({
   sentence_object,
   englishHighlighted,
   translatedHightlighted,
+  translatedUUID,
   next_start_time,
   highlightedLang,
   uuidHighlighted,
@@ -130,7 +131,10 @@ function TranscriptSentence({
                 {sentence_object.speaker}: {sentence_object.english_sentence}
               </SentenceHighlightedMB>
             </SentencePlayingDivMB>
-            <SentencePlayingDivMB onClick={handleTranslatedClickedSentence}>
+            <SentencePlayingDivMB
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
               <SentenceMB className="”notranslate”">
                 {sentence_object.speaker}: {sentence_object.translated_sentence}
               </SentenceMB>
@@ -151,7 +155,10 @@ function TranscriptSentence({
               </SentenceMB>
             </SentencePlayingDivMB>
 
-            <SentencePlayingDivMB onClick={handleTranslatedClickedSentence}>
+            <SentencePlayingDivMB
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
               <ButtonDivMB>
                 <TranslationButtonDB onClick={handlePlayPauseTranslation}>
                   {synthSpeaking && translationUUID === sentence_object.uuid ? (
@@ -181,7 +188,10 @@ function TranscriptSentence({
                 {sentence_object.speaker}: {sentence_object.english_sentence}
               </SentenceMB>
             </SentenceDivMB>
-            <SentenceDivMB onClick={handleTranslatedClickedSentence}>
+            <SentenceDivMB
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
               <SentenceMB className="”notranslate”">
                 {sentence_object.speaker}: {sentence_object.translated_sentence}
               </SentenceMB>

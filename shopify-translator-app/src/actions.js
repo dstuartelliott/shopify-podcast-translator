@@ -13,7 +13,7 @@ export const jumpToTime = (time) => ({
   time,
 });
 
-export const markTranslationAsPlaying = (time, translated_uuid) => ({
+export const markTranslationAsPlaying = ({ time, translated_uuid }) => ({
   type: "MARK_TRANSLATION_AS_PLAYING",
   translation_time_code: time,
   translated_uuid: translated_uuid,

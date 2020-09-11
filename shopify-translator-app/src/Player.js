@@ -15,6 +15,7 @@ import {
   getTimeToJumpTo,
   getUUIDsandTimes,
   getMP3PlayerState,
+  getTranslationPlaying,
 } from "./reducers";
 
 import {
@@ -22,6 +23,7 @@ import {
   markEnglishAsPlaying,
   recordMP3PlayerState,
   updateWindowDimensions,
+  markTranslationAsPlaying,
 } from "./actions";
 
 let prev;
@@ -37,6 +39,8 @@ function Player() {
   let uuids_and_times = useSelector(getUUIDsandTimes);
 
   let timeToJumpTo = useSelector(getTimeToJumpTo);
+
+  let translationPlaying = useSelector(getTranslationPlaying);
 
   const audioref = React.useRef(null);
 
@@ -160,19 +164,26 @@ function Player() {
     if (array_i !== undefined) {
       console.log("Player  133");
 
-      dispatch(
-        markEnglishAsPlaying({
-          time_code_from_player: current_time,
-          english_time_code_from_db: current.start,
-          english_uuid: current.uuid,
-          type_curently_playing: "English",
-          prev_uuid: prev.start,
-          prev_tc: prev.start,
-          next_uuid: next.uuid,
-          next_uuid: next.uuid,
-          next_tc: next.start,
-        })
-      );
+      if (translationPlaying === false) {
+        dispatch(
+          markEnglishAsPlaying({
+            time_code_from_player: current_time,
+            english_time_code_from_db: current.start,
+            english_uuid: current.uuid,
+            type_curently_playing: "English",
+            prev_uuid: prev.start,
+            prev_tc: prev.start,
+            next_uuid: next.uuid,
+            next_uuid: next.uuid,
+            next_tc: next.start,
+          })
+        );
+      } else if (translationPlaying) {
+        markTranslationAsPlaying({
+          time: current_time,
+          translated_uuid: current.uuid,
+        });
+      }
     }
   }
 
@@ -252,21 +263,30 @@ function Player() {
         if (array_i !== undefined) {
           console.log("Player  133");
 
-          dispatch(
-            markEnglishAsPlaying({
-              time_code_from_player: current_time,
-              english_time_code_from_db: current.start,
-              english_uuid: current.uuid,
-              type_curently_playing: "English",
-              prev_uuid: prev.start,
-              prev_tc: prev.start,
-              next_uuid: next.uuid,
-              next_uuid: next.uuid,
-              next_tc: next.start,
-            })
-          );
+          if (translationPlaying === false) {
+            dispatch(
+              markEnglishAsPlaying({
+                time_code_from_player: current_time,
+                english_time_code_from_db: current.start,
+                english_uuid: current.uuid,
+                type_curently_playing: "English",
+                prev_uuid: prev.start,
+                prev_tc: prev.start,
+                next_uuid: next.uuid,
+                next_uuid: next.uuid,
+                next_tc: next.start,
+              })
+            );
+          } else if (translationPlaying) {
+            markTranslationAsPlaying({
+              time: current_time,
+              translated_uuid: current.uuid,
+            });
+          }
         } else {
-          dispatch(markEnglishAsPlaying(event.srcElement.currentTime, "TBD"));
+          if (translationPlaying === false) {
+            dispatch(markEnglishAsPlaying(event.srcElement.currentTime, "TBD"));
+          }
         }
 
         dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
