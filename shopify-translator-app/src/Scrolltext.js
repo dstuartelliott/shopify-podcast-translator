@@ -166,7 +166,7 @@ function Scrolltext() {
   }, [podcast_player_state]);
 
   if (isMobile && playerWasClicked === false) {
-    console.log(playerWasClicked);
+    // console.log(playerWasClicked);
     return (
       <UnlockWarning>
         <div>

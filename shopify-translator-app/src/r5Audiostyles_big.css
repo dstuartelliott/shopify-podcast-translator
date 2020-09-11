@@ -6,9 +6,8 @@
   font-family: inherit;
   width: 100%;
   padding: 10px 15px;
-  background-color: green;
-
-  box-shadow: 0 0 0px 0 rgba(0, 0, 0, 0.2);
+  background-color: blue;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
 }
 .rhap_container:focus:not(:focus-visible) {
   outline: 0;
@@ -152,9 +151,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: 80px;
-  right: 40px;
 }
 
 .rhap_main-controls-button {
