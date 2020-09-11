@@ -44,7 +44,6 @@ export const markEnglishAsPlaying = ({
   prev_uuid: prev_uuid,
   prev_tc: prev_tc,
   next_uuid,
-  next_uuid,
   next_tc: next_tc,
 });
 

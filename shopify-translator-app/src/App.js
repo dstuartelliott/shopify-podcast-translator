@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import Player2 from "./Player2.js";
 import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
@@ -149,8 +148,6 @@ const TopDiv = styled.div`
 const ScrollDiv = styled.div`
   background-color: transparent;
 `;
-
-const AppDiv = styled.div``;
 
 const GlobalStyles = createGlobalStyle`
   * {

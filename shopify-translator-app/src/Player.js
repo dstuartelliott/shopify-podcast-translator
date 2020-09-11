@@ -4,9 +4,7 @@ import { useDispatch } from "react-redux";
 
 import { SpeechSynthContext } from "./SpeechSynthContext";
 
-import Top from "./Top";
 import styled from "styled-components";
-import Scrolltext from "./Scrolltext";
 import "./App.css";
 import AudioPlayer from "react-h5-audio-player";
 import R5stylesSmall from "./r5Audiostyles.css";
@@ -17,14 +15,12 @@ import {
   getUUIDsandTimes,
   getMP3PlayerState,
   getTranslationPlaying,
-  getWindowDimensions,
 } from "./reducers";
 
 import {
   addCurrentTime,
   markEnglishAsPlaying,
   recordMP3PlayerState,
-  updateWindowDimensions,
   markTranslationAsPlaying,
 } from "./actions";
 
@@ -87,7 +83,6 @@ function Player() {
     console.log("aSynchFindUUID findUUID");
 
     let array_i;
-    let least_total_abs_value_dist = 99999999999999;
     let closest_to_start = 9999999999999999.0;
     let closest_to_previous_end = 99999999999.0;
     for (let i = 0; i < uuids_and_times.length - 1; i++) {
@@ -176,7 +171,6 @@ function Player() {
             prev_uuid: prev.start,
             prev_tc: prev.start,
             next_uuid: next.uuid,
-            next_uuid: next.uuid,
             next_tc: next.start,
           })
         );
@@ -209,7 +203,6 @@ function Player() {
         console.log(uuids_and_times);
 
         let array_i;
-        let least_total_abs_value_dist = 99999999999999;
         let closest_to_start = 9999999999999999.0;
         let closest_to_previous_end = 99999999999.0;
         for (let i = 0; i < uuids_and_times.length - 1; i++) {
@@ -274,7 +267,6 @@ function Player() {
                 type_curently_playing: "English",
                 prev_uuid: prev.start,
                 prev_tc: prev.start,
-                next_uuid: next.uuid,
                 next_uuid: next.uuid,
                 next_tc: next.start,
               })

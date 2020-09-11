@@ -13,10 +13,8 @@ import {
   getTranslationPlaying,
   getTranslationTimeCodeAndUUID,
   getEnglishUUID,
-  getUUIDsandTimes,
   getCurrentTime,
   getMP3PlayerState,
-  getTranslatedUUID,
 } from "./reducers";
 
 import { isMobile } from "react-device-detect";
@@ -32,7 +30,6 @@ function Scrolltext() {
   let simplifiedSentences = useSelector(getSimplifiedSentences);
 
   const [currentUUID, setcurrentUUID] = React.useState("");
-  const [translatedUUID, setTranslatedUUID] = React.useState("");
 
   const [isLoaded, setIsLoaded] = React.useState(false);
 
@@ -42,9 +39,6 @@ function Scrolltext() {
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
 
   let english_uuid = useSelector(getEnglishUUID);
-  let translated_uuid = useSelector(getTranslatedUUID);
-
-  let uuids_and_times = useSelector(getUUIDsandTimes);
 
   let current_time = useSelector(getCurrentTime);
   let podcast_player_state = useSelector(getMP3PlayerState);
@@ -242,21 +236,6 @@ const TranscriptList = styled.div`
   bottom: 20px;
   top: 280px;
   position: absolute;
-  @media (max-width: 600px) {
-    top: 200px;
-    bottom: 20px;
-  }
-`;
-
-const ScrollText = styled.div`
-  max-width: 985px;
-
-  background-color: transparent;
-  overflow: scroll;
-  bottom: 20px;
-  top: 300px;
-  position: absolute;
-  margin-left: 10%;
   @media (max-width: 600px) {
     top: 200px;
     bottom: 20px;
