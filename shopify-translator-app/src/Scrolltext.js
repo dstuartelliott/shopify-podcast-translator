@@ -77,11 +77,24 @@ function Scrolltext() {
           last_word = undefined;
         }
 
+        let speaker = element.speaker;
+
+        if (element.speaker.length > 10) {
+          let spaces = element.speaker.split(" ");
+
+          console.log("longer");
+          console.log(element);
+          console.log(spaces.length);
+          if (spaces.length > 3) {
+            speaker = combined.translations[i - 1].speaker;
+          }
+        }
+
         if (succesful_word !== undefined) {
           sentenceAndGoodWordCombined.push({
             english_sentence: element.english,
             translated_sentence: element.translation,
-            speaker: element.speaker,
+            speaker: speaker,
             word: succesful_word,
             last_word: last_word,
             // words: element.words,

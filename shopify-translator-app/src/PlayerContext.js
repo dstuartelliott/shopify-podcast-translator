@@ -80,7 +80,6 @@ export const PlayerContextProvider = ({ children }) => {
         .then((response) => {
           let data = response.json();
           // profileObject = data;
-          //   console.log(data);
           resolve(data);
         })
         .catch((error) => {
