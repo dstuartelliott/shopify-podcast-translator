@@ -170,6 +170,7 @@
   font-size: 35px;
   width: 35px;
   height: 35px;
+  background-color: white;
 }
 
 .rhap_play-pause-button {
@@ -241,7 +242,6 @@
 
 /* Utils */
 .rhap_button-clear {
-  background-color: transparent;
   border: none;
   padding: 0;
   overflow: hidden;
@@ -250,18 +250,15 @@
 }
 .rhap_button-clear:hover {
   outline: 0;
-  background-color: transparent;
 
   /* opacity: 0.9;
   transition-duration: 0.2s; */
 }
 .rhap_button-clear:active {
   outline: 0;
-  background-color: transparent;
 
   /* opacity: 0.95; */
 }
 .rhap_button-clear:focus:not(:focus-visible) {
   outline: 0;
-  background-color: transparent;
 }
