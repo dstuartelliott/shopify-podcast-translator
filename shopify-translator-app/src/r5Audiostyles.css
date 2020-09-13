@@ -93,6 +93,7 @@
   height: 5px;
   background-color: #dddddd;
   border-radius: 2px;
+  outline: 0;
 }
 
 .rhap_progress-filled {
@@ -101,10 +102,12 @@
   z-index: 2;
   background-color: #868686;
   border-radius: 2px;
+  outline: 0;
 }
 
 .rhap_progress-bar-show-download {
   background-color: rgba(221, 221, 221, 0.5);
+  outline: 0;
 }
 
 .rhap_download-progress {
@@ -113,6 +116,7 @@
   z-index: 1;
   background-color: #dddddd;
   border-radius: 2px;
+  outline: 0;
 }
 
 .rhap_progress-indicator {
@@ -126,6 +130,7 @@
   background: #868686;
   border-radius: 50px;
   box-shadow: rgba(134, 134, 134, 0.5) 0 0 5px;
+  outline: 0;
 }
 
 .rhap_controls-section {
