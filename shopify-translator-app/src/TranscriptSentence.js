@@ -15,6 +15,8 @@ import {
 import { useSelector } from "react-redux";
 import { isMobile } from "react-device-detect";
 
+import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
+
 import {
   getSynthStateSpeaking,
   getTranslationTimeCodeAndUUID,
@@ -315,7 +317,7 @@ const SentenceDivMB = styled.div`
 const SentenceMB = styled.div`
   background-color: white;
   padding-left: 11px;
-  color: grey;
+  color: ${COLORS_SHOPIFY_BLUE_PALLETE.Text};
   margin-right: 0px;
 `;
 const SentenceHighlightedMB = styled.div`
@@ -330,6 +332,7 @@ const ButtonDivMB = styled.div`
   flex-direction: column;
   background-color: white;
   text-align: center;
+  color: red;
 `;
 
 const TranslationButtonDB = styled.button`
@@ -339,7 +342,6 @@ const TranslationButtonDB = styled.button`
   z-index: 200;
   border-radius: 25px;
   border-color: transparent;
-  color: rgba(92, 115, 196);
   background-color: transparent;
   :focus {
     outline: none;
@@ -348,6 +350,47 @@ const TranslationButtonDB = styled.button`
 `;
 
 // Desktop
+const Wrapper = styled.div`
+  z-index: 2;
+  text-align: left;
+`;
+
+const SentenceAndSpeaker = styled.div``;
+
+const SentenceAndSpeakerSelected = styled.div``;
+
+const SentenceDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  padding-bottom: 20px;
+  /* max-width: 900px; */
+`;
+
+const SentencePlayingDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  padding-bottom: 20px;
+  /* max-width: 900px; */
+`;
+
+const SentenceHighlighted = styled.div`
+  background-color: white;
+  padding-left: 11px;
+
+  color: rgba(26, 26, 26);
+`;
+
+const Sentence = styled.div`
+  background-color: white;
+  padding-left: 150px;
+  color: grey;
+`;
 
 const ButtonDiv = styled.div`
   display: flex;
@@ -365,54 +408,14 @@ const TranslationButton = styled.button`
   z-index: 200;
   border-radius: 25px;
   border-color: transparent;
-  color: rgba(92, 115, 196);
+  /* color: rgba(92, 115, 196); */
+  color: ${COLORS_SHOPIFY_BLUE_PALLETE.Blue};
+
   background-color: transparent;
   :focus {
     outline: none;
   }
   align-self: center;
-`;
-
-const SentenceDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  border: none;
-  cursor: pointer;
-  z-index: 1;
-  padding-bottom: 20px;
-  max-width: 900px;
-`;
-
-const SentencePlayingDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  border: none;
-  cursor: pointer;
-  z-index: 1;
-  padding-bottom: 20px;
-  max-width: 900px;
-`;
-
-const Wrapper = styled.div`
-  z-index: 2;
-  text-align: left;
-`;
-
-const SentenceAndSpeaker = styled.div``;
-
-const SentenceAndSpeakerSelected = styled.div``;
-
-const Sentence = styled.div`
-  background-color: white;
-  padding-left: 150px;
-  color: grey;
-`;
-
-const SentenceHighlighted = styled.div`
-  background-color: white;
-  padding-left: 11px;
-
-  color: rgba(26, 26, 26);
 `;
 
 export default TranscriptSentence;

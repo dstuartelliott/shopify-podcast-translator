@@ -17,6 +17,11 @@ import {
   getMP3PlayerState,
 } from "./reducers";
 
+import {
+  COLORS_SHOPIFY_BLUE_PALLETE,
+  COLORS_SHOPIFY_GREYS_PALLETE,
+} from "./constants.js";
+
 import { isMobile } from "react-device-detect";
 import { IoMdLock } from "react-icons/io";
 
@@ -223,6 +228,7 @@ const ScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  max-width: 800px;
 `;
 
 const TranscriptList = styled.div`
@@ -231,10 +237,40 @@ const TranscriptList = styled.div`
   justify-content: flex-start;
   overflow: scroll;
   width: 97%;
+  max-width: 910px;
   overflow-x: hidden; //horizontal
 
+  &::-webkit-scrollbar-track {
+    background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Light};
+    border-radius: 10px;
+    border-top: 2px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
+    border-bottom: 2px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 20px;
+    background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Lighter};
+    height: 30px;
+    position: absolute;
+    top: 10px;
+
+    @media (max-width: 600px) {
+      /* position: fixed;
+      top: 200px;
+      bottom: 20px; */
+    }
+  }
+
+  ::-webkit-scrollbar-thumb {
+    width: 10px;
+    /* box-shadow: inset 0 0 3px ${COLORS_SHOPIFY_BLUE_PALLETE.Blue}; */
+    border-radius: 20px;
+    background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
+  }
+
   bottom: 20px;
-  top: 280px;
+  top: 250px;
   position: absolute;
   @media (max-width: 600px) {
     top: 200px;

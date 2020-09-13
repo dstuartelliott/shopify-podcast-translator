@@ -9,7 +9,7 @@ import Top from "./Top";
 import Player from "./Player";
 import Scrolltext from "./Scrolltext";
 
-import { updateWindowDimensions } from "./actions";
+import { updateWindowDimensions, markEnglishAsPlaying } from "./actions";
 
 function App() {
   //eslint-disable-next-line
@@ -90,6 +90,9 @@ function App() {
     window.addEventListener("resize", handleResize);
 
     initWindowSizes();
+
+    dispatch(markEnglishAsPlaying(0.0, "TBD"));
+
     return () => window.removeEventListener("resize", handleResize);
     // eslint-disable-next-line
   }, []);
@@ -102,16 +105,16 @@ function App() {
       <GlobalStyles></GlobalStyles>
 
       <AppProvider i18n={enTranslations}>
-        <DividerTop>
+        {/* <DividerTop>
           <ThickLine></ThickLine>
-        </DividerTop>
+        </DividerTop> */}
 
         <TopDiv>
           <Top></Top>
         </TopDiv>
-        <Divider>
+        {/* <Divider>
           <Line></Line>
-        </Divider>
+        </Divider> */}
 
         <Player></Player>
 
@@ -124,22 +127,23 @@ function App() {
   // }
 }
 
-const Line = styled.div`
-  border-top: 1px solid #eec200;
-  @media (max-width: 600px) {
-    border-top: 1px solid white;
-  }
-`;
+// available diver styles if I need them.
+// const Line = styled.div`
+//   border-top: 1px solid #eec200;
+//   @media (max-width: 600px) {
+//     border-top: 1px solid white;
+//   }
+// `;
 
-const ThickLine = styled.div`
-  border-top: 3px solid #eec200;
-  @media (max-width: 600px) {
-    border-top: 1px solid white;
-  }
-`;
+// const ThickLine = styled.div`
+//   border-top: 3px solid #eec200;
+//   @media (max-width: 600px) {
+//     border-top: 1px solid white;
+//   }
+// `;
 
-const Divider = styled.div``;
-const DividerTop = styled.div``;
+// const Divider = styled.div``;
+// const DividerTop = styled.div``;
 
 const FleXApp = styled.div``;
 const TopDiv = styled.div`

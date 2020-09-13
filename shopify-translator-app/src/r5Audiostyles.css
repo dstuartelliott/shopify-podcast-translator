@@ -7,7 +7,7 @@
   width: 100%;
   padding: 10px 15px;
   background-color: white;
-  max-width: 1000px;
+  max-width: 900px;
 
   box-shadow: 0 0 0px 0 rgba(0, 0, 0, 0.2);
 }
@@ -61,6 +61,7 @@
   display: flex;
   flex: 3 1 auto;
   align-items: center;
+  outline: 0;
 }
 
 .rhap_progress-container {
@@ -154,8 +155,8 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 80px;
-  right: 40px;
+  top: 95px;
+  left: 35px;
 }
 
 .rhap_main-controls-button {
@@ -240,14 +241,22 @@
   padding: 0;
   overflow: hidden;
   cursor: pointer;
+  outline: 0;
 }
 .rhap_button-clear:hover {
-  opacity: 0.9;
-  transition-duration: 0.2s;
+  outline: 0;
+  background-color: transparent;
+
+  /* opacity: 0.9;
+  transition-duration: 0.2s; */
 }
 .rhap_button-clear:active {
-  opacity: 0.95;
+  outline: 0;
+  background-color: transparent;
+
+  /* opacity: 0.95; */
 }
 .rhap_button-clear:focus:not(:focus-visible) {
   outline: 0;
+  background-color: transparent;
 }

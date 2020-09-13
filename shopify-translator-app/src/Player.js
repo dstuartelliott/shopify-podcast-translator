@@ -27,7 +27,7 @@ import {
 let prev;
 let next;
 let current;
-let last_time_frame;
+let last_time_frame = 0.0;
 
 function Player() {
   const dispatch = useDispatch();

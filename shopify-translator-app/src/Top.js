@@ -1,55 +1,54 @@
 import React from "react";
 import styled from "styled-components";
 import HeroSrc from "./images/shopify_masters_hero.jpg";
-
+import { COLORS_SHOPIFY_YELLOW_PALLETE } from "./constants.js";
 function Top() {
   return (
     <Wrapper>
-      <LargerPic>
-        <HeroImgLarger image_source={HeroSrc}></HeroImgLarger>
-      </LargerPic>
       <HeroDiv>
         <ImageDiv>
           <HeroImgMB image_source={HeroSrc}></HeroImgMB>
         </ImageDiv>
-        <TextDiv>The Pre-Launch Strategies of a Million-Dollar Brand</TextDiv>
         <SummaryDiv>
-          Making it easier to keep track of daily hydration goals, Emily Chong
-          and Nathan Chan started Healthish and created sleek water bottles with
-          timestamps. In this episode of Shopify Masters, we chat with Nathan
-          and Emily on product development and building their business through
-          influencer marketing.
+          <TitleText>
+            The Pre-Launch Strategies of a Million-Dollar Brand
+          </TitleText>
+
+          <SummaryText>
+            Making it easier to keep track of daily hydration goals, Emily Chong
+            and Nathan Chan started Healthish and created sleek water bottles
+            with timestamps. In this episode of Shopify Masters, we chat with
+            Nathan and Emily on product development and building their business
+            through influencer marketing.
+          </SummaryText>
         </SummaryDiv>
       </HeroDiv>
     </Wrapper>
   );
 }
 
-const LargerPic = styled.div`
-  position: absolute;
-  top: 18px;
-  right: 48px;
-  width: 150px;
-  @media (max-width: 600px) {
-    display: hidden;
-    visibility: hidden;
-  }
-`;
+const SummaryText = styled.div`
+  font-size: 13px;
+  font-weight: 300;
+  padding-top: 10px;
+  text-align: justify;
+  text-align-last: left;
 
-const HeroImgLarger = styled.div`
-  background-image: url("${(props) => props.image_source}");
-  min-height: 60px;
-  background-position: right;
-  background-size: contain;
-  background-repeat: no-repeat;
   @media (max-width: 600px) {
-    display: hidden;
+    display: none;
   }
 `;
 
 const HeroDiv = styled.div`
   display: flex;
-  padding-top: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  justify-content: flex-start;
+  padding: 10px;
+  flex-direction: row;
+  border: 2px solid ${COLORS_SHOPIFY_YELLOW_PALLETE.Yellow};
+
+  /* padding-top: 10px;
   padding-left: 5px;
   padding-right: 5px;
 
@@ -57,12 +56,13 @@ const HeroDiv = styled.div`
   margin: auto;
   font-size: 23px;
   flex-direction: column;
-  height: 200px;
+  height: 200px; */
+  align-content: flex-start;
 
   @media (max-width: 600px) {
     font-size: 15px;
     font-weight: 500;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 10px;
     flex-direction: row;
     height: 100px;
@@ -73,52 +73,43 @@ const HeroDiv = styled.div`
 const ImageDiv = styled.div`
   margin-right: 0px;
   /* background-color: blue; */
-  min-width: 50%;
-  display: none;
-  @media (max-width: 800px) {
-    display: block;
-  }
-`;
-
-const TextDiv = styled.div`
-  width: 340px;
-  padding-left: 10px;
+  min-width: 150px;
 `;
 
 const SummaryDiv = styled.div`
-  display: block;
-  padding-left: 10px;
   padding-top: 10px;
+  padding-left: 10px;
   font-size: 15px;
-  width: 340px;
-  text-align: justify;
-  text-align-last: left;
-  @media (max-width: 600px) {
-    display: none;
+  max-width: 700px;
+  flex-grow: 2;
+
+  @media (min-width: 600px) {
+  }
+`;
+
+const TitleText = styled.div`
+  width: 200px;
+
+  @media (min-width: 600px) {
+    /* background-color: red; */
+    align-self: flex-start;
+    max-width: 280px;
   }
 `;
 
 const HeroImgMB = styled.div`
   background-image: url("${(props) => props.image_source}");
-  min-height: 80px;
-  max-width: 120px;
-  display: none;
-  background-position: right;
+  min-height: 70px;
+  max-width: 220px;
+  display: block;
+  background-position: left 10px top 5px;
   background-size: contain;
   background-repeat: no-repeat;
-  @media (max-width: 600px) {
-    min-height: 100px;
-    max-width: 220px;
-    display: block;
-    background-position: top;
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
 `;
 
 const Wrapper = styled.div`
   padding: 10px;
-  max-width: 600px;
+  max-width: 900px;
 `;
 
 export default Top;
