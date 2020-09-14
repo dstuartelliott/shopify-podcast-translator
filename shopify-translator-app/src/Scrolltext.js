@@ -308,6 +308,9 @@ const TimeDividerTop = styled.div`
   padding-left: 150px;
   display: flex;
   flex-direction: row;
+  @media (max-width: 600px) {
+    padding-left: 10px;
+  }
 `;
 
 const TimeText = styled.div`
