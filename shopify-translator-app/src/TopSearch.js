@@ -61,7 +61,11 @@ function TopSearch() {
     if (sentenceSearchText === "") {
       dispatch(updateSearchResults([]));
     } else {
-      dispatch(updateSearchResults({ filtered_sentences, sentenceSearchText }));
+      if (sentenceSearchText.length > 2) {
+        dispatch(
+          updateSearchResults({ filtered_sentences, sentenceSearchText })
+        );
+      }
     }
   }
 

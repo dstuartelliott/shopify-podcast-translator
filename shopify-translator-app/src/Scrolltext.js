@@ -190,6 +190,7 @@ function Scrolltext() {
           simplifiedSentences.map((element, i) => {
             if (
               search_results === undefined ||
+              search_results.searchResults.filtered_sentences === undefined ||
               search_results.searchResults.filtered_sentences.length === 0
             ) {
               return (

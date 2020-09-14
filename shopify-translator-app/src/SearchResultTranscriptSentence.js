@@ -46,6 +46,15 @@ function SearchResultTranscriptSentence({
     },
   } = React.useContext(SpeechSynthContext);
 
+  React.useEffect(() => {
+    let english_split_with_search_term = sentence_object.english_sentence.split(
+      search_phrase
+    );
+    console.log(search_phrase);
+
+    console.log(english_split_with_search_term);
+  }, []);
+
   function handleClickedSentence(event) {
     console.log(event);
     cancelAllSpeech();
