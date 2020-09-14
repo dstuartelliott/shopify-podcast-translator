@@ -20,6 +20,7 @@ import {
   getSynthStateSpeaking,
   getTranslationTimeCodeAndUUID,
   getMP3PlayerState,
+  getSearchResults,
 } from "./reducers";
 
 import { useDispatch } from "react-redux";
@@ -38,6 +39,10 @@ function SearchResultTranscriptSentence({
 
   let mp3PlayState = useSelector(getMP3PlayerState);
 
+  let search_results = useSelector(getSearchResults);
+
+  const [combined_english, setCombined_english] = React.useState([]);
+
   const {
     actions: {
       playSpeechInSynthContext,
@@ -47,13 +52,34 @@ function SearchResultTranscriptSentence({
   } = React.useContext(SpeechSynthContext);
 
   React.useEffect(() => {
-    let english_split_with_search_term = sentence_object.english_sentence.split(
-      search_phrase
-    );
-    console.log(search_phrase);
+    if (search_phrase.length > 2) {
+      let english_split_with_search_term = sentence_object.english_sentence.split(
+        search_phrase
+      );
 
-    console.log(english_split_with_search_term);
-  }, []);
+      let combined_english = [];
+      english_split_with_search_term.forEach((element, i) => {
+        combined_english.push(element);
+        if (i !== english_split_with_search_term.length - 1) {
+          combined_english.push(search_phrase);
+        }
+      });
+      setCombined_english(combined_english);
+
+      let translated_split_with_search_term = sentence_object.translated_sentence.split(
+        search_phrase
+      );
+
+      let combined_translated = [];
+      translated_split_with_search_term.forEach((element, i) => {
+        combined_translated.push(element);
+        if (i !== translated_split_with_search_term.length - 1) {
+          combined_translated.push(search_phrase);
+        }
+      });
+    }
+    // eslint-disable-next-line
+  }, [search_results]);
 
   function handleClickedSentence(event) {
     console.log(event);
@@ -195,7 +221,16 @@ function SearchResultTranscriptSentence({
           </SentenceDiv>
           <SentenceDiv onClick={handleTranslatedClickedSentence}>
             <Sentence className="”notranslate”">
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
+              {sentence_object.speaker}:
+              {combined_english.map((element, i) => {
+                if (i % 2 === 0) {
+                  return <span>{element}</span>;
+                } else {
+                  return (
+                    <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
+                  );
+                }
+              })}
             </Sentence>
           </SentenceDiv>
         </SentenceAndSpeaker>
@@ -271,6 +306,11 @@ const Sentence = styled.div`
     color: ${COLORS_SHOPIFY_BLUE_PALLETE.Text};
     margin-right: 0px;
   }
+`;
+
+const SentenceTextSearchTerm = styled.span`
+  color: ${COLORS_SHOPIFY_BLUE_PALLETE.Dark};
+  background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Light};
 `;
 
 const ButtonDiv = styled.div`

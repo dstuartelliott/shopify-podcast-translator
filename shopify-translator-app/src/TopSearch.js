@@ -39,7 +39,7 @@ function TopSearch() {
     filtered_sentences = [];
 
     let sentenceSearchText = event.target.value.toLowerCase();
-
+    let original_search_phrase = event.target.value;
     // books_suggested = suggestions.books.filter((e) =>
     //   e.title.toLowerCase().includes(bookSearchText)
     // );
@@ -56,17 +56,19 @@ function TopSearch() {
     console.log(sentenceSearchText);
 
     console.log(filtered_sentences);
-    setTextField(event.target.value);
 
     if (sentenceSearchText === "") {
       dispatch(updateSearchResults([]));
     } else {
-      if (sentenceSearchText.length > 2) {
-        dispatch(
-          updateSearchResults({ filtered_sentences, sentenceSearchText })
-        );
-      }
+      dispatch(
+        updateSearchResults({
+          filtered_sentences,
+          sentenceSearchText,
+          original_search_phrase,
+        })
+      );
     }
+    setTextField(event.target.value);
   }
 
   return (
