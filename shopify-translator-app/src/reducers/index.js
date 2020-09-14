@@ -104,6 +104,16 @@ export default function appReducer(state = initialState, action) {
       };
     }
 
+    case "UPDATE_SEARCH_RESULTS": {
+      console.log("update search results");
+      console.log(action);
+
+      return {
+        ...state,
+        searchResults: action.searchResults,
+      };
+    }
+
     default:
       return state;
   }
@@ -128,6 +138,10 @@ export const getSimplifiedSentences = (state) => {
       } else {
         next_start_time = -99.9;
       }
+      let minutes = Math.floor(element.word.word.start / 60);
+      let seconds = element.word.word.start - minutes * 60;
+
+      let time_string = minutes + ":" + Math.floor(seconds);
 
       simplified_transcript.push({
         english_sentence: element.english_sentence,
@@ -137,6 +151,38 @@ export const getSimplifiedSentences = (state) => {
         start: element.word.word.start,
         end: last_time,
         next_start_time: next_start_time,
+        time_string: time_string,
+      });
+    });
+  }
+  return simplified_transcript;
+};
+
+export const getLCSentencesForSearch = (state) => {
+  let simplified_transcript = [];
+
+  if (state.transcript !== undefined) {
+    // let count = state.transcript.length - 1;
+
+    state.transcript.forEach((element, i) => {
+      // eslint-disable-next-line
+      // let last_time;
+      // if (element.last_word === undefined) {
+      //   last_time = -0.0;
+      // } else {
+      //   last_time = element.last_word.word.end;
+      // }
+      // let next_start_time;
+      // if (i < count) {
+      //   next_start_time = state.transcript[i + 1].word.word.start;
+      // } else {
+      //   next_start_time = -99.9;
+      // }
+
+      simplified_transcript.push({
+        english_sentence: element.english_sentence.toLowerCase(),
+        translated_sentence: element.translated_sentence.toLowerCase(),
+        uuid: element.uuid,
       });
     });
   }
@@ -302,5 +348,11 @@ export const getPodcastToggleState = (state) => {
     };
   } else {
     return { podcast_info_collapsed: false };
+  }
+};
+
+export const getSearchResults = (state) => {
+  if (state.searchResults !== undefined) {
+    return { searchResults: state.searchResults };
   }
 };

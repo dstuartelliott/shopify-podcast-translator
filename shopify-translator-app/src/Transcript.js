@@ -18,6 +18,7 @@ import {
   getPodcastInfoDimensions,
   getMP3PlayerState,
   getWindowDimensions,
+  getSearchResults,
   // getSynthStateSpeaking,
   // getTypePlaying,
 } from "./reducers";
@@ -52,6 +53,8 @@ function Transcript() {
   let text_size = useSelector(getTextSize);
   let window_dimensions = useSelector(getWindowDimensions);
 
+  let search_results = useSelector(getPodcastToggleState);
+
   // let synth_state_speaking = useSelector(getSynthStateSpeaking);
 
   // let type_currently_playing = useSelector(getTypePlaying);
@@ -65,6 +68,9 @@ function Transcript() {
   const [playerWasClicked, setplayerWasClicked] = React.useState(false);
 
   const [new_text_size, setNew_text_size] = React.useState();
+
+  const [searchResultsAreIn, setSearchResultsAreIn] = React.useState(false);
+
   // eslint-disable-next-line
 
   function handleResize() {}
@@ -159,6 +165,13 @@ function Transcript() {
   }, [podcast_player_state]);
 
   React.useEffect(() => {
+    if (search_results.filtered_sentences.length > 0) {
+      setSearchResultsAreIn(true);
+    }
+    // eslint-disable-next-line
+  }, [search_results]);
+
+  React.useEffect(() => {
     let array_i;
 
     // I realize I can do foreach here, but this way I can break early
@@ -167,7 +180,7 @@ function Transcript() {
         uuids_and_times[i].start < current_time &&
         uuids_and_times[i].end > current_time
       ) {
-        console.log("found in Transcript useeffect")
+        console.log("found in Transcript useeffect");
 
         array_i = i;
       }
@@ -339,7 +352,6 @@ function Transcript() {
   if (isMobile === false && isLoaded) {
     return (
       <TranscriptWrapper>
-        {new_text_size}
         <Divider>
           <Line></Line>
         </Divider>

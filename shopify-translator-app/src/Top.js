@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import HeroSrc from "./images/shopify_masters_hero.jpg";
+import TopSearch from "./TopSearch";
+
 import { COLORS_SHOPIFY_YELLOW_PALLETE } from "./constants.js";
+
 function Top() {
   return (
     <Wrapper>
@@ -10,10 +13,13 @@ function Top() {
           <HeroImgMB image_source={HeroSrc}></HeroImgMB>
         </ImageDiv>
         <SummaryDiv>
-          <TitleText>
-            The Pre-Launch Strategies of a Million-Dollar Brand
-          </TitleText>
+          <TitleAndSearch>
+            <TitleText>
+              The Pre-Launch Strategies of a Million-Dollar Brand
+            </TitleText>
 
+            <TopSearch></TopSearch>
+          </TitleAndSearch>
           <SummaryText>
             Making it easier to keep track of daily hydration goals, Emily Chong
             and Nathan Chan started Healthish and created sleek water bottles
@@ -48,15 +54,6 @@ const HeroDiv = styled.div`
   flex-direction: row;
   border: 2px solid ${COLORS_SHOPIFY_YELLOW_PALLETE.Yellow};
 
-  /* padding-top: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
-
-  border-radius: 5px;
-  margin: auto;
-  font-size: 23px;
-  flex-direction: column;
-  height: 200px; */
   align-content: flex-start;
 
   @media (max-width: 600px) {
@@ -74,6 +71,16 @@ const ImageDiv = styled.div`
   margin-right: 0px;
   /* background-color: blue; */
   min-width: 150px;
+`;
+
+const TitleAndSearch = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-items: flex-start;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const SummaryDiv = styled.div`

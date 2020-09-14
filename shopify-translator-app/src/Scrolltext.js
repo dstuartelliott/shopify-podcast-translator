@@ -13,8 +13,8 @@ import {
   getTranslationPlaying,
   getTranslationTimeCodeAndUUID,
   getEnglishUUID,
-  getCurrentTime,
   getMP3PlayerState,
+  getSearchResults,
 } from "./reducers";
 
 import {
@@ -45,8 +45,9 @@ function Scrolltext() {
 
   let english_uuid = useSelector(getEnglishUUID);
 
-  let current_time = useSelector(getCurrentTime);
   let podcast_player_state = useSelector(getMP3PlayerState);
+
+  let search_results = useSelector(getSearchResults);
 
   React.useEffect(() => {
     async function getTranscriptSentences() {
@@ -82,9 +83,9 @@ function Scrolltext() {
         if (element.speaker.length > 10) {
           let spaces = element.speaker.split(" ");
 
-          console.log("longer");
-          console.log(element);
-          console.log(spaces.length);
+          // console.log("longer");
+          // console.log(element);
+          // console.log(spaces.length);
           if (spaces.length > 3) {
             speaker = combined.translations[i - 1].speaker;
           }
@@ -127,35 +128,6 @@ function Scrolltext() {
     }
     setcurrentUUID(english_uuid);
   }, [english_uuid]);
-
-  // React.useEffect(() => {
-  //   let element = document.getElementById(translated_uuid + "trans");
-  //   if (element !== null && element !== undefined) {
-  //     element.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "nearest",
-  //     });
-  //   }
-  //   setTranslatedUUID(translated_uuid);
-  // }, [translated_uuid]);
-
-  React.useEffect(() => {
-    // let array_i;
-    // // I realize I can do foreach here, but this way I can break early
-    // for (let i = 0; i < uuids_and_times.length - 1; i++) {
-    //   if (
-    //     uuids_and_times[i].start < current_time &&
-    //     uuids_and_times[i].end > current_time
-    //   ) {
-    //     console.log("found in ScrollText useeffect");
-    //     array_i = i;
-    //   }
-    // }
-    // if (array_i !== undefined) {
-    //   setcurrentUUID(uuids_and_times[array_i].uuid);
-    // }
-    // eslint-disable-next-line
-  }, [current_time]);
 
   React.useEffect(() => {
     // console.log(" useEffect podcast_player_state");
@@ -212,27 +184,61 @@ function Scrolltext() {
   return (
     <ScrollWrapper>
       <TranscriptList>
-        {simplifiedSentences.map((element, i) => {
-          // console.log(element.uuid);
-          // console.log(uuidToHighLight);
-          return (
-            <TranscriptSentence
-              sentence_object={element}
-              key={element.uuid}
-              englishHighlighted={
-                element.uuid === currentUUID && translationPlaying === false
-              }
-              translatedUUID={element.uuid + "trans"}
-              translatedHightlighted={
-                element.uuid === translationTimeCodeUUID.uuid &&
-                translationPlaying
-              }
-              next_start_time={element.next_start_time}
-              // highlightedLang={element.highlightedLang}
-              // uuidHighlighted={uuidHighlighted}
-            ></TranscriptSentence>
-          );
-        })}
+        {
+          //eslint-disable-next-line
+          simplifiedSentences.map((element, i) => {
+            if (
+              search_results === undefined ||
+              search_results.searchResults.length === 0
+            ) {
+              return (
+                <TranscriptSentence
+                  sentence_object={element}
+                  key={element.uuid}
+                  englishHighlighted={
+                    element.uuid === currentUUID && translationPlaying === false
+                  }
+                  translatedUUID={element.uuid + "trans"}
+                  translatedHightlighted={
+                    element.uuid === translationTimeCodeUUID.uuid &&
+                    translationPlaying
+                  }
+                  next_start_time={element.next_start_time}
+                  // highlightedLang={element.highlightedLang}
+                  // uuidHighlighted={uuidHighlighted}
+                ></TranscriptSentence>
+              );
+            } else if (
+              search_results.searchResults.length > 0 &&
+              search_results.searchResults.includes(element.uuid)
+            ) {
+              return (
+                <div>
+                  <TimeDividerTop>
+                    <TimeText>{element.time_string}</TimeText> <Line></Line>
+                  </TimeDividerTop>
+
+                  <TranscriptSentence
+                    sentence_object={element}
+                    key={element.uuid}
+                    englishHighlighted={
+                      element.uuid === currentUUID &&
+                      translationPlaying === false
+                    }
+                    translatedUUID={element.uuid + "trans"}
+                    translatedHightlighted={
+                      element.uuid === translationTimeCodeUUID.uuid &&
+                      translationPlaying
+                    }
+                    next_start_time={element.next_start_time}
+                    // highlightedLang={element.highlightedLang}
+                    // uuidHighlighted={uuidHighlighted}
+                  ></TranscriptSentence>
+                </div>
+              );
+            }
+          })
+        }
       </TranscriptList>
     </ScrollWrapper>
   );
@@ -289,6 +295,25 @@ const TranscriptList = styled.div`
     top: 200px;
     bottom: 20px;
   }
+`;
+
+const Line = styled.div`
+  border-bottom: 1px dashed ${COLORS_SHOPIFY_BLUE_PALLETE.Blue};
+  height: 1px;
+  flex-grow: 2;
+  padding-top: 9px;
+`;
+
+const TimeDividerTop = styled.div`
+  padding-left: 150px;
+  display: flex;
+  flex-direction: row;
+`;
+
+const TimeText = styled.div`
+  padding-bottom: 10px;
+  color: ${COLORS_SHOPIFY_BLUE_PALLETE.Dark};
+  padding-right: 5px;
 `;
 
 const LoadingText = styled.div``;

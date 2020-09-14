@@ -83,3 +83,17 @@ export const updatePodcastToggleState = (podcast_info_collapsed) => ({
   type: "UPDATE_PODCAST_INFO_TOGGLE_STATE",
   podcast_info_collapsed: podcast_info_collapsed,
 });
+
+export const updateSearchResults = (searchResults) => ({
+  type: "UPDATE_SEARCH_RESULTS",
+  searchResults: searchResults,
+
+  // type_curently_playing: "Translation",
+});
+
+export const setRespondToSearchState = (repsondToSearchState) => ({
+  type: "SET_RESPOND_TO_SEARCH_RATE",
+  repsondToSearchState: repsondToSearchState,
+
+  // type_curently_playing: "Translation",
+});

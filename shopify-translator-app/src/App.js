@@ -115,7 +115,6 @@ function App() {
         {/* <Divider>
           <Line></Line>
         </Divider> */}
-
         <Player></Player>
 
         <ScrollDiv>
@@ -126,6 +125,15 @@ function App() {
   );
   // }
 }
+
+const FleXApp = styled.div``;
+const TopDiv = styled.div`
+  background-color: transparent;
+`;
+
+const ScrollDiv = styled.div`
+  background-color: transparent;
+`;
 
 // available diver styles if I need them.
 // const Line = styled.div`
@@ -144,14 +152,6 @@ function App() {
 
 // const Divider = styled.div``;
 // const DividerTop = styled.div``;
-
-const FleXApp = styled.div``;
-const TopDiv = styled.div`
-  background-color: transparent;
-`;
-const ScrollDiv = styled.div`
-  background-color: transparent;
-`;
 
 const GlobalStyles = createGlobalStyle`
   * {
