@@ -24,10 +24,12 @@ import {
 
 import { useDispatch } from "react-redux";
 
-function TranscriptSentence({
+function SearchResultTranscriptSentence({
   sentence_object,
   englishHighlighted,
   translatedHightlighted,
+  translatedUUID,
+  search_phrase,
 }) {
   const dispatch = useDispatch();
 
@@ -131,11 +133,11 @@ function TranscriptSentence({
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </SentenceHighlighted>
           </SentencePlayingDiv>
-          <SentenceDiv onClick={handleTranslatedClickedSentence}>
+          <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
             <Sentence className="”notranslate”">
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </Sentence>
-          </SentenceDiv>
+          </SentencePlayingDiv>
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -143,14 +145,14 @@ function TranscriptSentence({
     return (
       <Wrapper>
         <SentenceAndSpeakerSelected>
-          <SentenceDiv
+          <SentencePlayingDiv
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
           >
             <Sentence>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
-          </SentenceDiv>
+          </SentencePlayingDiv>
 
           <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
             <ButtonDiv>
@@ -211,13 +213,11 @@ const SentencePlayingDiv = styled.div`
   border: none;
   cursor: pointer;
   z-index: 1;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   @media (max-width: 600px) {
     padding-bottom: 10px;
     /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. */
     flex-direction: row-reverse;
-    /* background-color: red; */
-    justify-content: flex-end;
   }
 `;
 
@@ -227,13 +227,13 @@ const SentenceDiv = styled.div`
   border: none;
   cursor: pointer;
   z-index: 1;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 
   @media (max-width: 600px) {
     padding-bottom: 10px;
-    /* background-color: blue; */
-
     /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. */
+
+    flex-direction: row-reverse;
   }
 `;
 
@@ -278,7 +278,6 @@ const ButtonDiv = styled.div`
     background-color: white;
     text-align: center;
     min-width: 40px;
-    flex-grow: 2;
   }
 `;
 
@@ -299,10 +298,8 @@ const TranslationButton = styled.button`
   align-self: center;
 
   @media (max-width: 600px) {
-    align-self: flex-end;
-
     /*  no apparent difference */
   }
 `;
 
-export default TranscriptSentence;
+export default SearchResultTranscriptSentence;

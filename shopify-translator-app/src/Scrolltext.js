@@ -4,6 +4,7 @@ import "./App.css";
 import { PlayerContext } from "./PlayerContext";
 
 import TranscriptSentence from "./TranscriptSentence.js";
+import SearchResultTranscriptSentence from "./SearchResultTranscriptSentence.js";
 
 import { useDispatch } from "react-redux";
 import { addTranscript } from "./actions";
@@ -189,7 +190,7 @@ function Scrolltext() {
           simplifiedSentences.map((element, i) => {
             if (
               search_results === undefined ||
-              search_results.searchResults.length === 0
+              search_results.searchResults.filtered_sentences.length === 0
             ) {
               return (
                 <TranscriptSentence
@@ -209,8 +210,10 @@ function Scrolltext() {
                 ></TranscriptSentence>
               );
             } else if (
-              search_results.searchResults.length > 0 &&
-              search_results.searchResults.includes(element.uuid)
+              search_results.searchResults.filtered_sentences.length > 0 &&
+              search_results.searchResults.filtered_sentences.includes(
+                element.uuid
+              )
             ) {
               return (
                 <div>
@@ -218,7 +221,7 @@ function Scrolltext() {
                     <TimeText>{element.time_string}</TimeText> <Line></Line>
                   </TimeDividerTop>
 
-                  <TranscriptSentence
+                  <SearchResultTranscriptSentence
                     sentence_object={element}
                     key={element.uuid}
                     englishHighlighted={
@@ -231,9 +234,12 @@ function Scrolltext() {
                       translationPlaying
                     }
                     next_start_time={element.next_start_time}
+                    search_phrase={
+                      search_results.searchResults.sentenceSearchText
+                    }
                     // highlightedLang={element.highlightedLang}
                     // uuidHighlighted={uuidHighlighted}
-                  ></TranscriptSentence>
+                  ></SearchResultTranscriptSentence>
                 </div>
               );
             }
@@ -258,6 +264,21 @@ const TranscriptList = styled.div`
   width: 97%;
   max-width: 910px;
   overflow-x: hidden; //horizontal
+
+  bottom: 20px;
+  top: 230px;
+  position: absolute;
+
+  @media (min-width: 675px) {
+    bottom: 20px;
+    top: 200px;
+    position: absolute;
+  }
+
+  @media (max-width: 600px) {
+    top: 200px;
+    bottom: 20px;
+  }
 
   &::-webkit-scrollbar-track {
     background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Light};
@@ -286,14 +307,6 @@ const TranscriptList = styled.div`
     /* box-shadow: inset 0 0 3px ${COLORS_SHOPIFY_BLUE_PALLETE.Blue}; */
     border-radius: 20px;
     background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
-  }
-
-  bottom: 20px;
-  top: 250px;
-  position: absolute;
-  @media (max-width: 600px) {
-    top: 200px;
-    bottom: 20px;
   }
 `;
 
@@ -329,7 +342,7 @@ const LoadingFlex = styled.div`
 `;
 
 const Loading = styled.div`
-  margin: auto;
+  max-width: 1000px;
   background-color: white;
   padding-top: 20px;
 `;

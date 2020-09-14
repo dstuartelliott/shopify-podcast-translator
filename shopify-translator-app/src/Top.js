@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import HeroSrc from "./images/shopify_masters_hero.jpg";
+import HeroSrc from "./images/shopify_masters_hero_small.jpg";
 import TopSearch from "./TopSearch";
 
 import { COLORS_SHOPIFY_YELLOW_PALLETE } from "./constants.js";
@@ -37,8 +37,6 @@ const SummaryText = styled.div`
   font-size: 13px;
   font-weight: 300;
   padding-top: 10px;
-  text-align: justify;
-  text-align-last: left;
 
   @media (max-width: 600px) {
     display: none;
@@ -96,11 +94,11 @@ const SummaryDiv = styled.div`
 
 const TitleText = styled.div`
   width: 200px;
-
+  padding-right: 5px;
   @media (min-width: 600px) {
     /* background-color: red; */
     align-self: flex-start;
-    max-width: 280px;
+    min-width: 200px;
   }
 `;
 

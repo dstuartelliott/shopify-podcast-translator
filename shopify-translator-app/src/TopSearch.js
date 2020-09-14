@@ -61,7 +61,7 @@ function TopSearch() {
     if (sentenceSearchText === "") {
       dispatch(updateSearchResults([]));
     } else {
-      dispatch(updateSearchResults(filtered_sentences));
+      dispatch(updateSearchResults({ filtered_sentences, sentenceSearchText }));
     }
   }
 
@@ -80,12 +80,16 @@ function TopSearch() {
 
 const TranscriptSearch = styled.input`
   height: 30px;
-  width: 90%;
+  width: 99%;
   border-color: transparent;
   background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Lighter};
   border-bottom: 1px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
   focus: {
     outline: none;
+  }
+  @media (max-width: 600px) {
+    /* width: 200px; */
+    width: 98%;
   }
 `;
 
@@ -93,8 +97,8 @@ const Wrapper = styled.div`
   width: 100%;
   padding-top: 3px;
 
-  @media (min-width: 600px) {
-    /* background-color: red; */
+  @media (max-width: 600px) {
+    padding-top: 23px;
   }
 `;
 
