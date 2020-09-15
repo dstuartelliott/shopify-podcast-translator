@@ -31,6 +31,7 @@ function SearchResultTranscriptSentence({
   translatedHightlighted,
   translatedUUID,
   search_phrase,
+  original_search_phrase,
 }) {
   const dispatch = useDispatch();
 
@@ -43,6 +44,8 @@ function SearchResultTranscriptSentence({
 
   const [combined_english, setCombined_english] = React.useState([]);
 
+  const [combined_translated, setCombined_translated] = React.useState([]);
+
   const {
     actions: {
       playSpeechInSynthContext,
@@ -51,33 +54,72 @@ function SearchResultTranscriptSentence({
     },
   } = React.useContext(SpeechSynthContext);
 
+  function highlightWordBothCases(
+    phrase_lowered,
+    phrase_original,
+    sentence_to_search
+  ) {
+    let split_by_lower_case_search_term = sentence_to_search.split(
+      phrase_lowered
+    );
+
+    let split_with_delim = [];
+    split_by_lower_case_search_term.forEach((el, i) => {
+      if (i !== split_by_lower_case_search_term.length - 1) {
+        split_with_delim.push(el);
+        split_with_delim.push(phrase_lowered);
+      } else {
+        split_with_delim.push(el);
+      }
+    });
+
+    let final = [];
+
+    split_with_delim.forEach((spel) => {
+      let split_with_original = spel.split(phrase_original);
+
+      let split_with_original_with_delim = [];
+
+      split_with_original.forEach((el, i) => {
+        if (i !== split_with_original.length - 1) {
+          if (i === 0) {
+            split_with_original_with_delim.push(el);
+            split_with_original_with_delim.push(" " + phrase_original);
+          } else {
+            split_with_original_with_delim.push(el);
+            split_with_original_with_delim.push(phrase_original);
+          }
+        } else {
+          split_with_original_with_delim.push(el);
+        }
+      });
+      split_with_original_with_delim.forEach((spwo) => final.push(spwo));
+    });
+
+    return final;
+  }
+
   React.useEffect(() => {
     if (search_phrase.length > 2) {
-      let english_split_with_search_term = sentence_object.english_sentence.split(
-        search_phrase
+      let english_highlighted_array = highlightWordBothCases(
+        search_phrase,
+        original_search_phrase,
+        sentence_object.english_sentence
       );
 
-      let combined_english = [];
-      english_split_with_search_term.forEach((element, i) => {
-        combined_english.push(element);
-        if (i !== english_split_with_search_term.length - 1) {
-          combined_english.push(search_phrase);
-        }
-      });
-      setCombined_english(combined_english);
-
-      let translated_split_with_search_term = sentence_object.translated_sentence.split(
-        search_phrase
+      let translated_highlighted_array = highlightWordBothCases(
+        search_phrase,
+        original_search_phrase,
+        sentence_object.translated_sentence
       );
 
-      let combined_translated = [];
-      translated_split_with_search_term.forEach((element, i) => {
-        combined_translated.push(element);
-        if (i !== translated_split_with_search_term.length - 1) {
-          combined_translated.push(search_phrase);
-        }
-      });
+      setCombined_english(english_highlighted_array);
+      setCombined_translated(translated_highlighted_array);
+    } else {
+      setCombined_english([sentence_object.english_sentence]);
+      setCombined_translated([sentence_object.translated_sentence]);
     }
+
     // eslint-disable-next-line
   }, [search_results]);
 
@@ -165,12 +207,40 @@ function SearchResultTranscriptSentence({
               </TranslationButton>
             </ButtonDiv>
             <SentenceHighlighted>
-              {sentence_object.speaker}: {sentence_object.english_sentence}
+              {sentence_object.speaker}:{" "}
+              {combined_english.map((element, i) => {
+                if (
+                  element === search_phrase ||
+                  element === " " + search_phrase ||
+                  element === original_search_phrase ||
+                  element === " " + original_search_phrase
+                ) {
+                  return (
+                    <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
+                  );
+                } else {
+                  return <span>{element}</span>;
+                }
+              })}
             </SentenceHighlighted>
           </SentencePlayingDiv>
           <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
             <Sentence className="”notranslate”">
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
+              {sentence_object.speaker}:{" "}
+              {combined_translated.map((element, i) => {
+                if (
+                  element === search_phrase ||
+                  element === " " + search_phrase ||
+                  element === original_search_phrase ||
+                  element === " " + original_search_phrase
+                ) {
+                  return (
+                    <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
+                  );
+                } else {
+                  return <span>{element}</span>;
+                }
+              })}
             </Sentence>
           </SentencePlayingDiv>
         </SentenceAndSpeakerSelected>
@@ -185,7 +255,21 @@ function SearchResultTranscriptSentence({
             id={sentence_object.uuid}
           >
             <Sentence>
-              {sentence_object.speaker}: {sentence_object.english_sentence}
+              {sentence_object.speaker}:{" "}
+              {combined_english.map((element, i) => {
+                if (
+                  element === search_phrase ||
+                  element === " " + search_phrase ||
+                  element === original_search_phrase ||
+                  element === " " + original_search_phrase
+                ) {
+                  return (
+                    <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
+                  );
+                } else {
+                  return <span>{element}</span>;
+                }
+              })}
             </Sentence>
           </SentencePlayingDiv>
 
@@ -201,7 +285,21 @@ function SearchResultTranscriptSentence({
             </ButtonDiv>
 
             <SentenceHighlighted className="”notranslate”">
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
+              {sentence_object.speaker}:{" "}
+              {combined_translated.map((element, i) => {
+                if (
+                  element === search_phrase ||
+                  element === " " + search_phrase ||
+                  element === original_search_phrase ||
+                  element === " " + original_search_phrase
+                ) {
+                  return (
+                    <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
+                  );
+                } else {
+                  return <span>{element}</span>;
+                }
+              })}
             </SentenceHighlighted>
           </SentencePlayingDiv>
         </SentenceAndSpeakerSelected>
@@ -216,19 +314,38 @@ function SearchResultTranscriptSentence({
             id={sentence_object.uuid}
           >
             <Sentence>
-              {sentence_object.speaker}: {sentence_object.english_sentence}
+              {sentence_object.speaker}:
+              {combined_english.map((element, i) => {
+                if (
+                  element === search_phrase ||
+                  element === " " + search_phrase ||
+                  element === original_search_phrase ||
+                  element === " " + original_search_phrase
+                ) {
+                  return (
+                    <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
+                  );
+                } else {
+                  return <span>{element}</span>;
+                }
+              })}
             </Sentence>
           </SentenceDiv>
           <SentenceDiv onClick={handleTranslatedClickedSentence}>
             <Sentence className="”notranslate”">
               {sentence_object.speaker}:
-              {combined_english.map((element, i) => {
-                if (i % 2 === 0) {
-                  return <span>{element}</span>;
-                } else {
+              {combined_translated.map((element, i) => {
+                if (
+                  element === search_phrase ||
+                  element === " " + search_phrase ||
+                  element === original_search_phrase ||
+                  element === " " + original_search_phrase
+                ) {
                   return (
                     <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
                   );
+                } else {
+                  return <span>{element}</span>;
                 }
               })}
             </Sentence>

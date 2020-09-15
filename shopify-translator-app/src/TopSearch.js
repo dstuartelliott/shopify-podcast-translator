@@ -12,7 +12,7 @@ let filtered_sentences = [];
 function TopSearch() {
   const dispatch = useDispatch();
 
-  const [textfieldValue, setTextField] = React.useState("...");
+  const [textfieldValue, setTextField] = React.useState("...search here!");
   let simplifiedSentences = useSelector(getLCSentencesForSearch);
 
   // function handleKeyPress(event) {
@@ -31,7 +31,7 @@ function TopSearch() {
   // }
 
   function handleClick(event) {
-    if (textfieldValue === "...") {
+    if (textfieldValue === "...search here!") {
       setTextField("");
     }
   }
@@ -95,7 +95,10 @@ const TranscriptSearch = styled.input`
   }
   @media (max-width: 600px) {
     /* width: 200px; */
-    width: 98%;
+    width: 90%;
+    /* have to make this min 16 pxfont size so safari mobile won't zoom in  */
+    font-size: 16px;
+    height: 25px;
   }
 `;
 

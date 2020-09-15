@@ -238,6 +238,9 @@ function Scrolltext() {
                     search_phrase={
                       search_results.searchResults.sentenceSearchText
                     }
+                    original_search_phrase={
+                      search_results.searchResults.original_search_phrase
+                    }
                     // highlightedLang={element.highlightedLang}
                     // uuidHighlighted={uuidHighlighted}
                   ></SearchResultTranscriptSentence>
