@@ -133,7 +133,7 @@ function SearchResultTranscriptSentence({
     dispatch(jumpToTime(sentence_object.start));
     console.log("------------ markEnglish");
 
-    console.log("TranscriptSentence 57");
+    console.log("TranscriptSentence 136");
 
     dispatch(
       markEnglishAsPlaying({

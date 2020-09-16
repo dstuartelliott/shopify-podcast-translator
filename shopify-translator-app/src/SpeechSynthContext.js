@@ -18,6 +18,9 @@ export const SpeechSynthContextProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   const playOrPauseSpeechSynth = () => {
+    console.log(voices);
+    console.log(french_voice);
+
     console.log("playOrPauseSpeechSynth");
     console.log(speechSynthesis);
 
@@ -36,6 +39,7 @@ export const SpeechSynthContextProvider = ({ children }) => {
       utterance = {};
       utterance = new SpeechSynthesisUtterance(true_remaining_words);
       utterance.voice = french_voice[0];
+      utterance.lang = "fr-CA";
 
       utterance.onboundary = function (event) {
         let remaining_words = event.target.text.slice(
@@ -67,6 +71,7 @@ export const SpeechSynthContextProvider = ({ children }) => {
           console.log(timer);
         }
       };
+      utterance.lang = "fr-CA";
 
       speechSynthesis.speak(utterance);
       // dispatch(jumpToTime(-99.99));
@@ -89,8 +94,11 @@ export const SpeechSynthContextProvider = ({ children }) => {
     utterance = new SpeechSynthesisUtterance(
       sentence_object.translated_sentence
     );
-    utterance.voice = french_voice[0];
+    let voices = speechSynthesis.getVoices();
+    let french_voice = voices.filter((v) => v.lang === "fr-CA");
 
+    utterance.voice = french_voice[0];
+    utterance.lang = "fr-CA";
     utterance.onboundary = function (event) {
       let remaining_words = event.target.text.slice(
         event.charIndex,

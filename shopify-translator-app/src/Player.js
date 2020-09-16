@@ -85,6 +85,9 @@ function Player() {
     let array_i;
     let closest_to_start = 9999999999999999.0;
     let closest_to_previous_end = 99999999999.0;
+
+    console.log(uuids_and_times);
+
     for (let i = 0; i < uuids_and_times.length - 1; i++) {
       // console.log(current_time);
       // console.log(uuids_and_times[i].start);
@@ -159,7 +162,7 @@ function Player() {
 
     console.log(array_i);
     if (array_i !== undefined) {
-      console.log("Player  133");
+      console.log("Player  162");
 
       if (translationPlaying === false) {
         dispatch(
@@ -256,7 +259,7 @@ function Player() {
 
         console.log(array_i);
         if (array_i !== undefined) {
-          console.log("Player  133");
+          console.log("Player  259");
 
           if (translationPlaying === false) {
             dispatch(
@@ -279,6 +282,7 @@ function Player() {
           }
         } else {
           if (translationPlaying === false) {
+            console.log("Player 282");
             dispatch(markEnglishAsPlaying(event.srcElement.currentTime, "TBD"));
           }
         }

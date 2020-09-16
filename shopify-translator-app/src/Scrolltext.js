@@ -5,6 +5,7 @@ import { PlayerContext } from "./PlayerContext";
 
 import TranscriptSentence from "./TranscriptSentence.js";
 import SearchResultTranscriptSentence from "./SearchResultTranscriptSentence.js";
+import IntroSentence from "./IntroSentence.js";
 
 import { useDispatch } from "react-redux";
 import { addTranscript } from "./actions";
@@ -109,6 +110,36 @@ function Scrolltext() {
           setIsLoaded(true);
         }
       });
+      console.log(sentenceAndGoodWordCombined[0]);
+
+      let intro_section = {
+        english_sentence:
+          "<Intro> First part of podcast not included in transcript...",
+        translated_sentence: "",
+        speaker: "",
+        word: {
+          word: {
+            alignedWord: "intro",
+            case: "success",
+            start: 0.1,
+            end: 0.5,
+            word: "intro",
+          },
+        },
+        last_word: {
+          word: {
+            alignedWord: "",
+            case: "success",
+            start: 76.5,
+            end: 77.0,
+            word: "",
+          },
+        },
+        uuid: "intro-uuid",
+      };
+
+      sentenceAndGoodWordCombined.unshift(intro_section);
+      console.log(sentenceAndGoodWordCombined[0]);
 
       dispatch(addTranscript(sentenceAndGoodWordCombined));
     }
@@ -188,6 +219,24 @@ function Scrolltext() {
         {
           //eslint-disable-next-line
           simplifiedSentences.map((element, i) => {
+            if (i === 0) {
+              return (
+                <IntroSentence
+                  sentence_object={element}
+                  key={element.uuid}
+                  englishHighlighted={
+                    element.uuid === currentUUID && translationPlaying === false
+                  }
+                  translatedUUID={element.uuid + "trans"}
+                  translatedHightlighted={
+                    element.uuid === translationTimeCodeUUID.uuid &&
+                    translationPlaying
+                  }
+                  next_start_time={element.next_start_time}
+                ></IntroSentence>
+              );
+            }
+
             if (
               search_results === undefined ||
               search_results.searchResults.filtered_sentences === undefined ||
