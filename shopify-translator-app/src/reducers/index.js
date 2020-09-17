@@ -114,6 +114,26 @@ export default function appReducer(state = initialState, action) {
       };
     }
 
+    case "UPDATE_WHAT_CLICKED_ON": {
+      console.log("UPDATE_WHAT_CLICKED_ON");
+      console.log(action);
+
+      return {
+        ...state,
+        englishOrTranslationLastClicked: action.englishOrTranslationLastClicked,
+      };
+    }
+
+    case "UPDATE_VOICES_SYNTH": {
+      console.log("UPDATE_VOICES_SYNTH");
+      console.log(action);
+
+      return {
+        ...state,
+        voices: action.voices,
+      };
+    }
+
     default:
       return state;
   }
@@ -354,5 +374,19 @@ export const getPodcastToggleState = (state) => {
 export const getSearchResults = (state) => {
   if (state.searchResults !== undefined) {
     return { searchResults: state.searchResults };
+  }
+};
+
+export const getWhatLastClickedOn = (state) => {
+  if (state.englishOrTranslationLastClicked !== undefined) {
+    return { searchResults: state.englishOrTranslationLastClicked };
+  }
+};
+
+export const getVoiceData = (state) => {
+  if (state.voices !== undefined) {
+    return { voices: state.voices };
+  } else {
+    return { voices: { voices: { lang1: "nil", uri1: "nil" } } };
   }
 };

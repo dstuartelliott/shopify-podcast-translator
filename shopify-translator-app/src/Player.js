@@ -15,13 +15,19 @@ import {
   getUUIDsandTimes,
   getMP3PlayerState,
   getTranslationPlaying,
+  getSynthStateSpeaking,
+  getWhatLastClickedOn,
 } from "./reducers";
 
 import {
   addCurrentTime,
   markEnglishAsPlaying,
-  recordMP3PlayerState,
   markTranslationAsPlaying,
+  markTranslationAsDonePlayingPaused,
+  jumpToTime,
+  recordMP3PlayerState,
+  updateSpeechSynthState,
+  updateWhatClickedOn,
 } from "./actions";
 
 let prev;
@@ -40,6 +46,9 @@ function Player() {
 
   let translationPlaying = useSelector(getTranslationPlaying);
 
+  let synthSpeaking = useSelector(getSynthStateSpeaking);
+
+  let lastClickedOn = useSelector(getWhatLastClickedOn);
   const audioref = React.useRef(null);
 
   const {
@@ -60,9 +69,16 @@ function Player() {
     if (timeToJumpTo > 0.0) {
       audioref.current.audio.current.currentTime = timeToJumpTo;
     }
+    //test
 
     // eslint-disable-next-line
   }, [timeToJumpTo]);
+
+  // React.useEffect(() => {
+  //   audioref.current.audio.current.addEventListener("mousedown", (event) => {
+  //     console.log("timeupdate------------------------");
+  //   });
+  // }, []);
 
   function announceListen(event) {
     let current_time = event.srcElement.currentTime;
@@ -123,6 +139,8 @@ function Player() {
       //   // }
     }
 
+    console.log(synthSpeaking);
+
     if (array_i === undefined) {
       console.log("array_i wasa undefined");
       for (let i = 0; i < uuids_and_times.length - 1; i++) {
@@ -164,7 +182,18 @@ function Player() {
     if (array_i !== undefined) {
       console.log("Player  162");
 
-      if (translationPlaying === false) {
+      // if (translationPlaying === false) {
+      if (lastClickedOn === "english") {
+        console.log("engligh playing, going to jog");
+
+        if (mp3PlayerState === MP3_PLAYER_STATES.PAUSED) {
+          dispatch(jumpToTime(current_time));
+          dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+          dispatch(updateSpeechSynthState(false));
+        }
+
+        dispatch(updateWhatClickedOn("english"));
+
         dispatch(
           markEnglishAsPlaying({
             time_code_from_player: current_time,
@@ -177,7 +206,29 @@ function Player() {
             next_tc: next.start,
           })
         );
-      } else if (translationPlaying) {
+        // } else if (translationPlaying) {
+      } else if (lastClickedOn === "translation" && translationPlaying) {
+        // stop the translation?
+        // if it's the same UUID, maybe do something differen
+
+        // if current_time is at the start of thje UUID,
+        // cancelAllSpeech();
+
+        // markTranslationAsDonePlayingPaused();
+
+        // dispatch(
+        //   markEnglishAsPlaying({
+        //     time_code_from_player: current_time,
+        //     english_time_code_from_db: current.start,
+        //     english_uuid: current.uuid,
+        //     type_curently_playing: "English",
+        //     prev_uuid: prev.start,
+        //     prev_tc: prev.start,
+        //     next_uuid: next.uuid,
+        //     next_tc: next.start,
+        //   })
+        // );
+
         markTranslationAsPlaying({
           time: current_time,
           translated_uuid: current.uuid,
@@ -320,5 +371,8 @@ function Player() {
   );
 }
 const PlayerWrapper = styled.div``;
+const testDave = styled.div`
+  background-color: red;
+`;
 
 export default Player;

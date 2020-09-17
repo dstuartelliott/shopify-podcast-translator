@@ -11,6 +11,8 @@ import {
   markEnglishAsPlaying,
   recordMP3PlayerState,
   updateSpeechSynthState,
+  updateWhatClickedOn,
+  updateVoicesSynth,
 } from "./actions";
 import { useSelector } from "react-redux";
 
@@ -50,7 +52,7 @@ function TranscriptSentence({
     dispatch(markTranslationAsDonePlaying());
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
     dispatch(updateSpeechSynthState(false));
-
+    dispatch(updateWhatClickedOn("english"));
     dispatch(jumpToTime(sentence_object.start));
     console.log("------------ markEnglish");
 
@@ -68,20 +70,67 @@ function TranscriptSentence({
   }
 
   function handleTranslatedClickedSentence(event) {
-    console.log(
-      "=========================================================================="
-    );
+    let utterance = new SpeechSynthesisUtterance("test dave");
 
-    console.log(event);
-    playSpeechInSynthContext(sentence_object);
-    dispatch(
-      markTranslationAsPlaying({
-        translation_time_code: sentence_object.start,
-        translated_uuid: sentence_object.uuid,
-        type_curently_playing: "Translation",
-      })
-    );
-    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
+    // let voices = speechSynthesis.getVoices();
+    // let french_voice = voices.filter((v) => v.lang === "fr-CA");
+
+    // let lang1 = french_voice[0].lang;
+    // let uri1 = sentence_object.translated_sentence;
+
+    let lang1 = "one";
+    let uri1 = "two";
+
+    dispatch(updateVoicesSynth({ lang1, uri1 }));
+
+    speechSynthesis.speak(utterance);
+
+    // utterance.voice = french_voice[0];
+    // utterance.onboundary = function (event) {
+    //   let remaining_words = event.target.text.slice(
+    //     event.charIndex,
+    //     event.target.text.length - 1
+    //   );
+
+    //   true_remaining_words = event.target.text.slice(
+    //     event.charIndex + event.charLength,
+    //     event.target.text.length - 1
+    //   );
+
+    //   last_boundary = event;
+    //   let spaces_left_in_remaining_words = remaining_words.split(" ");
+    //   dispatch(updateSpeechSynthState(speechSynthesis.speaking));
+
+    //   if (spaces_left_in_remaining_words.length === 1) {
+    //     const timer = setTimeout(() => {
+    //       dispatch(markTranslationAsDonePlaying());
+
+    //       // jump to the next one, but this is confusing from a user perspective.
+    //       // dispatch(jumpToTime(sentence_object.next_start_time));
+    //     }, 1000);
+    //     console.log(timer);
+    //   }
+    // };
+
+    //    dispatch(updateSpeechSynthState(speechSynthesis.speaking));
+
+    // dispatch(jumpToTime(-99.99));
+
+    // console.log(
+    //   "=========================================================================="
+    // );
+    // //dispatch(updateWhatClickedOn("translation"));
+
+    // console.log(event);
+    // dispatch(
+    //   markTranslationAsPlaying({
+    //     translation_time_code: sentence_object.start,
+    //     translated_uuid: sentence_object.uuid,
+    //     type_curently_playing: "Translation",
+    //   })
+    // );
+    // dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
+    // playSpeechInSynthContext(sentence_object);
   }
 
   function handlePlayPauseTranslation(event) {

@@ -17,7 +17,10 @@ import {
   getEnglishUUID,
   getMP3PlayerState,
   getSearchResults,
+  getVoiceData,
 } from "./reducers";
+
+import { updateWhatClickedOn, updateVoicesSynth } from "./actions";
 
 import {
   COLORS_SHOPIFY_BLUE_PALLETE,
@@ -42,6 +45,7 @@ function Scrolltext() {
 
   const [playerWasClicked, setplayerWasClicked] = React.useState(false);
 
+  let voice_data = useSelector(getVoiceData);
   let translationPlaying = useSelector(getTranslationPlaying);
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
 
@@ -112,38 +116,49 @@ function Scrolltext() {
       });
       console.log(sentenceAndGoodWordCombined[0]);
 
-      let intro_section = {
-        english_sentence:
-          "<Intro> First part of podcast not included in transcript...",
-        translated_sentence: "",
-        speaker: "",
-        word: {
-          word: {
-            alignedWord: "intro",
-            case: "success",
-            start: 0.1,
-            end: 0.5,
-            word: "intro",
-          },
-        },
-        last_word: {
-          word: {
-            alignedWord: "",
-            case: "success",
-            start: 76.5,
-            end: 77.0,
-            word: "",
-          },
-        },
-        uuid: "intro-uuid",
-      };
+      // let intro_section = {
+      //   english_sentence:
+      //     "<Intro> First part of podcast not included in transcript...",
+      //   translated_sentence: "",
+      //   speaker: "",
+      //   word: {
+      //     word: {
+      //       alignedWord: "intro",
+      //       case: "success",
+      //       start: 0.1,
+      //       end: 0.5,
+      //       word: "intro",
+      //     },
+      //   },
+      //   last_word: {
+      //     word: {
+      //       alignedWord: "",
+      //       case: "success",
+      //       start: 76.5,
+      //       end: 77.0,
+      //       word: "",
+      //     },
+      //   },
+      //   uuid: "intro-uuid",
+      // };
 
-      sentenceAndGoodWordCombined.unshift(intro_section);
-      console.log(sentenceAndGoodWordCombined[0]);
+      // sentenceAndGoodWordCombined.unshift(intro_section);
+      // console.log(sentenceAndGoodWordCombined[0]);
 
       dispatch(addTranscript(sentenceAndGoodWordCombined));
     }
     getTranscriptSentences();
+    dispatch(updateWhatClickedOn("english"));
+
+    // let voices = speechSynthesis.getVoices();
+    // let french_voice = voices.filter((v) => v.lang === "fr-CA");
+
+    // console.log(french_voice[0].voiceURI);
+
+    // let lang1 = french_voice[0].lang;
+    // let uri1 = french_voice[0].voiceURI;
+    // //dispatch(updateVoicesSynth({ lang1, uri1 }));
+
     // eslint-disable-next-line
   }, []);
 
@@ -215,6 +230,13 @@ function Scrolltext() {
 
   return (
     <ScrollWrapper>
+      <div>
+        {voice_data.voices.lang1}...{voice_data.voices.uri1})}
+        {/* {french_voice[0].lang}...
+        {french_voice[0].localService ? "true" : "false"}...
+        {french_voice[0].voiceURI}...{french_voice[0].name} */}
+      </div>
+
       <TranscriptList>
         {
           //eslint-disable-next-line
@@ -329,7 +351,7 @@ const TranscriptList = styled.div`
   }
 
   @media (max-width: 600px) {
-    top: 200px;
+    top: 230px;
     bottom: 20px;
   }
 

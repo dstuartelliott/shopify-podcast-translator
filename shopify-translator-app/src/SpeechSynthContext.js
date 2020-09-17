@@ -4,6 +4,7 @@ import {
   jumpToTime,
   markTranslationAsDonePlaying,
   updateSpeechSynthState,
+  updateVoicesSynth,
 } from "./actions";
 import { isMobile } from "react-device-detect";
 
@@ -18,11 +19,7 @@ export const SpeechSynthContextProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   const playOrPauseSpeechSynth = () => {
-    console.log(voices);
-    console.log(french_voice);
-
     console.log("playOrPauseSpeechSynth");
-    console.log(speechSynthesis);
 
     if (speechSynthesis.speaking) {
       console.log("speaking, paused");
@@ -38,6 +35,11 @@ export const SpeechSynthContextProvider = ({ children }) => {
 
       utterance = {};
       utterance = new SpeechSynthesisUtterance(true_remaining_words);
+
+      let lang1 = french_voice[0].lang + "playOrPauseSpeechSynth";
+      let uri1 = french_voice[0].voiceURI;
+      dispatch(updateVoicesSynth({ lang1, uri1 }));
+
       utterance.voice = french_voice[0];
       utterance.lang = "fr-CA";
 
@@ -71,7 +73,6 @@ export const SpeechSynthContextProvider = ({ children }) => {
           console.log(timer);
         }
       };
-      utterance.lang = "fr-CA";
 
       speechSynthesis.speak(utterance);
       // dispatch(jumpToTime(-99.99));
@@ -87,15 +88,25 @@ export const SpeechSynthContextProvider = ({ children }) => {
   const playSpeechInSynthContext = (sentence_object) => {
     // setUuidToHighLight(sentence_object.uuid, LANGUAGES.FRENCH);
     dispatch(jumpToTime(sentence_object.start));
+    // speechSynthesis.cancel();
+    console.log(voices);
 
-    speechSynthesis.cancel();
+    // dispatch(updateVoicesSynth(speechSynthesis.getVoices()[0]));
+
     console.log("speechSynthesis.cancel");
     utterance = {};
     utterance = new SpeechSynthesisUtterance(
       sentence_object.translated_sentence
     );
-    let voices = speechSynthesis.getVoices();
-    let french_voice = voices.filter((v) => v.lang === "fr-CA");
+
+    voices = speechSynthesis.getVoices();
+    french_voice = voices.filter((v) => v.lang === "fr-CA");
+
+    console.log(french_voice[0].voiceURI);
+
+    let lang1 = french_voice[0].lang;
+    let uri1 = french_voice[0].voiceURI;
+    dispatch(updateVoicesSynth({ lang1, uri1 }));
 
     utterance.voice = french_voice[0];
     utterance.lang = "fr-CA";
@@ -142,12 +153,12 @@ export const SpeechSynthContextProvider = ({ children }) => {
   // TODO: Investigate why this crashes.
   // for some reason, this crashes mobile.  ,
 
-  if (isMobile === false) {
-    speechSynthesis.addEventListener("voiceschanged", function () {
-      voices = speechSynthesis.getVoices();
-      french_voice = voices.filter((v) => v.lang === "fr-CA");
-    });
-  }
+  // if (isMobile === false) {
+  //   speechSynthesis.addEventListener("voiceschanged", function () {
+  //     voices = speechSynthesis.getVoices();
+  //     french_voice = voices.filter((v) => v.lang === "fr-CA");
+  //   });
+  // }
 
   return (
     <SpeechSynthContext.Provider

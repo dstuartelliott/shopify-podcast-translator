@@ -97,3 +97,17 @@ export const setRespondToSearchState = (repsondToSearchState) => ({
 
   // type_curently_playing: "Translation",
 });
+
+export const updateWhatClickedOn = (englishOrTranslationLastClicked) => ({
+  type: "UPDATE_WHAT_CLICKED_ON",
+  englishOrTranslationLastClicked: englishOrTranslationLastClicked,
+
+  // type_curently_playing: "Translation",
+});
+
+export const updateVoicesSynth = (voices) => ({
+  type: "UPDATE_VOICES_SYNTH",
+  voices: voices,
+
+  // type_curently_playing: "Translation",
+});

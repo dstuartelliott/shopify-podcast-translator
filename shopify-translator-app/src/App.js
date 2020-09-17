@@ -97,9 +97,6 @@ function App() {
     // eslint-disable-next-line
   }, []);
 
-  // if (isMobile) {
-  //   return <div> Mobile version coming soon (like, in a day) </div>;
-  // } else {
   return (
     <FleXApp className="App">
       <GlobalStyles></GlobalStyles>
