@@ -496,7 +496,7 @@ const TranscriptList = styled.div`
 
   @media (min-width: 675px) {
     bottom: 20px;
-    top: 240px;
+    top: 200px;
     position: absolute;
   }
 
