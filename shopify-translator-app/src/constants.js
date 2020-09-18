@@ -9,6 +9,11 @@ const MP3_PLAYER_STATES = {
   PLAYING: "playing",
 };
 
+const TRANSLATION_MP3_PLAYER_STATES = {
+  PAUSED: "paused",
+  PLAYING: "playing",
+};
+
 // from https://polaris.shopify.com/design/colors
 
 const COLORS_SHOPIFY_BLUE_PALLETE = {
@@ -40,6 +45,7 @@ const COLORS_SHOPIFY_GREYS_PALLETE = {
 export {
   LANGUAGES,
   MP3_PLAYER_STATES,
+  TRANSLATION_MP3_PLAYER_STATES,
   COLORS_SHOPIFY_BLUE_PALLETE,
   COLORS_SHOPIFY_YELLOW_PALLETE,
   COLORS_SHOPIFY_GREYS_PALLETE,

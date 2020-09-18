@@ -3,7 +3,7 @@ import "./App.css";
 import styled from "styled-components";
 import { SpeechSynthContext } from "./SpeechSynthContext";
 import { IoIosPlay, IoIosPause } from "react-icons/io";
-import { MP3_PLAYER_STATES } from "./constants";
+import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import {
   jumpToTime,
   markTranslationAsPlaying,
@@ -11,16 +11,12 @@ import {
   markEnglishAsPlaying,
   recordMP3PlayerState,
   updateSpeechSynthState,
+  recordTranslationMP3PlayerState,
 } from "./actions";
 import { useSelector } from "react-redux";
-
 import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
 
-import {
-  getSynthStateSpeaking,
-  getTranslationTimeCodeAndUUID,
-  getMP3PlayerState,
-} from "./reducers";
+import { getMP3PlayerState, getTranslationMP3PlayerState } from "./reducers";
 
 import { useDispatch } from "react-redux";
 
@@ -31,17 +27,10 @@ function TranscriptSentence({
 }) {
   const dispatch = useDispatch();
 
-  let synthSpeaking = useSelector(getSynthStateSpeaking);
-  let translationUUID = useSelector(getTranslationTimeCodeAndUUID).uuid;
-
   let mp3PlayState = useSelector(getMP3PlayerState);
-
+  let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
   const {
-    actions: {
-      playSpeechInSynthContext,
-      cancelAllSpeech,
-      playOrPauseSpeechSynth,
-    },
+    actions: { cancelAllSpeech },
   } = React.useContext(SpeechSynthContext);
 
   function handleClickedSentence(event) {
@@ -73,20 +62,30 @@ function TranscriptSentence({
     );
 
     console.log(event);
-    playSpeechInSynthContext(sentence_object);
+    console.log(sentence_object);
+
+    // playSpeechInSynthContext(sentence_object);
     dispatch(
       markTranslationAsPlaying({
         translation_time_code: sentence_object.start,
         translated_uuid: sentence_object.uuid,
         type_curently_playing: "Translation",
+        translated_filename: sentence_object.translated_filename,
       })
     );
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
-  }
 
-  function handlePlayPauseTranslation(event) {
-    playOrPauseSpeechSynth();
-    event.stopPropagation();
+    if (translationMp3PlayerState === TRANSLATION_MP3_PLAYER_STATES.PAUSED) {
+      dispatch(
+        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PLAYING)
+      );
+    } else if (
+      translationMp3PlayerState === TRANSLATION_MP3_PLAYER_STATES.PLAYING
+    ) {
+      dispatch(
+        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+      );
+    }
   }
 
   function handlePlayPauseEnglish(event) {
@@ -151,11 +150,11 @@ function TranscriptSentence({
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
           </SentenceDiv>
-
           <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
             <ButtonDiv>
-              <TranslationButton onClick={handlePlayPauseTranslation}>
-                {synthSpeaking && translationUUID === sentence_object.uuid ? (
+              <TranslationButton>
+                {translationMp3PlayerState ===
+                TRANSLATION_MP3_PLAYER_STATES.PAUSED ? (
                   <IoIosPause size={buttonSize} />
                 ) : (
                   <IoIosPlay size={buttonSize} />
@@ -192,6 +191,8 @@ function TranscriptSentence({
     );
   }
 }
+
+//audio styling
 
 // Desktop
 const Wrapper = styled.div`

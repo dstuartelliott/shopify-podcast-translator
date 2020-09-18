@@ -1,9 +1,8 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components";
-import { SpeechSynthContext } from "./SpeechSynthContext";
 import { IoIosPlay, IoIosPause } from "react-icons/io";
-import { MP3_PLAYER_STATES } from "./constants";
+import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import {
   jumpToTime,
   markTranslationAsPlaying,
@@ -11,16 +10,16 @@ import {
   markEnglishAsPlaying,
   recordMP3PlayerState,
   updateSpeechSynthState,
+  recordTranslationMP3PlayerState,
 } from "./actions";
 import { useSelector } from "react-redux";
 
 import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
 
 import {
-  getSynthStateSpeaking,
-  getTranslationTimeCodeAndUUID,
   getMP3PlayerState,
   getSearchResults,
+  getTranslationMP3PlayerState,
 } from "./reducers";
 
 import { useDispatch } from "react-redux";
@@ -35,24 +34,14 @@ function SearchResultTranscriptSentence({
 }) {
   const dispatch = useDispatch();
 
-  let synthSpeaking = useSelector(getSynthStateSpeaking);
-  let translationUUID = useSelector(getTranslationTimeCodeAndUUID).uuid;
-
   let mp3PlayState = useSelector(getMP3PlayerState);
+  let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
 
   let search_results = useSelector(getSearchResults);
 
   const [combined_english, setCombined_english] = React.useState([]);
 
   const [combined_translated, setCombined_translated] = React.useState([]);
-
-  const {
-    actions: {
-      playSpeechInSynthContext,
-      cancelAllSpeech,
-      playOrPauseSpeechSynth,
-    },
-  } = React.useContext(SpeechSynthContext);
 
   function highlightWordBothCases(
     phrase_lowered,
@@ -125,7 +114,6 @@ function SearchResultTranscriptSentence({
 
   function handleClickedSentence(event) {
     console.log(event);
-    cancelAllSpeech();
     dispatch(markTranslationAsDonePlaying());
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
     dispatch(updateSpeechSynthState(false));
@@ -152,20 +140,27 @@ function SearchResultTranscriptSentence({
     );
 
     console.log(event);
-    playSpeechInSynthContext(sentence_object);
     dispatch(
       markTranslationAsPlaying({
         translation_time_code: sentence_object.start,
         translated_uuid: sentence_object.uuid,
         type_curently_playing: "Translation",
+        translated_filename: sentence_object.translated_filename,
       })
     );
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
-  }
 
-  function handlePlayPauseTranslation(event) {
-    playOrPauseSpeechSynth();
-    event.stopPropagation();
+    if (translationMp3PlayerState === TRANSLATION_MP3_PLAYER_STATES.PAUSED) {
+      dispatch(
+        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PLAYING)
+      );
+    } else if (
+      translationMp3PlayerState === TRANSLATION_MP3_PLAYER_STATES.PLAYING
+    ) {
+      dispatch(
+        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+      );
+    }
   }
 
   function handlePlayPauseEnglish(event) {
@@ -275,8 +270,9 @@ function SearchResultTranscriptSentence({
 
           <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
             <ButtonDiv>
-              <TranslationButton onClick={handlePlayPauseTranslation}>
-                {synthSpeaking && translationUUID === sentence_object.uuid ? (
+              <TranslationButton>
+                {translationMp3PlayerState ===
+                TRANSLATION_MP3_PLAYER_STATES.PAUSED ? (
                   <IoIosPause size={buttonSize} />
                 ) : (
                   <IoIosPlay size={buttonSize} />

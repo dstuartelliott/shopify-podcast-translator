@@ -17,11 +17,13 @@ export const markTranslationAsPlaying = ({
   translation_time_code,
   translated_uuid,
   type_curently_playing,
+  translated_filename,
 }) => ({
   type: "MARK_TRANSLATION_AS_PLAYING",
   translation_time_code: translation_time_code,
   translated_uuid: translated_uuid,
   type_curently_playing: type_curently_playing,
+  translated_filename: translated_filename,
 
   // type_curently_playing: "Translation",
 });
@@ -54,6 +56,13 @@ export const markTranslationAsDonePlaying = () => ({
 export const recordMP3PlayerState = (player_state) => ({
   type: "RECORD_MP3_PLAYER_START",
   mp3_player_state: player_state,
+});
+
+export const recordTranslationMP3PlayerState = (
+  translation_mp3_player_state
+) => ({
+  type: "RECORD_TRANSLATION_MP3_PLAYER_START",
+  translation_mp3_player_state: translation_mp3_player_state,
 });
 
 export const markTranslationAsDonePlayingPaused = () => ({

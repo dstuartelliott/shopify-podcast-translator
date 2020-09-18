@@ -31,6 +31,7 @@ export default function appReducer(state = initialState, action) {
         translation_time_code: action.translation_time_code,
         translated_uuid: action.translated_uuid,
         type_curently_playing: action.type_curently_playing,
+        translated_filename: action.translated_filename,
       };
     }
 
@@ -74,6 +75,13 @@ export default function appReducer(state = initialState, action) {
       return {
         ...state,
         mp3_player_state: action.mp3_player_state,
+      };
+    }
+
+    case "RECORD_TRANSLATION_MP3_PLAYER_START": {
+      return {
+        ...state,
+        translation_mp3_player_state: action.translation_mp3_player_state,
       };
     }
 
@@ -152,6 +160,7 @@ export const getSimplifiedSentences = (state) => {
         end: last_time,
         next_start_time: next_start_time,
         time_string: time_string,
+        translated_filename: element.translated_filename,
       });
     });
   }
@@ -258,6 +267,7 @@ export const getTranslationTimeCodeAndUUID = (state) => {
     return {
       timecode: state.translation_time_code,
       uuid: state.translated_uuid,
+      translated_filename: state.translated_filename,
     };
   } else {
     return {
@@ -278,6 +288,15 @@ export const getMP3PlayerState = (state) => {
   //    state.current_time;
   if (state.mp3_player_state !== undefined) {
     return state.mp3_player_state;
+  } else {
+    return "TBD";
+  }
+};
+
+export const getTranslationMP3PlayerState = (state) => {
+  //    state.current_time;
+  if (state.translation_mp3_player_state !== undefined) {
+    return state.translation_mp3_player_state;
   } else {
     return "TBD";
   }

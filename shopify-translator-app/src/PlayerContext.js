@@ -1,8 +1,10 @@
 import React, { createContext } from "react";
 export const PlayerContext = createContext();
+
 var voices = speechSynthesis.getVoices();
 let french_voice = voices.filter((v) => v.lang === "fr-CA");
 let speechUtterance = "";
+
 export const PlayerContextProvider = ({ children }) => {
   const getSpeechPhrase = () => {
     return speechUtterance;
@@ -89,6 +91,24 @@ export const PlayerContextProvider = ({ children }) => {
     return myPromise;
   };
 
+  const getTranslatedMP3s = async () => {
+    let myPromise = new Promise((resolve, reject) => {
+      const apiUrl = "https://www.justheard.ca:8000/returntranslationrecords";
+      fetch(apiUrl)
+        .then((response) => {
+          let data = response.json();
+          // profileObject = data;
+          //   console.log(data);
+
+          resolve(data);
+        })
+        .catch((error) => {
+          resolve({ error });
+        });
+    });
+    return myPromise;
+  };
+
   return (
     <PlayerContext.Provider
       value={{
@@ -100,6 +120,7 @@ export const PlayerContextProvider = ({ children }) => {
         speechUtterance,
         speakFrenchForStoredContextUtterance,
         getSpeechPhrase,
+        getTranslatedMP3s,
       }}
     >
       {children}

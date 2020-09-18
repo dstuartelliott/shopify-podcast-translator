@@ -8,7 +8,7 @@ import SearchResultTranscriptSentence from "./SearchResultTranscriptSentence.js"
 import IntroSentence from "./IntroSentence.js";
 
 import { useDispatch } from "react-redux";
-import { addTranscript } from "./actions";
+import { addTranscript, recordTranslationMP3PlayerState } from "./actions";
 import { useSelector } from "react-redux";
 import {
   getSimplifiedSentences,
@@ -17,11 +17,13 @@ import {
   getEnglishUUID,
   getMP3PlayerState,
   getSearchResults,
+  getTranslationMP3PlayerState,
 } from "./reducers";
 
 import {
   COLORS_SHOPIFY_BLUE_PALLETE,
   COLORS_SHOPIFY_GREYS_PALLETE,
+  TRANSLATION_MP3_PLAYER_STATES,
 } from "./constants.js";
 
 import { isMobile } from "react-device-detect";
@@ -42,20 +44,75 @@ function Scrolltext() {
 
   const [playerWasClicked, setplayerWasClicked] = React.useState(false);
 
+  const [translatedAudioSrc, setTranslatedAudioSource] = React.useState(
+    "https://us-east-1.linodeobjects.com/podcast-files/1__Merci_79afef9c-2b39-452e-888f-27c63c439374.mp3"
+  );
+
   let translationPlaying = useSelector(getTranslationPlaying);
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
 
   let english_uuid = useSelector(getEnglishUUID);
 
   let podcast_player_state = useSelector(getMP3PlayerState);
+  let translation_podcast_player_state = useSelector(
+    getTranslationMP3PlayerState
+  );
 
   let search_results = useSelector(getSearchResults);
+
+  const audioref = React.useRef(null);
+
+  React.useEffect(() => {
+    console.log("translationPlaying changed");
+    console.log(translationPlaying);
+
+    console.log(audioref);
+    console.log(audioref.current);
+
+    console.log(translationTimeCodeUUID);
+    let filename =
+      "https://us-east-1.linodeobjects.com/podcast-files/" +
+      translationTimeCodeUUID.translated_filename;
+    console.log(filename);
+    setTranslatedAudioSource(filename);
+  }, [translationTimeCodeUUID, translationPlaying]);
+
+  React.useEffect(() => {
+    if (audioref.current !== null) {
+      if (
+        translation_podcast_player_state ===
+        TRANSLATION_MP3_PLAYER_STATES.PLAYING
+      ) {
+        audioref.current.play();
+      } else if (
+        translation_podcast_player_state ===
+        TRANSLATION_MP3_PLAYER_STATES.PAUSED
+      ) {
+        audioref.current.pause();
+      }
+    }
+  }, [translation_podcast_player_state]);
 
   React.useEffect(() => {
     async function getTranscriptSentences() {
       console.log("expensive transcript operation");
 
       let combined = await playerContext.getCombined();
+
+      let translated_mp3s = await playerContext.getTranslatedMP3s();
+
+      let numObjs = [];
+
+      translated_mp3s.records.forEach((record) => {
+        let translated_mp3_words = record.filename.split("_");
+        let number_key = translated_mp3_words[0];
+        let word = translated_mp3_words[2];
+        let filename = record.filename;
+        let text = record.text;
+        numObjs[number_key] = { filename, text, word };
+      });
+
+      console.log(numObjs);
 
       let sentenceAndGoodWordCombined = [];
       combined.translations.forEach((element, i) => {
@@ -82,12 +139,49 @@ function Scrolltext() {
 
         let speaker = element.speaker;
 
+        console.log("-........");
+        console.log(i);
+
+        // console.log(translated_mp3_record);
+
+        //check the first word in translation
+
+        let translated_filename = "";
+
+        let translation_first_word = element.translation.split(" ")[0];
+
+        if (numObjs[i] !== undefined) {
+          console.log({ translation_first_word });
+
+          console.log(numObjs[i].word);
+
+          if (
+            translation_first_word === numObjs[i].word &&
+            element.translation === numObjs[i].text
+          ) {
+            console.log("MATCH");
+            translated_filename = numObjs[i].filename;
+          } else if (translation_first_word !== numObjs[i].word) {
+            let matched_from_translated_mp3s = translated_mp3s.records.filter(
+              (el) => el.text === element.translation
+            );
+            console.log("NOPE");
+            console.log(element.translation);
+            console.log(numObjs[i]);
+            console.log(matched_from_translated_mp3s);
+
+            translated_filename = matched_from_translated_mp3s[0].filename;
+          }
+          console.log(translated_filename);
+        } else {
+          console.log(
+            "--------------------------------------------------undefined!!!!!"
+          );
+        }
+
         if (element.speaker.length > 10) {
           let spaces = element.speaker.split(" ");
 
-          // console.log("longer");
-          // console.log(element);
-          // console.log(spaces.length);
           if (spaces.length > 3) {
             speaker = combined.translations[i - 1].speaker;
           }
@@ -105,6 +199,7 @@ function Scrolltext() {
             uuid: element.uuid,
             // isHighlighted: false,
             // highlightedLang: "none",
+            translated_filename: translated_filename,
           });
 
           setIsLoaded(true);
@@ -136,6 +231,7 @@ function Scrolltext() {
           },
         },
         uuid: "intro-uuid",
+        translated_filename: "none",
       };
 
       sentenceAndGoodWordCombined.unshift(intro_section);
@@ -144,6 +240,11 @@ function Scrolltext() {
       dispatch(addTranscript(sentenceAndGoodWordCombined));
     }
     getTranscriptSentences();
+
+    dispatch(
+      recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+    );
+
     // eslint-disable-next-line
   }, []);
 
@@ -243,21 +344,42 @@ function Scrolltext() {
               search_results.searchResults.filtered_sentences.length === 0
             ) {
               return (
-                <TranscriptSentence
-                  sentence_object={element}
-                  key={element.uuid}
-                  englishHighlighted={
-                    element.uuid === currentUUID && translationPlaying === false
-                  }
-                  translatedUUID={element.uuid + "trans"}
-                  translatedHightlighted={
-                    element.uuid === translationTimeCodeUUID.uuid &&
-                    translationPlaying
-                  }
-                  next_start_time={element.next_start_time}
-                  // highlightedLang={element.highlightedLang}
-                  // uuidHighlighted={uuidHighlighted}
-                ></TranscriptSentence>
+                <div>
+                  <TranscriptSentence
+                    sentence_object={element}
+                    key={element.uuid}
+                    englishHighlighted={
+                      element.uuid === currentUUID &&
+                      translationPlaying === false
+                    }
+                    translatedUUID={element.uuid + "trans"}
+                    translatedHightlighted={
+                      element.uuid === translationTimeCodeUUID.uuid &&
+                      translationPlaying
+                    }
+                    next_start_time={element.next_start_time}
+                    // highlightedLang={element.highlightedLang}
+                    // uuidHighlighted={uuidHighlighted}
+                  ></TranscriptSentence>
+                  {element.uuid === translationTimeCodeUUID.uuid &&
+                  translationPlaying ? (
+                    <AudioDiv
+                      autoPlay
+                      ref={audioref}
+                      src={translatedAudioSrc}
+                    ></AudioDiv>
+                  ) : (
+                    <div></div>
+                  )}
+                  {/* <audio
+                    controls={
+                      element.uuid === translationTimeCodeUUID.uuid &&
+                      translationPlaying
+                    }
+                    ref={audioref}
+                    src={translatedAudioSrc}
+                  ></audio> */}
+                </div>
               );
             } else if (
               search_results.searchResults.filtered_sentences.length > 0 &&
@@ -293,6 +415,17 @@ function Scrolltext() {
                     // highlightedLang={element.highlightedLang}
                     // uuidHighlighted={uuidHighlighted}
                   ></SearchResultTranscriptSentence>
+
+                  {element.uuid === translationTimeCodeUUID.uuid &&
+                  translationPlaying ? (
+                    <AudioDiv
+                      autoPlay
+                      ref={audioref}
+                      src={translatedAudioSrc}
+                    ></AudioDiv>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               );
             }
@@ -302,6 +435,45 @@ function Scrolltext() {
     </ScrollWrapper>
   );
 }
+
+const AudioDiv = styled.audio`
+  padding-left: 150px;
+  width: 400px;
+
+  @media (max-width: 600px) {
+    padding-left: 0px;
+  }
+
+
+  ::-webkit-media-controls-panel {
+    background-color: white;
+    /* display: flex;
+    flex-direction: column; */
+  }
+
+  ::-webkit-media-controls-play-button {
+  }
+
+  ::-webkit-media-controls-volume-slider-container {
+    display: hidden;
+    visibility: hidden;
+  }
+
+  /* ::-webkit-media-controls-timeline-container {
+    max-width: 1px;
+    max-height: 1px;
+  }
+
+  ::-webkit-media-controls-current-time-display {
+    display: hidden;
+    visibility: hidden;
+  }
+
+  ::-webkit-media-controls-time-remaining-display {
+    display: hidden;
+    visibility: hidden; */
+  }
+`;
 const ScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -324,12 +496,12 @@ const TranscriptList = styled.div`
 
   @media (min-width: 675px) {
     bottom: 20px;
-    top: 200px;
+    top: 240px;
     position: absolute;
   }
 
   @media (max-width: 600px) {
-    top: 200px;
+    top: 180px;
     bottom: 20px;
   }
 
