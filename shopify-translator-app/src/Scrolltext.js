@@ -8,7 +8,11 @@ import SearchResultTranscriptSentence from "./SearchResultTranscriptSentence.js"
 import IntroSentence from "./IntroSentence.js";
 
 import { useDispatch } from "react-redux";
-import { addTranscript, recordTranslationMP3PlayerState } from "./actions";
+import {
+  addTranscript,
+  addUUIDSandTimes,
+  recordTranslationMP3PlayerState,
+} from "./actions";
 import { useSelector } from "react-redux";
 import {
   getSimplifiedSentences,
@@ -30,6 +34,7 @@ import { isMobile } from "react-device-detect";
 import { IoMdLock } from "react-icons/io";
 
 import SpinnerJustKF from "./SpinnerJustKF";
+// import { combineReducers } from "redux";
 
 function Scrolltext() {
   const playerContext = React.useContext(PlayerContext);
@@ -71,7 +76,7 @@ function Scrolltext() {
 
     console.log(translationTimeCodeUUID);
     let filename =
-      "https://us-east-1.linodeobjects.com/podcast-files/" +
+      "https://us-east-1.linodeobjects.com/podcast-files/second/" +
       translationTimeCodeUUID.translated_filename;
     console.log(filename);
     setTranslatedAudioSource(filename);
@@ -97,11 +102,19 @@ function Scrolltext() {
     async function getTranscriptSentences() {
       console.log("expensive transcript operation");
 
-      let combined = await playerContext.getCombined();
+      let combined = await playerContext.getCombined2();
 
-      let translated_mp3s = await playerContext.getTranslatedMP3s();
+      let sorted_combined = combined.translations.sort(
+        (a, b) => a.iteration - b.iteration
+      );
+
+      let translated_mp3s = await playerContext.getTranslatedMP3s2();
 
       let numObjs = [];
+
+      console.log(translated_mp3s);
+
+      console.log(sorted_combined);
 
       translated_mp3s.records.forEach((record) => {
         let translated_mp3_words = record.filename.split("_");
@@ -112,10 +125,8 @@ function Scrolltext() {
         numObjs[number_key] = { filename, text, word };
       });
 
-      console.log(numObjs);
-
       let sentenceAndGoodWordCombined = [];
-      combined.translations.forEach((element, i) => {
+      sorted_combined.forEach((element, i) => {
         // // TODO: I could go in and hand correct the data, but I think it's more instructive to show how I deal with bad data
 
         let ii = 0;
@@ -130,7 +141,19 @@ function Scrolltext() {
         }
 
         let last_word;
-        if (element.words[element.words.length - 1].word.case === "success") {
+
+        if (element.words[element.words.length - 1] === undefined) {
+          console.log("");
+        }
+        let case_from_element =
+          element.words[element.words.length - 1].word.case;
+        let case_from_element_unnested_words =
+          element.words[element.words.length - 1].case;
+
+        if (
+          case_from_element === "success" ||
+          case_from_element_unnested_words === "success"
+        ) {
           last_word = element.words[element.words.length - 1];
         } else {
           // is the next word available?
@@ -138,54 +161,43 @@ function Scrolltext() {
         }
 
         let speaker = element.speaker;
-
-        console.log("-........");
-        console.log(i);
-
-        // console.log(translated_mp3_record);
-
         //check the first word in translation
-
         let translated_filename = "";
-
         let translation_first_word = element.translation.split(" ")[0];
-
         if (numObjs[i] !== undefined) {
-          console.log({ translation_first_word });
-
-          console.log(numObjs[i].word);
-
           if (
             translation_first_word === numObjs[i].word &&
             element.translation === numObjs[i].text
           ) {
-            console.log("MATCH");
             translated_filename = numObjs[i].filename;
           } else if (translation_first_word !== numObjs[i].word) {
             let matched_from_translated_mp3s = translated_mp3s.records.filter(
               (el) => el.text === element.translation
             );
-            console.log("NOPE");
-            console.log(element.translation);
-            console.log(numObjs[i]);
-            console.log(matched_from_translated_mp3s);
 
+            if (matched_from_translated_mp3s[0] === undefined) {
+              console.log("");
+            }
             translated_filename = matched_from_translated_mp3s[0].filename;
           }
-          console.log(translated_filename);
         } else {
-          console.log(
-            "--------------------------------------------------undefined!!!!!"
-          );
+          // console.log(
+          //   "--------------------------------------------------undefined!!!!!"
+          // );
         }
 
-        if (element.speaker.length > 10) {
-          let spaces = element.speaker.split(" ");
-
-          if (spaces.length > 3) {
-            speaker = combined.translations[i - 1].speaker;
-          }
+        if (element.speaker === undefined) {
+          console.log("");
+          speaker = sorted_combined[i - 1].speaker;
         }
+
+        // if (element.speaker.length > 10) {
+        //   let spaces = element.speaker.split(" ");
+
+        //   if (spaces.length > 3) {
+        //     speaker = sorted_combined[i - 1].speaker;
+        //   }
+        // }
 
         if (succesful_word !== undefined) {
           sentenceAndGoodWordCombined.push({
@@ -201,11 +213,8 @@ function Scrolltext() {
             // highlightedLang: "none",
             translated_filename: translated_filename,
           });
-
-          setIsLoaded(true);
         }
       });
-      console.log(sentenceAndGoodWordCombined[0]);
 
       let intro_section = {
         english_sentence:
@@ -235,9 +244,30 @@ function Scrolltext() {
       };
 
       sentenceAndGoodWordCombined.unshift(intro_section);
-      console.log(sentenceAndGoodWordCombined[0]);
 
       dispatch(addTranscript(sentenceAndGoodWordCombined));
+
+      let simplified_time = [];
+      sentenceAndGoodWordCombined.forEach((element, i) => {
+        let last_time;
+        if (element.last_word === undefined) {
+          let next_i = i + 1;
+          let potential =
+            sentenceAndGoodWordCombined[next_i].word.word.start - 0.05;
+          last_time = potential;
+        } else {
+          last_time = element.last_word.word.end;
+        }
+        simplified_time.push({
+          uuid: element.uuid,
+          start: element.word.word.start,
+          end: last_time,
+        });
+      });
+
+      dispatch(addUUIDSandTimes(simplified_time));
+
+      setIsLoaded(true);
     }
     getTranscriptSentences();
 
@@ -444,7 +474,6 @@ const AudioDiv = styled.audio`
     padding-left: 0px;
   }
 
-
   ::-webkit-media-controls-panel {
     background-color: white;
     /* display: flex;
@@ -457,21 +486,6 @@ const AudioDiv = styled.audio`
   ::-webkit-media-controls-volume-slider-container {
     display: hidden;
     visibility: hidden;
-  }
-
-  /* ::-webkit-media-controls-timeline-container {
-    max-width: 1px;
-    max-height: 1px;
-  }
-
-  ::-webkit-media-controls-current-time-display {
-    display: hidden;
-    visibility: hidden;
-  }
-
-  ::-webkit-media-controls-time-remaining-display {
-    display: hidden;
-    visibility: hidden; */
   }
 `;
 const ScrollWrapper = styled.div`

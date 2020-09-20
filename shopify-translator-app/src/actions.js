@@ -8,6 +8,11 @@ export const addTranscript = (transcript) => ({
   transcript,
 });
 
+export const addUUIDSandTimes = (uuidsAndTimes) => ({
+  type: "ADD_UUIDS_TIMES",
+  uuidsAndTimes,
+});
+
 export const jumpToTime = (time) => ({
   type: "JUMP_TO_TIME",
   time,
@@ -81,16 +86,6 @@ export const updateSpeechSynthState = (speechSynth) => ({
 export const updateWindowDimensions = (dim) => ({
   type: "UPDATE_WINDOW_DIMENSIONS",
   dim: dim,
-});
-
-export const updatePodcastInfoDimensions = (podcast_info_dimensions) => ({
-  type: "UPDATE_TOP_PODCAST_INFO_DIMENSIONS",
-  podcast_info_dimensions: podcast_info_dimensions,
-});
-
-export const updatePodcastToggleState = (podcast_info_collapsed) => ({
-  type: "UPDATE_PODCAST_INFO_TOGGLE_STATE",
-  podcast_info_collapsed: podcast_info_collapsed,
 });
 
 export const updateSearchResults = (searchResults) => ({

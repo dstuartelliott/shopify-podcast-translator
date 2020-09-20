@@ -9,91 +9,17 @@ import Top from "./Top";
 import Player from "./Player";
 import Scrolltext from "./Scrolltext";
 
-import { updateWindowDimensions, markEnglishAsPlaying } from "./actions";
+import { markEnglishAsPlaying } from "./actions";
 
 function App() {
   //eslint-disable-next-line
-  const [windowDimensions, setWindowDimensions] = React.useState(
-    getWindowDimensions()
-  );
 
   const dispatch = useDispatch();
 
-  function getWindowDimensions() {
-    const { innerWidth: width, innerHeight: height } = window;
-    let height_for_text = Math.round(height * 0.66);
-    height_for_text = parseInt(height_for_text) + "px";
-    return {
-      width,
-      height,
-      height_for_text,
-    };
-  }
-
-  function handleResize() {
-    const { innerWidth: width, innerHeight: height } = window;
-    let height_for_text_open = Math.round(height * 0.5);
-    let height_for_text_collapsed = Math.round(height * 0.2);
-
-    let height_for_podcast_info_open = Math.round(height * 0.8);
-
-    let height_for_podcast_info_collapsed = Math.round(height * 0.1);
-
-    height_for_text_open = parseInt(height_for_text_open) + "px";
-    height_for_text_collapsed = parseInt(height_for_text_collapsed) + "px";
-    height_for_podcast_info_open =
-      parseInt(height_for_podcast_info_open) + "px";
-    height_for_podcast_info_collapsed =
-      parseInt(height_for_podcast_info_collapsed) + "px";
-
-    dispatch(
-      updateWindowDimensions({
-        width,
-        height,
-        height_for_text_open,
-        height_for_text_collapsed,
-        height_for_podcast_info_open,
-        height_for_podcast_info_collapsed,
-      })
-    );
-  }
-
-  function initWindowSizes() {
-    const { innerWidth: width, innerHeight: height } = window;
-    let height_for_text_open = Math.round(height * 0.5);
-    let height_for_text_collapsed = Math.round(height * 0.2);
-
-    let height_for_podcast_info_open = Math.round(height * 0.8);
-
-    let height_for_podcast_info_collapsed = Math.round(height * 0.1);
-
-    height_for_text_open = parseInt(height_for_text_open) + "px";
-    height_for_text_collapsed = parseInt(height_for_text_collapsed) + "px";
-    height_for_podcast_info_open =
-      parseInt(height_for_podcast_info_open) + "px";
-    height_for_podcast_info_collapsed =
-      parseInt(height_for_podcast_info_collapsed) + "px";
-
-    dispatch(
-      updateWindowDimensions({
-        width,
-        height,
-        height_for_text_open,
-        height_for_text_collapsed,
-        height_for_podcast_info_open,
-        height_for_podcast_info_collapsed,
-      })
-    );
-  }
   //test
   React.useEffect(() => {
-    window.addEventListener("resize", handleResize);
-
-    initWindowSizes();
-
     dispatch(markEnglishAsPlaying(0.0, "TBD"));
 
-    return () => window.removeEventListener("resize", handleResize);
     // eslint-disable-next-line
   }, []);
 

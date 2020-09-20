@@ -13,6 +13,13 @@ export default function appReducer(state = initialState, action) {
       return { ...state, transcript: action.transcript };
     }
 
+    case "ADD_UUIDS_TIMES": {
+      // console.log("ADD_TRANSCRIPT");
+      // console.log(action.transcript);
+
+      return { ...state, uuidsAndTimes: action.uuidsAndTimes };
+    }
+
     case "UPDATE_SPEECH_SYNTH_STATE": {
       return { ...state, synth: action.synth };
     }
@@ -92,23 +99,6 @@ export default function appReducer(state = initialState, action) {
       return {
         ...state,
         dim: action.dim,
-      };
-    }
-
-    case "UPDATE_TOP_PODCAST_INFO_DIMENSIONS": {
-      // console.log("UPDATE_WINDOW_DIMENSIONS");
-      // console.log(action.dim);
-
-      return {
-        ...state,
-        podcast_info_dimensions: action.podcast_info_dimensions,
-      };
-    }
-
-    case "UPDATE_PODCAST_INFO_TOGGLE_STATE": {
-      return {
-        ...state,
-        podcast_info_collapsed: action.podcast_info_collapsed,
       };
     }
 
@@ -199,24 +189,9 @@ export const getLCSentencesForSearch = (state) => {
 };
 
 export const getUUIDsandTimes = (state) => {
-  let simplified_time = [];
-
-  if (state.transcript !== undefined) {
-    state.transcript.forEach((element) => {
-      let last_time;
-      if (element.last_word === undefined) {
-        last_time = -0.0;
-      } else {
-        last_time = element.last_word.word.end;
-      }
-      simplified_time.push({
-        uuid: element.uuid,
-        start: element.word.word.start,
-        end: last_time,
-      });
-    });
+  if (state.uuidsAndTimes !== undefined) {
+    return state.uuidsAndTimes;
   }
-  return simplified_time;
 };
 
 export const getCurrentTime = (state) => {

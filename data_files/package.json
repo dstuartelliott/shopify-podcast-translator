@@ -4,6 +4,8 @@
     "text": "node text-aligner.js"
   },
   "dependencies": {
+    "@google-cloud/text-to-speech": "^3.1.1",
+    "@google-cloud/translate": "^6.0.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "ejs": "^3.1.3",

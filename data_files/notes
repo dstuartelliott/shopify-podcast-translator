@@ -1,0 +1,24 @@
+/Users/davidelliott/Desktop/shopify/shopify-podcast-translator/data_files/pre_launchsentences_and_translations_shopify_fr.json
+
+When I make this, I just need to emulater combioned by adding the speaker
+
+
+export GOOGLE_APPLICATION_CREDENTIALS="Lister-ba5f9edd11af.json"  
+
+There is no 31 in healthish__translations_with_aligned_timing
+
+
+Ok so what's the order ops now here?
+
+appv3_translate first?
+
+Then text_aligner copy?
+
+Then appTextToSpeech?
+
+
+
+I think the fuck up is happening in text-text_aligner
+with_aligned
+
+
