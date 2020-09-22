@@ -3,5 +3,7 @@
 .Spotlight-V100
 .Trashes
 ._*
-
+*.mp3
 node_modules/
+
+Lister-ba5f9edd11af.json
