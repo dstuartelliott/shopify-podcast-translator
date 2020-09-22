@@ -114,11 +114,6 @@ function SearchResultTranscriptSentence({
   }
 
   function handleTranslatedClickedSentence(event) {
-    console.log(
-      "=========================================================================="
-    );
-
-    console.log(event);
     dispatch(
       markTranslationAsPlaying({
         translation_time_code: sentence_object.start,

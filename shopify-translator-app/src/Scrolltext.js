@@ -106,21 +106,6 @@ function Scrolltext() {
     }
   }, [translation_podcast_player_state]);
 
-  //english_uuid;
-  // React.useEffect(() => {
-  //   console.log("english UUID changed");
-  //   console.log(english_uuid);
-
-  //   // let element = document.getElementById(english_uuid);
-  //   // if (element !== null && element !== undefined) {
-  //   //   element.scrollIntoView({
-  //   //     behavior: "smooth",
-  //   //     block: "center",
-  //   //   });
-  //   // }
-  //   // setcurrentUUID(english_uuid);
-  // }, [english_uuid]);
-
   //uuidPlaying
   React.useEffect(() => {
     console.log("uuidPlaying changed");
@@ -141,27 +126,17 @@ function Scrolltext() {
   }, [uuidPlaying]);
 
   React.useEffect(() => {
-    // console.log(" useEffect podcast_player_state");
-    // console.log(podcast_player_state);
     if (
       podcast_player_state === "playing" ||
       podcast_player_state === "paused"
     ) {
       setplayerWasClicked(true);
       console.log("setting player state");
-      // console.log(podcast_player_state);
-
-      // console.log(" toggle state changed");
-      // console.log(podcast_toggle_state);
-      // console.log(
-      //   podcast_info_collapsed_size.podcast_info_dimensions.height_collapsed
-      // );
     }
     // eslint-disable-next-line
   }, [podcast_player_state]);
 
   if (isMobile && playerWasClicked === false) {
-    // console.log(playerWasClicked);
     return (
       <UnlockWarning>
         <div>
@@ -237,8 +212,6 @@ function Scrolltext() {
                       translationPlaying
                     }
                     next_start_time={element.next_start_time}
-                    // highlightedLang={element.highlightedLang}
-                    // uuidHighlighted={uuidHighlighted}
                   ></TranscriptSentence>
                   {element.uuid === translationTimeCodeUUID.uuid &&
                   translationPlaying ? (
@@ -251,14 +224,6 @@ function Scrolltext() {
                   ) : (
                     <div></div>
                   )}
-                  {/* <audio
-                    controls={
-                      element.uuid === translationTimeCodeUUID.uuid &&
-                      translationPlaying
-                    }
-                    ref={audioref}
-                    src={translatedAudioSrc}
-                  ></audio> */}
                 </div>
               );
             } else if (
@@ -292,8 +257,6 @@ function Scrolltext() {
                     original_search_phrase={
                       search_results.searchResults.original_search_phrase
                     }
-                    // highlightedLang={element.highlightedLang}
-                    // uuidHighlighted={uuidHighlighted}
                   ></SearchResultTranscriptSentence>
 
                   {element.uuid === translationTimeCodeUUID.uuid &&
@@ -327,8 +290,6 @@ const AudioDivBelow = styled.audio`
   }
 
   ::-webkit-media-controls-panel {
-    /* display: flex;
-    flex-direction: column; */
     height: 20px;
     border-radius: 5px;
     background-color: white;
@@ -376,6 +337,7 @@ const TranscriptList = styled.div`
     bottom: 20px;
   }
 
+  /* doesn't seem to work on firefox */
   &::-webkit-scrollbar-track {
     background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Light};
     border-radius: 10px;
@@ -390,12 +352,6 @@ const TranscriptList = styled.div`
     height: 30px;
     position: absolute;
     top: 10px;
-
-    @media (max-width: 600px) {
-      /* position: fixed;
-      top: 200px;
-      bottom: 20px; */
-    }
   }
 
   ::-webkit-scrollbar-thumb {

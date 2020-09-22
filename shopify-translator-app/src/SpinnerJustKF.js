@@ -16,7 +16,6 @@ function SpinnerJustKF() {
 
 const spin = keyframes`
   
-
   
   to {
     transform: rotate(360deg);
