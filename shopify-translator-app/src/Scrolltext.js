@@ -81,7 +81,7 @@ function Scrolltext() {
 
       setIsLoaded(true);
     }
-    getTranscriptSentences();
+    accessibility fixed    getTranscriptSentences();
 
     dispatch(
       recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
@@ -318,9 +318,9 @@ function Scrolltext() {
 }
 
 const AudioDivBelow = styled.audio`
-  padding-left: 10px;
   width: 95%;
   height: 20px;
+  padding-left: 0px;
 
   @media (max-width: 600px) {
     padding-left: 0px;
@@ -331,6 +331,8 @@ const AudioDivBelow = styled.audio`
     flex-direction: column; */
     height: 20px;
     border-radius: 5px;
+    background-color: white;
+    padding-left: 2px;
   }
 
   ::-webkit-media-controls-play-button {

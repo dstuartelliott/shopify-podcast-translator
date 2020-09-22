@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components";
-import { IoIosPlay, IoIosPause } from "react-icons/io";
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import {
   jumpToTime,
@@ -14,7 +13,7 @@ import {
 import { useSelector } from "react-redux";
 import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
 
-import { getMP3PlayerState, getTranslationMP3PlayerState } from "./reducers";
+import { getTranslationMP3PlayerState } from "./reducers";
 
 import { useDispatch } from "react-redux";
 
@@ -27,7 +26,6 @@ function TranscriptSentence({
   console.log(englishHighlighted);
   const dispatch = useDispatch();
 
-  let mp3PlayState = useSelector(getMP3PlayerState);
   let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
 
   function handleClickedSentence(event) {
@@ -74,7 +72,6 @@ function TranscriptSentence({
     }
   }
 
-  let buttonSize = 15;
   // this might look ugly, but it's better than a bunch of nesteed ternary statements imho
   // also, I originally had a Button instead of the  SentenceDiv, but then I got a react warning about nesteed buttons so I've opted
 
@@ -220,47 +217,6 @@ const Sentence = styled.div`
     padding-left: 11px;
     color: ${COLORS_SHOPIFY_BLUE_PALLETE.Text};
     margin-right: 0px;
-  }
-`;
-
-const ButtonDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: white;
-  min-width: 139px;
-  text-align: center;
-
-  @media (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    text-align: center;
-    min-width: 40px;
-    flex-grow: 2;
-  }
-`;
-
-const TranslationButton = styled.button`
-  cursor: pointer;
-
-  overflow: hidden;
-  z-index: 200;
-  border-radius: 25px;
-  border-color: transparent;
-  /* color: rgba(92, 115, 196); */
-  color: ${COLORS_SHOPIFY_BLUE_PALLETE.Blue};
-
-  background-color: transparent;
-  :focus {
-    outline: none;
-  }
-  align-self: center;
-
-  @media (max-width: 600px) {
-    align-self: flex-end;
-
-    /*  no apparent difference */
   }
 `;
 

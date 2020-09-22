@@ -90,9 +90,6 @@ const TranscriptSearch = styled.input`
   border-color: transparent;
   background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Lighter};
   border-bottom: 1px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
-  focus: {
-    outline: none;
-  }
   @media (max-width: 600px) {
     /* width: 200px; */
     width: 90%;

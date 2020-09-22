@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import Top from "./Top";
 import Player from "./Player";
 import Scrolltext from "./Scrolltext";
+import "focus-visible";
 
 import { markEnglishAsPlaying } from "./actions";
 
@@ -27,27 +28,29 @@ function App() {
   //   return <div> Mobile version coming soon (like, in a day) </div>;
   // } else {
   return (
-    <FleXApp className="App">
-      <GlobalStyles></GlobalStyles>
+    <FocusVisible className="js-focus-visible focus-visible">
+      <FleXApp className="App">
+        <GlobalStyles></GlobalStyles>
 
-      <AppProvider i18n={enTranslations}>
-        {/* <DividerTop>
+        <AppProvider i18n={enTranslations}>
+          {/* <DividerTop>
           <ThickLine></ThickLine>
         </DividerTop> */}
 
-        <TopDiv>
-          <Top></Top>
-        </TopDiv>
-        {/* <Divider>
+          <TopDiv>
+            <Top></Top>
+          </TopDiv>
+          {/* <Divider>
           <Line></Line>
         </Divider> */}
-        <Player></Player>
+          <Player></Player>
 
-        <ScrollDiv>
-          <Scrolltext></Scrolltext>
-        </ScrollDiv>
-      </AppProvider>
-    </FleXApp>
+          <ScrollDiv>
+            <Scrolltext></Scrolltext>
+          </ScrollDiv>
+        </AppProvider>
+      </FleXApp>
+    </FocusVisible>
   );
   // }
 }
@@ -59,6 +62,16 @@ const TopDiv = styled.div`
 
 const ScrollDiv = styled.div`
   background-color: transparent;
+`;
+
+const FocusVisible = styled.div`
+  &.js-focus-visible :focus:not(.focus-visible) {
+    outline: none;
+  }
+  &.js-focus-visible .focus-visible {
+    outline: none;
+    border: 3px solid #528deb;
+  }
 `;
 
 // available diver styles if I need them.
