@@ -28,6 +28,8 @@ let next;
 let current;
 let last_time_frame = 0.0;
 
+let current_uuid;
+
 function Player() {
   const dispatch = useDispatch();
 
@@ -60,42 +62,24 @@ function Player() {
   }, [timeToJumpTo]);
 
   function quickishFindUUID(current_time) {
-    // console.log("quickishFindUUID");
-    // console.log(current_time);
+    if (
+      current_uuid !== undefined &&
+      current_time > current_uuid.start &&
+      current_time < current_uuid.end
+    ) {
+      //console.log("already found");
+    } else {
+      //console.log("doing search");
 
-    let uuid = uuids_and_times.find(
-      (element) => current_time > element.start && current_time < element.end
-    );
+      let uuid = uuids_and_times.find(
+        (element) => current_time > element.start && current_time < element.end
+      );
 
-    // if (uuid !== undefined) {
-    //   dispatch(
-    //     markEnglishAsPlaying({
-    //       time_code_from_player: current_time,
-    //       english_time_code_from_db: uuid.start,
-    //       english_uuid: uuid.uuid,
-    //       type_curently_playing: "English",
-    //     })
-    //   );
-    if (uuid !== undefined) {
-      dispatch(changeUUIDPlaying(uuid));
+      if (uuid !== undefined) {
+        current_uuid = uuid;
+        dispatch(changeUUIDPlaying(uuid));
+      }
     }
-    // if (
-    //   current_time > current_english_uuid.start &&
-    //   current_time < current_english_uuid.end
-    // ) {
-    //   // do nothing
-    // } else {
-    //   let uuid = uuids_and_times.find(
-    //     (element) => current_time > element.start && current_time < element.end
-    //   );
-
-    //   current_english_uuid = uuid;
-    // }
-    // let uuid = uuids_and_times.find(
-    //   (element) => current_time > element.start && current_time < element.end
-    // );
-
-    // console.log(current_english_uuid);
   }
 
   function announceListen(event) {
@@ -105,9 +89,8 @@ function Player() {
     dispatch(addCurrentTime({ current_time }));
 
     if (Math.abs(last_time_frame - current_time) > 2.0) {
-      console.log("========----==========================================");
-
-      console.log("likely jog");
+      // console.log("========----==========================================");
+      // console.log("likely jog");
       aSynchFindUUID(current_time);
     }
 
@@ -115,13 +98,9 @@ function Player() {
   }
 
   async function aSynchFindUUID(current_time) {
-    console.log("aSynchFindUUID findUUID");
-
     let array_i;
     let closest_to_start = 9999999999999999.0;
     let closest_to_previous_end = 99999999999.0;
-
-    console.log(uuids_and_times);
 
     if (uuids_and_times !== undefined) {
       for (let i = 0; i < uuids_and_times.length - 1; i++) {
@@ -130,8 +109,6 @@ function Player() {
           current_time < uuids_and_times[i].end
         ) {
           array_i = i;
-          console.log("found");
-          console.log("------------------");
         }
       }
 
@@ -149,14 +126,6 @@ function Player() {
           }
         }
       }
-
-      console.log("current time:");
-
-      console.log(current_time);
-
-      console.log(closest_to_start);
-      console.log(array_i);
-      console.log(uuids_and_times[array_i]);
 
       let uuid = uuids_and_times.find(
         (element) => current_time > element.start && current_time < element.end
@@ -176,10 +145,7 @@ function Player() {
 
       current = uuids_and_times[array_i];
 
-      console.log(array_i);
       if (array_i !== undefined) {
-        console.log("Player  162");
-
         if (uuid !== undefined) {
           dispatch(changeUUIDPlaying(uuid));
         }
@@ -237,9 +203,6 @@ function Player() {
         }}
         styles={R5stylesSmall}
         id={"hello2"}
-
-        // customIcons={{ play: noPlay }}
-        // other props here
       />
     </PlayerWrapper>
   );

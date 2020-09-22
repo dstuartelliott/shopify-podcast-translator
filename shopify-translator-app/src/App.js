@@ -31,20 +31,11 @@ function App() {
     <FocusVisible className="js-focus-visible focus-visible">
       <FleXApp className="App">
         <GlobalStyles></GlobalStyles>
-
         <AppProvider i18n={enTranslations}>
-          {/* <DividerTop>
-          <ThickLine></ThickLine>
-        </DividerTop> */}
-
           <TopDiv>
             <Top></Top>
           </TopDiv>
-          {/* <Divider>
-          <Line></Line>
-        </Divider> */}
           <Player></Player>
-
           <ScrollDiv>
             <Scrolltext></Scrolltext>
           </ScrollDiv>

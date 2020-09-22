@@ -15,21 +15,6 @@ function TopSearch() {
   const [textfieldValue, setTextField] = React.useState("...search here!");
   let simplifiedSentences = useSelector(getLCSentencesForSearch);
 
-  // function handleKeyPress(event) {
-  // console.log(event.key);
-  // switch (event.key) {
-  //   case "Enter": {
-  //   }
-  //   case "ArrowUp": {
-  //     return;
-  //   }
-  //   case "ArrowDown": {
-  //   }
-  //   case "Escape": {
-  //   }
-  // }
-  // }
-
   function handleClick(event) {
     if (textfieldValue === "...search here!") {
       setTextField("");
@@ -40,9 +25,6 @@ function TopSearch() {
 
     let sentenceSearchText = event.target.value.toLowerCase();
     let original_search_phrase = event.target.value;
-    // books_suggested = suggestions.books.filter((e) =>
-    //   e.title.toLowerCase().includes(bookSearchText)
-    // );
 
     simplifiedSentences.forEach((sentence) => {
       if (
@@ -52,10 +34,6 @@ function TopSearch() {
         filtered_sentences.push(sentence.uuid);
       }
     });
-
-    console.log(sentenceSearchText);
-
-    console.log(filtered_sentences);
 
     if (sentenceSearchText === "") {
       dispatch(updateSearchResults([]));
