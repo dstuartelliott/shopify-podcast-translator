@@ -99,7 +99,6 @@ function Player() {
 
   async function aSynchFindUUID(current_time) {
     let array_i;
-    let closest_to_start = 9999999999999999.0;
     let closest_to_previous_end = 99999999999.0;
 
     if (uuids_and_times !== undefined) {
