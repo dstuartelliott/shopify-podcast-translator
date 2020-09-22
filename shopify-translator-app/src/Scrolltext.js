@@ -18,7 +18,6 @@ import {
   getSimplifiedSentences,
   getTranslationPlaying,
   getTranslationTimeCodeAndUUID,
-  getEnglishUUID,
   getMP3PlayerState,
   getSearchResults,
   getTranslationMP3PlayerState,
