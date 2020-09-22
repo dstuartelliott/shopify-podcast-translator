@@ -9,6 +9,7 @@ import {
   markTranslationAsDonePlaying,
   recordMP3PlayerState,
   recordTranslationMP3PlayerState,
+  changeUUIDPlaying,
 } from "./actions";
 import { useSelector } from "react-redux";
 
@@ -118,28 +119,6 @@ function SearchResultTranscriptSentence({
     dispatch(jumpToTime(sentence_object.start));
   }
 
-  // function handleClickedSentence(event) {
-  //   console.log(event);
-  //   dispatch(markTranslationAsDonePlaying());
-  //   dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
-  //   dispatch(updateSpeechSynthState(false));
-
-  //   dispatch(jumpToTime(sentence_object.start));
-  //   console.log("------------ markEnglish");
-
-  //   console.log("TranscriptSentence 136");
-
-  //   dispatch(
-  //     markEnglishAsPlaying({
-  //       english_time_code_from_db: sentence_object.start,
-  //       english_uuid: sentence_object.uuid,
-  //       type_curently_playing: "English",
-  //     })
-  //   );
-
-  //   //dispatch(markEnglishAsPlaying(sentence_object.start, sentence_object.uuid));
-  // }
-
   function handleTranslatedClickedSentence(event) {
     console.log(
       "=========================================================================="
@@ -166,6 +145,10 @@ function SearchResultTranscriptSentence({
       dispatch(
         recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
       );
+    }
+
+    if (translatedUUID !== undefined) {
+      dispatch(changeUUIDPlaying(translatedUUID));
     }
   }
 
@@ -196,17 +179,6 @@ function SearchResultTranscriptSentence({
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
           >
-            <ButtonDiv
-              style={{ justiftyContent: "center", alignItems: "center" }}
-            >
-              <TranslationButton onClick={handlePlayPauseEnglish}>
-                {mp3PlayState === "playing" ? (
-                  <IoIosPause size={buttonSize} />
-                ) : (
-                  <IoIosPlay size={buttonSize} />
-                )}
-              </TranslationButton>
-            </ButtonDiv>
             <SentenceHighlighted>
               {sentence_object.speaker}:{" "}
               {combined_english.map((element, i) => {
@@ -225,7 +197,10 @@ function SearchResultTranscriptSentence({
               })}
             </SentenceHighlighted>
           </SentencePlayingDiv>
-          <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
+          <SentencePlayingDiv
+            onClick={handleTranslatedClickedSentence}
+            id={translatedUUID}
+          >
             <Sentence className="”notranslate”">
               {sentence_object.speaker}:{" "}
               {combined_translated.map((element, i) => {
@@ -274,18 +249,10 @@ function SearchResultTranscriptSentence({
             </Sentence>
           </SentencePlayingDiv>
 
-          <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
-            <ButtonDiv>
-              <TranslationButton>
-                {translationMp3PlayerState ===
-                TRANSLATION_MP3_PLAYER_STATES.PAUSED ? (
-                  <IoIosPause size={buttonSize} />
-                ) : (
-                  <IoIosPlay size={buttonSize} />
-                )}
-              </TranslationButton>
-            </ButtonDiv>
-
+          <SentencePlayingDiv
+            onClick={handleTranslatedClickedSentence}
+            id={translatedUUID}
+          >
             <SentenceHighlighted className="”notranslate”">
               {sentence_object.speaker}:{" "}
               {combined_translated.map((element, i) => {
@@ -333,7 +300,10 @@ function SearchResultTranscriptSentence({
               })}
             </Sentence>
           </SentenceDiv>
-          <SentenceDiv onClick={handleTranslatedClickedSentence}>
+          <SentenceDiv
+            onClick={handleTranslatedClickedSentence}
+            id={translatedUUID}
+          >
             <Sentence className="”notranslate”">
               {sentence_object.speaker}:
               {combined_translated.map((element, i) => {
@@ -416,7 +386,7 @@ const SentenceHighlighted = styled.div`
 
 const Sentence = styled.div`
   background-color: white;
-  padding-left: 150px;
+  padding-left: 11px;
   color: grey;
 
   @media (max-width: 600px) {

@@ -242,11 +242,12 @@ function Scrolltext() {
                   ></TranscriptSentence>
                   {element.uuid === translationTimeCodeUUID.uuid &&
                   translationPlaying ? (
-                    <AudioDiv
+                    <AudioDivBelow
+                      controls
                       autoPlay
                       ref={audioref}
                       src={translatedAudioSrc}
-                    ></AudioDiv>
+                    ></AudioDivBelow>
                   ) : (
                     <div></div>
                   )}
@@ -297,11 +298,12 @@ function Scrolltext() {
 
                   {element.uuid === translationTimeCodeUUID.uuid &&
                   translationPlaying ? (
-                    <AudioDiv
+                    <AudioDivBelow
+                      controls
                       autoPlay
                       ref={audioref}
                       src={translatedAudioSrc}
-                    ></AudioDiv>
+                    ></AudioDivBelow>
                   ) : (
                     <div></div>
                   )}
@@ -315,21 +317,24 @@ function Scrolltext() {
   );
 }
 
-const AudioDiv = styled.audio`
-  padding-left: 150px;
-  width: 400px;
+const AudioDivBelow = styled.audio`
+  padding-left: 10px;
+  width: 95%;
+  height: 20px;
 
   @media (max-width: 600px) {
     padding-left: 0px;
   }
 
   ::-webkit-media-controls-panel {
-    background-color: white;
     /* display: flex;
     flex-direction: column; */
+    height: 20px;
+    border-radius: 5px;
   }
 
   ::-webkit-media-controls-play-button {
+    background-color: white;
   }
 
   ::-webkit-media-controls-volume-slider-container {
@@ -337,6 +342,7 @@ const AudioDiv = styled.audio`
     visibility: hidden;
   }
 `;
+
 const ScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -406,7 +412,7 @@ const Line = styled.div`
 `;
 
 const TimeDividerTop = styled.div`
-  padding-left: 150px;
+  padding-left: 11px;
   display: flex;
   flex-direction: row;
   @media (max-width: 600px) {

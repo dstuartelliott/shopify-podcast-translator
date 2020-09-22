@@ -74,17 +74,6 @@ function IntroSentence({
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
           >
-            <ButtonDiv
-              style={{ justiftyContent: "center", alignItems: "center" }}
-            >
-              <TranslationButton onClick={handlePlayPauseEnglish}>
-                {mp3PlayState === "playing" ? (
-                  <IoIosPause size={buttonSize} />
-                ) : (
-                  <IoIosPlay size={buttonSize} />
-                )}
-              </TranslationButton>
-            </ButtonDiv>
             <SentenceHighlighted>
               {sentence_object.english_sentence}
             </SentenceHighlighted>
@@ -168,7 +157,7 @@ const SentenceHighlighted = styled.div`
 
 const Sentence = styled.div`
   background-color: white;
-  padding-left: 150px;
+  padding-left: 11px;
   color: grey;
 
   @media (max-width: 600px) {

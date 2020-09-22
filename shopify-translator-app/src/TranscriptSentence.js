@@ -9,6 +9,7 @@ import {
   markTranslationAsDonePlaying,
   recordMP3PlayerState,
   recordTranslationMP3PlayerState,
+  changeUUIDPlaying,
 } from "./actions";
 import { useSelector } from "react-redux";
 import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
@@ -21,6 +22,7 @@ function TranscriptSentence({
   sentence_object,
   englishHighlighted,
   translatedHightlighted,
+  translatedUUID,
 }) {
   console.log(englishHighlighted);
   const dispatch = useDispatch();
@@ -66,21 +68,10 @@ function TranscriptSentence({
         recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
       );
     }
-  }
 
-  function handlePlayPauseEnglish(event) {
-    console.log(" handlePlayPauseEnglish pausing");
-    console.log(" ***********************************");
-
-    if (mp3PlayState === MP3_PLAYER_STATES.PAUSED) {
-      // dispatch(jumpToTime(-99.99));
-      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
-    } else if (mp3PlayState === MP3_PLAYER_STATES.PLAYING) {
-      // dispatch(jumpToTime(curentTime));
-      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
+    if (translatedUUID !== undefined) {
+      dispatch(changeUUIDPlaying(translatedUUID));
     }
-
-    event.stopPropagation();
   }
 
   let buttonSize = 15;
@@ -95,22 +86,14 @@ function TranscriptSentence({
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
           >
-            <ButtonDiv
-              style={{ justiftyContent: "center", alignItems: "center" }}
-            >
-              <TranslationButton onClick={handlePlayPauseEnglish}>
-                {mp3PlayState === "playing" ? (
-                  <IoIosPause size={buttonSize} />
-                ) : (
-                  <IoIosPlay size={buttonSize} />
-                )}
-              </TranslationButton>
-            </ButtonDiv>
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </SentenceHighlighted>
           </SentencePlayingDiv>
-          <SentenceDiv onClick={handleTranslatedClickedSentence}>
+          <SentenceDiv
+            onClick={handleTranslatedClickedSentence}
+            id={translatedUUID}
+          >
             <Sentence className="”notranslate”">
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </Sentence>
@@ -130,18 +113,10 @@ function TranscriptSentence({
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
           </SentenceDiv>
-          <SentencePlayingDiv onClick={handleTranslatedClickedSentence}>
-            <ButtonDiv>
-              <TranslationButton>
-                {translationMp3PlayerState ===
-                TRANSLATION_MP3_PLAYER_STATES.PAUSED ? (
-                  <IoIosPause size={buttonSize} />
-                ) : (
-                  <IoIosPlay size={buttonSize} />
-                )}
-              </TranslationButton>
-            </ButtonDiv>
-
+          <SentencePlayingDiv
+            onClick={handleTranslatedClickedSentence}
+            id={translatedUUID}
+          >
             <SentenceHighlighted className="”notranslate”">
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </SentenceHighlighted>
@@ -161,7 +136,10 @@ function TranscriptSentence({
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
           </SentenceDiv>
-          <SentenceDiv onClick={handleTranslatedClickedSentence}>
+          <SentenceDiv
+            onClick={handleTranslatedClickedSentence}
+            id={translatedUUID}
+          >
             <Sentence className="”notranslate”">
               {sentence_object.speaker}: {sentence_object.translated_sentence}
             </Sentence>
@@ -234,7 +212,7 @@ const SentenceHighlighted = styled.div`
 
 const Sentence = styled.div`
   background-color: white;
-  padding-left: 150px;
+  padding-left: 11px;
   color: grey;
 
   @media (max-width: 600px) {
