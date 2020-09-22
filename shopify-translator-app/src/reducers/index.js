@@ -149,8 +149,6 @@ export const getSimplifiedSentences = (state) => {
       if (element.word.word.start === undefined) {
         start = element.word.start;
         start = Math.round((start + Number.EPSILON) * 100) / 100;
-
-        console.log("");
       } else {
         start = element.word.word.start;
         start = Math.round((start + Number.EPSILON) * 100) / 100;

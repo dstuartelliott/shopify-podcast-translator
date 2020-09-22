@@ -109,9 +109,10 @@ function Scrolltext() {
   //uuidPlaying
   React.useEffect(() => {
     console.log("uuidPlaying changed");
-    console.log(uuidPlaying);
 
     if (uuidPlaying !== undefined) {
+      setcurrentUUID(uuidPlaying);
+
       let element = document.getElementById(uuidPlaying.uuid);
       if (element !== null && element !== undefined) {
         element.scrollIntoView({
@@ -119,7 +120,6 @@ function Scrolltext() {
           block: "nearest",
         });
       }
-      setcurrentUUID(uuidPlaying);
     }
 
     // setcurrentUUID(english_uuid);
@@ -130,8 +130,10 @@ function Scrolltext() {
       podcast_player_state === "playing" ||
       podcast_player_state === "paused"
     ) {
-      setplayerWasClicked(true);
-      console.log("setting player state");
+      if (playerWasClicked === false) {
+        setplayerWasClicked(true);
+        console.log("setting player state");
+      }
     }
     // eslint-disable-next-line
   }, [podcast_player_state]);
@@ -202,14 +204,10 @@ function Scrolltext() {
                   <TranscriptSentence
                     sentence_object={element}
                     key={element.uuid}
-                    englishHighlighted={
-                      element.uuid === currentUUID.uuid &&
-                      translationPlaying === false
-                    }
+                    englishHighlighted={element.uuid === currentUUID.uuid}
                     translatedUUID={element.uuid + "trans"}
                     translatedHightlighted={
-                      element.uuid === translationTimeCodeUUID.uuid &&
-                      translationPlaying
+                      element.uuid === translationTimeCodeUUID.uuid
                     }
                     next_start_time={element.next_start_time}
                   ></TranscriptSentence>

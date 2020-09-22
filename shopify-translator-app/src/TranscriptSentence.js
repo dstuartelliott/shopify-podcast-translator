@@ -17,6 +17,8 @@ import { getTranslationMP3PlayerState } from "./reducers";
 
 import { useDispatch } from "react-redux";
 
+import useForceUpdate from "use-force-update";
+
 function TranscriptSentence({
   sentence_object,
   englishHighlighted,
@@ -24,19 +26,42 @@ function TranscriptSentence({
   translatedUUID,
 }) {
   const dispatch = useDispatch();
+  const forceUpdate = useForceUpdate();
 
   let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
+  React.useEffect(() => {
+    console.log("re-render");
+
+    // eslint-disable-next-line
+  }, []);
+
+  React.useEffect(() => {
+    console.log("englishHighlighted re-render");
+
+    // eslint-disable-next-line
+  }, [englishHighlighted]);
 
   function handleClickedSentence(event) {
+    englishHighlighted = true;
+    translatedHightlighted = false;
+
     console.log(event);
     console.log(sentence_object);
     dispatch(markTranslationAsDonePlaying());
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+    dispatch(changeUUIDPlaying(sentence_object.uuid));
+    dispatch(
+      recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+    );
 
     dispatch(jumpToTime(sentence_object.start));
+    forceUpdate();
   }
 
   function handleTranslatedClickedSentence(event) {
+    englishHighlighted = false;
+    translatedHightlighted = true;
+
     dispatch(
       markTranslationAsPlaying({
         translation_time_code: sentence_object.start,

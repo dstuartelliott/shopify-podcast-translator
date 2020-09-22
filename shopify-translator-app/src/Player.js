@@ -27,7 +27,7 @@ let prev;
 let next;
 let current;
 let last_time_frame = 0.0;
-
+// eslint-disable-next-line
 let current_uuid;
 
 function Player() {
@@ -62,24 +62,34 @@ function Player() {
   }, [timeToJumpTo]);
 
   function quickishFindUUID(current_time) {
-    if (
-      current_uuid !== undefined &&
-      current_time > current_uuid.start &&
-      current_time < current_uuid.end
-    ) {
-      //console.log("already found");
-    } else {
-      //console.log("doing search");
+    let uuid = uuids_and_times.find(
+      (element) => current_time > element.start && current_time < element.end
+    );
 
-      let uuid = uuids_and_times.find(
-        (element) => current_time > element.start && current_time < element.end
-      );
-
-      if (uuid !== undefined) {
-        current_uuid = uuid;
-        dispatch(changeUUIDPlaying(uuid));
-      }
+    if (uuid !== undefined) {
+      current_uuid = uuid;
+      translationPlaying
+        ? dispatch(changeUUIDPlaying(uuid + "trans"))
+        : dispatch(changeUUIDPlaying(uuid));
     }
+    // if (
+    //   current_uuid !== undefined &&
+    //   current_time > current_uuid.start &&
+    //   current_time < current_uuid.end &&
+    // ) {
+    //   //console.log("already found");
+    // } else {
+    //   //console.log("doing search");
+
+    //   let uuid = uuids_and_times.find(
+    //     (element) => current_time > element.start && current_time < element.end
+    //   );
+
+    //   if (uuid !== undefined) {
+    //     current_uuid = uuid;
+    //     dispatch(changeUUIDPlaying(uuid));
+    //   }
+    // }
   }
 
   function announceListen(event) {
@@ -91,12 +101,12 @@ function Player() {
     if (Math.abs(last_time_frame - current_time) > 2.0) {
       // console.log("========----==========================================");
       // console.log("likely jog");
-      aSynchFindUUID(current_time);
+      // aSynchFindUUID(current_time);
     }
 
     last_time_frame = current_time;
   }
-
+  // eslint-disable-next-line
   async function aSynchFindUUID(current_time) {
     let array_i;
     let closest_to_previous_end = 99999999999.0;
