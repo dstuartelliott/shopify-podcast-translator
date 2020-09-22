@@ -145,12 +145,23 @@ export const getSimplifiedSentences = (state) => {
 
       let time_string = minutes + ":" + Math.floor(seconds);
 
+      let start;
+      if (element.word.word.start === undefined) {
+        start = element.word.start;
+        start = Math.round((start + Number.EPSILON) * 100) / 100;
+
+        console.log("");
+      } else {
+        start = element.word.word.start;
+        start = Math.round((start + Number.EPSILON) * 100) / 100;
+      }
+
       simplified_transcript.push({
         english_sentence: element.english_sentence,
         translated_sentence: element.translated_sentence,
         speaker: element.speaker,
         uuid: element.uuid,
-        start: element.word.word.start,
+        start: start,
         end: last_time,
         next_start_time: next_start_time,
         time_string: time_string,

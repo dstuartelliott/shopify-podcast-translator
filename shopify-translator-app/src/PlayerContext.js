@@ -236,6 +236,10 @@ export const PlayerContextProvider = ({ children }) => {
         }
       }
 
+      if (start === undefined) {
+        console.log("");
+      }
+
       simplified_time.push({
         uuid: element.uuid,
         start: start,
