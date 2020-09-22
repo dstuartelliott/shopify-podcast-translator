@@ -3,6 +3,11 @@ export const addCurrentTime = (time) => ({
   time,
 });
 
+export const changeUUIDPlaying = (uuid) => ({
+  type: "CHANGE_UUID_PLAYING",
+  uuid,
+});
+
 export const addTranscript = (transcript) => ({
   type: "ADD_TRANSCRIPT",
   transcript,

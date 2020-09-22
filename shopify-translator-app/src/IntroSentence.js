@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components";
-import { SpeechSynthContext } from "./SpeechSynthContext";
 import { IoIosPlay, IoIosPause } from "react-icons/io";
 import { MP3_PLAYER_STATES } from "./constants";
 import {
@@ -28,14 +27,9 @@ function IntroSentence({
 
   let mp3PlayState = useSelector(getMP3PlayerState);
 
-  const {
-    actions: { cancelAllSpeech },
-  } = React.useContext(SpeechSynthContext);
-
   function handleClickedSentence(event) {
     console.log(event);
     console.log(sentence_object.start);
-    cancelAllSpeech();
     dispatch(markTranslationAsDonePlaying());
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
     dispatch(updateSpeechSynthState(false));

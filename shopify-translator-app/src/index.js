@@ -5,8 +5,6 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { PlayerContextProvider } from "./PlayerContext";
 
-import { SpeechSynthContextProvider } from "./SpeechSynthContext";
-
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import reducer from "./reducers";
@@ -21,11 +19,9 @@ document.title = "Shopify Masters - Translated!";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <SpeechSynthContextProvider>
-        <PlayerContextProvider>
-          <App />
-        </PlayerContextProvider>
-      </SpeechSynthContextProvider>
+      <PlayerContextProvider>
+        <App />
+      </PlayerContextProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
