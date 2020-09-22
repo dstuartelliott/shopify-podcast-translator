@@ -37,8 +37,6 @@ function IntroSentence({
         type_curently_playing: "English",
       })
     );
-
-    //dispatch(markEnglishAsPlaying(sentence_object.start, sentence_object.uuid));
   }
 
   // this might look ugly, but it's better than a bunch of nesteed ternary statements imho
@@ -75,7 +73,6 @@ function IntroSentence({
   }
 }
 
-// Desktop
 const Wrapper = styled.div`
   z-index: 2;
   text-align: left;

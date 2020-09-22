@@ -23,7 +23,6 @@ function TranscriptSentence({
   translatedHightlighted,
   translatedUUID,
 }) {
-  console.log(englishHighlighted);
   const dispatch = useDispatch();
 
   let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
@@ -37,14 +36,6 @@ function TranscriptSentence({
   }
 
   function handleTranslatedClickedSentence(event) {
-    console.log(
-      "=========================================================================="
-    );
-
-    console.log(event);
-    console.log(sentence_object);
-
-    // playSpeechInSynthContext(sentence_object);
     dispatch(
       markTranslationAsPlaying({
         translation_time_code: sentence_object.start,
@@ -147,9 +138,6 @@ function TranscriptSentence({
   }
 }
 
-//audio styling
-
-// Desktop
 const Wrapper = styled.div`
   z-index: 2;
   text-align: left;
