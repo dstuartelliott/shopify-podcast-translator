@@ -1,3 +1,8 @@
+export const changeTranslation = (showTranslation) => ({
+  type: "CHANGE_TRANSLATION_SHOWING",
+  showTranslation,
+});
+
 export const addCurrentTime = (time) => ({
   type: "ADD_CURRENT_TIME",
   time,

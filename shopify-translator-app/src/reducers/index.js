@@ -2,6 +2,10 @@ const initialState = {};
 
 export default function appReducer(state = initialState, action) {
   switch (action.type) {
+    case "CHANGE_TRANSLATION_SHOWING": {
+      return { ...state, showTranslation: action.showTranslation };
+    }
+
     case "ADD_CURRENT_TIME": {
       return { ...state, current_time: action.time };
     }
@@ -211,6 +215,13 @@ export const getCurrentTime = (state) => {
   //    state.current_time;
   if (state.current_time !== undefined) {
     return state.current_time.current_time;
+  }
+};
+
+export const getShowTranslation = (state) => {
+  //    state.current_time;
+  if (state.showTranslation !== undefined) {
+    return state.showTranslation;
   }
 };
 

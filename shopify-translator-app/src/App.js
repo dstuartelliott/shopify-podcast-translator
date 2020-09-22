@@ -10,7 +10,7 @@ import Player from "./Player";
 import Scrolltext from "./Scrolltext";
 import "focus-visible";
 
-import { markEnglishAsPlaying } from "./actions";
+import { markEnglishAsPlaying, changeTranslation } from "./actions";
 
 function App() {
   //eslint-disable-next-line
@@ -20,7 +20,7 @@ function App() {
   //test
   React.useEffect(() => {
     dispatch(markEnglishAsPlaying(0.0, "TBD"));
-
+    dispatch(changeTranslation(true));
     // eslint-disable-next-line
   }, []);
 

@@ -13,7 +13,7 @@ import {
 import { useSelector } from "react-redux";
 import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
 
-import { getTranslationMP3PlayerState } from "./reducers";
+import { getTranslationMP3PlayerState, getShowTranslation } from "./reducers";
 
 import { useDispatch } from "react-redux";
 
@@ -37,6 +37,10 @@ function TranscriptSentence({
 
     // eslint-disable-next-line
   }, [englishHighlighted]);
+
+  let showTranslation = useSelector(getShowTranslation);
+
+  // const [showTranslation, setshowTranslation] = React.useState(false);
 
   function handleClickedSentence(event) {
     englishHighlighted = true;
@@ -100,14 +104,18 @@ function TranscriptSentence({
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </SentenceHighlighted>
           </SentencePlayingDiv>
-          <SentenceDiv
-            onClick={handleTranslatedClickedSentence}
-            id={translatedUUID}
-          >
-            <Sentence className="”notranslate”">
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </Sentence>
-          </SentenceDiv>
+          {showTranslation ? (
+            <SentenceDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <Sentence className="”notranslate”">
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </Sentence>
+            </SentenceDiv>
+          ) : (
+            <div></div>
+          )}
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -123,14 +131,18 @@ function TranscriptSentence({
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
           </SentenceDiv>
-          <SentencePlayingDiv
-            onClick={handleTranslatedClickedSentence}
-            id={translatedUUID}
-          >
-            <SentenceHighlighted className="”notranslate”">
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </SentenceHighlighted>
-          </SentencePlayingDiv>
+          {showTranslation ? (
+            <SentencePlayingDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <SentenceHighlighted className="”notranslate”">
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </SentenceHighlighted>
+            </SentencePlayingDiv>
+          ) : (
+            <div></div>
+          )}
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -146,14 +158,18 @@ function TranscriptSentence({
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </Sentence>
           </SentenceDiv>
-          <SentenceDiv
-            onClick={handleTranslatedClickedSentence}
-            id={translatedUUID}
-          >
-            <Sentence className="”notranslate”">
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </Sentence>
-          </SentenceDiv>
+          {showTranslation ? (
+            <SentenceDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <Sentence className="”notranslate”">
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </Sentence>
+            </SentenceDiv>
+          ) : (
+            <div></div>
+          )}
         </SentenceAndSpeaker>
       </Wrapper>
     );
