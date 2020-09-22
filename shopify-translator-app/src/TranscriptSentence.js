@@ -17,8 +17,6 @@ import { getTranslationMP3PlayerState } from "./reducers";
 
 import { useDispatch } from "react-redux";
 
-import useForceUpdate from "use-force-update";
-
 function TranscriptSentence({
   sentence_object,
   englishHighlighted,
@@ -26,7 +24,6 @@ function TranscriptSentence({
   translatedUUID,
 }) {
   const dispatch = useDispatch();
-  const forceUpdate = useForceUpdate();
 
   let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
   React.useEffect(() => {
@@ -55,7 +52,6 @@ function TranscriptSentence({
     );
 
     dispatch(jumpToTime(sentence_object.start));
-    forceUpdate();
   }
 
   function handleTranslatedClickedSentence(event) {
