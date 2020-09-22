@@ -1,16 +1,13 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components";
-import { SpeechSynthContext } from "./SpeechSynthContext";
 import { IoIosPlay, IoIosPause } from "react-icons/io";
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import {
   jumpToTime,
   markTranslationAsPlaying,
   markTranslationAsDonePlaying,
-  markEnglishAsPlaying,
   recordMP3PlayerState,
-  updateSpeechSynthState,
   recordTranslationMP3PlayerState,
 } from "./actions";
 import { useSelector } from "react-redux";
@@ -25,35 +22,18 @@ function TranscriptSentence({
   englishHighlighted,
   translatedHightlighted,
 }) {
+  console.log(englishHighlighted);
   const dispatch = useDispatch();
 
   let mp3PlayState = useSelector(getMP3PlayerState);
   let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
-  const {
-    actions: { cancelAllSpeech },
-  } = React.useContext(SpeechSynthContext);
 
   function handleClickedSentence(event) {
     console.log(event);
-    cancelAllSpeech();
     dispatch(markTranslationAsDonePlaying());
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
-    dispatch(updateSpeechSynthState(false));
 
     dispatch(jumpToTime(sentence_object.start));
-    console.log("------------ markEnglish");
-
-    console.log("TranscriptSentence 57");
-
-    dispatch(
-      markEnglishAsPlaying({
-        english_time_code_from_db: sentence_object.start,
-        english_uuid: sentence_object.uuid,
-        type_curently_playing: "English",
-      })
-    );
-
-    //dispatch(markEnglishAsPlaying(sentence_object.start, sentence_object.uuid));
   }
 
   function handleTranslatedClickedSentence(event) {

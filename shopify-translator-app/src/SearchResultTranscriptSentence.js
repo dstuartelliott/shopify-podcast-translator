@@ -7,9 +7,7 @@ import {
   jumpToTime,
   markTranslationAsPlaying,
   markTranslationAsDonePlaying,
-  markEnglishAsPlaying,
   recordMP3PlayerState,
-  updateSpeechSynthState,
   recordTranslationMP3PlayerState,
 } from "./actions";
 import { useSelector } from "react-redux";
@@ -116,23 +114,31 @@ function SearchResultTranscriptSentence({
     console.log(event);
     dispatch(markTranslationAsDonePlaying());
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
-    dispatch(updateSpeechSynthState(false));
 
     dispatch(jumpToTime(sentence_object.start));
-    console.log("------------ markEnglish");
-
-    console.log("TranscriptSentence 136");
-
-    dispatch(
-      markEnglishAsPlaying({
-        english_time_code_from_db: sentence_object.start,
-        english_uuid: sentence_object.uuid,
-        type_curently_playing: "English",
-      })
-    );
-
-    //dispatch(markEnglishAsPlaying(sentence_object.start, sentence_object.uuid));
   }
+
+  // function handleClickedSentence(event) {
+  //   console.log(event);
+  //   dispatch(markTranslationAsDonePlaying());
+  //   dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+  //   dispatch(updateSpeechSynthState(false));
+
+  //   dispatch(jumpToTime(sentence_object.start));
+  //   console.log("------------ markEnglish");
+
+  //   console.log("TranscriptSentence 136");
+
+  //   dispatch(
+  //     markEnglishAsPlaying({
+  //       english_time_code_from_db: sentence_object.start,
+  //       english_uuid: sentence_object.uuid,
+  //       type_curently_playing: "English",
+  //     })
+  //   );
+
+  //   //dispatch(markEnglishAsPlaying(sentence_object.start, sentence_object.uuid));
+  // }
 
   function handleTranslatedClickedSentence(event) {
     console.log(

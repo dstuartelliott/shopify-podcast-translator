@@ -6,6 +6,10 @@ export default function appReducer(state = initialState, action) {
       return { ...state, current_time: action.time };
     }
 
+    case "CHANGE_UUID_PLAYING": {
+      return { ...state, uuid: action.uuid };
+    }
+
     case "ADD_TRANSCRIPT": {
       // console.log("ADD_TRANSCRIPT");
       // console.log(action.transcript);
@@ -198,6 +202,15 @@ export const getCurrentTime = (state) => {
   //    state.current_time;
   if (state.current_time !== undefined) {
     return state.current_time.current_time;
+  }
+};
+
+export const getUUIDPlaying = (state) => {
+  //    state.current_time;
+  if (state.uuid !== undefined) {
+    return state.uuid;
+  } else {
+    return { uuid: "intro-uuid", start: 0.1, end: 0.2 };
   }
 };
 

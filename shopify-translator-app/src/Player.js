@@ -2,8 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
-import { SpeechSynthContext } from "./SpeechSynthContext";
-
 import styled from "styled-components";
 import "./App.css";
 import AudioPlayer from "react-h5-audio-player";
@@ -19,6 +17,7 @@ import {
 
 import {
   addCurrentTime,
+  changeUUIDPlaying,
   markEnglishAsPlaying,
   recordMP3PlayerState,
   markTranslationAsPlaying,
@@ -42,10 +41,6 @@ function Player() {
 
   const audioref = React.useRef(null);
 
-  const {
-    actions: { cancelAllSpeech },
-  } = React.useContext(SpeechSynthContext);
-
   React.useEffect(() => {
     if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
       audioref.current.audio.current.play();
@@ -64,9 +59,49 @@ function Player() {
     // eslint-disable-next-line
   }, [timeToJumpTo]);
 
+  function quickishFindUUID(current_time) {
+    // console.log("quickishFindUUID");
+    // console.log(current_time);
+
+    let uuid = uuids_and_times.find(
+      (element) => current_time > element.start && current_time < element.end
+    );
+
+    // if (uuid !== undefined) {
+    //   dispatch(
+    //     markEnglishAsPlaying({
+    //       time_code_from_player: current_time,
+    //       english_time_code_from_db: uuid.start,
+    //       english_uuid: uuid.uuid,
+    //       type_curently_playing: "English",
+    //     })
+    //   );
+    if (uuid !== undefined) {
+      dispatch(changeUUIDPlaying(uuid));
+    }
+    // if (
+    //   current_time > current_english_uuid.start &&
+    //   current_time < current_english_uuid.end
+    // ) {
+    //   // do nothing
+    // } else {
+    //   let uuid = uuids_and_times.find(
+    //     (element) => current_time > element.start && current_time < element.end
+    //   );
+
+    //   current_english_uuid = uuid;
+    // }
+    // let uuid = uuids_and_times.find(
+    //   (element) => current_time > element.start && current_time < element.end
+    // );
+
+    // console.log(current_english_uuid);
+  }
+
   function announceListen(event) {
     let current_time = event.srcElement.currentTime;
 
+    quickishFindUUID(current_time);
     dispatch(addCurrentTime({ current_time }));
 
     if (Math.abs(last_time_frame - current_time) > 2.0) {
@@ -88,100 +123,88 @@ function Player() {
 
     console.log(uuids_and_times);
 
-    for (let i = 0; i < uuids_and_times.length - 1; i++) {
-      // console.log(current_time);
-      // console.log(uuids_and_times[i].start);
-      // console.log(uuids_and_times[i].end);
-
-      if (
-        current_time > uuids_and_times[i].start &&
-        current_time < uuids_and_times[i].end
-      ) {
-        array_i = i;
-        console.log("found");
-        console.log("------------------");
-      }
-
-      // let distance_to_start = current_time - uuids_and_times[i].start;
-
-      // if (distance_to_start > 0 && distance_to_start < closest_to_start) {
-      //   closest_to_start = distance_to_start;
-      //   array_i = i;
-      // }
-
-      // let total_abs_value_dist = distance_to_start + distance_to_end;
-
-      // if (total_abs_value_dist < least_total_abs_value_dist) {
-      //   least_total_abs_value_dist = total_abs_value_dist;
-
-      //   array_i = i;
-
-      //   // if (current_time < uuids_and_times[i].end) {
-      //   //   least_total_abs_value_dist = total_abs_value_dist;
-
-      //   //   array_i = i;
-      //   // }
-    }
-
-    if (array_i === undefined) {
-      console.log("array_i wasa undefined");
+    if (uuids_and_times !== undefined) {
       for (let i = 0; i < uuids_and_times.length - 1; i++) {
-        let distance_to_previous_end = uuids_and_times[i].end - current_time;
-
         if (
-          distance_to_previous_end > 0 &&
-          distance_to_previous_end < closest_to_previous_end
+          current_time > uuids_and_times[i].start &&
+          current_time < uuids_and_times[i].end
         ) {
-          closest_to_previous_end = distance_to_previous_end;
           array_i = i;
+          console.log("found");
+          console.log("------------------");
         }
       }
-    }
 
-    console.log("current time:");
+      if (array_i === undefined) {
+        console.log("array_i wasa undefined");
+        for (let i = 0; i < uuids_and_times.length - 1; i++) {
+          let distance_to_previous_end = uuids_and_times[i].end - current_time;
 
-    console.log(current_time);
+          if (
+            distance_to_previous_end > 0 &&
+            distance_to_previous_end < closest_to_previous_end
+          ) {
+            closest_to_previous_end = distance_to_previous_end;
+            array_i = i;
+          }
+        }
+      }
 
-    console.log(closest_to_start);
-    console.log(array_i);
-    console.log(uuids_and_times[array_i]);
+      console.log("current time:");
 
-    if (array_i === 0) {
-      prev = uuids_and_times[array_i];
-    } else {
-      prev = uuids_and_times[array_i - 1];
-    }
+      console.log(current_time);
 
-    if (array_i === [uuids_and_times.length - 1]) {
-      next = uuids_and_times[array_i];
-    } else {
-      next = uuids_and_times[array_i + 1];
-    }
+      console.log(closest_to_start);
+      console.log(array_i);
+      console.log(uuids_and_times[array_i]);
 
-    current = uuids_and_times[array_i];
+      let uuid = uuids_and_times.find(
+        (element) => current_time > element.start && current_time < element.end
+      );
 
-    console.log(array_i);
-    if (array_i !== undefined) {
-      console.log("Player  162");
+      if (array_i === 0) {
+        prev = uuids_and_times[array_i];
+      } else {
+        prev = uuids_and_times[array_i - 1];
+      }
 
-      if (translationPlaying === false) {
-        dispatch(
-          markEnglishAsPlaying({
-            time_code_from_player: current_time,
-            english_time_code_from_db: current.start,
-            english_uuid: current.uuid,
-            type_curently_playing: "English",
-            prev_uuid: prev.start,
-            prev_tc: prev.start,
-            next_uuid: next.uuid,
-            next_tc: next.start,
-          })
-        );
-      } else if (translationPlaying) {
-        markTranslationAsPlaying({
-          time: current_time,
-          translated_uuid: current.uuid,
-        });
+      if (array_i === [uuids_and_times.length - 1]) {
+        next = uuids_and_times[array_i];
+      } else {
+        next = uuids_and_times[array_i + 1];
+      }
+
+      current = uuids_and_times[array_i];
+
+      console.log(array_i);
+      if (array_i !== undefined) {
+        console.log("Player  162");
+
+        if (uuid !== undefined) {
+          dispatch(changeUUIDPlaying(uuid));
+        }
+
+        if (translationPlaying === false) {
+          dispatch(
+            markEnglishAsPlaying({
+              time_code_from_player: current_time,
+              english_time_code_from_db: current.start,
+              english_uuid: current.uuid,
+              type_curently_playing: "English",
+              prev_uuid: prev.start,
+              prev_tc: prev.start,
+              next_uuid: next.uuid,
+              next_tc: next.start,
+            })
+          );
+        } else if (translationPlaying) {
+          dispatch(
+            markTranslationAsPlaying({
+              time: current_time,
+              translated_uuid: current.uuid,
+            })
+          );
+        }
       }
     }
   }
@@ -192,105 +215,7 @@ function Player() {
 
   function onPlayListen(event) {
     if (mp3PlayerState !== "playing") {
-      console.log("onPlayListen");
-
-      // TODO: Change back from true
-      if (
-        current === undefined ||
-        next.start - event.srcElement.currentTime < 3.0 ||
-        true
-      ) {
-        let current_time = event.srcElement.currentTime;
-        console.log(event.srcElement.currentTime);
-        cancelAllSpeech();
-        console.log(uuids_and_times);
-
-        let array_i;
-        let closest_to_start = 9999999999999999.0;
-        let closest_to_previous_end = 99999999999.0;
-        for (let i = 0; i < uuids_and_times.length - 1; i++) {
-          if (
-            current_time > uuids_and_times[i].start &&
-            current_time < uuids_and_times[i].end
-          ) {
-            array_i = i;
-            console.log("found");
-            console.log("------------------");
-          }
-        }
-
-        if (array_i === undefined) {
-          console.log("array_i wasa undefined");
-          for (let i = 0; i < uuids_and_times.length - 1; i++) {
-            let distance_to_previous_end =
-              uuids_and_times[i].end - current_time;
-
-            if (
-              distance_to_previous_end > 0 &&
-              distance_to_previous_end < closest_to_previous_end
-            ) {
-              closest_to_previous_end = distance_to_previous_end;
-              array_i = i;
-            }
-          }
-        }
-
-        console.log("current time:");
-
-        console.log(current_time);
-
-        console.log(closest_to_start);
-        console.log(array_i);
-        console.log(uuids_and_times[array_i]);
-
-        if (array_i === 0) {
-          prev = uuids_and_times[array_i];
-        } else {
-          prev = uuids_and_times[array_i - 1];
-        }
-
-        if (array_i === [uuids_and_times.length - 1]) {
-          next = uuids_and_times[array_i];
-        } else {
-          next = uuids_and_times[array_i + 1];
-        }
-
-        current = uuids_and_times[array_i];
-
-        console.log(array_i);
-        if (array_i !== undefined) {
-          console.log("Player  259");
-
-          if (translationPlaying === false) {
-            dispatch(
-              markEnglishAsPlaying({
-                time_code_from_player: current_time,
-                english_time_code_from_db: current.start,
-                english_uuid: current.uuid,
-                type_curently_playing: "English",
-                prev_uuid: prev.start,
-                prev_tc: prev.start,
-                next_uuid: next.uuid,
-                next_tc: next.start,
-              })
-            );
-          } else if (translationPlaying) {
-            markTranslationAsPlaying({
-              time: current_time,
-              translated_uuid: current.uuid,
-            });
-          }
-        } else {
-          if (translationPlaying === false) {
-            console.log("Player 282");
-            dispatch(markEnglishAsPlaying(event.srcElement.currentTime, "TBD"));
-          }
-        }
-
-        dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
-
-        console.log(event);
-      }
+      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
     }
   }
 

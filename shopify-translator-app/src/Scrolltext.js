@@ -22,6 +22,7 @@ import {
   getMP3PlayerState,
   getSearchResults,
   getTranslationMP3PlayerState,
+  getUUIDPlaying,
 } from "./reducers";
 
 import {
@@ -43,7 +44,13 @@ function Scrolltext() {
 
   let simplifiedSentences = useSelector(getSimplifiedSentences);
 
-  const [currentUUID, setcurrentUUID] = React.useState("");
+  let uuidPlaying = useSelector(getUUIDPlaying);
+
+  const [currentUUID, setcurrentUUID] = React.useState({
+    uuid: "intro-uuid",
+    start: 0.1,
+    end: 77,
+  });
 
   const [isLoaded, setIsLoaded] = React.useState(false);
 
@@ -56,8 +63,6 @@ function Scrolltext() {
   let translationPlaying = useSelector(getTranslationPlaying);
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
 
-  let english_uuid = useSelector(getEnglishUUID);
-
   let podcast_player_state = useSelector(getMP3PlayerState);
   let translation_podcast_player_state = useSelector(
     getTranslationMP3PlayerState
@@ -68,36 +73,21 @@ function Scrolltext() {
   const audioref = React.useRef(null);
 
   React.useEffect(() => {
-    console.log("translationPlaying changed");
-    console.log(translationPlaying);
+    // console.log("translationPlaying changed");
+    // console.log(translationPlaying);
 
-    console.log(audioref);
-    console.log(audioref.current);
+    // console.log(audioref);
+    // console.log(audioref.current);
 
-    console.log(translationTimeCodeUUID);
+    // console.log(translationTimeCodeUUID);
     let filename =
       "https://us-east-1.linodeobjects.com/podcast-files/second/" +
       translationTimeCodeUUID.translated_filename;
-    console.log(filename);
+    // console.log(filename);
     setTranslatedAudioSource(filename);
   }, [translationTimeCodeUUID, translationPlaying]);
 
-  React.useEffect(() => {
-    if (audioref.current !== null) {
-      if (
-        translation_podcast_player_state ===
-        TRANSLATION_MP3_PLAYER_STATES.PLAYING
-      ) {
-        audioref.current.play();
-      } else if (
-        translation_podcast_player_state ===
-        TRANSLATION_MP3_PLAYER_STATES.PAUSED
-      ) {
-        audioref.current.pause();
-      }
-    }
-  }, [translation_podcast_player_state]);
-
+  // loadup
   React.useEffect(() => {
     async function getTranscriptSentences() {
       console.log("expensive transcript operation");
@@ -127,39 +117,6 @@ function Scrolltext() {
 
       let sentenceAndGoodWordCombined = [];
       sorted_combined.forEach((element, i) => {
-        // // TODO: I could go in and hand correct the data, but I think it's more instructive to show how I deal with bad data
-
-        let ii = 0;
-        let succesful_word = undefined;
-        while (ii < element.words.length - 1 && succesful_word === undefined) {
-          let aligned_word = element.words[ii];
-
-          if (aligned_word.word.case === "success") {
-            succesful_word = aligned_word;
-          }
-          ii = ii + 1;
-        }
-
-        let last_word;
-
-        if (element.words[element.words.length - 1] === undefined) {
-          console.log("");
-        }
-        let case_from_element =
-          element.words[element.words.length - 1].word.case;
-        let case_from_element_unnested_words =
-          element.words[element.words.length - 1].case;
-
-        if (
-          case_from_element === "success" ||
-          case_from_element_unnested_words === "success"
-        ) {
-          last_word = element.words[element.words.length - 1];
-        } else {
-          // is the next word available?
-          last_word = undefined;
-        }
-
         let speaker = element.speaker;
         //check the first word in translation
         let translated_filename = "";
@@ -191,29 +148,55 @@ function Scrolltext() {
           speaker = sorted_combined[i - 1].speaker;
         }
 
-        // if (element.speaker.length > 10) {
-        //   let spaces = element.speaker.split(" ");
+        // if (succesful_word !== undefined) {
+        //   sentenceAndGoodWordCombined.push({
+        //     english_sentence: element.english,
+        //     translated_sentence: element.translation,
+        //     speaker: speaker,
+        //     word: succesful_word,
+        //     last_word: last_word,
+        //     // words: element.words,
+        //     // full_sentences_i: element.full_sentences_i,
+        //     uuid: element.uuid,
+        //     // isHighlighted: false,
+        //     // highlightedLang: "none",
+        //     translated_filename: translated_filename,
+        //   });
 
-        //   if (spaces.length > 3) {
-        //     speaker = sorted_combined[i - 1].speaker;
-        //   }
-        // }
+        let first_succesful_word = element.words.find(
+          (word) => word.word.case === "success"
+        );
 
-        if (succesful_word !== undefined) {
-          sentenceAndGoodWordCombined.push({
-            english_sentence: element.english,
-            translated_sentence: element.translation,
-            speaker: speaker,
-            word: succesful_word,
-            last_word: last_word,
-            // words: element.words,
-            // full_sentences_i: element.full_sentences_i,
-            uuid: element.uuid,
-            // isHighlighted: false,
-            // highlightedLang: "none",
-            translated_filename: translated_filename,
-          });
+        if (first_succesful_word === undefined) {
+          first_succesful_word = element.words.find(
+            (word) => word.case === "success"
+          );
         }
+
+        let reversed = element.words.reverse();
+        let last_succesful_word = reversed.find(
+          (word) => word.word.case === "success"
+        );
+
+        if (last_succesful_word === undefined) {
+          last_succesful_word = reversed.find(
+            (word) => word.case === "success"
+          );
+        }
+
+        sentenceAndGoodWordCombined.push({
+          english_sentence: element.english,
+          translated_sentence: element.translation,
+          speaker: speaker,
+          word: first_succesful_word,
+          last_word: last_succesful_word,
+          // words: element.words,
+          // full_sentences_i: element.full_sentences_i,
+          uuid: element.uuid,
+          // isHighlighted: false,
+          // highlightedLang: "none",
+          translated_filename: translated_filename,
+        });
       });
 
       let intro_section = {
@@ -249,19 +232,48 @@ function Scrolltext() {
 
       let simplified_time = [];
       sentenceAndGoodWordCombined.forEach((element, i) => {
-        let last_time;
-        if (element.last_word === undefined) {
-          let next_i = i + 1;
-          let potential =
-            sentenceAndGoodWordCombined[next_i].word.word.start - 0.05;
-          last_time = potential;
+        // let last_time;
+        // if (element.last_word === undefined) {
+        //   let next_i = i + 1;
+        //   let potential =
+        //     sentenceAndGoodWordCombined[next_i].word.word.start - 0.05;
+        //   last_time = potential;
+        // } else {
+        //   last_time = element.last_word.word.end;
+        // }
+
+        let start;
+        if (element.word.word.start !== undefined) {
+          start = element.word.word.start;
         } else {
-          last_time = element.last_word.word.end;
+          if (element.word.start !== undefined) {
+            start = element.word.start;
+            console.log("start");
+          }
         }
+
+        let end;
+        if (element.last_word.word.end !== undefined) {
+          end = element.last_word.word.end;
+        } else {
+          if (element.last_word.end !== undefined) {
+            end = element.last_word.end;
+            console.log("end");
+          }
+        }
+
+        // let end;
+
+        // if (element.word.word.last_word === undefined) {
+        //   end = element.word.last_word.end;
+        // } else {
+        //   end = element.word.word.last_word.end;
+        // }
+
         simplified_time.push({
           uuid: element.uuid,
-          start: element.word.word.start,
-          end: last_time,
+          start: start,
+          end: end,
         });
       });
 
@@ -279,18 +291,54 @@ function Scrolltext() {
   }, []);
 
   React.useEffect(() => {
-    console.log("english UUID changed");
-    console.log(english_uuid);
-
-    let element = document.getElementById(english_uuid);
-    if (element !== null && element !== undefined) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-      });
+    if (audioref.current !== null) {
+      if (
+        translation_podcast_player_state ===
+        TRANSLATION_MP3_PLAYER_STATES.PLAYING
+      ) {
+        audioref.current.play();
+      } else if (
+        translation_podcast_player_state ===
+        TRANSLATION_MP3_PLAYER_STATES.PAUSED
+      ) {
+        audioref.current.pause();
+      }
     }
-    setcurrentUUID(english_uuid);
-  }, [english_uuid]);
+  }, [translation_podcast_player_state]);
+
+  //english_uuid;
+  // React.useEffect(() => {
+  //   console.log("english UUID changed");
+  //   console.log(english_uuid);
+
+  //   // let element = document.getElementById(english_uuid);
+  //   // if (element !== null && element !== undefined) {
+  //   //   element.scrollIntoView({
+  //   //     behavior: "smooth",
+  //   //     block: "center",
+  //   //   });
+  //   // }
+  //   // setcurrentUUID(english_uuid);
+  // }, [english_uuid]);
+
+  //uuidPlaying
+  React.useEffect(() => {
+    console.log("uuidPlaying changed");
+    console.log(uuidPlaying);
+
+    if (uuidPlaying !== undefined) {
+      let element = document.getElementById(uuidPlaying.uuid);
+      if (element !== null && element !== undefined) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }
+      setcurrentUUID(uuidPlaying);
+    }
+
+    // setcurrentUUID(english_uuid);
+  }, [uuidPlaying]);
 
   React.useEffect(() => {
     // console.log(" useEffect podcast_player_state");
@@ -356,7 +404,8 @@ function Scrolltext() {
                   sentence_object={element}
                   key={element.uuid}
                   englishHighlighted={
-                    element.uuid === currentUUID && translationPlaying === false
+                    element.uuid === currentUUID.uuid &&
+                    translationPlaying === false
                   }
                   translatedUUID={element.uuid + "trans"}
                   translatedHightlighted={
@@ -379,7 +428,7 @@ function Scrolltext() {
                     sentence_object={element}
                     key={element.uuid}
                     englishHighlighted={
-                      element.uuid === currentUUID &&
+                      element.uuid === currentUUID.uuid &&
                       translationPlaying === false
                     }
                     translatedUUID={element.uuid + "trans"}
@@ -427,7 +476,7 @@ function Scrolltext() {
                     sentence_object={element}
                     key={element.uuid}
                     englishHighlighted={
-                      element.uuid === currentUUID &&
+                      element.uuid === currentUUID.uuid &&
                       translationPlaying === false
                     }
                     translatedUUID={element.uuid + "trans"}
