@@ -20,11 +20,7 @@ import {
   getShowTranslation,
 } from "./reducers";
 
-import {
-  COLORS_SHOPIFY_YELLOW_PALLETE,
-  COLORS_SHOPIFY_GREYS_PALLETE,
-  COLORS_SHOPIFY_BLUE_PALLETE,
-} from "./constants.js";
+import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
 
 import {
   addCurrentTime,

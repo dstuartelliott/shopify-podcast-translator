@@ -1,31 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import HeroSrc from "./images/shopify_masters_hero_small.jpg";
-import CanadaFlagSrc from "./images/640px-Flag_of_Canada_(Pantone).png";
-import QuebecFlagSrc from "./images/640px-Flag_of_Quebec.svg.png";
 
 import TopSearch from "./TopSearch";
-import { useSelector } from "react-redux";
 
-import {
-  COLORS_SHOPIFY_YELLOW_PALLETE,
-  COLORS_SHOPIFY_GREYS_PALLETE,
-  COLORS_SHOPIFY_BLUE_PALLETE,
-} from "./constants.js";
-import { getShowTranslation } from "./reducers";
-import { useDispatch } from "react-redux";
-
-import { changeTranslation } from "./actions";
+import { COLORS_SHOPIFY_YELLOW_PALLETE } from "./constants.js";
 
 function Top() {
-  const dispatch = useDispatch();
-
-  let showTranslation = useSelector(getShowTranslation);
-
-  function handleTranslationButtonClick() {
-    dispatch(changeTranslation(!showTranslation));
-  }
-
   return (
     <Wrapper>
       <HeroDiv>

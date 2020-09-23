@@ -16,7 +16,6 @@ import {
   COLORS_SHOPIFY_BLUE_PALLETE,
   COLORS_FLAG,
   COLORS_SHOPIFY_YELLOW_PALLETE,
-  COLORS_SHOPIFY_GREYS_PALLETE,
 } from "./constants.js";
 
 import { getTranslationMP3PlayerState, getShowTranslation } from "./reducers";

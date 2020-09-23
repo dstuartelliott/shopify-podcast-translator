@@ -143,7 +143,7 @@ function Scrolltext() {
       }
     }
 
-    // setcurrentUUID(english_uuid);
+    // eslint-disable-next-line
   }, [uuidPlaying, showTranslation]);
 
   React.useEffect(() => {
@@ -162,7 +162,7 @@ function Scrolltext() {
       }
     }
 
-    // setcurrentUUID(english_uuid);
+    // eslint-disable-next-line
   }, [showTranslation]);
 
   React.useEffect(() => {
