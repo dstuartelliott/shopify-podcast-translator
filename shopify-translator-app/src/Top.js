@@ -1,10 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import HeroSrc from "./images/shopify_masters_hero_small.jpg";
+import CanadaFlagSrc from "./images/640px-Flag_of_Canada_(Pantone).png";
+import QuebecFlagSrc from "./images/640px-Flag_of_Quebec.svg.png";
+
 import TopSearch from "./TopSearch";
 import { useSelector } from "react-redux";
 
-import { COLORS_SHOPIFY_YELLOW_PALLETE } from "./constants.js";
+import {
+  COLORS_SHOPIFY_YELLOW_PALLETE,
+  COLORS_SHOPIFY_GREYS_PALLETE,
+  COLORS_SHOPIFY_BLUE_PALLETE,
+} from "./constants.js";
 import { getShowTranslation } from "./reducers";
 import { useDispatch } from "react-redux";
 
@@ -42,14 +49,9 @@ function Top() {
           </SummaryText>
         </SummaryDiv>
       </HeroDiv>
-      <TranslationOnOFFButton onClick={handleTranslationButtonClick}>
-        Translation
-      </TranslationOnOFFButton>
     </Wrapper>
   );
 }
-
-const TranslationOnOFFButton = styled.button``;
 
 const SummaryText = styled.div`
   font-size: 13px;

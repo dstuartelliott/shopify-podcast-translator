@@ -4,7 +4,10 @@ import { COLORS_SHOPIFY_GREYS_PALLETE } from "./constants.js";
 
 import { useSelector } from "react-redux";
 import { getLCSentencesForSearch } from "./reducers";
-import { updateSearchResults } from "./actions";
+import {
+  updateSearchResults,
+  updateShouldTranslationsAutoPlay,
+} from "./actions";
 import { useDispatch } from "react-redux";
 
 let filtered_sentences = [];
@@ -22,6 +25,7 @@ function TopSearch() {
   }
   function findSentence(event) {
     filtered_sentences = [];
+    dispatch(updateShouldTranslationsAutoPlay(false));
 
     let sentenceSearchText = event.target.value.toLowerCase();
     let original_search_phrase = event.target.value;

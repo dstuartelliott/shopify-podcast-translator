@@ -111,3 +111,12 @@ export const setRespondToSearchState = (repsondToSearchState) => ({
 
   // type_curently_playing: "Translation",
 });
+
+export const updateShouldTranslationsAutoPlay = (
+  shouldTranslationsAutoPlay
+) => ({
+  type: "UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY",
+  shouldTranslationsAutoPlay: shouldTranslationsAutoPlay,
+
+  // type_curently_playing: "Translation",
+});

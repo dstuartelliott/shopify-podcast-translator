@@ -10,17 +10,19 @@ import Player from "./Player";
 import Scrolltext from "./Scrolltext";
 import "focus-visible";
 
+import { updateShouldTranslationsAutoPlay } from "./actions";
+
 import { markEnglishAsPlaying, changeTranslation } from "./actions";
 
 function App() {
   //eslint-disable-next-line
-
   const dispatch = useDispatch();
 
   //test
   React.useEffect(() => {
     dispatch(markEnglishAsPlaying(0.0, "TBD"));
     dispatch(changeTranslation(true));
+    dispatch(updateShouldTranslationsAutoPlay(true));
     // eslint-disable-next-line
   }, []);
 
@@ -36,6 +38,7 @@ function App() {
             <Top></Top>
           </TopDiv>
           <Player></Player>
+
           <ScrollDiv>
             <Scrolltext></Scrolltext>
           </ScrollDiv>
@@ -87,6 +90,9 @@ const GlobalStyles = createGlobalStyle`
   * {
 
   }
+  
+
+
 
 .nav-items
 {

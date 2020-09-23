@@ -120,6 +120,16 @@ export default function appReducer(state = initialState, action) {
       };
     }
 
+    case "UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY": {
+      console.log("UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY");
+      console.log(action);
+
+      return {
+        ...state,
+        shouldTranslationsAutoPlay: action.shouldTranslationsAutoPlay,
+      };
+    }
+
     default:
       return state;
   }
@@ -381,5 +391,13 @@ export const getPodcastToggleState = (state) => {
 export const getSearchResults = (state) => {
   if (state.searchResults !== undefined) {
     return { searchResults: state.searchResults };
+  }
+};
+
+export const getShouldTranslationsAutoPlay = (state) => {
+  if (state.shouldTranslationsAutoPlay !== undefined) {
+    return { shouldTranslationsAutoPlay: state.shouldTranslationsAutoPlay };
+  } else {
+    return { shouldTranslationsAutoPlay: false };
   }
 };

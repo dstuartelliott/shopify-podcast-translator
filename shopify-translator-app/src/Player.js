@@ -8,12 +8,23 @@ import AudioPlayer from "react-h5-audio-player";
 import R5stylesSmall from "./r5Audiostyles.css";
 
 import { MP3_PLAYER_STATES } from "./constants";
+
+import CanadaFlagSrc from "./images/640px-Flag_of_Canada_(Pantone).png";
+import QuebecFlagSrc from "./images/640px-Flag_of_Quebec.svg.png";
+
 import {
   getTimeToJumpTo,
   getUUIDsandTimes,
   getMP3PlayerState,
   getTranslationPlaying,
+  getShowTranslation,
 } from "./reducers";
+
+import {
+  COLORS_SHOPIFY_YELLOW_PALLETE,
+  COLORS_SHOPIFY_GREYS_PALLETE,
+  COLORS_SHOPIFY_BLUE_PALLETE,
+} from "./constants.js";
 
 import {
   addCurrentTime,
@@ -21,6 +32,7 @@ import {
   markEnglishAsPlaying,
   recordMP3PlayerState,
   markTranslationAsPlaying,
+  changeTranslation,
 } from "./actions";
 
 let prev;
@@ -42,6 +54,8 @@ function Player() {
   let translationPlaying = useSelector(getTranslationPlaying);
 
   const audioref = React.useRef(null);
+
+  let showTranslation = useSelector(getShowTranslation);
 
   React.useEffect(() => {
     if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
@@ -194,28 +208,107 @@ function Player() {
     }
   }
 
+  function handleTranslationButtonClick() {
+    dispatch(changeTranslation(!showTranslation));
+  }
+
   return (
     <PlayerWrapper id={"hello"}>
-      <AudioPlayer
-        src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
-        customAdditionalControls={[]}
-        onPlay={onPlayListen}
-        onListen={announceListen}
-        listenInterval={200}
-        onPause={onPauseListen}
-        autoPlay={false}
-        customVolumeControls={[]}
-        ref={audioref}
-        style={{
-          outline: "none",
-          paddingBottom: "0px",
-        }}
-        styles={R5stylesSmall}
-        id={"hello2"}
-      />
+      <PlayerDiv>
+        <AudioPlayer
+          src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/d51660c6-600d-4376-92ea-0e270af97b46/ep374-healthish_tc.mp3"
+          customAdditionalControls={[]}
+          onPlay={onPlayListen}
+          onListen={announceListen}
+          listenInterval={200}
+          onPause={onPauseListen}
+          autoPlay={false}
+          customVolumeControls={[]}
+          ref={audioref}
+          style={{
+            outline: "none",
+            paddingBottom: "0px",
+          }}
+          styles={R5stylesSmall}
+          id={"hello2"}
+        />
+      </PlayerDiv>
+      <TranslationBtnDiv>
+        <TranslationOnOFFButton onClick={handleTranslationButtonClick}>
+          {showTranslation ? (
+            <FlagDiv>
+              <FlagImgCanada image_source={CanadaFlagSrc}></FlagImgCanada>
+              <FlagImgQuebec image_source={QuebecFlagSrc}></FlagImgQuebec>
+            </FlagDiv>
+          ) : (
+            <FlagDiv>
+              <FlagImgCanada image_source={CanadaFlagSrc}></FlagImgCanada>
+              <FlagImgQuebecFaded
+                image_source={QuebecFlagSrc}
+              ></FlagImgQuebecFaded>
+            </FlagDiv>
+          )}
+        </TranslationOnOFFButton>
+      </TranslationBtnDiv>
     </PlayerWrapper>
   );
 }
-const PlayerWrapper = styled.div``;
+const PlayerWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  max-width: 925px;
+  justify-content: flex-end;
+  padding-bottom: 5px;
+`;
+
+const PlayerDiv = styled.div`
+  flex-grow: 4;
+`;
+
+const TranslationOnOFFButton = styled.button`
+  background-color: transparent;
+  /* border: 2px solid ${COLORS_SHOPIFY_BLUE_PALLETE.Light}; */
+  border-radius: 10px;
+  border: 0px;
+`;
+
+const TranslationBtnDiv = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-grow: 0;
+`;
+
+const FlagImgCanada = styled.div`
+  background-image: url("${(props) => props.image_source}");
+  height: 35px;
+  width: 70px;
+  background-size: contain;
+  background-repeat: no-repeat;
+`;
+const FlagImgQuebec = styled.div`
+  background-image: url("${(props) => props.image_source}");
+  height: 35px;
+  width: 70px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+const FlagImgQuebecFaded = styled.div`
+  background-image: url("${(props) => props.image_source}");
+  height: 35px;
+  width: 70px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.25;
+`;
+
+const FlagDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 150px;
+  justify-content: space-between;
+`;
 
 export default Player;
