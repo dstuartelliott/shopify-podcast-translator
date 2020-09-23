@@ -1,3 +1,8 @@
+export const changeTranslation = (showTranslation) => ({
+  type: "CHANGE_TRANSLATION_SHOWING",
+  showTranslation,
+});
+
 export const addCurrentTime = (time) => ({
   type: "ADD_CURRENT_TIME",
   time,
@@ -103,6 +108,15 @@ export const updateSearchResults = (searchResults) => ({
 export const setRespondToSearchState = (repsondToSearchState) => ({
   type: "SET_RESPOND_TO_SEARCH_RATE",
   repsondToSearchState: repsondToSearchState,
+
+  // type_curently_playing: "Translation",
+});
+
+export const updateShouldTranslationsAutoPlay = (
+  shouldTranslationsAutoPlay
+) => ({
+  type: "UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY",
+  shouldTranslationsAutoPlay: shouldTranslationsAutoPlay,
 
   // type_curently_playing: "Translation",
 });

@@ -42,6 +42,11 @@ const COLORS_SHOPIFY_GREYS_PALLETE = {
   Dark: "#C4CDD5",
 };
 
+const COLORS_FLAG = {
+  Quebec: "rgb(16, 61, 160)",
+  Canada: "rgb(197, 57, 40)",
+};
+
 export {
   LANGUAGES,
   MP3_PLAYER_STATES,
@@ -49,4 +54,5 @@ export {
   COLORS_SHOPIFY_BLUE_PALLETE,
   COLORS_SHOPIFY_YELLOW_PALLETE,
   COLORS_SHOPIFY_GREYS_PALLETE,
+  COLORS_FLAG,
 };

@@ -9,10 +9,15 @@ import {
   recordMP3PlayerState,
   recordTranslationMP3PlayerState,
   changeUUIDPlaying,
+  updateShouldTranslationsAutoPlay,
 } from "./actions";
 import { useSelector } from "react-redux";
 
-import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
+import {
+  COLORS_SHOPIFY_BLUE_PALLETE,
+  COLORS_FLAG,
+  COLORS_SHOPIFY_YELLOW_PALLETE,
+} from "./constants.js";
 
 import { getSearchResults, getTranslationMP3PlayerState } from "./reducers";
 
@@ -114,6 +119,8 @@ function SearchResultTranscriptSentence({
   }
 
   function handleTranslatedClickedSentence(event) {
+    dispatch(updateShouldTranslationsAutoPlay(true));
+
     dispatch(
       markTranslationAsPlaying({
         translation_time_code: sentence_object.start,
@@ -153,7 +160,7 @@ function SearchResultTranscriptSentence({
             id={sentence_object.uuid}
           >
             <SentenceHighlighted>
-              {sentence_object.speaker}:{" "}
+              <SpeakerEnglish>{sentence_object.speaker}</SpeakerEnglish>:{" "}
               {combined_english.map((element, i) => {
                 if (
                   element === search_phrase ||
@@ -175,7 +182,7 @@ function SearchResultTranscriptSentence({
             id={translatedUUID}
           >
             <Sentence className="”notranslate”">
-              {sentence_object.speaker}:{" "}
+              <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
               {combined_translated.map((element, i) => {
                 if (
                   element === search_phrase ||
@@ -204,7 +211,7 @@ function SearchResultTranscriptSentence({
             id={sentence_object.uuid}
           >
             <Sentence>
-              {sentence_object.speaker}:{" "}
+              <SpeakerEnglish>{sentence_object.speaker}</SpeakerEnglish>:{" "}
               {combined_english.map((element, i) => {
                 if (
                   element === search_phrase ||
@@ -226,8 +233,8 @@ function SearchResultTranscriptSentence({
             onClick={handleTranslatedClickedSentence}
             id={translatedUUID}
           >
-            <SentenceHighlighted className="”notranslate”">
-              {sentence_object.speaker}:{" "}
+            <SentenceHighlightedQuebec className="”notranslate”">
+              <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
               {combined_translated.map((element, i) => {
                 if (
                   element === search_phrase ||
@@ -242,7 +249,7 @@ function SearchResultTranscriptSentence({
                   return <span>{element}</span>;
                 }
               })}
-            </SentenceHighlighted>
+            </SentenceHighlightedQuebec>
           </SentencePlayingDiv>
         </SentenceAndSpeakerSelected>
       </Wrapper>
@@ -256,7 +263,7 @@ function SearchResultTranscriptSentence({
             id={sentence_object.uuid}
           >
             <Sentence>
-              {sentence_object.speaker}:
+              <SpeakerEnglish>{sentence_object.speaker}</SpeakerEnglish>:{" "}
               {combined_english.map((element, i) => {
                 if (
                   element === search_phrase ||
@@ -278,7 +285,7 @@ function SearchResultTranscriptSentence({
             id={translatedUUID}
           >
             <Sentence className="”notranslate”">
-              {sentence_object.speaker}:
+              <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
               {combined_translated.map((element, i) => {
                 if (
                   element === search_phrase ||
@@ -344,13 +351,27 @@ const SentenceDiv = styled.div`
 `;
 
 const SentenceHighlighted = styled.div`
-  background-color: white;
+  background-color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Lighter};
   padding-left: 11px;
 
   color: rgba(26, 26, 26);
 
   @media (max-width: 600px) {
-    background-color: white;
+    background-color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Lighter};
+    padding-left: 11px;
+
+    color: rgba(26, 26, 26);
+  }
+`;
+
+const SentenceHighlightedQuebec = styled.div`
+  padding-left: 11px;
+  background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Lighter};
+
+  color: rgba(26, 26, 26);
+
+  @media (max-width: 600px) {
+    background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Lighter};
     padding-left: 11px;
 
     color: rgba(26, 26, 26);
@@ -373,6 +394,16 @@ const Sentence = styled.div`
 const SentenceTextSearchTerm = styled.span`
   color: ${COLORS_SHOPIFY_BLUE_PALLETE.Dark};
   background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Light};
+`;
+
+const SpeakerEnglish = styled.span`
+  /* color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Yellow}; */
+  color: ${COLORS_FLAG.Canada};
+`;
+
+const SpeakerFrench = styled.span`
+  /* color: ${COLORS_SHOPIFY_BLUE_PALLETE.Blue}; */
+  color: ${COLORS_FLAG.Quebec};
 `;
 
 export default SearchResultTranscriptSentence;

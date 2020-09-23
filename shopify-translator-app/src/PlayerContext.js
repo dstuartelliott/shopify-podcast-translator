@@ -222,7 +222,6 @@ export const PlayerContextProvider = ({ children }) => {
       } else {
         if (element.word.start !== undefined) {
           start = element.word.start;
-          console.log("start");
         }
       }
 
@@ -232,12 +231,7 @@ export const PlayerContextProvider = ({ children }) => {
       } else {
         if (element.last_word.end !== undefined) {
           end = element.last_word.end;
-          console.log("end");
         }
-      }
-
-      if (start === undefined) {
-        console.log("");
       }
 
       simplified_time.push({

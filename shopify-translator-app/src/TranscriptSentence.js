@@ -9,11 +9,16 @@ import {
   recordMP3PlayerState,
   recordTranslationMP3PlayerState,
   changeUUIDPlaying,
+  updateShouldTranslationsAutoPlay,
 } from "./actions";
 import { useSelector } from "react-redux";
-import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
+import {
+  COLORS_SHOPIFY_BLUE_PALLETE,
+  COLORS_FLAG,
+  COLORS_SHOPIFY_YELLOW_PALLETE,
+} from "./constants.js";
 
-import { getTranslationMP3PlayerState } from "./reducers";
+import { getTranslationMP3PlayerState, getShowTranslation } from "./reducers";
 
 import { useDispatch } from "react-redux";
 
@@ -26,17 +31,10 @@ function TranscriptSentence({
   const dispatch = useDispatch();
 
   let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
-  React.useEffect(() => {
-    console.log("re-render");
 
-    // eslint-disable-next-line
-  }, []);
+  let showTranslation = useSelector(getShowTranslation);
 
-  React.useEffect(() => {
-    console.log("englishHighlighted re-render");
-
-    // eslint-disable-next-line
-  }, [englishHighlighted]);
+  // const [showTranslation, setshowTranslation] = React.useState(false);
 
   function handleClickedSentence(event) {
     englishHighlighted = true;
@@ -58,6 +56,7 @@ function TranscriptSentence({
     englishHighlighted = false;
     translatedHightlighted = true;
 
+    dispatch(updateShouldTranslationsAutoPlay(true));
     dispatch(
       markTranslationAsPlaying({
         translation_time_code: sentence_object.start,
@@ -100,14 +99,19 @@ function TranscriptSentence({
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </SentenceHighlighted>
           </SentencePlayingDiv>
-          <SentenceDiv
-            onClick={handleTranslatedClickedSentence}
-            id={translatedUUID}
-          >
-            <Sentence className="”notranslate”">
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </Sentence>
-          </SentenceDiv>
+          {showTranslation ? (
+            <SentenceDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <SentenceQuebec className="”notranslate”">
+                <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
+                {sentence_object.translated_sentence}
+              </SentenceQuebec>
+            </SentenceDiv>
+          ) : (
+            <div></div>
+          )}
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -120,17 +124,22 @@ function TranscriptSentence({
             id={sentence_object.uuid}
           >
             <Sentence>
-              {sentence_object.speaker}: {sentence_object.english_sentence}
+              <SpeakerEnglish>{sentence_object.speaker}</SpeakerEnglish>:{" "}
+              {sentence_object.english_sentence}
             </Sentence>
           </SentenceDiv>
-          <SentencePlayingDiv
-            onClick={handleTranslatedClickedSentence}
-            id={translatedUUID}
-          >
-            <SentenceHighlighted className="”notranslate”">
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </SentenceHighlighted>
-          </SentencePlayingDiv>
+          {showTranslation ? (
+            <SentencePlayingDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <SentenceHighlightedQuebec className="”notranslate”">
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </SentenceHighlightedQuebec>
+            </SentencePlayingDiv>
+          ) : (
+            <div></div>
+          )}
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -143,17 +152,23 @@ function TranscriptSentence({
             id={sentence_object.uuid}
           >
             <Sentence>
-              {sentence_object.speaker}: {sentence_object.english_sentence}
+              <SpeakerEnglish>{sentence_object.speaker}</SpeakerEnglish>:{" "}
+              {sentence_object.english_sentence}
             </Sentence>
           </SentenceDiv>
-          <SentenceDiv
-            onClick={handleTranslatedClickedSentence}
-            id={translatedUUID}
-          >
-            <Sentence className="”notranslate”">
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </Sentence>
-          </SentenceDiv>
+          {showTranslation ? (
+            <SentenceDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <SentenceQuebec className="”notranslate”">
+                <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
+                {sentence_object.translated_sentence}
+              </SentenceQuebec>
+            </SentenceDiv>
+          ) : (
+            <div></div>
+          )}
         </SentenceAndSpeaker>
       </Wrapper>
     );
@@ -163,6 +178,16 @@ function TranscriptSentence({
 const Wrapper = styled.div`
   z-index: 2;
   text-align: left;
+`;
+
+const SpeakerEnglish = styled.span`
+  /* color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Yellow}; */
+  color: ${COLORS_FLAG.Canada};
+`;
+
+const SpeakerFrench = styled.span`
+  /* color: ${COLORS_SHOPIFY_BLUE_PALLETE.Blue}; */
+  color: ${COLORS_FLAG.Quebec};
 `;
 
 const SentenceAndSpeaker = styled.div``;
@@ -204,13 +229,13 @@ const SentenceDiv = styled.div`
 `;
 
 const SentenceHighlighted = styled.div`
-  background-color: white;
+  background-color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Lighter};
   padding-left: 11px;
 
   color: rgba(26, 26, 26);
 
   @media (max-width: 600px) {
-    background-color: white;
+    background-color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Lighter};
     padding-left: 11px;
 
     color: rgba(26, 26, 26);
@@ -220,13 +245,39 @@ const SentenceHighlighted = styled.div`
 const Sentence = styled.div`
   background-color: white;
   padding-left: 11px;
-  color: grey;
+  color: rgba(26, 26, 26);
 
   @media (max-width: 600px) {
     background-color: white;
     padding-left: 11px;
-    color: ${COLORS_SHOPIFY_BLUE_PALLETE.Text};
+    color: rgba(26, 26, 26);
     margin-right: 0px;
+  }
+`;
+
+const SentenceQuebec = styled.div`
+  background-color: white;
+  padding-left: 11px;
+  color: rgba(26, 26, 26);
+  @media (max-width: 600px) {
+    background-color: white;
+    padding-left: 11px;
+    color: rgba(26, 26, 26);
+    margin-right: 0px;
+  }
+`;
+
+const SentenceHighlightedQuebec = styled.div`
+  padding-left: 11px;
+  background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Lighter};
+
+  color: rgba(26, 26, 26);
+
+  @media (max-width: 600px) {
+    background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Lighter};
+    padding-left: 11px;
+
+    color: rgba(26, 26, 26);
   }
 `;
 

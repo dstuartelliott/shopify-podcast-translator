@@ -2,6 +2,10 @@ const initialState = {};
 
 export default function appReducer(state = initialState, action) {
   switch (action.type) {
+    case "CHANGE_TRANSLATION_SHOWING": {
+      return { ...state, showTranslation: action.showTranslation };
+    }
+
     case "ADD_CURRENT_TIME": {
       return { ...state, current_time: action.time };
     }
@@ -116,6 +120,16 @@ export default function appReducer(state = initialState, action) {
       };
     }
 
+    case "UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY": {
+      console.log("UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY");
+      console.log(action);
+
+      return {
+        ...state,
+        shouldTranslationsAutoPlay: action.shouldTranslationsAutoPlay,
+      };
+    }
+
     default:
       return state;
   }
@@ -211,6 +225,13 @@ export const getCurrentTime = (state) => {
   //    state.current_time;
   if (state.current_time !== undefined) {
     return state.current_time.current_time;
+  }
+};
+
+export const getShowTranslation = (state) => {
+  //    state.current_time;
+  if (state.showTranslation !== undefined) {
+    return state.showTranslation;
   }
 };
 
@@ -370,5 +391,13 @@ export const getPodcastToggleState = (state) => {
 export const getSearchResults = (state) => {
   if (state.searchResults !== undefined) {
     return { searchResults: state.searchResults };
+  }
+};
+
+export const getShouldTranslationsAutoPlay = (state) => {
+  if (state.shouldTranslationsAutoPlay !== undefined) {
+    return { shouldTranslationsAutoPlay: state.shouldTranslationsAutoPlay };
+  } else {
+    return { shouldTranslationsAutoPlay: false };
   }
 };

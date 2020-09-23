@@ -133,7 +133,7 @@ const SentenceHighlighted = styled.div`
 const Sentence = styled.div`
   background-color: white;
   padding-left: 11px;
-  color: grey;
+  color: ${COLORS_SHOPIFY_BLUE_PALLETE.Text};
 
   @media (max-width: 600px) {
     background-color: white;

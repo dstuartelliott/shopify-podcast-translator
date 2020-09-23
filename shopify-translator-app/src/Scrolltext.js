@@ -18,7 +18,11 @@ import {
   getSearchResults,
   getTranslationMP3PlayerState,
   getUUIDPlaying,
+  getShowTranslation,
+  getShouldTranslationsAutoPlay,
 } from "./reducers";
+
+import { updateShouldTranslationsAutoPlay } from "./actions";
 
 import {
   COLORS_SHOPIFY_BLUE_PALLETE,
@@ -63,6 +67,10 @@ function Scrolltext() {
   );
 
   let search_results = useSelector(getSearchResults);
+
+  let showTranslation = useSelector(getShowTranslation);
+
+  let shouldTranslationsAutoPlay = useSelector(getShouldTranslationsAutoPlay);
 
   const audioref = React.useRef(null);
 
@@ -110,6 +118,38 @@ function Scrolltext() {
   React.useEffect(() => {
     console.log("uuidPlaying changed");
 
+    console.log(shouldTranslationsAutoPlay.shouldTranslationsAutoPlay);
+    console.log(audioref.current);
+
+    if (uuidPlaying !== undefined) {
+      setcurrentUUID(uuidPlaying);
+
+      let element = document.getElementById(uuidPlaying.uuid);
+      if (element !== null && element !== undefined) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+
+        if (
+          shouldTranslationsAutoPlay.shouldTranslationsAutoPlay &&
+          audioref.current !== null
+        ) {
+          audioref.current.onloadeddata = function () {
+            console.log("loaded");
+            audioref.current.play();
+          };
+        }
+      }
+    }
+
+    // eslint-disable-next-line
+  }, [uuidPlaying, showTranslation]);
+
+  React.useEffect(() => {
+    console.log("showTranslation changed");
+    dispatch(updateShouldTranslationsAutoPlay(false));
+
     if (uuidPlaying !== undefined) {
       setcurrentUUID(uuidPlaying);
 
@@ -122,8 +162,8 @@ function Scrolltext() {
       }
     }
 
-    // setcurrentUUID(english_uuid);
-  }, [uuidPlaying]);
+    // eslint-disable-next-line
+  }, [showTranslation]);
 
   React.useEffect(() => {
     if (
@@ -212,7 +252,9 @@ function Scrolltext() {
                     next_start_time={element.next_start_time}
                   ></TranscriptSentence>
                   {element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying ? (
+                  translationPlaying &&
+                  showTranslation &&
+                  shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
                     <AudioDivBelow
                       controls
                       autoPlay
@@ -222,6 +264,18 @@ function Scrolltext() {
                   ) : (
                     <div></div>
                   )}
+                  {element.uuid === translationTimeCodeUUID.uuid &&
+                  translationPlaying &&
+                  showTranslation &&
+                  !shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
+                    <AudioDivBelow
+                      controls
+                      ref={audioref}
+                      src={translatedAudioSrc}
+                    ></AudioDivBelow>
+                  ) : (
+                    <div></div>
+                  )}{" "}
                 </div>
               );
             } else if (
@@ -257,11 +311,27 @@ function Scrolltext() {
                     }
                   ></SearchResultTranscriptSentence>
 
+                  {/* I have to do this because when the translations show up again after selecting the quebec flag, I don't want it to autoplay.  However, if the user has clicked on the translation, I do want it to autoplay. */}
                   {element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying ? (
+                  translationPlaying &&
+                  showTranslation &&
+                  shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
                     <AudioDivBelow
                       controls
                       autoPlay
+                      ref={audioref}
+                      src={translatedAudioSrc}
+                    ></AudioDivBelow>
+                  ) : (
+                    <div></div>
+                  )}
+
+                  {element.uuid === translationTimeCodeUUID.uuid &&
+                  translationPlaying &&
+                  showTranslation &&
+                  !shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
+                    <AudioDivBelow
+                      controls
                       ref={audioref}
                       src={translatedAudioSrc}
                     ></AudioDivBelow>
@@ -331,7 +401,7 @@ const TranscriptList = styled.div`
   }
 
   @media (max-width: 600px) {
-    top: 180px;
+    top: 190px;
     bottom: 20px;
   }
 

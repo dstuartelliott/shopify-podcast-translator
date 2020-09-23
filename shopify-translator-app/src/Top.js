@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import HeroSrc from "./images/shopify_masters_hero_small.jpg";
+
 import TopSearch from "./TopSearch";
 
 import { COLORS_SHOPIFY_YELLOW_PALLETE } from "./constants.js";
