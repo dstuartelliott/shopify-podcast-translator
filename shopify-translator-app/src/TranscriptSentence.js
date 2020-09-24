@@ -1,211 +1,284 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import styled from "styled-components";
-import { PlayerBoundariesContext } from "./PlayerBoundariesContext";
-import { HighlighterContext } from "./HighlighterContext";
+import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
+import {
+  jumpToTime,
+  markTranslationAsPlaying,
+  markTranslationAsDonePlaying,
+  recordMP3PlayerState,
+  recordTranslationMP3PlayerState,
+  changeUUIDPlaying,
+  updateShouldTranslationsAutoPlay,
+} from "./actions";
+import { useSelector } from "react-redux";
+import {
+  COLORS_SHOPIFY_BLUE_PALLETE,
+  COLORS_FLAG,
+  COLORS_SHOPIFY_YELLOW_PALLETE,
+} from "./constants.js";
 
-import { LANGUAGES } from "./constants";
-let highlighted_french = false;
-let highlighted_english = false;
+import { getTranslationMP3PlayerState, getShowTranslation } from "./reducers";
+
+import { useDispatch } from "react-redux";
 
 function TranscriptSentence({
   sentence_object,
-  highlighted,
-  highlightedLang,
-  uuidHighlighted,
+  englishHighlighted,
+  translatedHightlighted,
+  translatedUUID,
 }) {
-  const {
-    actions: { jumpToEnglishSentenceFromUUID, setUuidToHighLight, playSpeech },
-  } = React.useContext(PlayerBoundariesContext);
+  const dispatch = useDispatch();
 
-  const {
-    state: { uuidHighlightedIndivContext },
-    actions: { updateUUID },
-  } = React.useContext(HighlighterContext);
+  let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
 
-  React.useEffect(() => {
-    highlighted_french = false;
-    highlighted_english = false;
+  let showTranslation = useSelector(getShowTranslation);
 
-    console.log(highlightedLang);
-    if (highlightedLang === "french") {
-      console.log("HIGHLIGHTING FRENCH");
-      highlighted_french = true;
-    }
-    if (highlightedLang === "english") {
-      console.log("HIGHLIGHTING ENGLISH");
-
-      highlighted_english = true;
-    }
-    // console.log({ uuidHighlightedIndivContext });
-  }, []);
+  // const [showTranslation, setshowTranslation] = React.useState(false);
 
   function handleClickedSentence(event) {
-    //updateUUID(sentence_object.uuid);
-    console.log(event);
-    // setUuidToHighLight(sentence_object.uuid, LANGUAGES.ENGLISH);
+    englishHighlighted = true;
+    translatedHightlighted = false;
 
-    jumpToEnglishSentenceFromUUID(sentence_object.uuid, sentence_object);
+    console.log(event);
+    console.log(sentence_object);
+    dispatch(markTranslationAsDonePlaying());
+    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+    dispatch(changeUUIDPlaying(sentence_object.uuid));
+    dispatch(
+      recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+    );
+
+    dispatch(jumpToTime(sentence_object.start));
   }
 
   function handleTranslatedClickedSentence(event) {
-    console.log(event);
-    setUuidToHighLight(sentence_object.uuid, LANGUAGES.FRENCH);
-    playSpeech(sentence_object.translated_sentence);
+    englishHighlighted = false;
+    translatedHightlighted = true;
+
+    dispatch(updateShouldTranslationsAutoPlay(true));
+    dispatch(
+      markTranslationAsPlaying({
+        translation_time_code: sentence_object.start,
+        translated_uuid: sentence_object.uuid,
+        type_curently_playing: "Translation",
+        translated_filename: sentence_object.translated_filename,
+      })
+    );
+    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
+
+    if (translationMp3PlayerState === TRANSLATION_MP3_PLAYER_STATES.PAUSED) {
+      dispatch(
+        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PLAYING)
+      );
+    } else if (
+      translationMp3PlayerState === TRANSLATION_MP3_PLAYER_STATES.PLAYING
+    ) {
+      dispatch(
+        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+      );
+    }
+
+    if (translatedUUID !== undefined) {
+      dispatch(changeUUIDPlaying(translatedUUID));
+    }
   }
 
-  // this might look ugly, but it's better than nesteed terneries inmho
+  // this might look ugly, but it's better than a bunch of nesteed ternary statements imho
+  // also, I originally had a Button instead of the  SentenceDiv, but then I got a react warning about nesteed buttons so I've opted
 
-  if (uuidHighlighted === sentence_object.uuid) {
+  if (englishHighlighted) {
     return (
       <Wrapper>
-        <SentenceAndSpeaker>
-          <Button onClick={handleClickedSentence}>
+        <SentenceAndSpeakerSelected>
+          <SentencePlayingDiv
+            onClick={handleClickedSentence}
+            id={sentence_object.uuid}
+          >
             <SentenceHighlighted>
               {sentence_object.speaker}: {sentence_object.english_sentence}
             </SentenceHighlighted>
-          </Button>
-          <Button onClick={handleTranslatedClickedSentence}>
-            <SentenceHighlighted>
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-              🇫🇷
-              <Button>Play</Button>
-            </SentenceHighlighted>
-          </Button>
-        </SentenceAndSpeaker>
+          </SentencePlayingDiv>
+          {showTranslation ? (
+            <SentenceDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <SentenceQuebec className="”notranslate”">
+                <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
+                {sentence_object.translated_sentence}
+              </SentenceQuebec>
+            </SentenceDiv>
+          ) : (
+            <div></div>
+          )}
+        </SentenceAndSpeakerSelected>
+      </Wrapper>
+    );
+  } else if (translatedHightlighted) {
+    return (
+      <Wrapper>
+        <SentenceAndSpeakerSelected>
+          <SentenceDiv
+            onClick={handleClickedSentence}
+            id={sentence_object.uuid}
+          >
+            <Sentence>
+              <SpeakerEnglish>{sentence_object.speaker}</SpeakerEnglish>:{" "}
+              {sentence_object.english_sentence}
+            </Sentence>
+          </SentenceDiv>
+          {showTranslation ? (
+            <SentencePlayingDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <SentenceHighlightedQuebec className="”notranslate”">
+                {sentence_object.speaker}: {sentence_object.translated_sentence}
+              </SentenceHighlightedQuebec>
+            </SentencePlayingDiv>
+          ) : (
+            <div></div>
+          )}
+        </SentenceAndSpeakerSelected>
       </Wrapper>
     );
   } else {
     return (
       <Wrapper>
         <SentenceAndSpeaker>
-          <Button onClick={handleClickedSentence}>
+          <SentenceDiv
+            onClick={handleClickedSentence}
+            id={sentence_object.uuid}
+          >
             <Sentence>
-              {sentence_object.speaker}: {sentence_object.english_sentence}
+              <SpeakerEnglish>{sentence_object.speaker}</SpeakerEnglish>:{" "}
+              {sentence_object.english_sentence}
             </Sentence>
-          </Button>
-
-          <Button onClick={handleTranslatedClickedSentence}>
-            <Sentence>
-              {sentence_object.speaker}: {sentence_object.translated_sentence}
-            </Sentence>
-          </Button>
+          </SentenceDiv>
+          {showTranslation ? (
+            <SentenceDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <SentenceQuebec className="”notranslate”">
+                <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
+                {sentence_object.translated_sentence}
+              </SentenceQuebec>
+            </SentenceDiv>
+          ) : (
+            <div></div>
+          )}
         </SentenceAndSpeaker>
       </Wrapper>
     );
   }
-
-  // if (highlighted && highlightedLang === "french") {
-  //   return (
-  //     <Wrapper>
-  //       <Sentence>{uuidHighlightedIndivContext}</Sentence>
-
-  //       <SentenceAndSpeaker>
-  //         <Button onClick={handleClickedSentence}>
-  //           <SentenceHighlighted>
-  //             {sentence_object.speaker}: {sentence_object.english_sentence}
-  //           </SentenceHighlighted>
-  //         </Button>
-  //         <Button onClick={handleTranslatedClickedSentence}>
-  //           <SentenceHighlighted>
-  //             {sentence_object.speaker}: {sentence_object.translated_sentence}
-  //             🇫🇷
-  //             <Button>Play</Button>
-  //           </SentenceHighlighted>
-  //         </Button>
-  //       </SentenceAndSpeaker>
-  //     </Wrapper>
-  //   );
-  // } else if (highlighted && highlightedLang === "english") {
-  //   return (
-  //     <Wrapper>
-  //       <Sentence>{uuidHighlightedIndivContext}</Sentence>
-
-  //       <SentenceAndSpeaker>
-  //         <Button onClick={handleClickedSentence}>
-  //           <SentenceHighlighted>
-  //             {sentence_object.speaker}: {sentence_object.english_sentence} 🇨🇦
-  //           </SentenceHighlighted>
-  //         </Button>
-  //         <Button onClick={handleTranslatedClickedSentence}>
-  //           <SentenceHighlighted>
-  //             {sentence_object.speaker}: {sentence_object.translated_sentence}
-  //           </SentenceHighlighted>
-  //         </Button>
-  //       </SentenceAndSpeaker>
-  //     </Wrapper>
-  //   );
-  // } else if (!highlighted) {
-  //   return (
-  //     <Wrapper>
-  //       <Sentence>hello{uuidHighlightedIndivContext}</Sentence>
-
-  //       <SentenceAndSpeaker>
-  //         <Button onClick={handleClickedSentence}>
-  //           <Sentence>
-  //             {sentence_object.speaker}: {sentence_object.english_sentence}
-  //           </Sentence>
-  //         </Button>
-
-  //         <Button onClick={handleTranslatedClickedSentence}>
-  //           <Sentence>
-  //             {sentence_object.speaker}: {sentence_object.translated_sentence}
-  //           </Sentence>
-  //         </Button>
-  //       </SentenceAndSpeaker>
-  //     </Wrapper>
-  //   );
-  // }
 }
-
-const Button = styled.button`
-  background-color: Transparent;
-  border: none;
-  cursor: pointer;
-  overflow: hidden;
-  z-index: 1;
-`;
 
 const Wrapper = styled.div`
   z-index: 2;
   text-align: left;
 `;
 
+const SpeakerEnglish = styled.span`
+  /* color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Yellow}; */
+  color: ${COLORS_FLAG.Canada};
+`;
+
+const SpeakerFrench = styled.span`
+  /* color: ${COLORS_SHOPIFY_BLUE_PALLETE.Blue}; */
+  color: ${COLORS_FLAG.Quebec};
+`;
+
 const SentenceAndSpeaker = styled.div``;
 
-const Speaker = styled.div`
-  background-color: white;
-  text-align: left;
-  padding: 10px;
-  font-family: "Open Sans";
-  font-size: 20px;
-  font-weight: 400;
-  /* border-bottom: solid 2px white; */
-  color: grey;
+const SentenceAndSpeakerSelected = styled.div``;
+
+const SentencePlayingDiv = styled.div`
+  display: flex;
+
+  flex-direction: row;
+
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  padding-bottom: 10px;
+  @media (max-width: 600px) {
+    padding-bottom: 10px;
+    /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. */
+    flex-direction: row-reverse;
+    /* background-color: red; */
+    justify-content: flex-end;
+  }
+`;
+
+const SentenceDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  padding-bottom: 10px;
+
+  @media (max-width: 600px) {
+    padding-bottom: 10px;
+    /* background-color: blue; */
+
+    /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. */
+  }
+`;
+
+const SentenceHighlighted = styled.div`
+  background-color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Lighter};
+  padding-left: 11px;
+
+  color: rgba(26, 26, 26);
+
+  @media (max-width: 600px) {
+    background-color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Lighter};
+    padding-left: 11px;
+
+    color: rgba(26, 26, 26);
+  }
 `;
 
 const Sentence = styled.div`
   background-color: white;
-  text-align: left;
-  padding: 10px;
-  font-family: "Open Sans";
-  font-size: 20px;
-  font-weight: 400;
-  /* border-bottom: solid 2px white; */
-  color: grey;
+  padding-left: 11px;
+  color: rgba(26, 26, 26);
+
+  @media (max-width: 600px) {
+    background-color: white;
+    padding-left: 11px;
+    color: rgba(26, 26, 26);
+    margin-right: 0px;
+  }
 `;
 
-const SentenceHighlighted = styled.div`
+const SentenceQuebec = styled.div`
   background-color: white;
-  font-family: "Open Sans";
-  font-size: 20px;
-  font-weight: 400;
-  /* border-bottom: solid 2px black; */
+  padding-left: 11px;
+  color: rgba(26, 26, 26);
+  @media (max-width: 600px) {
+    background-color: white;
+    padding-left: 11px;
+    color: rgba(26, 26, 26);
+    margin-right: 0px;
+  }
+`;
 
-  text-align: left;
-  padding: 10px;
-  color: black;
+const SentenceHighlightedQuebec = styled.div`
+  padding-left: 11px;
+  background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Lighter};
+
+  color: rgba(26, 26, 26);
+
+  @media (max-width: 600px) {
+    background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Lighter};
+    padding-left: 11px;
+
+    color: rgba(26, 26, 26);
+  }
 `;
 
 export default TranscriptSentence;

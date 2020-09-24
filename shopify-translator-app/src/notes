@@ -23,3 +23,91 @@ https://www.npmjs.com/package/react-say
 install react-say
 
 So there may be a weird audio bug where everythime I call state rerender on my transcript list, the player re renders, and when it does, it's almost like a new player and the browser automatically stops it from playing?
+
+
+
+TODO - PUT IN LOADING SCREENS
+
+TODO - SEARCH.  
+
+Those should be the two other features you implement.
+
+
+TODO - FEATURE - PULL THE TEXT TO THE SIDE TO REVEAL.. METADATA?  OTHER LANGUAGES?
+https://polaris.shopify.com/components/titles-and-text/text-container#navigation
+
+TODO - FOCUS: OUTLINE NONE ON THE BUTTONS IS BAD.  BREAKS ACCESIBILITY.  SHOULD PUT IN A KEYBOARD MODIFIER FOR TABS.
+https://www.eventbrite.com/engineering/how-to-fix-the-ugly-focus-ring-and-not-break-accessibility-in-react/
+
+TODO - USE ROUTES, MAKE SEVERAL DIFFERENT EPISODES, FROM A HOME PAGE?
+
+
+replace all useSelector with React.useSelector
+
+Was going to use Scrollable Text from Shoipify Polaris, but 
+Best practices
+Scrollable containers should:
+
+Be used when it’s helpful to provide an extra visual cue to let merchants know that content exists below or above the fold
+Only be used for length text such as terms of service or other legal disclaimers and never for instructional or action-oriented text
+
+yarn add react-spinners
+
+npm install --save @emotion/core
+
+
+I put the window dimensions into my reducers.  I know I coould call window dimensions elsewhere, at the component level, but I think it's good to have all state flow through the redux model, if I'm going to make choices about responding to it.
+
+
+
+-------
+Ok UUID.
+
+If it hasn't played yet, the jogging works 
+
+So when hogging it goes to the wrong one.  It goes to the one AFTER where it shoudl be.  
+
+---
+
+Nathan: With the frosted.
+Felix: Got it. So when you were putting these mock-ups or prototypes out there to get feedback, how do you ask for it in a way that is going to get you the honest feedback and not just, people being nice?
+Nathan: Well look, I think in these Facebook groups and stuff like that, or if you're in a community of like-minded people, I think if you just put yourself out there and just openly ask for honest feedback, I think sometimes people are prepared to be pretty critical because, everyone has an opinion. And you just got to try and get it from as many sources as possible. So try random Facebook groups, try your own personal Facebook profile or Instagram profile. And then, just ask close friends or family, but really push them just to be honest with you.
+
+IT'S IN THE WRONG ORDER FROM MY TRANSLATION!!!
+https://cdn.shopify.com/s/files/1/0070/7032/files/Shopify_Master_s__Healthish_Transcript.txt?v=1598319826
+
+28 and 29 are out of order.
+
+
+
+/// so there are a few things wrong right now.
+
+15 is missing.
+
+and we you get way down, Natahn is missing from the speakers.  
+]
+
+// Ok, so at So if you go to social Blade
+
+
+//
+'But it was, the content was relevant to the target market that we wanted to attract people that would be interested in their health and wellness. And we didn't have different photos of the product or samples of the product. It was photos that we would find on Pinterest or like Emily said a mood board. And so that was three months beforehand. So we tried to post like at least probably around once a day in preparation for the launch, and tried to build the email list and the wait list for that product. So we just send people to the Shopify wait-list on the store and before we even had the product ready, we did the presale and made a few thousand dollars. How long do people have to wait? I can't remember to get the product. It was a few weeks maybe.\r'
+51
+sorted_combined[51].iteration
+'Mais c'était, le contenu était pertinent pour le marché cible que nous voulions attirer des personnes qui seraient intéressées par leur santé et leur bien-être. Et nous n'avions pas de photos différentes du produit ou d'échantillons du produit. C'étaient des photos que l'on retrouverait sur Pinterest ou comme Emily disait un mood board. Et c'était donc trois mois à l'avance. Nous avons donc essayé de publier au moins probablement une fois par jour en préparation du lancement, et avons essayé de créer la liste de diffusion et la liste d'attente pour ce produit. Nous envoyons donc simplement des gens sur la liste d'attente Shopify sur le magasin et avant même d'avoir le produit prêt, nous avons fait la prévente et avons gagné quelques milliers de dollars. Combien de temps les gens doivent-ils attendre? Je ne me souviens pas d'avoir acheté le produit. C'était peut-être quelques semaines.\r'
+
+{alignedWord: 'weeks', case: 'success', end: 1448.8700000000001, endOffset: 19845, phones: Array(4), …}
+
+
+uuid(pin): "83157715-a02a-4915-a5f0-0a88da6a8402"
+start(pin): 318.09000000000003
+end(pin): 319.309999
+
+
+r	"Emily"
+english	"... I can practice what I preach.\r"
+translation	"... Je peux pratiquer ce que je prêche.\r"
+words	[…]
+full_sentences_i	12
+uuid	"83157715-a02a-4915-a5f0-0a88da6a8402"
+iteration

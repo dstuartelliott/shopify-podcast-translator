@@ -4,18 +4,25 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { PlayerContextProvider } from "./PlayerContext";
-import { PlayerBoundariesContextProvider } from "./PlayerBoundariesContext";
-import { HighlighterContextProvider } from "./HighlighterContext";
+
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import reducer from "./reducers";
+
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+document.title = "Shopify Masters - Translated!";
 
 ReactDOM.render(
   <React.StrictMode>
-    <HighlighterContextProvider>
-      <PlayerBoundariesContextProvider>
-        <PlayerContextProvider>
-          <App />
-        </PlayerContextProvider>
-      </PlayerBoundariesContextProvider>
-    </HighlighterContextProvider>
+    <Provider store={store}>
+      <PlayerContextProvider>
+        <App />
+      </PlayerContextProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -65,7 +65,12 @@ function readTranscriptAndReturnFullSentences(data) {
   };
 }
 
-const alignGentleResultsWithTranscript = async () => {
+const alignGentleResultsWithTranscript = async (
+  aligned_results_filename,
+  transcript_filename,
+  combined_speakers_and_translations_filename,
+  filePrepend
+) => {
   const get_aligned_results = await openFilePromise("align-not-strict.json");
   let aligned_results = JSON.parse(get_aligned_results);
 
@@ -390,19 +395,23 @@ const alignGentleResultsWithTranscript = async () => {
     }
   });
 
+  let filename_tranlations_with_aligned_timing =
+    filePrepend + "_" + "translations_with_aligned_timing.json";
+
   fs.writeFile(
-    "translations_with_aligned_timing.json",
+    filename_tranlations_with_aligned_timing,
     JSON.stringify(translations_with_aligned_timing),
     function (err) {
       if (err) {
         return console.log(err);
       }
-      console.log("translations_with_aligned_timing.json was saved!");
+      console.log(filename_tranlations_with_aligned_timing + "was saved!");
     }
   );
+  let filename_sorted_combined_filename = filePrepend + "sorted_combined.json";
 
   fs.writeFile(
-    "sorted_combined.json",
+    filename_sorted_combined_filename,
     JSON.stringify(sorted_combined),
     function (err) {
       if (err) {
@@ -412,8 +421,11 @@ const alignGentleResultsWithTranscript = async () => {
     }
   );
 
+  let remaining_sents_filename =
+    filePrepend + "remaining_sents_after_two_passes.json";
+
   fs.writeFile(
-    "remaining_sents_after_two_passes.json",
+    remaining_sents_filename,
     JSON.stringify(remaining_sents_after_two_passes),
     function (err) {
       if (err) {
@@ -427,4 +439,12 @@ const alignGentleResultsWithTranscript = async () => {
 
   console.log("done");
 };
-alignGentleResultsWithTranscript();
+
+alignGentleResultsWithTranscript(
+  "align_pure_chimp.json",
+  "Pure_Chimp_Transcript.txt",
+  "pure_chimp_combined_speakers_and_translations.json",
+  "pure_chimp_"
+);
+
+//alignGentleResultsWithTranscript();

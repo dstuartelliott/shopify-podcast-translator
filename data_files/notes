@@ -1,0 +1,64 @@
+/Users/davidelliott/Desktop/shopify/shopify-podcast-translator/data_files/pre_launchsentences_and_translations_shopify_fr.json
+
+When I make this, I just need to emulater combioned by adding the speaker
+
+
+export GOOGLE_APPLICATION_CREDENTIALS="Lister-ba5f9edd11af.json"  
+
+There is no 31 in healthish__translations_with_aligned_timing
+
+
+Ok so what's the order ops now here?
+
+appv3_translate first?
+
+Then text_aligner copy?
+
+Then appTextToSpeech?
+
+
+
+I think the fuck up is happening in text-text_aligner
+with_aligned
+
+
+
+sorted_combined[31].still_to_be_done_element
+'Got it. So the most critical part of working with the designer is to spend that upfront work, finding the right designer?\r'
+
+{
+  sentence: "Got it. So the most critical part of working with the designer is to spend that upfront work, finding the right designer?\r",
+  full_sentences_just_text_filtered_i: 37,
+}
+
+"Got it. So when you were putting these mock-ups or prototypes out there to get feedback, how do you ask for it in a way that is going to get you the honest feedback and not just, people being nice?\r"
+
+So wlelement is correct - it has the mockups.
+
+Ok so sorted_combined is the thing that's missing.
+
+----
+
+Ok so letr's just detect when a UUID changes, and when iut's being changed,
+
+translationTimeCodeUUID
+
+translationPlaying
+
+  let translationPlaying = useSelector(getTranslationPlaying);
+  let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
+
+
+state.translation_playing
+MARK_TRANSLATION_AS_PLAYING
+MARK_TRANSLATION_AS_DONE_PLAYING? is that what's being 
+
+
+timecode: state.translation_time_code
+
+markTranslationAsDonePlayingPaused
+
+so eveyrthing happens under announcelisten
+translationTimeCodeUUID
+
+getTranslationTimeCodeAndUUID
