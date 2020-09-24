@@ -20,7 +20,6 @@ I sat down and figured out what I would need to do -
 Some other interesting tidbits behind the making of this app -
 
 - I'm running my own Node Express server to serve out the data. I have a bunch of juicy JSON files from all the transcribing code I've written.
-- The app uses the SpeechSynthesis feature of modern desktop browsers. There are a few differences in player permissions and voices arrays, but it totally works on mobile. That version is live!
-- It's a little incomplete. There can be some weird behaviour because of state jumps. However, considering that the assigned challenges were limited in scope, I figure a bit of incompleteness for the application project is acceptable.
-- This will be my graduation project for my Bootcamp, so I intend to expand it quite a bit! There's no reason I can't add more languages, or explore searching the text, or add meta-data from others APIs, etc.
-
+- I use the Google Text to Speech API, so I can use customized female and male voices with Quebec accents. I switched from the SpeechSynthesis framework because the voice results were too variant across browsers and devices.!
+- As far an an MVP goes, it's actually getting there now. Since I submitted it in early September I've been hacking away at it. The delta from initial submission to current version is massive at this point. That's what getting up at 5AM and working every day on it gets ya!
+- This will be my graduation project for my Bootcamp, so I intend to expand it quite a bit! There's no reason I can't add more languages, or add meta-data from others APIs, etc. I'll be graduating on November 18th, so I'll be adding to this project on ongoing basis.
