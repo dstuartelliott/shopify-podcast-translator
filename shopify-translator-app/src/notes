@@ -117,3 +117,9 @@ Ok, so when I click on "So healthyish.com", I get "For Me, Personally", the next
 
 1) Let's check the source data.
 
+So the source data looks fine, actually.
+
+Ok so the data is not good, actually.
+
+The words on eelement 1245 should end at 40 but continie on.  I'ver submitted the wrong word listing in the construction of the data object.
+
