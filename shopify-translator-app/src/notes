@@ -123,3 +123,4 @@ Ok so the data is not good, actually.
 
 The words on eelement 1245 should end at 40 but continie on.  I'ver submitted the wrong word listing in the construction of the data object.
 
+This is the secret sauce for the player - I should refactor with this - https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events

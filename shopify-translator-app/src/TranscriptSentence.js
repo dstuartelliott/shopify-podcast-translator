@@ -44,6 +44,10 @@ function TranscriptSentence({
     console.log(sentence_object);
     dispatch(markTranslationAsDonePlaying());
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+
+    console.log("TranscriptSentence 49");
+    console.log(sentence_object.uuid);
+
     dispatch(changeUUIDPlaying(sentence_object.uuid));
     dispatch(
       recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
@@ -80,6 +84,7 @@ function TranscriptSentence({
     }
 
     if (translatedUUID !== undefined) {
+      console.log("TranscriptSentence 83");
       dispatch(changeUUIDPlaying(translatedUUID));
     }
   }

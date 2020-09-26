@@ -95,10 +95,26 @@ function Scrolltext() {
       recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
     );
 
+    console.log(audioref.current);
+
+    if (audioref.current !== null) {
+      audioref.current.addEventListener(
+        "seeking",
+        function () {
+          console.log("seeked done");
+        },
+        true
+      );
+    }
+
     // eslint-disable-next-line
   }, []);
 
   React.useEffect(() => {
+    console.log("player state changed");
+    console.log(translation_podcast_player_state);
+    console.log(audioref.current);
+
     if (audioref.current !== null) {
       if (
         translation_podcast_player_state ===
@@ -120,6 +136,43 @@ function Scrolltext() {
 
     console.log(shouldTranslationsAutoPlay.shouldTranslationsAutoPlay);
     console.log(audioref.current);
+
+    if (audioref.current !== null) {
+      audioref.current.addEventListener(
+        "play",
+        function () {
+          console.log("translaiton playing");
+          dispatch(
+            recordTranslationMP3PlayerState(
+              TRANSLATION_MP3_PLAYER_STATES.PLAYING
+            )
+          );
+        },
+        true
+      );
+
+      audioref.current.addEventListener(
+        "pause",
+        function () {
+          console.log("translaiton paused");
+          dispatch(
+            recordTranslationMP3PlayerState(
+              TRANSLATION_MP3_PLAYER_STATES.PAUSED
+            )
+          );
+        },
+        true
+      );
+
+      audioref.current.addEventListener(
+        "seeking",
+        function () {
+          console.log("seeking");
+          console.log(audioref.current.currentTime);
+        },
+        true
+      );
+    }
 
     if (uuidPlaying !== undefined) {
       setcurrentUUID(uuidPlaying);

@@ -2,6 +2,7 @@ const { openFilePromise, openTextFilePromise } = require("./filelibs.js");
 const { v4: uuidv4 } = require("uuid");
 
 var fs = require("fs");
+const { stringify } = require("querystring");
 
 const alignGentleResultsWithTranscript = async (
   filePrepend,
@@ -235,7 +236,7 @@ const alignGentleResultsWithTranscript = async (
 
   let remaining_sents_and_aligned_word_candidates = [];
 
-  remaining_sents_after_two_passes.forEach((remaining_sent) => {
+  remaining_sents_after_two_passes.forEach((remaining_sent, i) => {
     let new1 = remaining_sent.element.split(" ");
     let first_word_match = new1[0];
     let last_word_match = new1[new1.length - 1];
@@ -328,7 +329,15 @@ const alignGentleResultsWithTranscript = async (
         (el) => el === prev_words_offset_last_word
       );
 
-      let next_words_offset_first_word = next.words[0];
+      let next_words_offset_first_word = next.words[0].word;
+
+      console.log(typeof next_words_offset_first_word);
+      if (
+        typeof next_words_offset_first_word === `string` &&
+        next_words_offset_first_word !== undefined
+      ) {
+        next_words_offset_first_word = next.words[0];
+      }
 
       let aligned_words_last_index = aligned_results.words.findIndex(
         (el) => el === next_words_offset_first_word
@@ -417,7 +426,7 @@ const alignGentleResultsWithTranscript = async (
 };
 
 alignGentleResultsWithTranscript(
-  "healthish_",
+  "healthish_V2_",
   "pre_launchcombined_speakers_and_translationsfr.json"
 );
 

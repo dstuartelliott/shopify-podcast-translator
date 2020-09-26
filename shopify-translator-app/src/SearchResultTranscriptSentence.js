@@ -143,6 +143,9 @@ function SearchResultTranscriptSentence({
       );
     }
 
+    console.log("SearchResult 146");
+    console.log(translatedUUID);
+
     if (translatedUUID !== undefined) {
       dispatch(changeUUIDPlaying(translatedUUID));
     }
