@@ -7,7 +7,7 @@ import "./App.css";
 import AudioPlayer from "react-h5-audio-player";
 import R5stylesSmall from "./r5Audiostyles.css";
 
-import { MP3_PLAYER_STATES } from "./constants";
+import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 
 import CanadaFlagSrc from "./images/640px-Flag_of_Canada_(Pantone).png";
 import QuebecFlagSrc from "./images/640px-Flag_of_Quebec.svg.png";
@@ -29,6 +29,7 @@ import {
   recordMP3PlayerState,
   markTranslationAsPlaying,
   changeTranslation,
+  recordTranslationMP3PlayerState,
 } from "./actions";
 
 let prev;
@@ -76,10 +77,19 @@ function Player() {
       (element) => current_time > element.start && current_time < element.end
     );
 
+    console.log(current_time);
+    console.log(uuid);
+
     if (uuid !== undefined) {
+      console.log("Player 80");
+      console.log(uuid);
+      console.log(translationPlaying);
+
+      let trans_uuid = uuid.uuid + "trans";
+
       current_uuid = uuid;
       translationPlaying
-        ? dispatch(changeUUIDPlaying(uuid + "trans"))
+        ? dispatch(changeUUIDPlaying({ ...uuid, uuid: trans_uuid }))
         : dispatch(changeUUIDPlaying(uuid));
     }
     // if (
@@ -166,6 +176,9 @@ function Player() {
 
       if (array_i !== undefined) {
         if (uuid !== undefined) {
+          console.log("Player 171");
+          console.log(uuid);
+
           dispatch(changeUUIDPlaying(uuid));
         }
 
@@ -201,6 +214,9 @@ function Player() {
   function onPlayListen(event) {
     if (mp3PlayerState !== "playing") {
       dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+      dispatch(
+        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+      );
     }
   }
 
