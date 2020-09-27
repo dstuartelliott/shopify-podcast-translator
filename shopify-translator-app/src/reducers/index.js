@@ -155,9 +155,17 @@ export const getSimplifiedSentences = (state) => {
         next_start_time = -99.9;
       }
       let minutes = Math.floor(element.word.word.start / 60);
+
       let seconds = element.word.word.start - minutes * 60;
 
       let time_string = minutes + ":" + Math.floor(seconds);
+
+      if (time_string === "NaN:NaN") {
+        minutes = Math.floor(element.word.start / 60);
+
+        seconds = element.word.start - minutes * 60;
+        time_string = minutes + ":" + Math.floor(seconds);
+      }
 
       let start;
       if (element.word.word.start === undefined) {

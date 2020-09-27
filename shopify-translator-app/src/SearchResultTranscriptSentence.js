@@ -19,7 +19,11 @@ import {
   COLORS_SHOPIFY_YELLOW_PALLETE,
 } from "./constants.js";
 
-import { getSearchResults, getTranslationMP3PlayerState } from "./reducers";
+import {
+  getSearchResults,
+  getTranslationMP3PlayerState,
+  getShowTranslation,
+} from "./reducers";
 
 import { useDispatch } from "react-redux";
 
@@ -40,6 +44,8 @@ function SearchResultTranscriptSentence({
   const [combined_english, setCombined_english] = React.useState([]);
 
   const [combined_translated, setCombined_translated] = React.useState([]);
+
+  let showTranslation = useSelector(getShowTranslation);
 
   function highlightWordBothCases(
     phrase_lowered,
@@ -180,28 +186,33 @@ function SearchResultTranscriptSentence({
               })}
             </SentenceHighlighted>
           </SentencePlayingDiv>
-          <SentencePlayingDiv
-            onClick={handleTranslatedClickedSentence}
-            id={translatedUUID}
-          >
-            <Sentence className="”notranslate”">
-              <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
-              {combined_translated.map((element, i) => {
-                if (
-                  element === search_phrase ||
-                  element === " " + search_phrase ||
-                  element === original_search_phrase ||
-                  element === " " + original_search_phrase
-                ) {
-                  return (
-                    <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
-                  );
-                } else {
-                  return <span>{element}</span>;
-                }
-              })}
-            </Sentence>
-          </SentencePlayingDiv>
+
+          {showTranslation ? (
+            <SentencePlayingDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <Sentence className="”notranslate”">
+                <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
+                {combined_translated.map((element, i) => {
+                  if (
+                    element === search_phrase ||
+                    element === " " + search_phrase ||
+                    element === original_search_phrase ||
+                    element === " " + original_search_phrase
+                  ) {
+                    return (
+                      <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
+                    );
+                  } else {
+                    return <span>{element}</span>;
+                  }
+                })}
+              </Sentence>
+            </SentencePlayingDiv>
+          ) : (
+            <div></div>
+          )}
         </SentenceAndSpeakerSelected>
       </Wrapper>
     );
@@ -283,28 +294,32 @@ function SearchResultTranscriptSentence({
               })}
             </Sentence>
           </SentenceDiv>
-          <SentenceDiv
-            onClick={handleTranslatedClickedSentence}
-            id={translatedUUID}
-          >
-            <Sentence className="”notranslate”">
-              <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
-              {combined_translated.map((element, i) => {
-                if (
-                  element === search_phrase ||
-                  element === " " + search_phrase ||
-                  element === original_search_phrase ||
-                  element === " " + original_search_phrase
-                ) {
-                  return (
-                    <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
-                  );
-                } else {
-                  return <span>{element}</span>;
-                }
-              })}
-            </Sentence>
-          </SentenceDiv>
+          {showTranslation ? (
+            <SentenceDiv
+              onClick={handleTranslatedClickedSentence}
+              id={translatedUUID}
+            >
+              <Sentence className="”notranslate”">
+                <SpeakerFrench>{sentence_object.speaker}</SpeakerFrench>:{" "}
+                {combined_translated.map((element, i) => {
+                  if (
+                    element === search_phrase ||
+                    element === " " + search_phrase ||
+                    element === original_search_phrase ||
+                    element === " " + original_search_phrase
+                  ) {
+                    return (
+                      <SentenceTextSearchTerm>{element}</SentenceTextSearchTerm>
+                    );
+                  } else {
+                    return <span>{element}</span>;
+                  }
+                })}
+              </Sentence>
+            </SentenceDiv>
+          ) : (
+            <div></div>
+          )}
         </SentenceAndSpeaker>
       </Wrapper>
     );
