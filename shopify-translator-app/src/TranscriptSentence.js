@@ -10,6 +10,7 @@ import {
   recordTranslationMP3PlayerState,
   changeUUIDPlaying,
   updateShouldTranslationsAutoPlay,
+  updateClickMeHasBeenClicked,
 } from "./actions";
 import { useSelector } from "react-redux";
 import {
@@ -18,7 +19,11 @@ import {
   COLORS_SHOPIFY_YELLOW_PALLETE,
 } from "./constants.js";
 
-import { getTranslationMP3PlayerState, getShowTranslation } from "./reducers";
+import {
+  getTranslationMP3PlayerState,
+  getShowTranslation,
+  getClickMeStatus,
+} from "./reducers";
 
 import { useDispatch } from "react-redux";
 
@@ -27,12 +32,15 @@ function TranscriptSentence({
   englishHighlighted,
   translatedHightlighted,
   translatedUUID,
+  i_from_list,
 }) {
   const dispatch = useDispatch();
 
   let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
 
   let showTranslation = useSelector(getShowTranslation);
+
+  let clickMeStatus = useSelector(getClickMeStatus);
 
   // const [showTranslation, setshowTranslation] = React.useState(false);
 
@@ -59,6 +67,8 @@ function TranscriptSentence({
   function handleTranslatedClickedSentence(event) {
     englishHighlighted = false;
     translatedHightlighted = true;
+
+    dispatch(updateClickMeHasBeenClicked(true));
 
     dispatch(updateShouldTranslationsAutoPlay(true));
     dispatch(
@@ -161,6 +171,13 @@ function TranscriptSentence({
               {sentence_object.english_sentence}
             </Sentence>
           </SentenceDiv>
+          {i_from_list === 1 && showTranslation && !clickMeStatus ? (
+            <ClickMeButton onClick={handleTranslatedClickedSentence}>
+              Click Me!
+            </ClickMeButton>
+          ) : (
+            ""
+          )}
           {showTranslation ? (
             <SentenceDiv
               onClick={handleTranslatedClickedSentence}
@@ -179,6 +196,16 @@ function TranscriptSentence({
     );
   }
 }
+const ClickMeButton = styled.button`
+  color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Darker};
+  background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Light};
+  transform: rotate(-15deg);
+  position: absolute;
+  border: 0px;
+  border-radius: 5px;
+  padding: 3px;
+  left: 90%;
+`;
 
 const Wrapper = styled.div`
   z-index: 2;

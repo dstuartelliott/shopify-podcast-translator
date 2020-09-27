@@ -303,6 +303,7 @@ function Scrolltext() {
                       element.uuid === translationTimeCodeUUID.uuid
                     }
                     next_start_time={element.next_start_time}
+                    i_from_list={i}
                   ></TranscriptSentence>
                   {element.uuid === translationTimeCodeUUID.uuid &&
                   translationPlaying &&

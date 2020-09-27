@@ -130,6 +130,16 @@ export default function appReducer(state = initialState, action) {
       };
     }
 
+    case "UPDATE_CLICK_ME_HAS_BEEN_CLICKED": {
+      console.log("UPDATE_CLICK_ME_HAS_BEEN_CLICKED");
+      console.log(action);
+
+      return {
+        ...state,
+        clickMeHasBeenClicked: action.clickMeHasBeenClicked,
+      };
+    }
+
     default:
       return state;
   }
@@ -407,5 +417,11 @@ export const getShouldTranslationsAutoPlay = (state) => {
     return { shouldTranslationsAutoPlay: state.shouldTranslationsAutoPlay };
   } else {
     return { shouldTranslationsAutoPlay: false };
+  }
+};
+
+export const getClickMeStatus = (state) => {
+  if (state.clickMeHasBeenClicked !== undefined) {
+    return state.clickMeHasBeenClicked;
   }
 };
