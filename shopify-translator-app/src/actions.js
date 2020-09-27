@@ -101,15 +101,11 @@ export const updateWindowDimensions = (dim) => ({
 export const updateSearchResults = (searchResults) => ({
   type: "UPDATE_SEARCH_RESULTS",
   searchResults: searchResults,
-
-  // type_curently_playing: "Translation",
 });
 
 export const setRespondToSearchState = (repsondToSearchState) => ({
   type: "SET_RESPOND_TO_SEARCH_RATE",
   repsondToSearchState: repsondToSearchState,
-
-  // type_curently_playing: "Translation",
 });
 
 export const updateShouldTranslationsAutoPlay = (
@@ -117,6 +113,9 @@ export const updateShouldTranslationsAutoPlay = (
 ) => ({
   type: "UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY",
   shouldTranslationsAutoPlay: shouldTranslationsAutoPlay,
+});
 
-  // type_curently_playing: "Translation",
+export const updateClickMeHasBeenClicked = (clickMeHasBeenClicked) => ({
+  type: "UPDATE_CLICK_ME_HAS_BEEN_CLICKED",
+  clickMeHasBeenClicked: clickMeHasBeenClicked,
 });

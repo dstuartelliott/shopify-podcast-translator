@@ -10,7 +10,10 @@ import Player from "./Player";
 import Scrolltext from "./Scrolltext";
 import "focus-visible";
 
-import { updateShouldTranslationsAutoPlay } from "./actions";
+import {
+  updateShouldTranslationsAutoPlay,
+  updateClickMeHasBeenClicked,
+} from "./actions";
 
 import { markEnglishAsPlaying, changeTranslation } from "./actions";
 
@@ -23,6 +26,8 @@ function App() {
     dispatch(markEnglishAsPlaying(0.0, "TBD"));
     dispatch(changeTranslation(true));
     dispatch(updateShouldTranslationsAutoPlay(true));
+    dispatch(updateClickMeHasBeenClicked(false));
+
     // eslint-disable-next-line
   }, []);
 
