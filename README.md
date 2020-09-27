@@ -19,7 +19,8 @@ I sat down and figured out what I would need to do -
 
 Some other interesting tidbits behind the making of this app -
 
-- I'm running my own Node Express server to serve out the data. I have a bunch of juicy JSON files from all the transcribing code I've written.
 - I use the Google Text to Speech API, so I can use customized female and male voices with Quebec accents. I switched from the SpeechSynthesis framework because the voice results were too variant across browsers and devices.!
 - As far an an MVP goes, it's actually getting there now. Since I submitted it in early September I've been hacking away at it. The delta from initial submission to current version is massive at this point. That's what getting up at 5AM and working every day on it gets ya!
 - This will be my graduation project for my Bootcamp, so I intend to expand it quite a bit! There's no reason I can't add more languages, or add meta-data from others APIs, etc. I'll be graduating on November 18th, so I'll be adding to this project on ongoing basis.
+- I was running my own Node Express server to serve out the data (the server is stull up) I have a bunch of juicy JSON files from all the transcribing code I've written.  However, I've switched to a bit bucket on Linode to serve out the JSON along with the individual translated MP3 files because I'm about to tweet this project out and I neeed a more robust solution.
+
