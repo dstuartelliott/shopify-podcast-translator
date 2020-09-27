@@ -75,6 +75,12 @@ function Scrolltext() {
   const audioref = React.useRef(null);
 
   React.useEffect(() => {
+    console.log("search results changed");
+    console.log(search_results);
+    console.log(simplifiedSentences);
+  }, [search_results]);
+
+  React.useEffect(() => {
     let filename =
       "https://us-east-1.linodeobjects.com/podcast-files/third/" +
       translationTimeCodeUUID.translated_filename;
