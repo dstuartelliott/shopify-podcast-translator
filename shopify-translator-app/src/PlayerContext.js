@@ -55,6 +55,23 @@ export const PlayerContextProvider = ({ children }) => {
     return myPromise;
   };
 
+  const getCombined3FomLinodeBucket = () => {
+    let myPromise = new Promise((resolve, reject) => {
+      const apiUrl =
+        "https://us-east-1.linodeobjects.com/podcast-files/third/healthish_V2__translations_with_aligned_timing.json";
+      fetch(apiUrl)
+        .then((response) => {
+          let data = response.json();
+          // profileObject = data;
+          resolve(data);
+        })
+        .catch((error) => {
+          resolve({ error });
+        });
+    });
+    return myPromise;
+  };
+
   const getTranslatedMP3s = async () => {
     let myPromise = new Promise((resolve, reject) => {
       const apiUrl = "https://www.justheard.ca:8000/returntranslationrecords";
@@ -91,16 +108,38 @@ export const PlayerContextProvider = ({ children }) => {
     return myPromise;
   };
 
+  const getTranslatedMP3s3 = async () => {
+    let myPromise = new Promise((resolve, reject) => {
+      // const apiUrl = "https://www.justheard.ca:8000/returntranslationrecords3";
+      const apiUrl =
+        "https://us-east-1.linodeobjects.com/podcast-files/third/healthish_v3_records.json";
+
+      fetch(apiUrl)
+        .then((response) => {
+          let data = response.json();
+          // profileObject = data;
+
+          resolve(data);
+        })
+        .catch((error) => {
+          resolve({ error });
+        });
+    });
+    return myPromise;
+  };
+
   const computeTranscript = async () => {
     console.log("expensive transcript operation");
 
-    let combined = await getCombined3();
+    let combined = await getCombined3FomLinodeBucket();
 
-    let sorted_combined = combined.translations.sort(
-      (a, b) => a.iteration - b.iteration
-    );
+    // let sorted_combined = combined.translations.sort(
+    //   (a, b) => a.iteration - b.iteration
+    // );
 
-    let translated_mp3s = await getTranslatedMP3s2();
+    let sorted_combined = combined.sort((a, b) => a.iteration - b.iteration);
+
+    let translated_mp3s = await getTranslatedMP3s3();
 
     let numObjs = [];
 
@@ -108,7 +147,7 @@ export const PlayerContextProvider = ({ children }) => {
 
     console.log(sorted_combined);
 
-    translated_mp3s.records.forEach((record) => {
+    translated_mp3s.forEach((record) => {
       let translated_mp3_words = record.filename.split("_");
       let number_key = translated_mp3_words[0];
       let word = translated_mp3_words[2];
@@ -130,7 +169,7 @@ export const PlayerContextProvider = ({ children }) => {
         ) {
           translated_filename = numObjs[i].filename;
         } else if (translation_first_word !== numObjs[i].word) {
-          let matched_from_translated_mp3s = translated_mp3s.records.filter(
+          let matched_from_translated_mp3s = translated_mp3s.filter(
             (el) => el.text === element.translation
           );
 
@@ -271,6 +310,7 @@ export const PlayerContextProvider = ({ children }) => {
         getTranslatedMP3s,
         getTranslatedMP3s2,
         computeTranscript,
+        getCombined3FomLinodeBucket,
       }}
     >
       {children}

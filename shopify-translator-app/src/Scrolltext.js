@@ -76,7 +76,7 @@ function Scrolltext() {
 
   React.useEffect(() => {
     let filename =
-      "https://us-east-1.linodeobjects.com/podcast-files/second/" +
+      "https://us-east-1.linodeobjects.com/podcast-files/third/" +
       translationTimeCodeUUID.translated_filename;
     setTranslatedAudioSource(filename);
   }, [translationTimeCodeUUID, translationPlaying]);

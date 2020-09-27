@@ -19,16 +19,30 @@ function readTranscriptAndReturnFullSentences(data) {
     let split_speaker_and_text = element.split(": ");
     let speaker = split_speaker_and_text[0];
     let text = split_speaker_and_text[1];
+    console.log(speaker.length);
 
     if (split_speaker_and_text.length === 1) {
-      console.log("pause");
+      console.log("");
 
-      let prev_speaker = speakers_text_combined[i - 1].speaker;
+      let cells_before = filtered.slice(0, i);
+
+      cells_before.reverse();
+
+      let speaker_present_from_prev = cells_before.find((cell) => {
+        let internal_speaker = cell.split(": ");
+        if (internal_speaker.length > 1) {
+          return true;
+        }
+      });
       let text = split_speaker_and_text[0];
-      speakers_text_combined.push({ prev_speaker, text });
+
+      speaker = speaker_present_from_prev.split(": ")[0];
+
+      speakers_text_combined.push({ speaker, text });
 
       just_text.push(text);
     } else {
+      // this is the standard case, where the sentence is split bny a ":" one time, delineating a speaker on the keft side and the text on the right side of the delinator
       let text = split_speaker_and_text[1];
 
       just_text.push(text);
@@ -83,17 +97,30 @@ async function translateShopifyTextSpeakersAndText(
       );
     }
 
-    blobs.forEach(async (blob, i) => {
-      console.log(blob);
-      console.log(blob);
+    let blob_file_string = "blobs.json";
 
+    fs.writeFile(blob_file_string, JSON.stringify(blobs), function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(blob_file_string + " was saved!");
+    });
+
+    fs.writeFile("speaker_blobs.json", JSON.stringify(speaker_blobs), function (
+      err
+    ) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("speaker_blobs.json " + " was saved!");
+    });
+
+    blobs.forEach(async (blob, i) => {
       const sentences_and_translations_result = await translateJustOneArray(
         blob,
         target
       );
-
       let speaker_blob = speaker_blobs[i];
-
       sentences_and_translations_result.forEach((result, ii) => {
         let speaker = speaker_blob[ii].speaker;
         let text_local = result.text_local;
@@ -108,11 +135,9 @@ async function translateShopifyTextSpeakersAndText(
           iteration,
         });
       });
-
       sentences_and_translations = sentences_and_translations.concat(
         sentences_and_translations_result
       );
-
       if (
         combined_speakers_and_translations.length ===
         full_sentences.just_text.length
@@ -122,7 +147,6 @@ async function translateShopifyTextSpeakersAndText(
           "sentences_and_translations_shopify_" +
           language +
           ".json";
-
         fs.writeFile(
           filename_language_string,
           JSON.stringify(sentences_and_translations),
@@ -133,13 +157,11 @@ async function translateShopifyTextSpeakersAndText(
             console.log(filename_language_string + " was saved!");
           }
         );
-
         let filename_language_string2 =
           filePrepend +
           "combined_speakers_and_translations" +
           language +
           ".json";
-
         fs.writeFile(
           filename_language_string2,
           JSON.stringify(combined_speakers_and_translations),
@@ -150,13 +172,11 @@ async function translateShopifyTextSpeakersAndText(
             console.log(filename_language_string2 + " was saved!");
           }
         );
-
         return combined_speakers_and_translations;
       }
     });
-
-    // console.log(sentences_and_translations[0]);
-    // console.log(combined_speakers_and_translations[0]);
+    console.log(sentences_and_translations[0]);
+    console.log(combined_speakers_and_translations[0]);
   } catch (err) {
     console.log(err);
   }
@@ -186,7 +206,7 @@ const newShopifyChain = async () => {
   let full_sentences = readTranscriptAndReturnFullSentences(text_file_data);
 
   let filename_language_string =
-    "pre_launch_" + "full_sentences_good" + "_fr_" + ".json";
+    "healthish" + "_full_sentences_good" + "_fr_" + ".json";
 
   fs.writeFile(
     filename_language_string,
@@ -198,9 +218,10 @@ const newShopifyChain = async () => {
       console.log(filename_language_string + " was saved!");
     }
   );
-  //translateShopifyText(full_sentences.just_text, "fr", "pre_launch");
+  // translateShopifyText(full_sentences.just_text, "fr", "healthish_v3_");
 
-  translateShopifyTextSpeakersAndText(full_sentences, "fr", "pre_launch");
+  console.log("dave");
+  translateShopifyTextSpeakersAndText(full_sentences, "fr", "healthish_v3_");
 };
 
 newShopifyChain();
