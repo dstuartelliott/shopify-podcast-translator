@@ -75,9 +75,14 @@ function Scrolltext() {
   const audioref = React.useRef(null);
 
   React.useEffect(() => {
+    // let filename =
+    //   "https://us-east-1.linodeobjects.com/podcast-files/third/" +
+    //   translationTimeCodeUUID.translated_filename;
+
     let filename =
-      "https://us-east-1.linodeobjects.com/podcast-files/third/" +
+      "https://us-east-1.linodeobjects.com/podcast-files/pureChimp/" +
       translationTimeCodeUUID.translated_filename;
+
     setTranslatedAudioSource(filename);
   }, [translationTimeCodeUUID, translationPlaying]);
 

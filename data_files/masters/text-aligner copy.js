@@ -6,18 +6,19 @@ const { stringify } = require("querystring");
 
 const alignGentleResultsWithTranscript = async (
   filePrepend,
-  combine_json_filename
+  combine_json_filename,
+  alingerFromGentleFileName,
+  fullSentencesJSON
 ) => {
-  const get_aligned_results = await openFilePromise("align-not-strict.json");
+  const get_aligned_results = await openFilePromise(alingerFromGentleFileName);
   let aligned_results = JSON.parse(get_aligned_results);
 
-  const text_file_data = await openTextFilePromise(
-    "Shopify_Master_s__Healthish_Transcript.txt"
-  );
+  // const get_full_sentences_data = await openFilePromise(
+  //   "pre_launch_full_sentences_good_fr_.json"
+  // );
 
-  const get_full_sentences_data = await openFilePromise(
-    "pre_launch_full_sentences_good_fr_.json"
-  );
+  const get_full_sentences_data = await openFilePromise(fullSentencesJSON);
+
   let full_sentences = JSON.parse(get_full_sentences_data);
 
   let still_to_be_done = [];
@@ -329,9 +330,19 @@ const alignGentleResultsWithTranscript = async (
         (el) => el === prev_words_offset_last_word
       );
 
-      let next_words_offset_first_word = next.words[0].word;
+      let next_words_offset_first_word;
 
-      console.log(typeof next_words_offset_first_word);
+      if (
+        i === translations_with_aligned_timing.length - 1 ||
+        i === translations_with_aligned_timing.length - 2
+      ) {
+        next = combined[combined.length - 1];
+        let next_words_offset_first_word = next.aligned_words_matching[0].word;
+      } else {
+        next_words_offset_first_word = next.words[0].word;
+      }
+
+      // console.log(typeof next_words_offset_first_word);
       if (
         typeof next_words_offset_first_word === `string` &&
         next_words_offset_first_word !== undefined
@@ -355,8 +366,6 @@ const alignGentleResultsWithTranscript = async (
       let translations_and_english_sentence = translations_and_english.find(
         (tr) => tr.iteration === i
       );
-
-      console.log("");
 
       let iteration = i;
 
@@ -426,8 +435,10 @@ const alignGentleResultsWithTranscript = async (
 };
 
 alignGentleResultsWithTranscript(
-  "healthish_V2_",
-  "pre_launchcombined_speakers_and_translationsfr.json"
+  "pureChimp_",
+  "pureChimpcombined_speakers_and_translationsfr.json",
+  "alinger_data.json",
+  "pureChimp_full_sentences_good_fr_.json"
 );
 
 //alignGentleResultsWithTranscript();

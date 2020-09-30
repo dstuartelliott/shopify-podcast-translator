@@ -72,6 +72,23 @@ export const PlayerContextProvider = ({ children }) => {
     return myPromise;
   };
 
+  const getCombined3FomLinodeBucketPureChimp = () => {
+    let myPromise = new Promise((resolve, reject) => {
+      const apiUrl =
+        "https://us-east-1.linodeobjects.com/podcast-files/pureChimp/pureChimp__translations_with_aligned_timing.json";
+      fetch(apiUrl)
+        .then((response) => {
+          let data = response.json();
+          // profileObject = data;
+          resolve(data);
+        })
+        .catch((error) => {
+          resolve({ error });
+        });
+    });
+    return myPromise;
+  };
+
   const getTranslatedMP3s = async () => {
     let myPromise = new Promise((resolve, reject) => {
       const apiUrl = "https://www.justheard.ca:8000/returntranslationrecords";
@@ -128,10 +145,30 @@ export const PlayerContextProvider = ({ children }) => {
     return myPromise;
   };
 
+  const getTranslatedMP3sPureChimp = async () => {
+    let myPromise = new Promise((resolve, reject) => {
+      // const apiUrl = "https://www.justheard.ca:8000/returntranslationrecords3";
+      const apiUrl =
+        " https://us-east-1.linodeobjects.com/podcast-files/pureChimp/pureChimp_records.json";
+
+      fetch(apiUrl)
+        .then((response) => {
+          let data = response.json();
+          // profileObject = data;
+
+          resolve(data);
+        })
+        .catch((error) => {
+          resolve({ error });
+        });
+    });
+    return myPromise;
+  };
+
   const computeTranscript = async () => {
     console.log("expensive transcript operation");
 
-    let combined = await getCombined3FomLinodeBucket();
+    let combined = await getCombined3FomLinodeBucketPureChimp();
 
     // let sorted_combined = combined.translations.sort(
     //   (a, b) => a.iteration - b.iteration
@@ -139,7 +176,7 @@ export const PlayerContextProvider = ({ children }) => {
 
     let sorted_combined = combined.sort((a, b) => a.iteration - b.iteration);
 
-    let translated_mp3s = await getTranslatedMP3s3();
+    let translated_mp3s = await getTranslatedMP3sPureChimp();
 
     let numObjs = [];
 
