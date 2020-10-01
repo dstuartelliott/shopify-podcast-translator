@@ -24,7 +24,24 @@ const openTextFilePromise = (filename) => {
   return myPromise;
 };
 
+const writeDataViewPromise = (filename, dataView, directory) => {
+  myPromise = new Promise((resolve, reject) => {
+    let file_to_write = "./" + directory + "/" + filename;
+    fs.writeFile(file_to_write, dataView, function (err) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      }
+      console.log(fs);
+
+      resolve(true);
+    });
+  });
+  return myPromise;
+};
+
 module.exports = {
   openFilePromise,
   openTextFilePromise,
+  writeDataViewPromise,
 };
