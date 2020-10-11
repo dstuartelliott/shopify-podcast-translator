@@ -28,8 +28,25 @@ function App() {
     dispatch(updateShouldTranslationsAutoPlay(true));
     dispatch(updateClickMeHasBeenClicked(false));
 
+    // window.gapi.load("auth2", () => {
+    //   this.auth2 = gapi.auth2.init({
+    //     client_id: "YOUR_CLIENT_ID",
+    //   });
+    // });
+
     // eslint-disable-next-line
   }, []);
+
+  function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    // var id_token = googleUser.getAuthResponse().id_token;
+
+    console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log("Name: " + profile.getName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+    // console.log("Email: " + id_token); // This is null if the 'email' scope is not present.
+  }
 
   // if (isMobile) {
   //   return <div> Mobile version coming soon (like, in a day) </div>;
@@ -40,6 +57,11 @@ function App() {
         <GlobalStyles></GlobalStyles>
         <AppProvider i18n={enTranslations}>
           <TopDiv>
+            <SignInDiv>
+              <div class="g-signin2" data-onsuccess="onSignIn"></div>
+              Hello
+            </SignInDiv>
+
             <Top></Top>
           </TopDiv>
           <Player></Player>
@@ -53,6 +75,8 @@ function App() {
   );
   // }
 }
+
+const SignInDiv = styled.div``;
 
 const FleXApp = styled.div``;
 const TopDiv = styled.div`
