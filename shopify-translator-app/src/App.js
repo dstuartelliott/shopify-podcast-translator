@@ -10,6 +10,9 @@ import Player from "./Player";
 import Scrolltext from "./Scrolltext";
 import "focus-visible";
 
+import { PlayerContext } from "./PlayerContext";
+import { DatabaseContext } from "./DatabaseContext";
+
 import {
   updateShouldTranslationsAutoPlay,
   updateClickMeHasBeenClicked,
@@ -17,9 +20,23 @@ import {
 
 import { markEnglishAsPlaying, changeTranslation } from "./actions";
 
+const gapiLoaded = () =>
+  new Promise((resolve) => {
+    console.log("promise");
+    const interval = setInterval(() => {
+      if (window.gapi != null) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 100);
+  });
+
 function App() {
   //eslint-disable-next-line
   const dispatch = useDispatch();
+
+  const playerContext = React.useContext(PlayerContext);
+  const databaseContext = React.useContext(DatabaseContext);
 
   //test
   React.useEffect(() => {
@@ -27,6 +44,45 @@ function App() {
     dispatch(changeTranslation(true));
     dispatch(updateShouldTranslationsAutoPlay(true));
     dispatch(updateClickMeHasBeenClicked(false));
+
+    async function getGoogle() {
+      window.gapi.load("auth2", async function () {
+        let auth_object = await window.gapi.auth2.init({
+          client_id:
+            "112704103478-ql4ienro46scf14gfqaekttb0e0qg7ih.apps.googleusercontent.com",
+        });
+
+        console.log(auth_object);
+
+        let current_user = auth_object.currentUser.get();
+
+        let id_token = current_user.getAuthResponse().id_token;
+
+        // console.log(id_token);
+
+        // let verified_token = await databaseContext.getVerifiedToken(id_token);
+
+        // // let added_to_db = await databaseContext.initialAuthSend(verified_token);
+        // console.log(verified_token);
+
+        let verified_token1 = await databaseContext.getVerifiedTokenLocal(
+          id_token
+        );
+        console.log(verified_token1);
+
+        // getVerifiedTokenLocal
+
+        let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(
+          id_token
+        );
+
+        console.log(verified_in_db);
+
+        /* Ready. Make a call to gapi.auth2.init or some other API */
+      });
+    }
+
+    getGoogle();
 
     // window.gapi.load("auth2", () => {
     //   this.auth2 = gapi.auth2.init({
@@ -37,6 +93,8 @@ function App() {
     // eslint-disable-next-line
   }, []);
 
+  const [profileName, setProfileName] = React.useState("none");
+
   function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     // var id_token = googleUser.getAuthResponse().id_token;
@@ -46,6 +104,8 @@ function App() {
     console.log("Image URL: " + profile.getImageUrl());
     console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
     // console.log("Email: " + id_token); // This is null if the 'email' scope is not present.
+
+    setProfileName(profile.getName());
   }
 
   // if (isMobile) {
@@ -59,7 +119,7 @@ function App() {
           <TopDiv>
             <SignInDiv>
               <div class="g-signin2" data-onsuccess="onSignIn"></div>
-              Hello
+              {profileName}
             </SignInDiv>
 
             <Top></Top>
