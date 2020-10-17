@@ -169,14 +169,22 @@ function Scrolltext() {
         true
       );
 
-      audioref.current.addEventListener(
-        "seeking",
-        function () {
-          console.log("seeking");
-          console.log(audioref.current.currentTime);
-        },
-        true
-      );
+      // audioref.current.addEventListener(
+      //   "seeking",
+      //   function () {
+      //     console.log("seeking");
+      //     console.log(audioref.current.currentTime);
+      //   },
+      //   true
+      // );
+
+      // audioref.current.addEventListener(
+      //   "timeupdate",
+      //   function () {
+      //     console.log(audioref.current.currentTime);
+      //   },
+      //   true
+      // );
     }
 
     if (uuidPlaying !== undefined) {

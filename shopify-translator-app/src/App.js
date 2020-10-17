@@ -7,6 +7,8 @@ import { AppProvider } from "@shopify/polaris";
 import { useDispatch } from "react-redux";
 import Top from "./Top";
 import Player from "./Player";
+import PlayerHTML from "./PlayerHTML";
+
 import Scrolltext from "./Scrolltext";
 import "focus-visible";
 
@@ -117,18 +119,17 @@ function App() {
         <GlobalStyles></GlobalStyles>
         <AppProvider i18n={enTranslations}>
           <TopDiv>
-            <SignInDiv>
-              <div class="g-signin2" data-onsuccess="onSignIn"></div>
-              {profileName}
-            </SignInDiv>
-
             <Top></Top>
           </TopDiv>
-          <Player></Player>
-
+          {/* <Player></Player> */}
+          <PlayerHTML></PlayerHTML>
           <ScrollDiv>
             <Scrolltext></Scrolltext>
           </ScrollDiv>
+          <SignInDiv>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            {profileName}
+          </SignInDiv>
         </AppProvider>
       </FleXApp>
     </FocusVisible>
