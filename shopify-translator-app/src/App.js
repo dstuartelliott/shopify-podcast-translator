@@ -49,7 +49,7 @@ function App() {
       window.gapi.load("auth2", async function () {
         let auth_object = await window.gapi.auth2.init({
           client_id:
-            "112704103478-ql4ienro46scf14gfqaekttb0e0qg7ih.apps.googleusercontent.com",
+            "112704103478-qojm07it64b672dk2mto976ivf6592jm.apps.googleusercontent.com",
         });
 
         console.log(auth_object);

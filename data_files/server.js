@@ -10,13 +10,14 @@ const { openFilePromise, openTextFilePromise } = require("./filelibs.js");
 const data = require("./data");
 const { OAuth2Client } = require("google-auth-library");
 
-const client = new OAuth2Client(
-  "112704103478-ql4ienro46scf14gfqaekttb0e0qg7ih.apps.googleusercontent.com"
-);
-
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
-const { MONGO_URI } = process.env;
+const MONGO_URI = process.env.MONGO_URI;
+
+const GOOGLE_AUTH = process.env.GOOGLE_AUTH;
+
+const client = new OAuth2Client(GOOGLE_AUTH);
+
 let options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -90,8 +91,7 @@ const verifyToken = async (req, res) => {
   async function verify() {
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience:
-        "112704103478-ql4ienro46scf14gfqaekttb0e0qg7ih.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
+      audience: GOOGLE_AUTH, // Specify the CLIENT_ID of the app that accesses the backend
       // Or, if multiple clients access the backend:
       //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
     });
@@ -130,8 +130,7 @@ const verifyTokenAndSlapItIntoDatabase = async (req, res) => {
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience:
-        "112704103478-ql4ienro46scf14gfqaekttb0e0qg7ih.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
+      audience: GOOGLE_AUTH, // Specify the CLIENT_ID of the app that accesses the backend
       // Or, if multiple clients access the backend:
       //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
     });
