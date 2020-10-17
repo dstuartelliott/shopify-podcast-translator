@@ -234,9 +234,14 @@ export const getLCSentencesForSearch = (state) => {
 };
 
 export const getUUIDsandTimes = (state) => {
-  if (state.uuidsAndTimes !== undefined) {
-    return state.uuidsAndTimes;
-  }
+  return state.uuidsAndTimes;
+
+  // if (state.uuidsAndTimes !== undefined) {
+  //   return state.uuidsAndTimes;
+  // } else {
+  //   console.log("returning nothing");
+  //   console.log(state);
+  // }
 };
 
 export const getCurrentTime = (state) => {

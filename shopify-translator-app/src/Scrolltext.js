@@ -137,10 +137,10 @@ function Scrolltext() {
 
   //uuidPlaying
   React.useEffect(() => {
-    console.log("uuidPlaying changed");
+    // console.log("uuidPlaying changed");
 
-    console.log(shouldTranslationsAutoPlay.shouldTranslationsAutoPlay);
-    console.log(audioref.current);
+    // console.log(shouldTranslationsAutoPlay.shouldTranslationsAutoPlay);
+    // console.log(audioref.current);
 
     if (audioref.current !== null) {
       audioref.current.addEventListener(

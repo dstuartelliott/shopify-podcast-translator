@@ -73,6 +73,7 @@ function Player() {
   }, [timeToJumpTo]);
 
   function quickishFindUUID(current_time) {
+    console.log(uuids_and_times);
     let uuid = uuids_and_times.find(
       (element) => current_time > element.start && current_time < element.end
     );
@@ -127,85 +128,6 @@ function Player() {
     last_time_frame = current_time;
   }
   // eslint-disable-next-line
-  async function aSynchFindUUID(current_time) {
-    let array_i;
-    let closest_to_previous_end = 99999999999.0;
-
-    if (uuids_and_times !== undefined) {
-      for (let i = 0; i < uuids_and_times.length - 1; i++) {
-        if (
-          current_time > uuids_and_times[i].start &&
-          current_time < uuids_and_times[i].end
-        ) {
-          array_i = i;
-        }
-      }
-
-      if (array_i === undefined) {
-        console.log("array_i wasa undefined");
-        for (let i = 0; i < uuids_and_times.length - 1; i++) {
-          let distance_to_previous_end = uuids_and_times[i].end - current_time;
-
-          if (
-            distance_to_previous_end > 0 &&
-            distance_to_previous_end < closest_to_previous_end
-          ) {
-            closest_to_previous_end = distance_to_previous_end;
-            array_i = i;
-          }
-        }
-      }
-
-      let uuid = uuids_and_times.find(
-        (element) => current_time > element.start && current_time < element.end
-      );
-
-      if (array_i === 0) {
-        prev = uuids_and_times[array_i];
-      } else {
-        prev = uuids_and_times[array_i - 1];
-      }
-
-      if (array_i === [uuids_and_times.length - 1]) {
-        next = uuids_and_times[array_i];
-      } else {
-        next = uuids_and_times[array_i + 1];
-      }
-
-      current = uuids_and_times[array_i];
-
-      if (array_i !== undefined) {
-        if (uuid !== undefined) {
-          console.log("Player 171");
-          console.log(uuid);
-
-          dispatch(changeUUIDPlaying(uuid));
-        }
-
-        if (translationPlaying === false) {
-          dispatch(
-            markEnglishAsPlaying({
-              time_code_from_player: current_time,
-              english_time_code_from_db: current.start,
-              english_uuid: current.uuid,
-              type_curently_playing: "English",
-              prev_uuid: prev.start,
-              prev_tc: prev.start,
-              next_uuid: next.uuid,
-              next_tc: next.start,
-            })
-          );
-        } else if (translationPlaying) {
-          dispatch(
-            markTranslationAsPlaying({
-              time: current_time,
-              translated_uuid: current.uuid,
-            })
-          );
-        }
-      }
-    }
-  }
 
   function onPauseListen(event) {
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));

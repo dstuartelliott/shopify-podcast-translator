@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
@@ -38,21 +38,26 @@ let current;
 let last_time_frame = 0.0;
 // eslint-disable-next-line
 let current_uuid;
+let isloaded = false;
 
+let outside_uuids;
 function PlayerHTML() {
   const dispatch = useDispatch();
 
   let mp3PlayerState = useSelector(getMP3PlayerState);
 
-  let uuids_and_times = useSelector(getUUIDsandTimes);
-
   let timeToJumpTo = useSelector(getTimeToJumpTo);
 
   let translationPlaying = useSelector(getTranslationPlaying);
 
-  const audioref = React.useRef(null);
+  let seeking = false;
+
+  let uuids_and_times = useSelector(getUUIDsandTimes);
 
   let showTranslation = useSelector(getShowTranslation);
+  let audioref = React.useRef(null);
+
+  let [loadeduuids_and_times, setloadeduuids_and_times] = React.useState([]);
 
   React.useEffect(() => {
     console.log("time to jump to useEffect fired");
@@ -65,7 +70,18 @@ function PlayerHTML() {
     // eslint-disable-next-line
   }, [timeToJumpTo]);
 
+  React.useEffect(() => {
+    console.log("uuids_and_times changed");
+    console.log(uuids_and_times);
+    // setloadeduuids_and_times({ ...uuids_and_times });
+    // console.log({ loadeduuids_and_times });
+    // console.log(uuids_and_times);
+
+    // eslint-disable-next-line
+  }, [uuids_and_times]);
+
   function quickishFindUUID(current_time) {
+    console.log(uuids_and_times);
     if (uuids_and_times !== undefined) {
       let uuid = uuids_and_times.find(
         (element) => current_time > element.start && current_time < element.end
@@ -89,99 +105,47 @@ function PlayerHTML() {
     }
   }
 
-  function announceListen(current_time) {
-    console.log(current_time);
+  function announceListen() {
+    // console.log(current_time);
+
+    if (seeking === false) {
+      let current_time = audioref.current.currentTime;
+
+      console.log(uuids_and_times);
+
+      // console.log(current_time);
+      quickishFindUUID(current_time);
+      dispatch(addCurrentTime({ current_time }));
+
+      // if (Math.abs(last_time_frame - current_time) > 2.0) {
+      //   // console.log("========----==========================================");
+      //   // console.log("likely jog");
+      //   // aSynchFindUUID(current_time);
+      // }
+
+      last_time_frame = current_time;
+    }
+  }
+
+  function announceListenSeekingStopped(current_time) {
+    seeking = false;
+    // console.log("announceListen");
+    console.log(uuids_and_times);
+
+    // console.log(current_time);
     quickishFindUUID(current_time);
     dispatch(addCurrentTime({ current_time }));
 
-    if (Math.abs(last_time_frame - current_time) > 2.0) {
-      // console.log("========----==========================================");
-      // console.log("likely jog");
-      // aSynchFindUUID(current_time);
-    }
+    // if (Math.abs(last_time_frame - current_time) > 2.0) {
+    //   // console.log("========----==========================================");
+    //   // console.log("likely jog");
+    //   // aSynchFindUUID(current_time);
+    // }
 
     last_time_frame = current_time;
   }
+
   // eslint-disable-next-line
-  async function aSynchFindUUID(current_time) {
-    let array_i;
-    let closest_to_previous_end = 99999999999.0;
-
-    if (uuids_and_times !== undefined) {
-      for (let i = 0; i < uuids_and_times.length - 1; i++) {
-        if (
-          current_time > uuids_and_times[i].start &&
-          current_time < uuids_and_times[i].end
-        ) {
-          array_i = i;
-        }
-      }
-
-      if (array_i === undefined) {
-        console.log("array_i wasa undefined");
-        for (let i = 0; i < uuids_and_times.length - 1; i++) {
-          let distance_to_previous_end = uuids_and_times[i].end - current_time;
-
-          if (
-            distance_to_previous_end > 0 &&
-            distance_to_previous_end < closest_to_previous_end
-          ) {
-            closest_to_previous_end = distance_to_previous_end;
-            array_i = i;
-          }
-        }
-      }
-
-      let uuid = uuids_and_times.find(
-        (element) => current_time > element.start && current_time < element.end
-      );
-
-      if (array_i === 0) {
-        prev = uuids_and_times[array_i];
-      } else {
-        prev = uuids_and_times[array_i - 1];
-      }
-
-      if (array_i === [uuids_and_times.length - 1]) {
-        next = uuids_and_times[array_i];
-      } else {
-        next = uuids_and_times[array_i + 1];
-      }
-
-      current = uuids_and_times[array_i];
-
-      if (array_i !== undefined) {
-        if (uuid !== undefined) {
-          console.log("PlayerHTML 171");
-          console.log(uuid);
-
-          dispatch(changeUUIDPlaying(uuid));
-        }
-
-        if (translationPlaying === false) {
-          dispatch(
-            markEnglishAsPlaying({
-              time_code_from_player: current_time,
-              english_time_code_from_db: current.start,
-              english_uuid: current.uuid,
-              type_curently_playing: "English",
-              prev_uuid: prev.start,
-              prev_tc: prev.start,
-              next_uuid: next.uuid,
-              next_tc: next.start,
-            })
-          );
-        } else if (translationPlaying) {
-          dispatch(
-            markTranslationAsPlaying({
-              time: current_time,
-              translated_uuid: current.uuid,
-            })
-          );
-        }
-      }
-    }
-  }
 
   function onPauseListen(event) {
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
@@ -206,11 +170,49 @@ function PlayerHTML() {
 
   React.useEffect(() => {
     if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
+      console.log(audioref.current);
       audioref.current.play();
     } else if (mp3PlayerState === MP3_PLAYER_STATES.PAUSED) {
       audioref.current.pause();
     }
   }, [mp3PlayerState]);
+
+  React.useEffect(() => {
+    console.log(uuids_and_times);
+    console.log("uuids and times changes");
+  }, []);
+
+  function playTest() {
+    audioref.current.play();
+    if (mp3PlayerState !== "playing") {
+      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+      dispatch(
+        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+      );
+    }
+  }
+
+  function playerPause() {
+    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
+  }
+
+  function seekingHappening() {
+    seeking = true;
+  }
+
+  function seekingDone() {
+    seeking = false;
+    announceListen();
+  }
+
+  function timeUpdateTest() {
+    console.log("timeUpdateTest");
+    console.log(uuids_and_times);
+  }
+
+  function ableToPlay() {
+    // do somethinf for buffering here
+  }
 
   React.useEffect(() => {
     // audioref.current.addEventListener(
@@ -223,14 +225,6 @@ function PlayerHTML() {
     // );
 
     audioref.current.onloadeddata = function () {
-      audioref.current.addEventListener(
-        "timeupdate",
-        function () {
-          announceListen(audioref.current.currentTime);
-        },
-        true
-      );
-
       console.log("loaded");
     };
   }, []);
@@ -242,6 +236,12 @@ function PlayerHTML() {
           controls
           ref={audioref}
           src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3"
+          onPlay={playTest}
+          onPause={playerPause}
+          onSeeking={seekingHappening}
+          onSeeked={seekingDone}
+          onTimeUpdate={announceListen}
+          onCanPlay={ableToPlay}
         ></AudioDivBelow>
 
         {/* <AudioPlayer
