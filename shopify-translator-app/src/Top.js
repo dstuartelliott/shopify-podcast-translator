@@ -3,16 +3,56 @@ import styled from "styled-components";
 import HeroSrc from "./images/shopify_masters_hero_small.jpg";
 
 import TopSearch from "./TopSearch";
+import { BiPlayCircle, BiPauseCircle } from "react-icons/bi";
+import { useSelector, useDispatch } from "react-redux";
+
+import { getMP3PlayerState } from "./reducers";
+
+import {
+  recordMP3PlayerState,
+  recordTranslationMP3PlayerState,
+} from "./actions";
 
 import { COLORS_SHOPIFY_YELLOW_PALLETE } from "./constants.js";
+import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 
 function Top() {
+  let mp3PlayerState = useSelector(getMP3PlayerState);
+  const dispatch = useDispatch();
+
+  function playButtonHit() {
+    console.log("hit");
+    console.log(mp3PlayerState);
+
+    if (mp3PlayerState === MP3_PLAYER_STATES.PAUSED) {
+      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+      dispatch(
+        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+      );
+    } else if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
+      {
+        dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
+        dispatch(
+          recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+        );
+      }
+    }
+  }
+
   return (
     <Wrapper>
       <HeroDiv>
         <ImageDiv>
           <HeroImgMB image_source={HeroSrc}></HeroImgMB>
         </ImageDiv>
+        <PlayButton onClick={playButtonHit}>
+          {mp3PlayerState === MP3_PLAYER_STATES.PLAYING ? (
+            <BiPauseCircle size={40} />
+          ) : (
+            <BiPlayCircle size={40} />
+          )}
+        </PlayButton>
+
         <SummaryDiv>
           <TitleAndSearch>
             <TitleText>
@@ -33,6 +73,12 @@ function Top() {
     </Wrapper>
   );
 }
+
+const PlayButton = styled.button`
+  border: 0px;
+  background-color: transparent;
+  color: red;
+`;
 
 const SummaryText = styled.div`
   font-size: 13px;

@@ -9,6 +9,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.2",
+    "boxicons": "^2.0.5",
     "focus-visible": "^5.1.0",
     "mongodb": "^3.6.2",
     "mongodb-client-encryption": "^1.1.0",

@@ -6,7 +6,6 @@ import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch } from "react-redux";
 import Top from "./Top";
-import Player from "./Player";
 import PlayerHTML from "./PlayerHTML";
 
 import Scrolltext from "./Scrolltext";
@@ -54,8 +53,6 @@ function App() {
             "112704103478-qojm07it64b672dk2mto976ivf6592jm.apps.googleusercontent.com",
         });
 
-        console.log(auth_object);
-
         let current_user = auth_object.currentUser.get();
 
         let id_token = current_user.getAuthResponse().id_token;
@@ -70,15 +67,12 @@ function App() {
         let verified_token1 = await databaseContext.getVerifiedTokenLocal(
           id_token
         );
-        console.log(verified_token1);
 
         // getVerifiedTokenLocal
 
         let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(
           id_token
         );
-
-        console.log(verified_in_db);
 
         /* Ready. Make a call to gapi.auth2.init or some other API */
       });
@@ -127,7 +121,7 @@ function App() {
             <Scrolltext></Scrolltext>
           </ScrollDiv>
           <SignInDiv>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div className="g-signin2" data-onsuccess="onSignIn"></div>
             {profileName}
           </SignInDiv>
         </AppProvider>

@@ -100,8 +100,6 @@ function Scrolltext() {
       recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
     );
 
-    console.log(audioref.current);
-
     if (audioref.current !== null) {
       audioref.current.addEventListener(
         "seeking",
@@ -116,10 +114,6 @@ function Scrolltext() {
   }, []);
 
   React.useEffect(() => {
-    console.log("player state changed");
-    console.log(translation_podcast_player_state);
-    console.log(audioref.current);
-
     if (audioref.current !== null) {
       if (
         translation_podcast_player_state ===
@@ -213,7 +207,6 @@ function Scrolltext() {
   }, [uuidPlaying, showTranslation]);
 
   React.useEffect(() => {
-    console.log("showTranslation changed");
     dispatch(updateShouldTranslationsAutoPlay(false));
 
     if (uuidPlaying !== undefined) {
@@ -306,7 +299,7 @@ function Scrolltext() {
               search_results.searchResults.filtered_sentences.length === 0
             ) {
               return (
-                <div>
+                <div key={element.uuid + "topdiv"}>
                   <TranscriptSentence
                     sentence_object={element}
                     key={element.uuid}

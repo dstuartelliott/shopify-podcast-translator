@@ -112,10 +112,6 @@ export const PlayerContextProvider = ({ children }) => {
 
     let numObjs = [];
 
-    console.log(translated_mp3s);
-
-    console.log(sorted_combined);
-
     translated_mp3s.forEach((record) => {
       let translated_mp3_words = record.filename.split("_");
       let number_key = translated_mp3_words[0];

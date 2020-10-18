@@ -18,8 +18,6 @@ export const DatabaseContextProvider = ({ children }) => {
 
   let client, db;
   const initialAuthSend = async (googleAuth) => {
-    console.info(googleAuth);
-    console.info(MONGO_URI);
     try {
       client = await MongoClient(MONGO_URI, options);
       await client.connect();
@@ -49,7 +47,6 @@ export const DatabaseContextProvider = ({ children }) => {
 
       const apiUrl = "https://www.justheard.ca:8000/verifyToken/" + tokenID;
 
-      console.log(apiUrl);
       fetch(apiUrl)
         .then((response) => {
           let data = response.json();
@@ -70,12 +67,10 @@ export const DatabaseContextProvider = ({ children }) => {
 
       const apiUrl = "http://localhost:8000/verifyToken/" + tokenID;
 
-      console.log(apiUrl);
       fetch(apiUrl)
         .then((response) => {
           let data = response.json();
           // profileObject = data;
-          console.log(data);
           resolve(data);
         })
         .catch((error) => {
@@ -94,12 +89,10 @@ export const DatabaseContextProvider = ({ children }) => {
 
       // const apiUrl = "https://localhost:8000";
 
-      console.log(apiUrl);
       fetch(apiUrl)
         .then((response) => {
           let data = response.json();
           // profileObject = data;
-          console.log(data);
           resolve(data);
         })
         .catch((error) => {

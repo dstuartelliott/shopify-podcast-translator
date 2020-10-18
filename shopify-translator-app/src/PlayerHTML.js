@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
@@ -11,6 +11,7 @@ import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 
 import CanadaFlagSrc from "./images/640px-Flag_of_Canada_(Pantone).png";
 import QuebecFlagSrc from "./images/640px-Flag_of_Quebec.svg.png";
+import "boxicons";
 
 import {
   getTimeToJumpTo,
@@ -60,8 +61,6 @@ function PlayerHTML() {
   let [loadeduuids_and_times, setloadeduuids_and_times] = React.useState([]);
 
   React.useEffect(() => {
-    console.log("time to jump to useEffect fired");
-
     if (timeToJumpTo > 0.0) {
       audioref.current.currentTime = timeToJumpTo;
       // audioref.current.audio.current.currentTime = timeToJumpTo;
@@ -69,16 +68,6 @@ function PlayerHTML() {
 
     // eslint-disable-next-line
   }, [timeToJumpTo]);
-
-  React.useEffect(() => {
-    console.log("uuids_and_times changed");
-    console.log(uuids_and_times);
-    // setloadeduuids_and_times({ ...uuids_and_times });
-    // console.log({ loadeduuids_and_times });
-    // console.log(uuids_and_times);
-
-    // eslint-disable-next-line
-  }, [uuids_and_times]);
 
   function quickishFindUUID(current_time) {
     // console.log(uuids_and_times);
@@ -134,18 +123,21 @@ function PlayerHTML() {
   //https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3
 
   React.useEffect(() => {
-    console.log("WE HAVE DETECTED A CHANGED");
-    if (
-      mp3PlayerState === MP3_PLAYER_STATES.PLAYING &&
-      audioref.current.paused === true
-    ) {
-      console.log(audioref.current);
-      audioref.current.play();
-    } else if (
-      mp3PlayerState === MP3_PLAYER_STATES.PAUSE &&
-      audioref.current.paused === false
-    ) {
-      audioref.current.pause();
+    console.log("mp3PlayerState detected in PlayerHtml");
+
+    switch (mp3PlayerState) {
+      case MP3_PLAYER_STATES.PLAYING:
+        if (audioref.current.paused) {
+          audioref.current.play();
+        }
+        break;
+
+      case MP3_PLAYER_STATES.PAUSED:
+        if (!audioref.current.paused) {
+          audioref.current.pause();
+        }
+
+        break;
     }
   }, [mp3PlayerState]);
 
@@ -154,6 +146,7 @@ function PlayerHTML() {
     dispatch(
       recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
     );
+    console.log(navigator.mediaSession);
   }
 
   function playerPause() {
@@ -175,23 +168,28 @@ function PlayerHTML() {
   }
 
   function ableToPlay() {
+    console.log("ableToPlay");
+    if (!isloaded) {
+      if (
+        audioref.currentTime !== undefined &&
+        audioref.currentTime.paused === false
+      ) {
+        dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+      } else {
+        dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
+      }
+
+      isloaded = true;
+    }
+
     // do somethinf for buffering here
   }
 
-  React.useEffect(() => {
-    // audioref.current.addEventListener(
-    //   "seeking",
-    //   function () {
-    //     console.log("seeking");
-    //     console.log(audioref.current.currentTime);
-    //   },
-    //   true
-    // );
+  function loadingStarted(event) {
+    console.log("loadingStarted");
 
-    audioref.current.onloadeddata = function () {
-      console.log("loaded");
-    };
-  }, []);
+    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.LOADING));
+  }
 
   return (
     <PlayerWrapper id={"hello"}>
@@ -200,12 +198,13 @@ function PlayerHTML() {
           controls
           ref={audioref}
           src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3"
-          onPlay={playerPlay}
-          onPause={playerPause}
+          // onPlay={playerPlay}
+          // onPause={playerPause}
           onSeeking={seekingHappening}
           onSeeked={seekingDone}
           onTimeUpdate={announceListen}
           onCanPlay={ableToPlay}
+          onLoadStart={loadingStarted}
         ></AudioDivBelow>
 
         {/* <AudioPlayer
@@ -264,7 +263,9 @@ const AudioDivBelow = styled.audio`
   }
 
   ::-webkit-media-controls-play-button {
-    background-color: white;
+    background-color: transparent;
+    visibility: hidden;
+    display: hidden;
   }
 
   ::-webkit-media-controls-volume-slider-container {
@@ -283,6 +284,17 @@ const PlayerWrapper = styled.div`
 
 const PlayerDiv = styled.div`
   flex-grow: 4;
+`;
+
+const PlayButton = styled.button`
+  /* background-color: transparent; */
+  /* border: 2px solid ${COLORS_SHOPIFY_BLUE_PALLETE.Light}; */
+  border-radius: 10px;
+  border: 0px;
+  background-color: transparent;
+  color: red;
+  width: 50px;
+  height: 50px;
 `;
 
 const TranslationOnOFFButton = styled.button`

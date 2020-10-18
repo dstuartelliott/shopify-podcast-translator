@@ -51,10 +51,10 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "MARK_ENGLISH_AS_PLAYING": {
-      console.log("action MARK_ENGLISH_AS_PLAYING");
-      console.log(action.english_time_code);
-      console.log(action.english_uuid);
-      console.log(action.type_curently_playing);
+      // console.log("action MARK_ENGLISH_AS_PLAYING");
+      // console.log(action.english_time_code);
+      // console.log(action.english_uuid);
+      // console.log(action.type_curently_playing);
 
       return {
         ...state,
@@ -111,8 +111,8 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "UPDATE_SEARCH_RESULTS": {
-      console.log("update search results");
-      console.log(action);
+      // console.log("update search results");
+      // console.log(action);
 
       return {
         ...state,
@@ -121,8 +121,8 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY": {
-      console.log("UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY");
-      console.log(action);
+      // console.log("UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY");
+      // console.log(action);
 
       return {
         ...state,
@@ -131,8 +131,8 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "UPDATE_CLICK_ME_HAS_BEEN_CLICKED": {
-      console.log("UPDATE_CLICK_ME_HAS_BEEN_CLICKED");
-      console.log(action);
+      // console.log("UPDATE_CLICK_ME_HAS_BEEN_CLICKED");
+      // console.log(action);
 
       return {
         ...state,
