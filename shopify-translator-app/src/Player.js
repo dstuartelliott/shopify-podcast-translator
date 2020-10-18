@@ -130,10 +130,13 @@ function Player() {
   // eslint-disable-next-line
 
   function onPauseListen(event) {
+    console.log("going to dispatch from onPauseListen");
+
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
   }
 
   function onPlayListen(event) {
+    console.log("going to dispatch from onPlayListen");
     if (mp3PlayerState !== "playing") {
       dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
       dispatch(

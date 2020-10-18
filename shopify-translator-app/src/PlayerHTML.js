@@ -81,19 +81,20 @@ function PlayerHTML() {
   }, [uuids_and_times]);
 
   function quickishFindUUID(current_time) {
-    console.log(uuids_and_times);
+    // console.log(uuids_and_times);
     if (uuids_and_times !== undefined) {
       let uuid = uuids_and_times.find(
         (element) => current_time > element.start && current_time < element.end
       );
 
-      console.log(current_time);
-      console.log(uuid);
+      // console.log(current_time);
+      // console.log(uuid);
 
       if (uuid !== undefined) {
-        console.log("PlayerHTML 80");
-        console.log(uuid);
-        console.log(translationPlaying);
+        // console.log("PlayerHTML 80");
+        // console.log(uuid);
+        // console.log(translationPlaying);
+        // console.log(current_uuid);
 
         let trans_uuid = uuid.uuid + "trans";
 
@@ -111,55 +112,19 @@ function PlayerHTML() {
     if (seeking === false) {
       let current_time = audioref.current.currentTime;
 
-      console.log(uuids_and_times);
+      // console.log(uuids_and_times);
 
-      // console.log(current_time);
-      quickishFindUUID(current_time);
       dispatch(addCurrentTime({ current_time }));
+      quickishFindUUID(current_time);
 
       // if (Math.abs(last_time_frame - current_time) > 2.0) {
-      //   // console.log("========----==========================================");
-      //   // console.log("likely jog");
-      //   // aSynchFindUUID(current_time);
       // }
 
       last_time_frame = current_time;
     }
   }
 
-  function announceListenSeekingStopped(current_time) {
-    seeking = false;
-    // console.log("announceListen");
-    console.log(uuids_and_times);
-
-    // console.log(current_time);
-    quickishFindUUID(current_time);
-    dispatch(addCurrentTime({ current_time }));
-
-    // if (Math.abs(last_time_frame - current_time) > 2.0) {
-    //   // console.log("========----==========================================");
-    //   // console.log("likely jog");
-    //   // aSynchFindUUID(current_time);
-    // }
-
-    last_time_frame = current_time;
-  }
-
   // eslint-disable-next-line
-
-  function onPauseListen(event) {
-    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
-  }
-
-  function onPlayListen(event) {
-    if (mp3PlayerState !== "playing") {
-      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
-      dispatch(
-        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
-      );
-    }
-  }
-
   function handleTranslationButtonClick() {
     dispatch(changeTranslation(!showTranslation));
   }
@@ -169,27 +134,26 @@ function PlayerHTML() {
   //https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3
 
   React.useEffect(() => {
-    if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
+    console.log("WE HAVE DETECTED A CHANGED");
+    if (
+      mp3PlayerState === MP3_PLAYER_STATES.PLAYING &&
+      audioref.current.paused === true
+    ) {
       console.log(audioref.current);
       audioref.current.play();
-    } else if (mp3PlayerState === MP3_PLAYER_STATES.PAUSED) {
+    } else if (
+      mp3PlayerState === MP3_PLAYER_STATES.PAUSE &&
+      audioref.current.paused === false
+    ) {
       audioref.current.pause();
     }
   }, [mp3PlayerState]);
 
-  React.useEffect(() => {
-    console.log(uuids_and_times);
-    console.log("uuids and times changes");
-  }, []);
-
-  function playTest() {
-    audioref.current.play();
-    if (mp3PlayerState !== "playing") {
-      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
-      dispatch(
-        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
-      );
-    }
+  function playerPlay() {
+    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+    dispatch(
+      recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+    );
   }
 
   function playerPause() {
@@ -236,7 +200,7 @@ function PlayerHTML() {
           controls
           ref={audioref}
           src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3"
-          onPlay={playTest}
+          onPlay={playerPlay}
           onPause={playerPause}
           onSeeking={seekingHappening}
           onSeeked={seekingDone}
