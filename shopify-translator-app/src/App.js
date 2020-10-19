@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
-import styled from "styled-components";
+// import styled from "styled-components/macro";
+import styled from "styled-components/macro";
 import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";

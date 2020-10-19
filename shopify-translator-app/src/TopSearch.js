@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { COLORS_SHOPIFY_GREYS_PALLETE } from "./constants.js";
 
 import { useSelector } from "react-redux";

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { isMobile } from "react-device-detect";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { ScrollTo, ScrollArea } from "react-scroll-to";

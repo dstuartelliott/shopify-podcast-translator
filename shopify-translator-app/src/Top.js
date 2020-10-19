@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import HeroSrc from "./images/shopify_masters_hero_small.jpg";
 
 import TopSearch from "./TopSearch";

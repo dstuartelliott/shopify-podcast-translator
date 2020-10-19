@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import "./App.css";
 import AudioPlayer from "react-h5-audio-player";
 import R5stylesSmall from "./r5Audiostyles.css";

@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import "./App.css";
 import { PlayerContext } from "./PlayerContext";
 

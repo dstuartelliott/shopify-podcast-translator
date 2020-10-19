@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import {
   jumpToTime,
