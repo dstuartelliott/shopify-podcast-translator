@@ -20,10 +20,22 @@ import {
   COLORS_SHOPIFY_GREYS_PALLETE,
 } from "./constants.js";
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
+import useResizeAware from "react-resize-aware";
 
 function Top() {
   let mp3PlayerState = useSelector(getMP3PlayerState);
   const dispatch = useDispatch();
+  const [resizeListenerTop, sizes] = useResizeAware();
+
+  // React.useEffect(() => {
+  //   console.log("Top Do something with the new size values");
+  //   console.log(sizes);
+  // }, [sizes]);
+
+  // React.useEffect(() => {
+  //   console.log("Top loaded");
+  //   console.log(sizes);
+  // }, []);
 
   function playButtonHit() {
     console.log("hit");
@@ -46,6 +58,8 @@ function Top() {
 
   return (
     <Wrapper>
+      {resizeListenerTop}
+
       <HeroDiv>
         <ImageDiv>
           <HeroImgMB image_source={HeroSrc}></HeroImgMB>
@@ -173,6 +187,7 @@ const HeroImgMB = styled.div`
 const Wrapper = styled.div`
   padding: 10px;
   max-width: 900px;
+  position: relative;
 `;
 
 export default Top;

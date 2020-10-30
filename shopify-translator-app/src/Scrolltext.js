@@ -39,7 +39,7 @@ import { Spring, animated } from "react-spring/renderprops";
 import SpinnerJustKF from "./SpinnerJustKF";
 // import { combineReducers } from "redux";
 
-function Scrolltext() {
+function Scrolltext(heightOfText) {
   const playerContext = React.useContext(PlayerContext);
 
   const dispatch = useDispatch();
@@ -168,23 +168,6 @@ function Scrolltext() {
         },
         true
       );
-
-      // audioref.current.addEventListener(
-      //   "seeking",
-      //   function () {
-      //     console.log("seeking");
-      //     console.log(audioref.current.currentTime);
-      //   },
-      //   true
-      // );
-
-      // audioref.current.addEventListener(
-      //   "timeupdate",
-      //   function () {
-      //     console.log(audioref.current.currentTime);
-      //   },
-      //   true
-      // );
     }
 
     if (uuidPlaying !== undefined) {
@@ -244,6 +227,8 @@ function Scrolltext() {
     // eslint-disable-next-line
   }, [podcast_player_state]);
 
+  React.useEffect(() => {}, [{ hamburgerSize }]);
+
   if (isMobile && playerWasClicked === false) {
     return (
       <UnlockWarning>
@@ -277,151 +262,172 @@ function Scrolltext() {
 
   return (
     <ScrollWrapper>
-      {/* <Spring
+      <Spring
         native
         force
         config={{ tension: 2000, friction: 100, precision: 1 }}
-        from={{ height: toggle ? 0 : "auto" }}
-        to={{ height: toggle ? "auto" : 0 }}
+        // display: flex;
+        // flex-direction: column;
+        // justify-content: flex-start;
+        // overflow-y: scroll;
+        // width: 97%;
+        // max-width: 910px;
+        // overflow-x: hidden; //horizontal
+        // height: ${(props) => props.heightpassed};
+
+        from={{
+          height: toggle ? 0 : { hamburgerSize }.hamburgerSize,
+          width: "97%",
+          overflowY: "scroll",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          // topHeight: toggle ? topBig : topSmall,
+        }}
+        to={{ height: toggle ? { hamburgerSize }.hamburgerSize : 0 }}
       >
-        {(props) => <animated.div style={props}>{props.height}</animated.div>}
-      </Spring> */}
-      {console.log({ hamburgerSize })}
-
-      <TranscriptList>
-        {
-          //eslint-disable-next-line
-          simplifiedSentences.map((element, i) => {
-            if (i === 0) {
-              return (
-                <IntroSentence
-                  sentence_object={element}
-                  key={element.uuid}
-                  englishHighlighted={
-                    element.uuid === currentUUID.uuid &&
-                    translationPlaying === false
+        {(props) => (
+          <animated.div style={props}>
+            <TranscriptList heightpassed={100}>
+              {
+                //eslint-disable-next-line
+                simplifiedSentences.map((element, i) => {
+                  if (i === 0) {
+                    return (
+                      <IntroSentence
+                        sentence_object={element}
+                        key={element.uuid}
+                        englishHighlighted={
+                          element.uuid === currentUUID.uuid &&
+                          translationPlaying === false
+                        }
+                        translatedUUID={element.uuid + "trans"}
+                        translatedHightlighted={
+                          element.uuid === translationTimeCodeUUID.uuid &&
+                          translationPlaying
+                        }
+                        next_start_time={element.next_start_time}
+                      ></IntroSentence>
+                    );
                   }
-                  translatedUUID={element.uuid + "trans"}
-                  translatedHightlighted={
-                    element.uuid === translationTimeCodeUUID.uuid &&
-                    translationPlaying
+
+                  if (
+                    search_results === undefined ||
+                    search_results.searchResults.filtered_sentences ===
+                      undefined ||
+                    search_results.searchResults.filtered_sentences.length === 0
+                  ) {
+                    return (
+                      <div key={element.uuid + "topdiv"}>
+                        <TranscriptSentence
+                          sentence_object={element}
+                          key={element.uuid}
+                          englishHighlighted={element.uuid === currentUUID.uuid}
+                          translatedUUID={element.uuid + "trans"}
+                          translatedHightlighted={
+                            element.uuid === translationTimeCodeUUID.uuid
+                          }
+                          next_start_time={element.next_start_time}
+                          i_from_list={i}
+                        ></TranscriptSentence>
+                        {element.uuid === translationTimeCodeUUID.uuid &&
+                        translationPlaying &&
+                        showTranslation &&
+                        shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
+                          <AudioDivBelow
+                            controls
+                            autoPlay
+                            ref={audioref}
+                            src={translatedAudioSrc}
+                          ></AudioDivBelow>
+                        ) : (
+                          <div></div>
+                        )}
+                        {element.uuid === translationTimeCodeUUID.uuid &&
+                        translationPlaying &&
+                        showTranslation &&
+                        !shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
+                          <AudioDivBelow
+                            controls
+                            ref={audioref}
+                            src={translatedAudioSrc}
+                          ></AudioDivBelow>
+                        ) : (
+                          <div></div>
+                        )}{" "}
+                      </div>
+                    );
+                  } else if (
+                    search_results.searchResults.filtered_sentences.length >
+                      0 &&
+                    search_results.searchResults.filtered_sentences.includes(
+                      element.uuid
+                    )
+                  ) {
+                    return (
+                      <div>
+                        <TimeDividerTop>
+                          <TimeText>{element.time_string}</TimeText>{" "}
+                          <Line></Line>
+                        </TimeDividerTop>
+
+                        <SearchResultTranscriptSentence
+                          sentence_object={element}
+                          key={element.uuid}
+                          englishHighlighted={
+                            element.uuid === currentUUID.uuid &&
+                            translationPlaying === false
+                          }
+                          translatedUUID={element.uuid + "trans"}
+                          translatedHightlighted={
+                            element.uuid === translationTimeCodeUUID.uuid &&
+                            translationPlaying
+                          }
+                          next_start_time={element.next_start_time}
+                          search_phrase={
+                            search_results.searchResults.sentenceSearchText
+                          }
+                          original_search_phrase={
+                            search_results.searchResults.original_search_phrase
+                          }
+                        ></SearchResultTranscriptSentence>
+
+                        {/* I have to do this because when the translations show up again after selecting the quebec flag, I don't want it to autoplay.  However, if the user has clicked on the translation, I do want it to autoplay. */}
+                        {element.uuid === translationTimeCodeUUID.uuid &&
+                        translationPlaying &&
+                        showTranslation &&
+                        shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
+                          <AudioDivBelow
+                            controls
+                            autoPlay
+                            ref={audioref}
+                            src={translatedAudioSrc}
+                          ></AudioDivBelow>
+                        ) : (
+                          <div></div>
+                        )}
+
+                        {element.uuid === translationTimeCodeUUID.uuid &&
+                        translationPlaying &&
+                        showTranslation &&
+                        !shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
+                          <AudioDivBelow
+                            controls
+                            ref={audioref}
+                            src={translatedAudioSrc}
+                          ></AudioDivBelow>
+                        ) : (
+                          <div></div>
+                        )}
+                      </div>
+                    );
                   }
-                  next_start_time={element.next_start_time}
-                ></IntroSentence>
-              );
-            }
-
-            if (
-              search_results === undefined ||
-              search_results.searchResults.filtered_sentences === undefined ||
-              search_results.searchResults.filtered_sentences.length === 0
-            ) {
-              return (
-                <div key={element.uuid + "topdiv"}>
-                  <TranscriptSentence
-                    sentence_object={element}
-                    key={element.uuid}
-                    englishHighlighted={element.uuid === currentUUID.uuid}
-                    translatedUUID={element.uuid + "trans"}
-                    translatedHightlighted={
-                      element.uuid === translationTimeCodeUUID.uuid
-                    }
-                    next_start_time={element.next_start_time}
-                    i_from_list={i}
-                  ></TranscriptSentence>
-                  {element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying &&
-                  showTranslation &&
-                  shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
-                    <AudioDivBelow
-                      controls
-                      autoPlay
-                      ref={audioref}
-                      src={translatedAudioSrc}
-                    ></AudioDivBelow>
-                  ) : (
-                    <div></div>
-                  )}
-                  {element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying &&
-                  showTranslation &&
-                  !shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
-                    <AudioDivBelow
-                      controls
-                      ref={audioref}
-                      src={translatedAudioSrc}
-                    ></AudioDivBelow>
-                  ) : (
-                    <div></div>
-                  )}{" "}
-                </div>
-              );
-            } else if (
-              search_results.searchResults.filtered_sentences.length > 0 &&
-              search_results.searchResults.filtered_sentences.includes(
-                element.uuid
-              )
-            ) {
-              return (
-                <div>
-                  <TimeDividerTop>
-                    <TimeText>{element.time_string}</TimeText> <Line></Line>
-                  </TimeDividerTop>
-
-                  <SearchResultTranscriptSentence
-                    sentence_object={element}
-                    key={element.uuid}
-                    englishHighlighted={
-                      element.uuid === currentUUID.uuid &&
-                      translationPlaying === false
-                    }
-                    translatedUUID={element.uuid + "trans"}
-                    translatedHightlighted={
-                      element.uuid === translationTimeCodeUUID.uuid &&
-                      translationPlaying
-                    }
-                    next_start_time={element.next_start_time}
-                    search_phrase={
-                      search_results.searchResults.sentenceSearchText
-                    }
-                    original_search_phrase={
-                      search_results.searchResults.original_search_phrase
-                    }
-                  ></SearchResultTranscriptSentence>
-
-                  {/* I have to do this because when the translations show up again after selecting the quebec flag, I don't want it to autoplay.  However, if the user has clicked on the translation, I do want it to autoplay. */}
-                  {element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying &&
-                  showTranslation &&
-                  shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
-                    <AudioDivBelow
-                      controls
-                      autoPlay
-                      ref={audioref}
-                      src={translatedAudioSrc}
-                    ></AudioDivBelow>
-                  ) : (
-                    <div></div>
-                  )}
-
-                  {element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying &&
-                  showTranslation &&
-                  !shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
-                    <AudioDivBelow
-                      controls
-                      ref={audioref}
-                      src={translatedAudioSrc}
-                    ></AudioDivBelow>
-                  ) : (
-                    <div></div>
-                  )}
-                </div>
-              );
-            }
-          })
-        }
-      </TranscriptList>
+                })
+              }
+            </TranscriptList>
+          </animated.div>
+        )}
+      </Spring>
     </ScrollWrapper>
   );
 }
@@ -463,10 +469,11 @@ const TranscriptList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow: scroll;
+  overflow-y: scroll;
   width: 97%;
   max-width: 910px;
   overflow-x: hidden; //horizontal
+  height: ${(props) => props.heightpassed};
 
   /* bottom: 20px; */
   /* top: 230px;
@@ -477,7 +484,6 @@ const TranscriptList = styled.div`
   }
 
   @media (max-width: 600px) {
-    top: 190px;
     bottom: 20px;
   }
 

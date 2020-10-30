@@ -42,9 +42,13 @@ function App() {
   //eslint-disable-next-line
   const dispatch = useDispatch();
 
+  // const customReporter = (target) => ({
+  //   clientWidth: target != null ? target.clientWidth : null,
+  // });
   const playerContext = React.useContext(PlayerContext);
   const databaseContext = React.useContext(DatabaseContext);
-  const [resizeListener, sizes] = useResizeAware();
+  const [resizeListener, sizesTop] = useResizeAware(customReporter);
+  // const [resizeAppListener, sizesApp] = useResizeAware();
 
   //test
   React.useEffect(() => {
@@ -112,9 +116,14 @@ function App() {
   }
 
   React.useEffect(() => {
-    console.log("App Do something with the new size values");
-    console.log(sizes.height);
-  }, [sizes.width, sizes.height]);
+    // console.log("Top inside App Do something with the new size values");
+    // console.log(sizesTop);
+  }, [sizesTop]);
+
+  // React.useEffect(() => {
+  //   console.log("App Do something with the new size values");
+  //   console.log(sizesApp);
+  // }, [sizesApp]);
 
   // if (isMobile) {
   //   return <div> Mobile version coming soon (like, in a day) </div>;
@@ -124,7 +133,9 @@ function App() {
       <FleXApp className="App">
         <AppProvider i18n={enTranslations}>
           <TopDivs>
-            <Top> </Top>
+            {resizeListener}
+
+            <Top></Top>
             <PlayerHTML></PlayerHTML>
           </TopDivs>
           <Scrolltext></Scrolltext>
@@ -139,7 +150,9 @@ function App() {
   // }
 }
 
-const TopDivs = styled.div``;
+const TopDivs = styled.div`
+  position: relative;
+`;
 
 const FlexElements = styled.div`
   display: flex;
