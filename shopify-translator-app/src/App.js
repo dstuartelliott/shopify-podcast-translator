@@ -10,10 +10,15 @@ import Top from "./Top";
 import PlayerHTML from "./PlayerHTML";
 
 import Scrolltext from "./Scrolltext";
+
+import TestMenu from "./TestMenu";
+
 import "focus-visible";
+import { BiMenu } from "react-icons/bi";
 
 import { PlayerContext } from "./PlayerContext";
 import { DatabaseContext } from "./DatabaseContext";
+import useResizeAware from "react-resize-aware";
 
 import {
   updateShouldTranslationsAutoPlay,
@@ -39,6 +44,7 @@ function App() {
 
   const playerContext = React.useContext(PlayerContext);
   const databaseContext = React.useContext(DatabaseContext);
+  const [resizeListener, sizes] = useResizeAware();
 
   //test
   React.useEffect(() => {
@@ -105,26 +111,27 @@ function App() {
     setProfileName(profile.getName());
   }
 
+  React.useEffect(() => {
+    console.log("App Do something with the new size values");
+    console.log(sizes.height);
+  }, [sizes.width, sizes.height]);
+
   // if (isMobile) {
   //   return <div> Mobile version coming soon (like, in a day) </div>;
   // } else {
   return (
     <FocusVisible className="js-focus-visible focus-visible">
       <FleXApp className="App">
-        <GlobalStyles></GlobalStyles>
         <AppProvider i18n={enTranslations}>
-          <TopDiv>
-            <Top></Top>
-          </TopDiv>
-          {/* <Player></Player> */}
-          <PlayerHTML></PlayerHTML>
-          <ScrollDiv>
-            <Scrolltext></Scrolltext>
-          </ScrollDiv>
-          <SignInDiv>
+          <TopDivs>
+            <Top> </Top>
+            <PlayerHTML></PlayerHTML>
+          </TopDivs>
+          <Scrolltext></Scrolltext>
+          <BottomElement>
             <div className="g-signin2" data-onsuccess="onSignIn"></div>
             {profileName}
-          </SignInDiv>
+          </BottomElement>
         </AppProvider>
       </FleXApp>
     </FocusVisible>
@@ -132,15 +139,29 @@ function App() {
   // }
 }
 
-const SignInDiv = styled.div``;
+const TopDivs = styled.div``;
+
+const FlexElements = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  height: 100%;
+`;
 
 const FleXApp = styled.div``;
 const TopDiv = styled.div`
   background-color: transparent;
 `;
 
+const BottomElement = styled.div`
+  background-color: blue;
+  bottom: 0px;
+  position: absolute;
+`;
+const TopAndPlayer = styled.div``;
+
 const ScrollDiv = styled.div`
-  background-color: transparent;
+  background-color: red;
 `;
 
 const FocusVisible = styled.div`
@@ -170,140 +191,5 @@ const FocusVisible = styled.div`
 
 // const Divider = styled.div``;
 // const DividerTop = styled.div``;
-
-const GlobalStyles = createGlobalStyle`
-  * {
-
-  }
-  
-
-
-
-.nav-items
-{
-  padding-right: 5px;
-}
-
-nav
-{
-  display: flex;
-
-}
-
-/* Link{
-  padding-right: 0px;
-  color:green;
-  font-size: 50px;
-
-  :visited {
-    text-decoration: none;
-  }
-
-} */
-
-/* adopted from https://polaris.shopify.com/design/typography#section-display-styles */
-
-displayXlarge
-{
-  /* font-size: 42px;
-  line-height: 44px;
-  font-weight: 500; */
-
-  font-size: 27px;
-    line-height: 36px;
-    font-weight: 500;
-
-  @media (max-width: 800px) {
-    font-size: 27px;
-    line-height: 36px;
-    font-weight: 500;
-    }
-}
-
-displayLarge
-{
-  font-size: 28;
-  line-height: 32px;
-  font-weight: 500;
-
-  @media (max-width: 800px) {
-    font-size: 24px;
-    line-height: 28px;
-    font-weight: 500;
-    }
-}
-
-displayMedium
-{
-  font-size: 26px;
-  line-height: 32px;
-  font-weight: 400;
-
-  @media (max-width: 800px) {
-    font-size: 21px;
-    line-height: 28px;
-    font-weight: 400;
-    }
-}
-
-displaySmall
-{
-  font-size: 20px;
-  line-height: 24px;
-  font-weight: 400;
-
-  @media (max-width: 800px) {
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    }
-}
-
-heading
-{
-  font-size: 16px;
-line-height: 24px;
-font-weight: 500;
-
-  @media (max-width: 800px) {
-    font-size: 17px;
-line-height: 24px;
-font-weight: 500;
-    }
-}
-
-subHeading
-{
-  font-size: 12px;
-line-height: 16px;
-font-weight: 600;
-text-transform: uppercase;
-
-  @media (max-width: 800px) {
-    font-size: 13px;
-line-height: 16px;
-font-weight: 600;
-text-transform: uppercase;
-    }
-}
-
-caption
-{
-  font-size: 12px;
-line-height: 16px;
-font-weight: 400;
-
-  @media (max-width: 800px) {
-    font-size: 13px;
-line-height: 20px;
-font-weight: 400;
-    }
-}
-
-
-
-
-
-`;
 
 export default App;

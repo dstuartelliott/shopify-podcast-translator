@@ -33,6 +33,8 @@ import {
 import { isMobile } from "react-device-detect";
 import { IoMdLock } from "react-icons/io";
 
+import { Spring, animated } from "react-spring/renderprops";
+
 import SpinnerJustKF from "./SpinnerJustKF";
 // import { combineReducers } from "redux";
 
@@ -40,6 +42,7 @@ function Scrolltext() {
   const playerContext = React.useContext(PlayerContext);
 
   const dispatch = useDispatch();
+  const [toggle, setToggle] = React.useState(false);
 
   let simplifiedSentences = useSelector(getSimplifiedSentences);
 
@@ -234,6 +237,7 @@ function Scrolltext() {
         console.log("setting player state");
       }
     }
+    setToggle(!toggle);
     // eslint-disable-next-line
   }, [podcast_player_state]);
 
@@ -270,6 +274,16 @@ function Scrolltext() {
 
   return (
     <ScrollWrapper>
+      {/* <Spring
+        native
+        force
+        config={{ tension: 2000, friction: 100, precision: 1 }}
+        from={{ height: toggle ? 0 : "auto" }}
+        to={{ height: toggle ? "auto" : 0 }}
+      >
+        {(props) => <animated.div style={props}>{props.height}</animated.div>}
+      </Spring> */}
+
       <TranscriptList>
         {
           //eslint-disable-next-line
@@ -450,14 +464,12 @@ const TranscriptList = styled.div`
   max-width: 910px;
   overflow-x: hidden; //horizontal
 
-  bottom: 20px;
-  top: 230px;
-  position: absolute;
+  /* bottom: 20px; */
+  /* top: 230px;
+  position: absolute; */
 
   @media (min-width: 675px) {
-    bottom: 20px;
-    top: 200px;
-    position: absolute;
+    /* height: 200px; */
   }
 
   @media (max-width: 600px) {

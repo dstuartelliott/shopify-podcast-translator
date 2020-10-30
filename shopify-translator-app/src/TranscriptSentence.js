@@ -12,7 +12,7 @@ import {
   updateShouldTranslationsAutoPlay,
   updateClickMeHasBeenClicked,
 } from "./actions";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   COLORS_SHOPIFY_BLUE_PALLETE,
   COLORS_FLAG,
@@ -24,8 +24,6 @@ import {
   getShowTranslation,
   getClickMeStatus,
 } from "./reducers";
-
-import { useDispatch } from "react-redux";
 
 function TranscriptSentence({
   sentence_object,

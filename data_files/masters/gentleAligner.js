@@ -22,7 +22,7 @@ async function try1() {
   curl.on("error", curl.close.bind(curl));
   curl.perform();
 }
-async function try2(MP3File) {
+async function try2({MP3File, TranscriptFileNameToUse, txtFileNameToWrite}) {
   const curl = new Curl();
   const close = curl.close.bind(curl);
 
@@ -58,4 +58,10 @@ async function try2(MP3File) {
   curl.perform();
 }
 
-try2();
+try2({MP3File: "20201013_bullseye_bullseye20201013-richard_jenkins.mp3_10c286183260e081a5a5d7c573213b48_26188872.mp3", file:});
+
+/Users/davidelliott/Desktop/shopify/shopify-podcast-translator/data_files/masters/Bullseye-Ep.-10.13.20_Final-Draft.pdf
+
+{
+  MP3File, MP3FileNameToUse, txtFileNameToWrite
+}

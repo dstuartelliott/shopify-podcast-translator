@@ -3,8 +3,9 @@ import styled from "styled-components/macro";
 import HeroSrc from "./images/shopify_masters_hero_small.jpg";
 
 import TopSearch from "./TopSearch";
-import { BiPlayCircle, BiPauseCircle } from "react-icons/bi";
+import { BiPlayCircle, BiPauseCircle, BiMenu } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
+import TestMenu from "./TestMenu";
 
 import { getMP3PlayerState } from "./reducers";
 
@@ -13,7 +14,11 @@ import {
   recordTranslationMP3PlayerState,
 } from "./actions";
 
-import { COLORS_SHOPIFY_YELLOW_PALLETE } from "./constants.js";
+import {
+  COLORS_SHOPIFY_YELLOW_PALLETE,
+  COLORS_SHOPIFY_BLUE_PALLETE,
+  COLORS_SHOPIFY_GREYS_PALLETE,
+} from "./constants.js";
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 
 function Top() {
@@ -54,6 +59,8 @@ function Top() {
         </PlayButton>
 
         <SummaryDiv>
+          <TestMenu></TestMenu>
+
           <TitleAndSearch>
             <TitleText>
               The Pre-Launch Strategies of a Million-Dollar Brand
@@ -61,18 +68,21 @@ function Top() {
 
             <TopSearch></TopSearch>
           </TitleAndSearch>
-          <SummaryText>
-            Making it easier to keep track of daily hydration goals, Emily Chong
-            and Nathan Chan started Healthish and created sleek water bottles
-            with timestamps. In this episode of Shopify Masters, we chat with
-            Nathan and Emily on product development and building their business
-            through influencer marketing.
-          </SummaryText>
         </SummaryDiv>
       </HeroDiv>
+      <SummaryText>
+        Making it easier to keep track of daily hydration goals, Emily Chong and
+        Nathan Chan started Healthish and created sleek water bottles with
+        timestamps. In this episode of Shopify Masters, we chat with Nathan and
+        Emily on product development and building their business through
+        influencer marketing.
+      </SummaryText>
     </Wrapper>
   );
 }
+const HamburgerMenu = styled.div`
+  background-color: red;
+`;
 
 const PlayButton = styled.button`
   border: 0px;
@@ -97,8 +107,9 @@ const HeroDiv = styled.div`
   justify-content: flex-start;
   padding: 10px;
   flex-direction: row;
-  border: 2px solid ${COLORS_SHOPIFY_YELLOW_PALLETE.Yellow};
+  border: 2px solid ${COLORS_SHOPIFY_BLUE_PALLETE.Dark};
 
+  background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Lighter};
   align-content: flex-start;
 
   @media (max-width: 600px) {
@@ -151,8 +162,8 @@ const TitleText = styled.div`
 
 const HeroImgMB = styled.div`
   background-image: url("${(props) => props.image_source}");
-  min-height: 70px;
-  max-width: 220px;
+  min-height: 170px;
+  /* max-width: 220px; */
   display: block;
   background-position: left 10px top 5px;
   background-size: contain;

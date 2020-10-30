@@ -10,6 +10,10 @@ export default function appReducer(state = initialState, action) {
       return { ...state, current_time: action.time };
     }
 
+    case "REPORT_HAMBURGER_MENU_SIZE": {
+      return { ...state, hamburger_height: action.height };
+    }
+
     case "CHANGE_UUID_PLAYING": {
       return { ...state, uuid: action.uuid };
     }

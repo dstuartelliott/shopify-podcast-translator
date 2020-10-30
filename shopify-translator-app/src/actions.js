@@ -8,6 +8,11 @@ export const addCurrentTime = (time) => ({
   time,
 });
 
+export const reportHamburgerMenuSize = (hamburger_height) => ({
+  type: "REPORT_HAMBURGER_MENU_SIZE",
+  hamburger_height,
+});
+
 export const changeUUIDPlaying = (uuid) => ({
   type: "CHANGE_UUID_PLAYING",
   uuid,
