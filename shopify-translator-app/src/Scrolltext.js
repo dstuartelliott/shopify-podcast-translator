@@ -20,6 +20,7 @@ import {
   getUUIDPlaying,
   getShowTranslation,
   getShouldTranslationsAutoPlay,
+  getHamburgerSize,
 } from "./reducers";
 
 import { updateShouldTranslationsAutoPlay } from "./actions";
@@ -47,6 +48,8 @@ function Scrolltext() {
   let simplifiedSentences = useSelector(getSimplifiedSentences);
 
   let uuidPlaying = useSelector(getUUIDPlaying);
+
+  let hamburgerSize = useSelector(getHamburgerSize);
 
   const [currentUUID, setcurrentUUID] = React.useState({
     uuid: "intro-uuid",
@@ -283,6 +286,7 @@ function Scrolltext() {
       >
         {(props) => <animated.div style={props}>{props.height}</animated.div>}
       </Spring> */}
+      {console.log({ hamburgerSize })}
 
       <TranscriptList>
         {

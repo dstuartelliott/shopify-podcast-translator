@@ -11,7 +11,7 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "REPORT_HAMBURGER_MENU_SIZE": {
-      return { ...state, hamburger_height: action.height };
+      return { ...state, hamburger_height: action.hamburger_height };
     }
 
     case "CHANGE_UUID_PLAYING": {
@@ -432,5 +432,11 @@ export const getShouldTranslationsAutoPlay = (state) => {
 export const getClickMeStatus = (state) => {
   if (state.clickMeHasBeenClicked !== undefined) {
     return state.clickMeHasBeenClicked;
+  }
+};
+
+export const getHamburgerSize = (state) => {
+  if (state.hamburger_height !== undefined) {
+    return state.hamburger_height;
   }
 };
