@@ -47,7 +47,7 @@ function App() {
   // });
   const playerContext = React.useContext(PlayerContext);
   const databaseContext = React.useContext(DatabaseContext);
-  const [resizeListener, sizesTop] = useResizeAware(customReporter);
+  const [resizeListener, sizesTop] = useResizeAware();
   // const [resizeAppListener, sizesApp] = useResizeAware();
 
   //test
