@@ -5,7 +5,7 @@ import styled from "styled-components/macro";
 import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Top from "./Top";
 import PlayerHTML from "./PlayerHTML";
 
@@ -25,6 +25,8 @@ import {
   updateClickMeHasBeenClicked,
 } from "./actions";
 
+import { getHamburgerSize } from "./reducers";
+
 import { markEnglishAsPlaying, changeTranslation } from "./actions";
 
 const gapiLoaded = () =>
@@ -42,6 +44,8 @@ function App() {
   //eslint-disable-next-line
   const dispatch = useDispatch();
 
+  let hamburgerSize = useSelector(getHamburgerSize);
+
   // const customReporter = (target) => ({
   //   clientWidth: target != null ? target.clientWidth : null,
   // });
@@ -51,6 +55,13 @@ function App() {
   // const [resizeAppListener, sizesApp] = useResizeAware();
 
   //test
+
+  React.useEffect(() => {
+    console.log("hamgurber size");
+    console.log(sizesTop);
+    // eslint-disable-next-line
+  }, [hamburgerSize]);
+
   React.useEffect(() => {
     dispatch(markEnglishAsPlaying(0.0, "TBD"));
     dispatch(changeTranslation(true));
@@ -115,10 +126,10 @@ function App() {
     setProfileName(profile.getName());
   }
 
-  React.useEffect(() => {
-    // console.log("Top inside App Do something with the new size values");
-    // console.log(sizesTop);
-  }, [sizesTop]);
+  // React.useEffect(() => {
+  //   // console.log("Top inside App Do something with the new size values");
+  //   // console.log(sizesTop);
+  // }, [sizesTop]);
 
   // React.useEffect(() => {
   //   console.log("App Do something with the new size values");

@@ -236,3 +236,7 @@ Oct 30
 Ok, so with commit "cascading changes with sizeAware in Top", I can get the divs to report changes in size, from the Top div, but it slows things down considerably.
 
 So I can make something that is ultra size aware, but it's not's fast.  I have to pre-bake in the the sizes, I think.  Which I can do, maybe with min-maxs?
+
+Can I di min max?
+
+Like, add the nummber to mn and max.  

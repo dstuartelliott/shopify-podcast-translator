@@ -276,7 +276,8 @@ function Scrolltext(heightOfText) {
         // height: ${(props) => props.heightpassed};
 
         from={{
-          height: toggle ? 0 : { hamburgerSize }.hamburgerSize,
+          maxHeight: toggle ? 500 : 700,
+          minHeight: 100,
           width: "97%",
           overflowY: "scroll",
           display: "flex",
@@ -284,7 +285,7 @@ function Scrolltext(heightOfText) {
           justifyContent: "flex-start",
           // topHeight: toggle ? topBig : topSmall,
         }}
-        to={{ height: toggle ? { hamburgerSize }.hamburgerSize : 0 }}
+        to={{ maxHeight: toggle ? 700 : 500 }}
       >
         {(props) => (
           <animated.div style={props}>

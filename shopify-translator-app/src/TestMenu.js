@@ -46,7 +46,7 @@ function TestMenu() {
   }
 
   function reportSize(event) {
-    // console.log("dave");
+    console.log("reporting size");
     // // console.log(event);
     // console.log(sizes.height);
 
