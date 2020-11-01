@@ -7,6 +7,10 @@ import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch, useSelector } from "react-redux";
 import Top from "./Top";
+
+import TopFigma from "./TopFigma";
+import PlayerFigma from "./PlayerFigma";
+
 import PlayerHTML from "./PlayerHTML";
 
 import Scrolltext from "./Scrolltext";
@@ -144,12 +148,13 @@ function App() {
       <FleXApp className="App">
         <AppProvider i18n={enTranslations}>
           <TopDivs>
-            {resizeListener}
+            {/* {resizeListener} */}
 
-            <Top></Top>
-            <PlayerHTML></PlayerHTML>
+            <TopFigma />
+            <PlayerFigma />
+            {/* <PlayerHTML></PlayerHTML> */}
           </TopDivs>
-          <Scrolltext></Scrolltext>
+          {/* <Scrolltext></Scrolltext> */}
           <BottomElement>
             <div className="g-signin2" data-onsuccess="onSignIn"></div>
             {profileName}
@@ -163,6 +168,9 @@ function App() {
 
 const TopDivs = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
 `;
 
 const FlexElements = styled.div`
