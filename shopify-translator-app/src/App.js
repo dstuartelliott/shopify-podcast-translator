@@ -150,9 +150,10 @@ function App() {
           <TopDivs>
             {/* {resizeListener} */}
 
+            {/* <Top></Top>
+            <PlayerHTML></PlayerHTML> */}
             <TopFigma />
             <PlayerFigma />
-            {/* <PlayerHTML></PlayerHTML> */}
           </TopDivs>
           {/* <Scrolltext></Scrolltext> */}
           <BottomElement>

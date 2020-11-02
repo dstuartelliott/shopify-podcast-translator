@@ -6,6 +6,7 @@ import styled from "styled-components/macro";
 import "./App.css";
 import AudioPlayer from "react-h5-audio-player";
 import R5stylesSmall from "./r5Audiostyles.css";
+import Draggable from "react-draggable";
 
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 
@@ -42,7 +43,7 @@ let current_uuid;
 let isloaded = false;
 
 let outside_uuids;
-function PlayerHTML() {
+function PlayerHTMLFigma() {
   const dispatch = useDispatch();
 
   let mp3PlayerState = useSelector(getMP3PlayerState);
@@ -57,6 +58,9 @@ function PlayerHTML() {
 
   let showTranslation = useSelector(getShowTranslation);
   let audioref = React.useRef(null);
+
+  let [audioPercentage, setAudioPercentage] = React.useState(`10%`);
+  let [audioCirclePosition, setAudioCirclePosition] = React.useState(`15%`);
 
   let [loadeduuids_and_times, setloadeduuids_and_times] = React.useState([]);
 
@@ -80,7 +84,7 @@ function PlayerHTML() {
       // console.log(uuid);
 
       if (uuid !== undefined) {
-        // console.log("PlayerHTML 80");
+        // console.log("PlayerHTMLFigma 80");
         // console.log(uuid);
         // console.log(translationPlaying);
         // console.log(current_uuid);
@@ -95,12 +99,22 @@ function PlayerHTML() {
     }
   }
 
-  function announceListen() {
-    // console.log(current_time);
+  function announceListen(event) {
+    console.log(event.nativeEvent);
+    let percentage =
+      (event.nativeEvent.target.currentTime /
+        event.nativeEvent.target.duration) *
+      100;
+    console.log(percentage);
+    if (percentage < 1.0) {
+      setAudioPercentage("1%");
+      setAudioCirclePosition("3%");
+    } else {
+      setAudioPercentage(percentage + "%");
+    }
 
     if (seeking === false) {
       let current_time = audioref.current.currentTime;
-
       // console.log(uuids_and_times);
 
       dispatch(addCurrentTime({ current_time }));
@@ -123,7 +137,7 @@ function PlayerHTML() {
   //https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3
 
   React.useEffect(() => {
-    console.log("mp3PlayerState detected in PlayerHtml");
+    console.log("mp3PlayerState detected in PlayerHTMLFigma");
 
     switch (mp3PlayerState) {
       case MP3_PLAYER_STATES.PLAYING:
@@ -190,6 +204,9 @@ function PlayerHTML() {
 
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.LOADING));
   }
+  function handleStop(event) {
+    console.log(event);
+  }
 
   return (
     <PlayerWrapper id={"hello"}>
@@ -205,25 +222,27 @@ function PlayerHTML() {
           onCanPlay={ableToPlay}
           onLoadStart={loadingStarted}
         ></AudioDivBelow>
-
-        {/* <AudioPlayer
-          src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3"
-          customAdditionalControls={[]}
-          onPlay={onPlayListen}
-          onListen={announceListen}
-          listenInterval={200}
-          onPause={onPauseListen}
-          autoPlay={false}
-          customVolumeControls={[]}
-          ref={audioref}
-          style={{
-            outline: "none",
-            paddingBottom: "0px",
-          }}
-          styles={R5stylesSmall}
-          id={"hello2"}
-        /> */}
       </PlayerDiv>
+      <ProgressBar>
+        {console.log({ audioPercentage })}
+        <ProgressBarFiller audioPercentage={audioPercentage}>
+          <Draggable
+            axis="x"
+            handle=".handle"
+            defaultPosition={{ x: 0, y: 0 }}
+            position={null}
+            scale={1}
+            bounds={{ left: 0, right: 320 }}
+            // onStart={this.handleStart}
+            // onDrag={this.handleDrag}
+            onStop={this.handleStop}
+          >
+            <div>
+              <ProgressBarCircle className="handle"></ProgressBarCircle>
+            </div>
+          </Draggable>
+        </ProgressBarFiller>
+      </ProgressBar>
       <TranslationBtnDiv>
         <TranslationOnOFFButton onClick={handleTranslationButtonClick}>
           {showTranslation ? (
@@ -245,20 +264,72 @@ function PlayerHTML() {
   );
 }
 
+const ProgressBar = styled.div`
+  position: relative;
+  height: 20px;
+  width: 350px;
+  border-radius: 3px;
+  border: 1px solid green;
+`;
+
+const ProgressBarFiller = styled.div`
+  background-color: red;
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.3s ease-out;
+
+  width: ${(props) => props.audioPercentage};
+
+  /* width: 10%; */
+`;
+
+const ProgressBarCircle = styled.button`
+  background-color: green;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: ${(props) => props.audioPercentage};
+  top: -5px;
+  z-index: 6;
+
+  border-radius: 30px;
+
+  /* width: 10%; */
+`;
+
 const AudioDivBelow = styled.audio`
-  width: 95%;
+  /* width: 95%;
   height: 20px;
   padding-left: 0px;
 
   @media (max-width: 600px) {
     padding-left: 0px;
-  }
+  } */
 
   ::-webkit-media-controls-panel {
     height: 20px;
     border-radius: 5px;
     background-color: white;
     padding-left: 2px;
+  }
+
+  ::-moz-media-controls-panel {
+    height: 20px;
+    border-radius: 5px;
+    background-color: white;
+    padding-left: 2px;
+  }
+
+  audio::-webkit-media-controls-play-button {
+    background-color: transparent;
+    visibility: hidden;
+    display: hidden;
+  }
+
+  ::-moz-media-controls-play-button {
+    background-color: transparent;
+    visibility: hidden;
+    display: hidden;
   }
 
   ::-webkit-media-controls-play-button {
@@ -342,4 +413,4 @@ const FlagDiv = styled.div`
   justify-content: space-between;
 `;
 
-export default PlayerHTML;
+export default PlayerHTMLFigma;
