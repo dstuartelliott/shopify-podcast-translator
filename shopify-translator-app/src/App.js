@@ -9,9 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Top from "./Top";
 
 import TopFigma from "./TopFigma";
-import PlayerFigma from "./PlayerFigma";
-
-import PlayerHTML from "./PlayerHTML";
+import Player from "./Player";
 
 import Scrolltext from "./Scrolltext";
 
@@ -153,7 +151,7 @@ function App() {
             {/* <Top></Top>
             <PlayerHTML></PlayerHTML> */}
             <TopFigma />
-            <PlayerFigma />
+            <Player />
           </TopDivs>
           {/* <Scrolltext></Scrolltext> */}
           <BottomElement>

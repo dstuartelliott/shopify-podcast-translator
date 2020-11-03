@@ -26,7 +26,7 @@ import {
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import useResizeAware from "react-resize-aware";
 
-function PlayerFigma() {
+function Player() {
   let mp3PlayerState = useSelector(getMP3PlayerState);
   const dispatch = useDispatch();
   const [resizeListenerProgressBar, sizes] = useResizeAware();
@@ -124,4 +124,4 @@ const Wrapper = styled.div`
   padding-top: 15px;
 `;
 
-export default PlayerFigma;
+export default Player;

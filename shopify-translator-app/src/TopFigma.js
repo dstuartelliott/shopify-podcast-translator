@@ -11,7 +11,6 @@ import TopSearch from "./TopSearch";
 import { BiPlayCircle, BiPauseCircle, BiMenu } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
 import TestMenu from "./TestMenu";
-import PlayerHTML from "./PlayerHTML";
 
 import { getMP3PlayerState } from "./reducers";
 
