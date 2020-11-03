@@ -7,6 +7,7 @@ import "./App.css";
 import AudioPlayer from "react-h5-audio-player";
 import R5stylesSmall from "./r5Audiostyles.css";
 import Draggable from "react-draggable";
+import useResizeAware from "react-resize-aware";
 
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 
@@ -43,7 +44,7 @@ let current_uuid;
 let isloaded = false;
 
 let outside_uuids;
-function PlayerHTMLFigma() {
+function PlayerHTMLFigma({ sizeOfJogArea }) {
   const dispatch = useDispatch();
 
   let mp3PlayerState = useSelector(getMP3PlayerState);
@@ -63,7 +64,6 @@ function PlayerHTMLFigma() {
   let [audioCirclePosition, setAudioCirclePosition] = React.useState(`15%`);
 
   let [loadeduuids_and_times, setloadeduuids_and_times] = React.useState([]);
-
   React.useEffect(() => {
     if (timeToJumpTo > 0.0) {
       audioref.current.currentTime = timeToJumpTo;
@@ -205,11 +205,17 @@ function PlayerHTMLFigma() {
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.LOADING));
   }
   function handleStop(event) {
-    console.log(event);
+    // console.log("Stop");
+    // console.log(event);
+  }
+  function handleDrag(event) {
+    // console.log("Drag");
+    // console.log(event.clientX);
   }
 
   return (
     <PlayerWrapper id={"hello"}>
+      {console.log(sizeOfJogArea)}
       <PlayerDiv>
         <AudioDivBelow
           ref={audioref}
@@ -232,10 +238,10 @@ function PlayerHTMLFigma() {
             defaultPosition={{ x: 0, y: 0 }}
             position={null}
             scale={1}
-            bounds={{ left: 0, right: 320 }}
+            bounds={{ left: 0, right: sizeOfJogArea - 30 }}
             // onStart={this.handleStart}
-            // onDrag={this.handleDrag}
-            onStop={this.handleStop}
+            onDrag={handleDrag}
+            onStop={handleStop}
           >
             <div>
               <ProgressBarCircle className="handle"></ProgressBarCircle>
@@ -243,32 +249,14 @@ function PlayerHTMLFigma() {
           </Draggable>
         </ProgressBarFiller>
       </ProgressBar>
-      <TranslationBtnDiv>
-        <TranslationOnOFFButton onClick={handleTranslationButtonClick}>
-          {showTranslation ? (
-            <FlagDiv>
-              <FlagImgCanada image_source={CanadaFlagSrc}></FlagImgCanada>
-              <FlagImgQuebec image_source={QuebecFlagSrc}></FlagImgQuebec>
-            </FlagDiv>
-          ) : (
-            <FlagDiv>
-              <FlagImgCanada image_source={CanadaFlagSrc}></FlagImgCanada>
-              <FlagImgQuebecFaded
-                image_source={QuebecFlagSrc}
-              ></FlagImgQuebecFaded>
-            </FlagDiv>
-          )}
-        </TranslationOnOFFButton>
-      </TranslationBtnDiv>
     </PlayerWrapper>
   );
 }
 
 const ProgressBar = styled.div`
-  position: relative;
   height: 20px;
-  width: 350px;
   border-radius: 3px;
+  width: 100%;
   border: 1px solid green;
 `;
 
@@ -305,49 +293,11 @@ const AudioDivBelow = styled.audio`
   @media (max-width: 600px) {
     padding-left: 0px;
   } */
-
-  ::-webkit-media-controls-panel {
-    height: 20px;
-    border-radius: 5px;
-    background-color: white;
-    padding-left: 2px;
-  }
-
-  ::-moz-media-controls-panel {
-    height: 20px;
-    border-radius: 5px;
-    background-color: white;
-    padding-left: 2px;
-  }
-
-  audio::-webkit-media-controls-play-button {
-    background-color: transparent;
-    visibility: hidden;
-    display: hidden;
-  }
-
-  ::-moz-media-controls-play-button {
-    background-color: transparent;
-    visibility: hidden;
-    display: hidden;
-  }
-
-  ::-webkit-media-controls-play-button {
-    background-color: transparent;
-    visibility: hidden;
-    display: hidden;
-  }
-
-  ::-webkit-media-controls-volume-slider-container {
-    display: hidden;
-    visibility: hidden;
-  }
 `;
 
 const PlayerWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  max-width: 925px;
   justify-content: flex-end;
   padding-bottom: 5px;
 `;

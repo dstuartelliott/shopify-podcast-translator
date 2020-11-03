@@ -29,7 +29,7 @@ import useResizeAware from "react-resize-aware";
 function PlayerFigma() {
   let mp3PlayerState = useSelector(getMP3PlayerState);
   const dispatch = useDispatch();
-  const [resizeListenerTop, sizes] = useResizeAware();
+  const [resizeListenerProgressBar, sizes] = useResizeAware();
 
   function playButtonHit() {
     console.log("hit");
@@ -52,25 +52,24 @@ function PlayerFigma() {
 
   return (
     <Wrapper>
-      <Player>
-        <CircleSunDiv
-          image_source={CircleSun}
-          image_over_source={CircleOver}
-          alt="Circle Background behind play button"
-          onClick={playButtonHit}
-        >
-          <PlayerTriangleImgFlex>
-            {mp3PlayerState === MP3_PLAYER_STATES.PLAYING ? (
-              <PauseImageDiv src={PauseImage}></PauseImageDiv>
-            ) : (
-              <PlayImageDiv src={PlayImage}></PlayImageDiv>
-            )}
-          </PlayerTriangleImgFlex>
-        </CircleSunDiv>
-        <ProgressBarDiv>
-          <PlayerHTMLFigma></PlayerHTMLFigma>
-        </ProgressBarDiv>
-      </Player>
+      <CircleSunDiv
+        image_source={CircleSun}
+        image_over_source={CircleOver}
+        alt="Circle Background behind play button"
+        onClick={playButtonHit}
+      >
+        <PlayerTriangleImgFlex>
+          {mp3PlayerState === MP3_PLAYER_STATES.PLAYING ? (
+            <PauseImageDiv src={PauseImage}></PauseImageDiv>
+          ) : (
+            <PlayImageDiv src={PlayImage}></PlayImageDiv>
+          )}
+        </PlayerTriangleImgFlex>
+      </CircleSunDiv>
+      <ProgressBarDiv>
+        {resizeListenerProgressBar}
+        <PlayerHTMLFigma sizeOfJogArea={sizes.width - 115}></PlayerHTMLFigma>
+      </ProgressBarDiv>
     </Wrapper>
   );
 }
@@ -82,7 +81,8 @@ const PlayButton = styled.button`
 `;
 
 const ProgressBarDiv = styled.div`
-  flex-shrink: 10;
+  background-color: orange;
+  flex-grow: 4;
 `;
 
 const CircleSunDiv = styled.button`
@@ -91,6 +91,8 @@ const CircleSunDiv = styled.button`
   background: url("${(props) => props.image_source}");
   background-size: cover;
   border-radius: 5px;
+  transition: 0.3s ease-in-out;
+
   :hover {
     background-color: transparent;
     background: url("${(props) => props.image_over_source}");
@@ -98,13 +100,7 @@ const CircleSunDiv = styled.button`
     height: 115px;
     background-size: cover;
     border-radius: 5px;
-    /* transform: translate(0%, -3%); */
-    transition: 0.3s ease-out;
   }
-`;
-
-const Player = styled.div`
-  display: flex;
 `;
 
 const PlayerTriangleImgFlex = styled.div`
@@ -112,6 +108,7 @@ const PlayerTriangleImgFlex = styled.div`
   justify-content: center;
   flex-direction: row;
   height: 115px;
+  width: 115px;
 `;
 const PlayImageDiv = styled.img`
   padding-left: 5px;
@@ -123,7 +120,7 @@ const Wrapper = styled.div`
   max-width: 900px;
   min-width: 500px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding-top: 15px;
 `;
 

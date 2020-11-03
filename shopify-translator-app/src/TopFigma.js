@@ -179,8 +179,6 @@ const TeenyHeartIcon = styled.div`
 `;
 
 const Wrapper = styled.div`
-  max-width: 900px;
-  min-width: 500px;
   display: flex;
   flex-direction: column;
   padding-top: 15px;

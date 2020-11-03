@@ -181,7 +181,11 @@ const FlexElements = styled.div`
   height: 100%;
 `;
 
-const FleXApp = styled.div``;
+const FleXApp = styled.div`
+  min-width: 500px;
+  max-width: 900px;
+  margin: auto;
+`;
 const TopDiv = styled.div`
   background-color: transparent;
 `;
@@ -206,23 +210,5 @@ const FocusVisible = styled.div`
     border: 3px solid #528deb;
   }
 `;
-
-// available diver styles if I need them.
-// const Line = styled.div`
-//   border-top: 1px solid #eec200;
-//   @media (max-width: 600px) {
-//     border-top: 1px solid white;
-//   }
-// `;
-
-// const ThickLine = styled.div`
-//   border-top: 3px solid #eec200;
-//   @media (max-width: 600px) {
-//     border-top: 1px solid white;
-//   }
-// `;
-
-// const Divider = styled.div``;
-// const DividerTop = styled.div``;
 
 export default App;
