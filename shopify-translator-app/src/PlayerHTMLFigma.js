@@ -4,10 +4,7 @@ import { useDispatch } from "react-redux";
 
 import styled from "styled-components/macro";
 import "./App.css";
-import AudioPlayer from "react-h5-audio-player";
-import R5stylesSmall from "./r5Audiostyles.css";
 import Draggable from "react-draggable";
-import useResizeAware from "react-resize-aware";
 
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 
