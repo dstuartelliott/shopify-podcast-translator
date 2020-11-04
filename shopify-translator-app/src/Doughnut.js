@@ -10,7 +10,7 @@ function Doughnut({ doughnutValues }) {
           cx="21"
           cy="21"
           r="15.91549430918954"
-          fill="#fff"
+          fill="transparent"
         ></circle>
         <circle
           class="donut-ring"
@@ -18,8 +18,9 @@ function Doughnut({ doughnutValues }) {
           cy="21"
           r="15.91549430918954"
           fill="transparent"
-          stroke="#d2d3d4"
+          stroke="#F1EBF5"
           stroke-width="3"
+          stroke-linecap="round"
         ></circle>
 
         <circle
@@ -28,8 +29,9 @@ function Doughnut({ doughnutValues }) {
           cy="21"
           r="15.91549430918954"
           fill="transparent"
-          stroke="#ce4b99"
+          stroke="#FFD159"
           stroke-width="3"
+          stroke-linecap="round"
           stroke-dasharray={doughnutValues}
           stroke-dashoffset="0"
         ></circle>
