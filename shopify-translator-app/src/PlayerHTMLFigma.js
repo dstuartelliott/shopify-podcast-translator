@@ -30,6 +30,7 @@ import {
   markTranslationAsPlaying,
   changeTranslation,
   recordTranslationMP3PlayerState,
+  jumpToTime,
 } from "./actions";
 
 let prev;
@@ -39,6 +40,8 @@ let last_time_frame = 0.0;
 // eslint-disable-next-line
 let current_uuid;
 let isloaded = false;
+let areaOfScrollBar;
+let dragging = false;
 
 let outside_uuids;
 function PlayerHTMLFigma({ sizeOfJogArea }) {
@@ -58,8 +61,13 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
   let showTranslation = useSelector(getShowTranslation);
   let audioref = React.useRef(null);
 
-  let [audioPercentage, setAudioPercentage] = React.useState(`10%`);
-  let [audioCirclePosition, setAudioCirclePosition] = React.useState(`15%`);
+  let [audioPercentage, setAudioPercentage] = React.useState(`1%`);
+  let [audioCirclePosition, setAudioCirclePosition] = React.useState({
+    x: 0,
+    y: 0,
+  });
+
+  areaOfScrollBar = sizeOfJogArea - 30;
 
   let [loadeduuids_and_times, setloadeduuids_and_times] = React.useState([]);
   React.useEffect(() => {
@@ -98,30 +106,40 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
   }
 
   function announceListen(event) {
-    console.log(event.nativeEvent);
-    let percentage =
-      (event.nativeEvent.target.currentTime /
-        event.nativeEvent.target.duration) *
-      100;
-    console.log(percentage);
-    if (percentage < 1.0) {
-      setAudioPercentage("1%");
-      setAudioCirclePosition("3%");
-    } else {
-      setAudioPercentage(percentage + "%");
-    }
+    if (event !== undefined) {
+      console.log(event.nativeEvent.target);
+      let percentage =
+        event.nativeEvent.target.currentTime /
+        event.nativeEvent.target.duration;
+      let audioPer = percentage * 100;
+      console.log(percentage);
 
-    if (seeking === false) {
-      let current_time = audioref.current.currentTime;
-      // console.log(uuids_and_times);
+      if (dragging === false) {
+        let circle_x = percentage * (sizeOfJogArea - 30);
+        setAudioCirclePosition({ x: circle_x, y: 0 });
+      }
 
-      dispatch(addCurrentTime({ current_time }));
-      quickishFindUUID(current_time);
+      if (percentage < 1.0) {
+        // setAudioPercentage("1%");
+        // setAudioCirclePosition(0.03);
+      } else {
+        setAudioPercentage(audioPer + "%");
 
-      // if (Math.abs(last_time_frame - current_time) > 2.0) {
-      // }
+        // setAudioCirclePosition(percentage);
+      }
 
-      last_time_frame = current_time;
+      if (seeking === false) {
+        let current_time = audioref.current.currentTime;
+        // console.log(uuids_and_times);
+
+        dispatch(addCurrentTime({ current_time }));
+        quickishFindUUID(current_time);
+
+        // if (Math.abs(last_time_frame - current_time) > 2.0) {
+        // }
+
+        last_time_frame = current_time;
+      }
     }
   }
 
@@ -204,16 +222,26 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
   }
   function handleStop(event, data) {
     console.log("Stop");
-    console.log(data);
-    console.log(data.node.offsetParent.clientWidth);
+    // console.log(data.lastX);
+    // // console.log(data.node.offsetParent.clientWidth);
+    // console.log(sizeOfJogArea - 30);
+    let percentage = data.lastX / areaOfScrollBar;
 
+    // let circle_x = percentage * (sizeOfJogArea - 30);
+    setAudioCirclePosition({ x: data.lastX, y: 0 });
+    setAudioPercentage(percentage * 100 + "%");
+
+    console.log(audioref.current.duration * percentage);
+    dispatch(jumpToTime(audioref.current.duration * percentage));
     // console.log(event.clientX);
+    dragging = false;
 
     // console.log(sizeOfJogArea - 30);
     // console.log(sizeOfJogArea);
   }
   function handleDrag(event, data) {
     console.log(data.lastX);
+    dragging = true;
   }
   // console.log(circleRef.getBoundingClientRect().width); // prints 200px
 
@@ -240,7 +268,7 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
             axis="x"
             handle=".handle"
             defaultPosition={{ x: 0, y: 0 }}
-            position={null}
+            position={audioCirclePosition}
             scale={1}
             bounds={{ left: 0, right: sizeOfJogArea - 30 }}
             // onStart={this.handleStart}
