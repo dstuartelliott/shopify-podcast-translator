@@ -248,11 +248,30 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
     console.log(data.lastX);
     dragging = true;
   }
-  // console.log(circleRef.getBoundingClientRect().width); // prints 200px
+
+  function handleInvisibleProgressButtonClicl(event) {
+    let left_start =
+      event.clientX -
+      (event.currentTarget.offsetParent.offsetLeft +
+        event.currentTarget.offsetLeft);
+
+    let percentage = left_start / sizeOfJogArea;
+
+    setAudioCirclePosition({ x: left_start, y: 0 });
+    setAudioPercentage(percentage * 100 + "%");
+
+    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+    dispatch(
+      recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+    );
+
+    console.log(audioref.current.duration * percentage);
+    dispatch(jumpToTime(audioref.current.duration * percentage));
+    dragging = false;
+  }
 
   return (
     <PlayerWrapper id={"hello"}>
-      {console.log(sizeOfJogArea)}
       <PlayerDiv>
         <AudioDivBelow
           ref={audioref}
@@ -266,6 +285,10 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
           onLoadStart={loadingStarted}
         ></AudioDivBelow>
       </PlayerDiv>
+      <InvisibleProgressButton
+        sizeLength={sizeOfJogArea + "px"}
+        onClick={handleInvisibleProgressButtonClicl}
+      ></InvisibleProgressButton>
       <ProgressBar>
         {console.log({ audioPercentage })}
         <ProgressBarFiller audioPercentage={audioPercentage}>
@@ -292,6 +315,15 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
     </PlayerWrapper>
   );
 }
+
+const InvisibleProgressButton = styled.button`
+  position: absolute;
+  width: ${(props) => props.sizeLength};
+  background-color: transparent;
+  :hover {
+    background-color: transparent;
+  }
+`;
 
 const ProgressBar = styled.div`
   height: 10px;
