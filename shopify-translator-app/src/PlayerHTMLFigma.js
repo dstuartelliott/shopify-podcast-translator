@@ -231,6 +231,11 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
     setAudioCirclePosition({ x: data.lastX, y: 0 });
     setAudioPercentage(percentage * 100 + "%");
 
+    dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+    dispatch(
+      recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+    );
+
     console.log(audioref.current.duration * percentage);
     dispatch(jumpToTime(audioref.current.duration * percentage));
     // console.log(event.clientX);
