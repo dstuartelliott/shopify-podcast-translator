@@ -66,9 +66,12 @@ function Player() {
           )}
         </PlayerTriangleImgFlex>
       </CircleSunDiv>
+
       <ProgressBarDiv>
         {resizeListenerProgressBar}
-        <PlayerHTMLFigma sizeOfJogArea={sizes.width - 115}></PlayerHTMLFigma>
+        <PlayerHTMLFigma
+          sizeOfJogArea={sizes.width - 115 - 10}
+        ></PlayerHTMLFigma>
       </ProgressBarDiv>
     </Wrapper>
   );
@@ -81,8 +84,10 @@ const PlayButton = styled.button`
 `;
 
 const ProgressBarDiv = styled.div`
-  background-color: orange;
+  background-color: #f1ebf5;
   flex-grow: 4;
+  margin-left: 10px;
+  border-radius: 10px;
 `;
 
 const CircleSunDiv = styled.button`
@@ -111,7 +116,7 @@ const PlayerTriangleImgFlex = styled.div`
   width: 115px;
 `;
 const PlayImageDiv = styled.img`
-  padding-left: 5px;
+  padding-right: 5px;
 `;
 
 const PauseImageDiv = styled.img``;
@@ -122,6 +127,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   padding-top: 15px;
+  align-items: center;
 `;
 
 export default Player;

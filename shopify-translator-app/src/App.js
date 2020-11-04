@@ -71,35 +71,37 @@ function App() {
     dispatch(updateClickMeHasBeenClicked(false));
 
     async function getGoogle() {
-      window.gapi.load("auth2", async function () {
-        let auth_object = await window.gapi.auth2.init({
-          client_id:
-            "112704103478-qojm07it64b672dk2mto976ivf6592jm.apps.googleusercontent.com",
+      if (window.gapi !== undefined) {
+        window.gapi.load("auth2", async function () {
+          let auth_object = await window.gapi.auth2.init({
+            client_id:
+              "112704103478-qojm07it64b672dk2mto976ivf6592jm.apps.googleusercontent.com",
+          });
+
+          let current_user = auth_object.currentUser.get();
+
+          let id_token = current_user.getAuthResponse().id_token;
+
+          // console.log(id_token);
+
+          // let verified_token = await databaseContext.getVerifiedToken(id_token);
+
+          // // let added_to_db = await databaseContext.initialAuthSend(verified_token);
+          // console.log(verified_token);
+
+          let verified_token1 = await databaseContext.getVerifiedTokenLocal(
+            id_token
+          );
+
+          // getVerifiedTokenLocal
+
+          let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(
+            id_token
+          );
+
+          /* Ready. Make a call to gapi.auth2.init or some other API */
         });
-
-        let current_user = auth_object.currentUser.get();
-
-        let id_token = current_user.getAuthResponse().id_token;
-
-        // console.log(id_token);
-
-        // let verified_token = await databaseContext.getVerifiedToken(id_token);
-
-        // // let added_to_db = await databaseContext.initialAuthSend(verified_token);
-        // console.log(verified_token);
-
-        let verified_token1 = await databaseContext.getVerifiedTokenLocal(
-          id_token
-        );
-
-        // getVerifiedTokenLocal
-
-        let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(
-          id_token
-        );
-
-        /* Ready. Make a call to gapi.auth2.init or some other API */
-      });
+      }
     }
 
     getGoogle();

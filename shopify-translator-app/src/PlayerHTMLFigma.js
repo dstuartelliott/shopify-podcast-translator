@@ -43,6 +43,7 @@ let isloaded = false;
 let outside_uuids;
 function PlayerHTMLFigma({ sizeOfJogArea }) {
   const dispatch = useDispatch();
+  const circleRef = React.useRef(null);
 
   let mp3PlayerState = useSelector(getMP3PlayerState);
 
@@ -201,14 +202,20 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
 
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.LOADING));
   }
-  function handleStop(event) {
-    // console.log("Stop");
-    // console.log(event);
-  }
-  function handleDrag(event) {
-    // console.log("Drag");
+  function handleStop(event, data) {
+    console.log("Stop");
+    console.log(data);
+    console.log(data.node.offsetParent.clientWidth);
+
     // console.log(event.clientX);
+
+    // console.log(sizeOfJogArea - 30);
+    // console.log(sizeOfJogArea);
   }
+  function handleDrag(event, data) {
+    console.log(data.lastX);
+  }
+  // console.log(circleRef.getBoundingClientRect().width); // prints 200px
 
   return (
     <PlayerWrapper id={"hello"}>
@@ -241,7 +248,10 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
             onStop={handleStop}
           >
             <div>
-              <ProgressBarCircle className="handle"></ProgressBarCircle>
+              <ProgressBarCircle
+                className="handle"
+                ref={circleRef}
+              ></ProgressBarCircle>
             </div>
           </Draggable>
         </ProgressBarFiller>
@@ -251,15 +261,14 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
 }
 
 const ProgressBar = styled.div`
-  height: 20px;
-  border-radius: 3px;
+  height: 10px;
+  border-radius: 13px;
   width: 100%;
-  border: 1px solid green;
 `;
 
 const ProgressBarFiller = styled.div`
-  background-color: red;
-  height: 100%;
+  background-color: #aea8b2;
+  height: 15px;
   border-radius: inherit;
   transition: width 0.3s ease-out;
 
@@ -269,15 +278,18 @@ const ProgressBarFiller = styled.div`
 `;
 
 const ProgressBarCircle = styled.button`
-  background-color: green;
+  background-color: white;
   width: 30px;
   height: 30px;
   position: absolute;
   left: ${(props) => props.audioPercentage};
-  top: -5px;
+  top: -8px;
   z-index: 6;
-
+  border: solid 1px #aea8b2;
   border-radius: 30px;
+  :hover {
+    background-color: white;
+  }
 
   /* width: 10%; */
 `;
@@ -294,8 +306,8 @@ const AudioDivBelow = styled.audio`
 
 const PlayerWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
   padding-bottom: 5px;
 `;
 
