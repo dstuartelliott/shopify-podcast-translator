@@ -15,6 +15,7 @@ import { BiPlayCircle, BiPauseCircle, BiMenu } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
 import TestMenu from "./TestMenu";
 import PlayerHTMLFigma from "./PlayerHTMLFigma";
+import Doughnut from "./Doughnut";
 
 import { getMP3PlayerState } from "./reducers";
 
@@ -66,6 +67,7 @@ function Player() {
           )}
         </PlayerTriangleImgFlex>
       </CircleSunDiv>
+      <Doughnut doughnutValues={"85, 15"}>hello</Doughnut>
 
       <ProgressBarDiv>
         {resizeListenerProgressBar}
