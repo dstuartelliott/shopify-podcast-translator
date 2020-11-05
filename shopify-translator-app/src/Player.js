@@ -45,6 +45,8 @@ let isloaded = false;
 let areaOfScrollBar;
 let dragging = false;
 
+let ProgressBarOver = false;
+
 function Player() {
   let mp3PlayerState = useSelector(getMP3PlayerState);
   const dispatch = useDispatch();
@@ -70,7 +72,8 @@ function Player() {
   });
 
   let [dragPercentage, setDragPercentage] = React.useState("100, 0");
-  let [oldDragPercentage, setoldDragPercentage] = React.useState("100, 0");
+
+  let [showProgressWheel, setshowProgressWheel] = React.useState(false);
 
   sizeOfJogArea = sizes.width - 115 - 10;
 
@@ -260,7 +263,6 @@ function Player() {
     console.log(percentage * 100);
 
     let remaining = 100 - percentage * 100;
-    setoldDragPercentage(dragPercentage);
 
     setDragPercentage(percentage * 100 + " ," + remaining);
 
@@ -279,14 +281,22 @@ function Player() {
     dragging = false;
   }
 
+  function handleHoverBar() {
+    setshowProgressWheel(true);
+  }
+  function handleOutBar() {
+    setshowProgressWheel(false);
+  }
+
   return (
-    <Wrapper>
+    <Wrapper onMouseEnter={handleOutBar}>
+      {console.log(ProgressBarOver)}
       <CircleSunDiv
         image_source={CircleSun}
         image_over_source={CircleOver}
         alt="Circle Background behind play button"
         onClick={playButtonHit}
-        opacity={dragging ? 0 : 0}
+        opacity={showProgressWheel ? 0 : 100}
       >
         <PlayerTriangleImgFlex>
           {mp3PlayerState === MP3_PLAYER_STATES.PLAYING ? (
@@ -297,21 +307,7 @@ function Player() {
         </PlayerTriangleImgFlex>
       </CircleSunDiv>
       <DoughnutDiv>
-        {console.log(oldDragPercentage)}
-        {/* <Doughnut doughnutValues={dragPercentage}>hello</Doughnut> */}
-
-        {dragging ? (
-          <Doughnut props={(dragPercentage, dragPercentage)}></Doughnut>
-        ) : (
-          <Doughnut props={(dragPercentage, oldDragPercentage)}></Doughnut>
-
-          // <Spring
-          //   from={{ doughnutValues: 0 }}
-          //   to={{ doughnutValues: dragPercentage }}
-          // >
-          //   {(props) => <Doughnut doughnutValues={props} />}
-          // </Spring>
-        )}
+        <Doughnut doughnutValues={dragPercentage}>hello</Doughnut>
       </DoughnutDiv>
 
       <ProgressBarDiv>
@@ -334,6 +330,8 @@ function Player() {
           <InvisibleProgressButton
             sizeLength={sizeOfJogArea + "px"}
             onClick={handleInvisibleProgressButtonClicl}
+            onMouseEnter={handleHoverBar}
+            onMouseLeave={handleOutBar}
           ></InvisibleProgressButton>
           <ProgressBar>
             {/* {console.log({ audioPercentage })} */}
@@ -353,6 +351,8 @@ function Player() {
                   <ProgressBarCircle
                     className="handle"
                     ref={circleRef}
+                    onMouseEnter={handleHoverBar}
+                    onMouseLeave={handleOutBar}
                   ></ProgressBarCircle>
                 </div>
               </Draggable>
@@ -380,6 +380,7 @@ const InvisibleProgressButton = styled.button`
   :hover {
     background-color: transparent;
   }
+  height: 100px;
 `;
 
 const ProgressBar = styled.div`

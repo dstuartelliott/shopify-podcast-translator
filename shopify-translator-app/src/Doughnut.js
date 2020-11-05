@@ -1,13 +1,11 @@
 import React from "react";
 import styled from "styled-components/macro";
 
-function Doughnut({ props }) {
-  console.log(props);
+function Doughnut({ doughnutValues }) {
   // console.log(doughnutValues.doughnutValues);
 
-  let remaining = 100 - props.dragPercentage;
-  let ratios = props.dragPercentage + " ," + remaining;
-  console.log(ratios);
+  let remaining = 100 - doughnutValues;
+  let ratios = doughnutValues + " ," + remaining;
 
   return (
     <Wrapper>
