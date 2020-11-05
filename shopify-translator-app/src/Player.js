@@ -7,7 +7,7 @@ import DropDown from "./images/DropDown.png";
 import CircleSun from "./images/CircleSun.svg";
 import CircleOver from "./images/circle_over2.svg";
 import PauseImage from "./images/pause.svg";
-
+import { Spring } from "react-spring/renderprops";
 import PlayImage from "./images/Play.svg";
 
 import TopSearch from "./TopSearch";
@@ -17,7 +17,7 @@ import TestMenu from "./TestMenu";
 import PlayerHTMLFigma from "./PlayerHTMLFigma";
 import Doughnut from "./Doughnut";
 import Draggable from "react-draggable";
-
+import { useSpring, animated } from "react-spring";
 import {
   getMP3PlayerState,
   getTimeToJumpTo,
@@ -70,6 +70,7 @@ function Player() {
   });
 
   let [dragPercentage, setDragPercentage] = React.useState("100, 0");
+  let [oldDragPercentage, setoldDragPercentage] = React.useState("100, 0");
 
   sizeOfJogArea = sizes.width - 115 - 10;
 
@@ -220,6 +221,7 @@ function Player() {
   function handleStop(event, data) {
     console.log("Stop");
     // console.log(data.lastX);
+
     let percentage = data.lastX / areaOfScrollBar;
     console.log(percentage);
 
@@ -244,7 +246,7 @@ function Player() {
     let percentage = (data.lastX / areaOfScrollBar) * 100;
     console.log(percentage);
     let remaining = 100 - percentage;
-    setDragPercentage(percentage + " ," + remaining);
+    setDragPercentage(percentage);
     dragging = true;
   }
 
@@ -258,6 +260,8 @@ function Player() {
     console.log(percentage * 100);
 
     let remaining = 100 - percentage * 100;
+    setoldDragPercentage(dragPercentage);
+
     setDragPercentage(percentage * 100 + " ," + remaining);
 
     console.log(left_start);
@@ -277,15 +281,12 @@ function Player() {
 
   return (
     <Wrapper>
-      <DoughnutDiv>
-        <Doughnut doughnutValues={dragPercentage}>hello</Doughnut>
-      </DoughnutDiv>
-
       <CircleSunDiv
         image_source={CircleSun}
         image_over_source={CircleOver}
         alt="Circle Background behind play button"
         onClick={playButtonHit}
+        opacity={dragging ? 0 : 0}
       >
         <PlayerTriangleImgFlex>
           {mp3PlayerState === MP3_PLAYER_STATES.PLAYING ? (
@@ -295,6 +296,24 @@ function Player() {
           )}
         </PlayerTriangleImgFlex>
       </CircleSunDiv>
+      <DoughnutDiv>
+        {console.log(oldDragPercentage)}
+        {/* <Doughnut doughnutValues={dragPercentage}>hello</Doughnut> */}
+
+        {dragging ? (
+          <Doughnut props={(dragPercentage, dragPercentage)}></Doughnut>
+        ) : (
+          <Doughnut props={(dragPercentage, oldDragPercentage)}></Doughnut>
+
+          // <Spring
+          //   from={{ doughnutValues: 0 }}
+          //   to={{ doughnutValues: dragPercentage }}
+          // >
+          //   {(props) => <Doughnut doughnutValues={props} />}
+          // </Spring>
+        )}
+      </DoughnutDiv>
+
       <ProgressBarDiv>
         {resizeListenerProgressBar}
 
@@ -351,6 +370,7 @@ function Player() {
 
 const DoughnutDiv = styled.div`
   position: absolute;
+  left: -12px;
 `;
 
 const InvisibleProgressButton = styled.button`
@@ -436,15 +456,34 @@ const CircleSunDiv = styled.button`
   background: url("${(props) => props.image_source}");
   background-size: cover;
   border-radius: 5px;
-  transition: 0.3s ease-in-out;
+  -webkit-transition: background 0.3s ease-in-out;
+  -moz-transition: background 0.3s ease-in-out;
+  -o-transition: background 0.3s ease-in-out;
+  transition: background 0.3s ease-in-out;
+  z-index: 99;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -moz-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  opacity: ${(props) => props.opacity};
 
   :hover {
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out;
+    -o-transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+
     background-color: transparent;
+    transition: background 0.3s ease-in-out;
+
     background: url("${(props) => props.image_over_source}");
     width: 115px;
     height: 115px;
     background-size: cover;
     border-radius: 5px;
+    z-index: 99;
   }
 `;
 
@@ -459,7 +498,9 @@ const PlayImageDiv = styled.img`
   padding-right: 5px;
 `;
 
-const PauseImageDiv = styled.img``;
+const PauseImageDiv = styled.img`
+  padding-right: 13px;
+`;
 
 const Wrapper = styled.div`
   max-width: 900px;
