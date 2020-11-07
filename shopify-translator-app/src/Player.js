@@ -47,6 +47,28 @@ let dragging = false;
 
 let ProgressBarOver = false;
 
+function secondsToTime(e) {
+  let h = Math.floor(e / 3600)
+    .toString()
+    .padStart(2, "0");
+  let m = Math.floor((e % 3600) / 60);
+
+  if (h !== "00") {
+    m = m.toString().padStart(2, "0");
+  } else {
+    m = m.toString();
+  }
+
+  let s = Math.floor(e % 60)
+    .toString()
+    .padStart(2, "0");
+  if (h !== "00") {
+    return h + ":" + m + ":" + s;
+  } else {
+    return m + ":" + s;
+  }
+}
+
 function Player() {
   let mp3PlayerState = useSelector(getMP3PlayerState);
   const dispatch = useDispatch();
@@ -71,9 +93,17 @@ function Player() {
     y: 0,
   });
 
-  let [dragPercentage, setDragPercentage] = React.useState("100, 0");
+  let [dragPercentage, setDragPercentage] = React.useState("1, 99");
 
   let [showProgressWheel, setshowProgressWheel] = React.useState(false);
+  let [dragMinutesPlayHead, setdragMinutesPlayHead] = React.useState("");
+
+  let [totalTime, setTotalTime] = React.useState("");
+  let [playingTime, setplayingTime] = React.useState("0:00");
+  let [clickGoal, setclickGoal] = React.useState(0);
+  let [clicking, setClicking] = React.useState(false);
+
+  let dragMinutes = new Date();
 
   sizeOfJogArea = sizes.width - 115 - 10;
 
@@ -173,6 +203,8 @@ function Player() {
         // setAudioCirclePosition(percentage);
       }
 
+      setplayingTime(secondsToTime(audioref.current.currentTime));
+
       if (seeking === false) {
         let current_time = audioref.current.currentTime;
         // console.log(uuids_and_times);
@@ -209,6 +241,7 @@ function Player() {
         dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
       }
 
+      setTotalTime(secondsToTime(audioref.current.duration));
       isloaded = true;
     }
 
@@ -247,10 +280,21 @@ function Player() {
   }
   function handleDrag(event, data) {
     let percentage = (data.lastX / areaOfScrollBar) * 100;
-    console.log(percentage);
     let remaining = 100 - percentage;
-    setDragPercentage(percentage);
+
+    setDragPercentage(percentage + " ," + remaining);
+
     dragging = true;
+
+    let duration = audioref.current.duration * (data.lastX / areaOfScrollBar);
+    console.log(secondsToTime(duration));
+
+    // var hrs = ~~(duration / 3600);
+    // var mins = ~~((duration % 3600) / 60);
+    // var secs = ~~duration % 60;
+
+    // console.log(mins, +":" + secs);
+    setdragMinutesPlayHead(secondsToTime(duration));
   }
 
   function handleInvisibleProgressButtonClicl(event) {
@@ -260,24 +304,23 @@ function Player() {
         event.currentTarget.offsetLeft);
 
     let percentage = left_start / sizeOfJogArea;
-    console.log(percentage * 100);
 
     let remaining = 100 - percentage * 100;
 
+    let circle_x = percentage * (sizeOfJogArea - 30);
+
     setDragPercentage(percentage * 100 + " ," + remaining);
 
-    console.log(left_start);
+    setAudioCirclePosition({ x: circle_x, y: 0 });
 
-    setAudioCirclePosition({ x: left_start, y: 0 });
     setAudioPercentage(percentage * 100 + "%");
 
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
     dispatch(
       recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
     );
-
-    // console.log(audioref.current.duration * percentage);
     dispatch(jumpToTime(audioref.current.duration * percentage));
+
     dragging = false;
   }
 
@@ -290,7 +333,6 @@ function Player() {
 
   return (
     <Wrapper onMouseEnter={handleOutBar}>
-      {console.log(ProgressBarOver)}
       <CircleSunDiv
         image_source={CircleSun}
         image_over_source={CircleOver}
@@ -307,7 +349,15 @@ function Player() {
         </PlayerTriangleImgFlex>
       </CircleSunDiv>
       <DoughnutDiv>
-        <Doughnut doughnutValues={dragPercentage}>hello</Doughnut>
+        <Doughnut
+          doughnutValues={dragPercentage}
+          minutesDrag={dragMinutesPlayHead}
+          totalTime={totalTime}
+          dragging={dragging}
+          playingTime={playingTime}
+          clicking={clicking}
+          clickGoal={clickGoal}
+        ></Doughnut>
       </DoughnutDiv>
 
       <ProgressBarDiv>
@@ -323,7 +373,7 @@ function Player() {
               onSeeking={seekingHappening}
               onSeeked={seekingDone}
               onTimeUpdate={announceListen}
-              onCanPlay={ableToPlay}
+              onLoadedData={ableToPlay}
               onLoadStart={loadingStarted}
             ></AudioDivBelow>
           </PlayerDiv>
@@ -380,7 +430,6 @@ const InvisibleProgressButton = styled.button`
   :hover {
     background-color: transparent;
   }
-  height: 100px;
 `;
 
 const ProgressBar = styled.div`

@@ -37,8 +37,8 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "JUMP_TO_TIME": {
-      console.log("JUMP_TO_TIME");
-      console.log(action.time);
+      // console.log("JUMP_TO_TIME");
+      // console.log(action.time);
 
       return { ...state, jump_to_time: action.time };
     }

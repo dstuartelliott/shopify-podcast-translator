@@ -1,57 +1,81 @@
 import React from "react";
 import styled from "styled-components/macro";
+import { Spring, config } from "react-spring/renderprops";
 
-function Doughnut({ doughnutValues }) {
+let old_doughnut_values = "1, 99";
+function Doughnut({
+  doughnutValues,
+  minutesDrag,
+  totalTime,
+  dragging,
+  playingTime,
+}) {
   // console.log(doughnutValues.doughnutValues);
 
-  let remaining = 100 - doughnutValues;
-  let ratios = doughnutValues + " ," + remaining;
+  React.useEffect(() => {
+    old_doughnut_values = "1,99";
+    doughnutValues = "1,99";
+  }, []);
+
+  function done() {
+    old_doughnut_values = doughnutValues;
+  }
 
   return (
-    <Wrapper>
-      <Numbers>
-        <Current>2:00</Current>
-        <Remaining>/ 45:54</Remaining>
-      </Numbers>
-      <svg width="100%" height="100%" viewBox="0 0 42 42" class="donut">
-        <circle
-          class="donut-hole"
-          cx="21"
-          cy="21"
-          r="15.91549430918954"
-          fill="transparent"
-        ></circle>
-        <circle
-          class="donut-ring"
-          cx="21"
-          cy="21"
-          r="15.91549430918954"
-          fill="transparent"
-          stroke="#F1EBF5"
-          stroke-width="3"
-          stroke-linecap="round"
-        ></circle>
+    <Spring
+      onRest={done}
+      from={{ value: old_doughnut_values }}
+      to={{ value: doughnutValues }}
+    >
+      {(props) => (
+        <Wrapper>
+          <Numbers>
+            <Current>{dragging ? minutesDrag : playingTime}</Current>
+            <Remaining>/ {totalTime}</Remaining>
+          </Numbers>
+          <svg width="100%" height="100%" viewBox="0 0 42 42" class="donut">
+            <circle
+              class="donut-hole"
+              cx="21"
+              cy="21"
+              r="15.91549430918954"
+              fill="transparent"
+            ></circle>
+            <circle
+              class="donut-ring"
+              cx="21"
+              cy="21"
+              r="15.91549430918954"
+              fill="transparent"
+              stroke="#F1EBF5"
+              stroke-width="3"
+              stroke-linecap="round"
+            ></circle>
 
-        <circle
-          class="donut-segment"
-          cx="21"
-          cy="21"
-          r="15.91549430918954"
-          fill="transparent"
-          stroke="#FFD159"
-          stroke-width="3"
-          stroke-linecap="round"
-          stroke-dasharray={ratios}
-          stroke-dashoffset="0"
-        ></circle>
-      </svg>{" "}
-    </Wrapper>
+            <circle
+              class="donut-segment"
+              cx="21"
+              cy="21"
+              r="15.91549430918954"
+              fill="transparent"
+              // stroke={dragging ? "#FFE9AF" : "#FFD159"}
+              stroke="#FFD159"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-dasharray={props.value}
+              stroke-dashoffset="0"
+            ></circle>
+          </svg>{" "}
+        </Wrapper>
+      )}
+    </Spring>
   );
 }
 
 const Numbers = styled.div`
   position: fixed;
   align-self: center;
+  color: #605866;
 `;
 const Current = styled.div`
   text-align: center;
