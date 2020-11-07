@@ -87,7 +87,9 @@ function Player() {
   let showTranslation = useSelector(getShowTranslation);
   let audioref = React.useRef(null);
 
-  let [audioPercentage, setAudioPercentage] = React.useState(`1%`);
+  let [ProgressBarFillerWidth, setProgressBarFillerWidth] = React.useState(
+    `1%`
+  );
   let [audioCirclePosition, setAudioCirclePosition] = React.useState({
     x: 0,
     y: 0,
@@ -102,6 +104,9 @@ function Player() {
   let [playingTime, setplayingTime] = React.useState("0:00");
   let [clickGoal, setclickGoal] = React.useState(0);
   let [clicking, setClicking] = React.useState(false);
+
+  const [circleHover, toggle] = useState(false);
+  const circleProps = useSpring({ background: URL("${") ? width : 0 });
 
   let dragMinutes = new Date();
 
@@ -161,15 +166,7 @@ function Player() {
         (element) => current_time > element.start && current_time < element.end
       );
 
-      // console.log(current_time);
-      // console.log(uuid);
-
       if (uuid !== undefined) {
-        // console.log("PlayerHTMLFigma 80");
-        // console.log(uuid);
-        // console.log(translationPlaying);
-        // console.log(current_uuid);
-
         let trans_uuid = uuid.uuid + "trans";
 
         current_uuid = uuid;
@@ -182,32 +179,23 @@ function Player() {
 
   function announceListen(event) {
     if (event !== undefined) {
-      // console.log(event.nativeEvent.target);
       let percentage =
         event.nativeEvent.target.currentTime /
         event.nativeEvent.target.duration;
       let audioPer = percentage * 100;
-      // console.log(percentage);
 
       if (dragging === false) {
         let circle_x = percentage * (sizeOfJogArea - 30);
         setAudioCirclePosition({ x: circle_x, y: 0 });
-      }
-
-      if (percentage < 1.0) {
-        // setAudioPercentage("1%");
-        // setAudioCirclePosition(0.03);
-      } else {
-        setAudioPercentage(audioPer + "%");
-
-        // setAudioCirclePosition(percentage);
+        console.log(areaOfScrollBar);
+        console.log(circle_x);
+        setProgressBarFillerWidth(circle_x + 10 + "px");
       }
 
       setplayingTime(secondsToTime(audioref.current.currentTime));
 
       if (seeking === false) {
         let current_time = audioref.current.currentTime;
-        // console.log(uuids_and_times);
 
         dispatch(addCurrentTime({ current_time }));
         quickishFindUUID(current_time);
@@ -261,9 +249,7 @@ function Player() {
     let percentage = data.lastX / areaOfScrollBar;
     console.log(percentage);
 
-    // let circle_x = percentage * (sizeOfJogArea - 30);
     setAudioCirclePosition({ x: data.lastX, y: 0 });
-    setAudioPercentage(percentage * 100 + "%");
 
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
     dispatch(
@@ -272,11 +258,7 @@ function Player() {
 
     console.log(audioref.current.duration * percentage);
     dispatch(jumpToTime(audioref.current.duration * percentage));
-    // console.log(event.clientX);
     dragging = false;
-
-    // console.log(sizeOfJogArea - 30);
-    // console.log(sizeOfJogArea);
   }
   function handleDrag(event, data) {
     let percentage = (data.lastX / areaOfScrollBar) * 100;
@@ -313,7 +295,7 @@ function Player() {
 
     setAudioCirclePosition({ x: circle_x, y: 0 });
 
-    setAudioPercentage(percentage * 100 + "%");
+    setProgressBarFillerWidth(circle_x + 10 + "px");
 
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
     dispatch(
@@ -384,8 +366,7 @@ function Player() {
             onMouseLeave={handleOutBar}
           ></InvisibleProgressButton>
           <ProgressBar>
-            {/* {console.log({ audioPercentage })} */}
-            <ProgressBarFiller audioPercentage={audioPercentage}>
+            <ProgressBarFiller ProgressBarFillerWidth={ProgressBarFillerWidth}>
               <Draggable
                 axis="x"
                 handle=".handle"
@@ -436,6 +417,10 @@ const ProgressBar = styled.div`
   height: 10px;
   border-radius: 13px;
   width: 100%;
+
+  /* box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16); */
+
+  /* box-shadow: (0px 4px 8px rgba(28, 37, 44, 0.08)); */
 `;
 
 const ProgressBarFiller = styled.div`
@@ -444,7 +429,7 @@ const ProgressBarFiller = styled.div`
   border-radius: inherit;
   transition: width 0.3s ease-out;
 
-  width: ${(props) => props.audioPercentage};
+  width: ${(props) => props.ProgressBarFillerWidth};
 
   /* width: 10%; */
 `;
@@ -454,11 +439,16 @@ const ProgressBarCircle = styled.button`
   width: 30px;
   height: 30px;
   position: absolute;
-  left: ${(props) => props.audioPercentage};
   top: -8px;
   z-index: 6;
-  border: solid 1px #aea8b2;
+  border: 1px solid #ededed;
   border-radius: 30px;
+  -webkit-transition: border 0.3s ease-in-out;
+  -moz-transition: border 0.3s ease-in-out;
+  -o-transition: border 0.3s ease-in-out;
+  transition: border 0.3s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(28, 37, 44, 0.08);
+
   :hover {
     background-color: white;
   }
