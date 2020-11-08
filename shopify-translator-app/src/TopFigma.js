@@ -202,17 +202,10 @@ const MenuTitle = styled.div`
   line-height: 120%;
   /* identical to box height, or 22px */
 
-  /* SUNRISE / Charcoal */
-  color: transparent;
-  // #9198e5
-  background-clip: text;
+  background: radial-gradient(circle at 0%, #37313c, ${(props) => props.stroke})
+    no-repeat;
   -webkit-background-clip: text;
-  color: transparent;
-  background: radial-gradient(
-    circle at 10%,
-    #ededed,
-    ${(props) => props.stroke}
-  );
+  -webkit-text-fill-color: transparent;
 `;
 
 const BurgerButton = styled.button`
