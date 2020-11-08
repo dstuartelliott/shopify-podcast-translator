@@ -10,6 +10,8 @@ import PauseImage from "./images/pause.svg";
 import { Spring, config } from "react-spring/renderprops";
 import PlayImage from "./images/Play.svg";
 import CircleSunComponent from "./CircleSunComponent";
+import PauseSVGComponent from "./PauseSVGComponent";
+import PlaySVGComponent from "./PlaySVGComponent";
 
 import TopSearch from "./TopSearch";
 import { BiPlayCircle, BiPauseCircle, BiMenu } from "react-icons/bi";
@@ -317,37 +319,50 @@ function Player() {
         onMouseEnter={() => setcircleToggle(!circleToggle)}
         onMouseLeave={() => setcircleToggle(!circleToggle)}
       ></CircleSunButton>
-      <Spring
-        config={{ tension: 170, friction: 20, precision: 0.01, velocity: 0 }}
-        from={{
-          top: circleToggle ? "#F1EBF5" : "#FFDECC",
-          bottom: circleToggle ? "#fddf00" : "#FFE600",
-          gradient_bottom_x: circleToggle ? 300 : 30,
-        }}
-        to={{
-          top: circleToggle ? "#FFDECC" : "#F1EBF5",
-          bottom: circleToggle ? "#FFE600" : "#fddf00",
-          gradient_bottom_x: circleToggle ? 30 : 300,
-        }}
-      >
-        {(props) => (
-          <CircleSunComponent
-            // alt="Circle Background behind play button"
-            // opacity={showProgressWheel ? 0 : 100}
-            bottom={props.bottom}
-            top={props.top}
-            gradient_bottom_x={props.gradient_bottom_x}
-          ></CircleSunComponent>
-        )}
-      </Spring>
-      <PlayerTriangleImgFlex>
-        {mp3PlayerState === MP3_PLAYER_STATES.PLAYING ? (
-          <PauseImageDiv src={PauseImage}></PauseImageDiv>
-        ) : (
-          <PlayImageDiv src={PlayImage}></PlayImageDiv>
-        )}
-      </PlayerTriangleImgFlex>
-      {/* <DoughnutDiv>
+      <CircleSunDiv opacity={showProgressWheel ? 0 : 100}>
+        <Spring
+          config={{ tension: 170, friction: 20, precision: 0.01, velocity: 0 }}
+          from={{
+            top: circleToggle ? "#F1EBF5" : "#FFDECC",
+            bottom: circleToggle ? "#fddf00" : "#FFE600",
+            gradient_bottom_x: circleToggle ? 300 : 30,
+            stroke: circleToggle ? "#8a8a8a" : "#0d6da8",
+          }}
+          to={{
+            top: circleToggle ? "#FFDECC" : "#F1EBF5",
+            bottom: circleToggle ? "#FFE600" : "#fddf00",
+            gradient_bottom_x: circleToggle ? 30 : 300,
+            stroke: circleToggle ? "#0d6da8" : "#8a8a8a",
+          }}
+        >
+          {(props) => (
+            <div>
+              <PlayerTriangleImgFlex>
+                {mp3PlayerState === MP3_PLAYER_STATES.PLAYING ? (
+                  <PauseImageDiv>
+                    <PauseSVGComponent
+                      stroke={props.stroke}
+                    ></PauseSVGComponent>
+                  </PauseImageDiv>
+                ) : (
+                  <PlayImageDiv>
+                    <PlaySVGComponent stroke={props.stroke}></PlaySVGComponent>
+                  </PlayImageDiv>
+                )}
+              </PlayerTriangleImgFlex>
+
+              <CircleSunComponent
+                // alt="Circle Background behind play button"
+                // opacity={showProgressWheel ? 0 : 100}
+                bottom={props.bottom}
+                top={props.top}
+                gradient_bottom_x={props.gradient_bottom_x}
+              ></CircleSunComponent>
+            </div>
+          )}
+        </Spring>
+      </CircleSunDiv>
+      <DoughnutDiv>
         <Doughnut
           doughnutValues={dragPercentage}
           minutesDrag={dragMinutesPlayHead}
@@ -357,7 +372,7 @@ function Player() {
           clicking={clicking}
           clickGoal={clickGoal}
         ></Doughnut>
-      </DoughnutDiv> */}
+      </DoughnutDiv>
 
       <ProgressBarDiv>
         {resizeListenerProgressBar}
@@ -418,7 +433,7 @@ function Player() {
 
 const DoughnutDiv = styled.div`
   position: absolute;
-  left: -12px;
+  left: -10px;
 `;
 
 const InvisibleProgressButton = styled.button`
@@ -434,10 +449,6 @@ const ProgressBar = styled.div`
   height: 10px;
   border-radius: 13px;
   width: 100%;
-
-  /* box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16); */
-
-  /* box-shadow: (0px 4px 8px rgba(28, 37, 44, 0.08)); */
 `;
 
 const ProgressBarFiller = styled.div`
@@ -473,15 +484,7 @@ const ProgressBarCircle = styled.button`
   /* width: 10%; */
 `;
 
-const AudioDivBelow = styled.audio`
-  /* width: 95%;
-  height: 20px;
-  padding-left: 0px;
-
-  @media (max-width: 600px) {
-    padding-left: 0px;
-  } */
-`;
+const AudioDivBelow = styled.audio``;
 
 const PlayerWrapper = styled.div`
   display: flex;
@@ -506,6 +509,11 @@ const ProgressBarDiv = styled.div`
   margin-left: 10px;
   border-radius: 10px;
 `;
+const CircleSunDiv = styled.div`
+  transition: opacity 0.3s ease-in-out;
+  opacity: ${(props) => props.opacity};
+  z-index: 2;
+`;
 
 const CircleSunButton = styled.button`
   width: 115px;
@@ -526,13 +534,19 @@ const PlayerTriangleImgFlex = styled.div`
   flex-direction: row;
   height: 115px;
   width: 115px;
+  position: absolute;
+  z-index: 3;
+  transition: opacity 0.3s ease-in-out;
+
+  opacity: ${(props) => props.opacity};
 `;
-const PlayImageDiv = styled.img`
-  padding-right: 5px;
+const PlayImageDiv = styled.div`
+  align-self: center;
 `;
 
-const PauseImageDiv = styled.img`
-  padding-right: 13px;
+const PauseImageDiv = styled.div`
+  padding-right: 5px;
+  align-self: center;
 `;
 
 const Wrapper = styled.div`

@@ -205,12 +205,14 @@ const MenuTitle = styled.div`
   /* SUNRISE / Charcoal */
   color: transparent;
   // #9198e5
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
   background: radial-gradient(
-    circle at 0%,
-    #37313c,
+    circle at 10%,
+    #ededed,
     ${(props) => props.stroke}
   );
-  background-clip: text;
 `;
 
 const BurgerButton = styled.button`

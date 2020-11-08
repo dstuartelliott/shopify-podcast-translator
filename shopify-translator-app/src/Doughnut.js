@@ -59,7 +59,7 @@ function Doughnut({
               r="15.91549430918954"
               fill="transparent"
               // stroke={dragging ? "#FFE9AF" : "#FFD159"}
-              stroke="#FFD159"
+              stroke="#fddf00"
               stroke-width="3"
               stroke-linecap="round"
               stroke-dasharray={props.value}
@@ -86,8 +86,8 @@ const Remaining = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 138px;
-  height: 138px;
+  width: 130px;
+  height: 130px;
   display: flex;
   flex-direction: row;
   justify-content: center;
