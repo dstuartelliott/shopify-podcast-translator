@@ -318,15 +318,16 @@ function Player() {
         onMouseLeave={() => setcircleToggle(!circleToggle)}
       ></CircleSunButton>
       <Spring
+        config={{ tension: 170, friction: 20, precision: 0.01, velocity: 0 }}
         from={{
-          top: circleToggle ? "#DAF1FB" : "#FFDECC",
-          bottom: circleToggle ? "#FDC500" : "#FFE600",
-          gradient_bottom_x: circleToggle ? 105 : 55,
+          top: circleToggle ? "#F1EBF5" : "#FFDECC",
+          bottom: circleToggle ? "#fddf00" : "#FFE600",
+          gradient_bottom_x: circleToggle ? 300 : 30,
         }}
         to={{
-          top: circleToggle ? "#FFDECC" : "#DAF1FB",
-          bottom: circleToggle ? "#FFE600" : "#FDC500",
-          gradient_bottom_x: circleToggle ? 55 : 105,
+          top: circleToggle ? "#FFDECC" : "#F1EBF5",
+          bottom: circleToggle ? "#FFE600" : "#fddf00",
+          gradient_bottom_x: circleToggle ? 30 : 300,
         }}
       >
         {(props) => (
