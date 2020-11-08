@@ -7,8 +7,9 @@ import DropDown from "./images/DropDown.png";
 import CircleSun from "./images/CircleSun.svg";
 import CircleOver from "./images/circle_over2.svg";
 import PauseImage from "./images/pause.svg";
-import { Spring } from "react-spring/renderprops";
+import { Spring, config } from "react-spring/renderprops";
 import PlayImage from "./images/Play.svg";
+import CircleSunComponent from "./CircleSunComponent";
 
 import TopSearch from "./TopSearch";
 import { BiPlayCircle, BiPauseCircle, BiMenu } from "react-icons/bi";
@@ -105,10 +106,7 @@ function Player() {
   let [clickGoal, setclickGoal] = React.useState(0);
   let [clicking, setClicking] = React.useState(false);
 
-  const [circleHover, toggle] = useState(false);
-  const circleProps = useSpring({ background: URL("${") ? width : 0 });
-
-  let dragMinutes = new Date();
+  const [circleToggle, setcircleToggle] = React.useState(false);
 
   sizeOfJogArea = sizes.width - 115 - 10;
 
@@ -305,7 +303,6 @@ function Player() {
 
     dragging = false;
   }
-
   function handleHoverBar() {
     setshowProgressWheel(true);
   }
@@ -315,22 +312,41 @@ function Player() {
 
   return (
     <Wrapper onMouseEnter={handleOutBar}>
-      <CircleSunDiv
-        image_source={CircleSun}
-        image_over_source={CircleOver}
-        alt="Circle Background behind play button"
+      <CircleSunButton
         onClick={playButtonHit}
-        opacity={showProgressWheel ? 0 : 100}
+        onMouseEnter={() => setcircleToggle(!circleToggle)}
+        onMouseLeave={() => setcircleToggle(!circleToggle)}
+      ></CircleSunButton>
+      <Spring
+        from={{
+          top: circleToggle ? "#DAF1FB" : "#FFDECC",
+          bottom: circleToggle ? "#FDC500" : "#FFE600",
+          gradient_bottom_x: circleToggle ? 105 : 55,
+        }}
+        to={{
+          top: circleToggle ? "#FFDECC" : "#DAF1FB",
+          bottom: circleToggle ? "#FFE600" : "#FDC500",
+          gradient_bottom_x: circleToggle ? 55 : 105,
+        }}
       >
-        <PlayerTriangleImgFlex>
-          {mp3PlayerState === MP3_PLAYER_STATES.PLAYING ? (
-            <PauseImageDiv src={PauseImage}></PauseImageDiv>
-          ) : (
-            <PlayImageDiv src={PlayImage}></PlayImageDiv>
-          )}
-        </PlayerTriangleImgFlex>
-      </CircleSunDiv>
-      <DoughnutDiv>
+        {(props) => (
+          <CircleSunComponent
+            // alt="Circle Background behind play button"
+            // opacity={showProgressWheel ? 0 : 100}
+            bottom={props.bottom}
+            top={props.top}
+            gradient_bottom_x={props.gradient_bottom_x}
+          ></CircleSunComponent>
+        )}
+      </Spring>
+      <PlayerTriangleImgFlex>
+        {mp3PlayerState === MP3_PLAYER_STATES.PLAYING ? (
+          <PauseImageDiv src={PauseImage}></PauseImageDiv>
+        ) : (
+          <PlayImageDiv src={PlayImage}></PlayImageDiv>
+        )}
+      </PlayerTriangleImgFlex>
+      {/* <DoughnutDiv>
         <Doughnut
           doughnutValues={dragPercentage}
           minutesDrag={dragMinutesPlayHead}
@@ -340,7 +356,7 @@ function Player() {
           clicking={clicking}
           clickGoal={clickGoal}
         ></Doughnut>
-      </DoughnutDiv>
+      </DoughnutDiv> */}
 
       <ProgressBarDiv>
         {resizeListenerProgressBar}
@@ -490,40 +506,16 @@ const ProgressBarDiv = styled.div`
   border-radius: 10px;
 `;
 
-const CircleSunDiv = styled.button`
+const CircleSunButton = styled.button`
   width: 115px;
   height: 115px;
-  background: url("${(props) => props.image_source}");
-  background-size: cover;
+  background-color: transparent;
   border-radius: 5px;
-  -webkit-transition: background 0.3s ease-in-out;
-  -moz-transition: background 0.3s ease-in-out;
-  -o-transition: background 0.3s ease-in-out;
-  transition: background 0.3s ease-in-out;
   z-index: 99;
-  -webkit-transition: opacity 0.3s ease-in-out;
-  -moz-transition: opacity 0.3s ease-in-out;
-  transition: opacity 0.3s ease-in-out;
-  opacity: ${(props) => props.opacity};
+  position: absolute;
 
   :hover {
-    -webkit-transition: background 0.3s ease-in-out;
-    -moz-transition: background 0.3s ease-in-out;
-    -o-transition: background 0.3s ease-in-out;
-    transition: background 0.3s ease-in-out;
-    -webkit-transition: opacity 0.3s ease-in-out;
-    -moz-transition: opacity 0.3s ease-in-out;
-    transition: opacity 0.3s ease-in-out;
-
     background-color: transparent;
-    transition: background 0.3s ease-in-out;
-
-    background: url("${(props) => props.image_over_source}");
-    width: 115px;
-    height: 115px;
-    background-size: cover;
-    border-radius: 5px;
-    z-index: 99;
   }
 `;
 
