@@ -13,6 +13,7 @@ import TopSearch from "./TopSearch";
 import { BiPlayCircle, BiPauseCircle, BiMenu } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
 import TestMenu from "./TestMenu";
+import { useSpring, animated } from "react-spring";
 
 import { getMP3PlayerState } from "./reducers";
 
@@ -29,10 +30,18 @@ import {
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import useResizeAware from "react-resize-aware";
 
+const MenuItems = [
+  "Login",
+  "Search For Podcasts",
+  "Books I've heard",
+  "Languages To Learn",
+];
+
 function TopFigma() {
   let mp3PlayerState = useSelector(getMP3PlayerState);
   const dispatch = useDispatch();
   const [resizeListenerTop, sizes] = useResizeAware();
+  const [text, setText] = React.useState(MenuItems);
 
   let [burgerStrokeColor, setBurgerStrokeColor] = React.useState("red");
 
@@ -45,6 +54,11 @@ function TopFigma() {
   function BurgerLeave() {
     setBurgerStrokeColor("red");
   }
+  const [toggle, setToggle] = React.useState(false);
+  function onToggle() {
+    setToggle(!toggle);
+  }
+
   return (
     <Wrapper>
       {/* <MenuTitleConstant>How People </MenuTitleConstant> */}
@@ -62,6 +76,7 @@ function TopFigma() {
               <BurgerButton
                 onMouseEnter={() => setBurgerToggle(!burgerToggle)}
                 onMouseLeave={() => setBurgerToggle(!burgerToggle)}
+                onClick={() => setToggle(!toggle)}
               ></BurgerButton>
               <TeenyBurgerComponent
                 stroke={props.stroke}
@@ -91,14 +106,53 @@ function TopFigma() {
               Padma Lakshmi on Hulu. Each episode, Padma travels to a different
               part of the...
             </PodcastEpisodeDescription>
+
             <TwoImages></TwoImages>
             <DownArrow image_source={DropDown}></DownArrow>
           </TextAndDownArrow>
+          <Menu>
+            hello
+            <Spring
+              // config={config.gentle}
+              config={{
+                tension: 170,
+                friction: 171,
+                precision: 0.01,
+                velocity: 0,
+              }}
+              from={{ stroke: burgerToggle ? "#37313C" : "#FDC500" }}
+              to={{ stroke: burgerToggle ? "#FDC500" : "#37313C" }}
+            >
+              {(props) => (
+                <div>
+                  <Spring
+                    force
+                    config={{ tension: 2000, friction: 100, precision: 1 }}
+                    from={{ height: toggle ? 0 : "auto" }}
+                    to={{ height: toggle ? "auto" : 0 }}
+                    // onRest={reportSize}
+                  >
+                    {(props) => (
+                      <animated.div className="item" style={props}>
+                        {/* {resizeListener} */}
+
+                        {text.map((t, i) => (
+                          <p key={i}>{t}</p>
+                        ))}
+                      </animated.div>
+                    )}
+                  </Spring>
+                </div>
+              )}
+            </Spring>
+          </Menu>
         </PodcastText>
       </PodcastEpisode>
     </Wrapper>
   );
 }
+
+const Menu = styled.div``;
 
 const TwoImages = styled.div``;
 
@@ -129,6 +183,7 @@ const TitleAndHeart = styled.div`
 const PodcastText = styled.div`
   padding-left: 20px;
   flex-shrink: 20;
+  background-color: red;
 `;
 
 const PodcastEpisodeDescription = styled.div`
