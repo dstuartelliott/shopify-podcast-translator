@@ -64,7 +64,7 @@ function TopFigma() {
       {/* <MenuTitleConstant>How People </MenuTitleConstant> */}
       <Spring
         // config={config.gentle}
-        config={{ tension: 170, friction: 171, precision: 0.01, velocity: 0 }}
+        config={{ tension: 170, friction: 40, precision: 0.01, velocity: 0 }}
         from={{ stroke: burgerToggle ? "#37313C" : "#FDC500" }}
         to={{ stroke: burgerToggle ? "#FDC500" : "#37313C" }}
       >
@@ -89,29 +89,6 @@ function TopFigma() {
         <PodcastLogo image_source={HeroSrc} alt="Podcast Image"></PodcastLogo>
         <PodcastText>
           <TitleAndHeart>
-            <PodcastEpisodeTitle>
-              Bullseye with Jesse Thorn: Padma Lakshmi
-            </PodcastEpisodeTitle>
-            <TeenyHeartIcon
-              image_source={TeenyHeart}
-              alt="Heart Icon"
-            ></TeenyHeartIcon>
-          </TitleAndHeart>
-
-          <TextAndDownArrow>
-            <PodcastEpisodeDescription>
-              Padma Lakshmi is a model, actress and the host of Top Chef on
-              Bravo. She’s the person telling everyone to pack their knives and
-              go home. Her latest television series is Taste the Nation With
-              Padma Lakshmi on Hulu. Each episode, Padma travels to a different
-              part of the...
-            </PodcastEpisodeDescription>
-
-            <TwoImages></TwoImages>
-            <DownArrow image_source={DropDown}></DownArrow>
-          </TextAndDownArrow>
-          <Menu>
-            hello
             <Spring
               // config={config.gentle}
               config={{
@@ -124,35 +101,136 @@ function TopFigma() {
               to={{ stroke: burgerToggle ? "#FDC500" : "#37313C" }}
             >
               {(props) => (
-                <div>
-                  <Spring
-                    force
-                    config={{ tension: 2000, friction: 100, precision: 1 }}
-                    from={{ height: toggle ? 0 : "auto" }}
-                    to={{ height: toggle ? "auto" : 0 }}
-                    // onRest={reportSize}
-                  >
-                    {(props) => (
-                      <animated.div className="item" style={props}>
-                        {/* {resizeListener} */}
-
-                        {text.map((t, i) => (
-                          <p key={i}>{t}</p>
-                        ))}
-                      </animated.div>
-                    )}
-                  </Spring>
-                </div>
+                <PodcastEpisodeTitle stroke={props.stroke}>
+                  Bullseye with Jesse Thorn: Padma Lakshmi
+                </PodcastEpisodeTitle>
               )}
             </Spring>
-          </Menu>
+            <TeenyHeartIcon
+              image_source={TeenyHeart}
+              alt="Heart Icon"
+            ></TeenyHeartIcon>
+          </TitleAndHeart>
+
+          <Spring
+            config={config.stiff}
+            from={{
+              height: toggle ? "80px" : "40px",
+            }}
+            to={{
+              height: toggle ? "40px" : "75px",
+            }}
+          >
+            {(props) => (
+              <TextAndDownArrow>
+                <PodcastEpisodeDescription height={props.height}>
+                  Padma Lakshmi is a model, actress and the host of Top Chef on
+                  Bravo. She’s the person telling everyone to pack their knives
+                  and go home. Her latest television series is Taste the Nation
+                  With Padma Lakshmi on Hulu. Each episode, Padma travels to a
+                  different part of the Padma Lakshmi is a model, actress and
+                  the host of Top Chef on Bravo. She’s the person telling
+                  everyone to pack their knives and go home. Her latest
+                  television series is Taste the Nation With Padma Lakshmi on
+                  Hulu. Each episode, Padma travels to a different part of the
+                </PodcastEpisodeDescription>
+                <Elipses>...</Elipses>
+
+                <DownArrow image_source={DropDown}></DownArrow>
+              </TextAndDownArrow>
+            )}
+          </Spring>
         </PodcastText>
+        <MenuWrapper>
+          <Spring
+            // config={config.gentle}
+            config={{
+              tension: 170,
+              friction: 171,
+              precision: 0.01,
+              velocity: 0,
+            }}
+            from={{ stroke: burgerToggle ? "#37313C" : "#FDC500" }}
+            to={{ stroke: burgerToggle ? "#FDC500" : "#37313C" }}
+          >
+            {(props) => (
+              <div>
+                <Spring
+                  force
+                  config={{ tension: 2000, friction: 100, precision: 1 }}
+                  from={{
+                    width: toggle ? 0 : 200,
+                    height: toggle ? 0 : "auto",
+                    paddingLeft: toggle ? 0 : 5,
+                  }}
+                  to={{
+                    width: toggle ? 200 : 0,
+                    height: toggle ? "auto" : 0,
+                    paddingLeft: toggle ? 5 : 0,
+                  }}
+                  // onRest={reportSize}
+                >
+                  {(props) => (
+                    <Menu style={props}>
+                      {/* {resizeListener} */}
+                      <InternalMenu>
+                        {text.map((t, i) =>
+                          i === text.length - 1 ? (
+                            <LastMenuItem key={i}>{t}</LastMenuItem>
+                          ) : (
+                            <MenuItem key={i}>{t}</MenuItem>
+                          )
+                        )}
+                      </InternalMenu>
+                    </Menu>
+                  )}
+                </Spring>
+              </div>
+            )}
+          </Spring>
+        </MenuWrapper>
       </PodcastEpisode>
     </Wrapper>
   );
 }
 
-const Menu = styled.div``;
+const MenuWrapper = styled.div`
+  margin-top: -3px;
+`;
+
+const InternalMenu = styled.div`
+  background-color: #f1ebf5;
+  background: linear-gradient(45deg, #f1ebf5, #fcda71);
+
+  border-radius: 5px;
+`;
+const Menu = styled.div`
+  overflow: hidden;
+`;
+
+const MenuItem = styled.div`
+  padding-top: 5px;
+  padding-left: 10px;
+  height: 25px;
+  color: #20404e;
+  :hover {
+    color: #091216;
+    cursor: pointer;
+  }
+`;
+
+const LastMenuItem = styled.div`
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+
+  height: 20px;
+  color: #20404e;
+  :hover {
+    color: #091216;
+    cursor: pointer;
+  }
+`;
 
 const TwoImages = styled.div``;
 
@@ -162,17 +240,13 @@ const PodcastEpisode = styled.div`
   padding-top: 10px;
 `;
 
-const TextAndDownArrow = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
 const DownArrow = styled.div`
-  min-width: 20px;
+  width: 20px;
+  height: 20px;
   background: url("${(props) => props.image_source}");
   background-size: contain;
   background-repeat: no-repeat;
-  margin-top: 30px;
+  align-self: flex-end;
 `;
 
 const TitleAndHeart = styled.div`
@@ -182,10 +256,13 @@ const TitleAndHeart = styled.div`
 `;
 const PodcastText = styled.div`
   padding-left: 20px;
-  flex-shrink: 20;
-  background-color: red;
+  flex-shrink: 10;
 `;
 
+const TextAndDownArrow = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 const PodcastEpisodeDescription = styled.div`
   font-family: Avenir Next;
   font-style: normal;
@@ -193,12 +270,20 @@ const PodcastEpisodeDescription = styled.div`
   font-size: 14px;
   padding-top: 5px;
   padding-right: 5px;
-
+  flex: 1;
   text-align: justify;
+  height: ${(props) => props.height};
+
+  overflow-y: hidden;
 
   /* SUNRISE / Text Grey */
 
   color: #605866;
+`;
+
+const Elipses = styled.div`
+  align-self: flex-end;
+  margin-left: -3px;
 `;
 
 const PodcastEpisodeTitle = styled.div`
@@ -210,6 +295,12 @@ const PodcastEpisodeTitle = styled.div`
   /* identical to box height, or 36px */
 
   /* SUNRISE / Charcoal */
+  background: radial-gradient(circle at 0%, #37313c, ${(props) => props.stroke})
+    no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
 
   color: #37313c;
 `;
@@ -218,7 +309,9 @@ const PodcastLogo = styled.div`
   width: 120px;
   height: 120px;
   background: url("${(props) => props.image_source}");
-  background-size: cover;
+  background-size: contain;
+  background-position: center;
+
   border-radius: 5px;
 `;
 
@@ -229,37 +322,20 @@ const MenuHeader = styled.div`
   justify-content: flex-end;
 `;
 
-const MenuTitleConstant = styled.div`
-  /* B */
-
-  font-family: Avenir Next;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 120%;
-  padding-right: 4px;
-  /* identical to box height, or 22px */
-
-  /* SUNRISE / Charcoal */
-  color: transparent;
-  // #9198e5
-  background-color: #37313c;
-  background-clip: text;
-`;
-
 const MenuTitle = styled.div`
   /* B */
 
   font-family: Avenir Next;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
-  line-height: 120%;
+  font-size: 12px;
+  line-height: 100%;
   /* identical to box height, or 22px */
 
-  background: radial-gradient(circle at 0%, #37313c, ${(props) => props.stroke})
+  background: linear-gradient(45deg, #37313c, ${(props) => props.stroke})
     no-repeat;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
 
@@ -284,7 +360,7 @@ const TeenyHeartIcon = styled.div`
   background-image: url("${(props) => props.image_source}");
   background-size: contain;
   background-repeat: no-repeat;
-  align-self: center;
+  align-self: flex-start;
   padding-bottom: 3px;
   margin-left: 5px;
 `;

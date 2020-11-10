@@ -262,3 +262,8 @@ Nov 7 - I have finally got the navigation part done.  It looks fucking beautiful
 Nov 8.
 Ok, finish up the circle thing and move on.
 
+const Elipses = styled.div`
+  align-self: flex;
+`;
+                </PodcastEpisodeDescription>
+                <Elipses>...</Elipses>
