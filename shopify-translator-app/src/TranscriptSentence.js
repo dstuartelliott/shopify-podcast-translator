@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components/macro";
+import { COLORS_SHOPIFY_GREYS_PALLETE } from "./constants.js";
+
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import {
   jumpToTime,
@@ -203,6 +205,7 @@ const ClickMeButton = styled.button`
   border-radius: 5px;
   padding: 3px;
   left: 90%;
+  z-index: 10;
 `;
 
 const Wrapper = styled.div`
@@ -220,9 +223,19 @@ const SpeakerFrench = styled.span`
   color: ${COLORS_FLAG.Quebec};
 `;
 
-const SentenceAndSpeaker = styled.div``;
+const SentenceAndSpeakerSelected = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  padding-top: 15px;
 
-const SentenceAndSpeakerSelected = styled.div``;
+  border-left: 1px solid #eaeaea;
+  background-color: #fcfcfc;
+
+  /* border-bottom: 1px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky}; */
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px #d2cdd5;
+`;
 
 const SentencePlayingDiv = styled.div`
   display: flex;
@@ -245,7 +258,6 @@ const SentencePlayingDiv = styled.div`
 const SentenceDiv = styled.div`
   display: flex;
   flex-direction: row;
-  border: none;
   cursor: pointer;
   z-index: 1;
   padding-bottom: 10px;
@@ -272,28 +284,31 @@ const SentenceHighlighted = styled.div`
   }
 `;
 
+const SentenceAndSpeaker = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  padding-top: 15px; ;
+`;
+
 const Sentence = styled.div`
-  background-color: white;
   padding-left: 11px;
   color: rgba(26, 26, 26);
-
+  width: 425px;
   @media (max-width: 600px) {
     background-color: white;
     padding-left: 11px;
     color: rgba(26, 26, 26);
-    margin-right: 0px;
   }
 `;
 
 const SentenceQuebec = styled.div`
-  background-color: white;
   padding-left: 11px;
   color: rgba(26, 26, 26);
   @media (max-width: 600px) {
     background-color: white;
     padding-left: 11px;
     color: rgba(26, 26, 26);
-    margin-right: 0px;
   }
 `;
 

@@ -10,7 +10,10 @@ import {
   updateSpeechSynthState,
 } from "./actions";
 
-import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
+import {
+  COLORS_SHOPIFY_GREYS_PALLETE,
+  COLORS_SHOPIFY_BLUE_PALLETE,
+} from "./constants.js";
 
 import { useDispatch } from "react-redux";
 
@@ -76,6 +79,14 @@ function IntroSentence({
 const Wrapper = styled.div`
   z-index: 2;
   text-align: left;
+  border-left: 1px solid #eaeaea;
+  border-bottom: 1px solid #a1babb;
+
+  background-color: #fcfcfc;
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px #d2cdd5;
+  margin-top: 20px;
+  padding-top: 10px; ;
 `;
 
 const SentenceAndSpeaker = styled.div``;
@@ -117,7 +128,6 @@ const SentenceDiv = styled.div`
 `;
 
 const SentenceHighlighted = styled.div`
-  background-color: white;
   padding-left: 11px;
 
   color: rgba(26, 26, 26);
@@ -131,7 +141,6 @@ const SentenceHighlighted = styled.div`
 `;
 
 const Sentence = styled.div`
-  background-color: white;
   padding-left: 11px;
   color: ${COLORS_SHOPIFY_BLUE_PALLETE.Text};
 
