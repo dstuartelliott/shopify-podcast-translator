@@ -8,6 +8,7 @@ import { AppProvider } from "@shopify/polaris";
 import { useDispatch, useSelector } from "react-redux";
 
 import TopFigma from "./TopFigma";
+import TopSearch from "./TopSearch";
 import Player from "./Player";
 
 import Scrolltext from "./Scrolltext";
@@ -151,8 +152,9 @@ function App() {
 
             <TopFigma />
             <Player />
+            <TopSearch></TopSearch>
           </TopDivs>
-          {/* <Scrolltext></Scrolltext> */}
+          <Scrolltext></Scrolltext>
           <BottomElement>
             <div className="g-signin2" data-onsuccess="onSignIn"></div>
             {profileName}

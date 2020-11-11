@@ -55,35 +55,55 @@ function TopSearch() {
 
   return (
     <Wrapper>
-      <TranscriptSearch
-        type="text"
-        value={textfieldValue}
-        onChange={findSentence}
-        // onKeyDown={handleKeyPress}
-        onClick={handleClick}
-      ></TranscriptSearch>
+      <FlagsDiv>🇨🇦 🇫🇷 🇨🇳</FlagsDiv>
+      <SearchDiv>
+        <TranscriptSearch
+          type="text"
+          value={textfieldValue}
+          onChange={findSentence}
+          // onKeyDown={handleKeyPress}
+          onClick={handleClick}
+        ></TranscriptSearch>
+      </SearchDiv>
     </Wrapper>
   );
 }
 
-const TranscriptSearch = styled.input`
-  height: 30px;
-  width: 99%;
-  border-color: transparent;
+const FlagsDiv = styled.div`
+  width: 100px;
+  font-size: 25px;
+  align-self: center;
+`;
+
+const SearchDiv = styled.div`
+  flex-grow: 2;
   background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Lighter};
   border-bottom: 1px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
-  @media (max-width: 600px) {
+  border-radius: 15px;
+  box-shadow: 3px 3px 5px #aea8b2;
+  padding-right: 16px;
+`;
+
+const TranscriptSearch = styled.input`
+  width: auto;
+  border-color: transparent;
+  background-color: transparent;
+  padding-left: 20px;
+  /* @media (max-width: 600px) {
     /* width: 200px; */
     width: 90%;
     /* have to make this min 16 pxfont size so safari mobile won't zoom in  */
     font-size: 16px;
     height: 25px;
-  }
+  } */
 `;
 
 const Wrapper = styled.div`
   width: 100%;
-  padding-top: 3px;
+  padding-top: 15px;
+  display: flex;
+  padding-bottom: 30px;
+  height: 30px;
 
   @media (max-width: 600px) {
     padding-top: 23px;
