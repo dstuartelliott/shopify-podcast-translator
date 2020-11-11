@@ -79,19 +79,28 @@ function IntroSentence({
 const Wrapper = styled.div`
   z-index: 2;
   text-align: left;
-  border-left: 1px solid #eaeaea;
-  border-bottom: 1px solid #a1babb;
-
-  background-color: #fcfcfc;
-  border-radius: 5px;
-  box-shadow: 3px 3px 5px #d2cdd5;
-  margin-top: 20px;
-  padding-top: 10px; ;
 `;
 
-const SentenceAndSpeaker = styled.div``;
+const SentenceAndSpeaker = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  padding-top: 15px; ;
+`;
 
-const SentenceAndSpeakerSelected = styled.div``;
+const SentenceAndSpeakerSelected = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  padding-top: 15px;
+
+  border-left: 1px solid #eaeaea;
+  background-color: #fcfcfc;
+
+  /* border-bottom: 1px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky}; */
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px #d2cdd5;
+`;
 
 const SentencePlayingDiv = styled.div`
   display: flex;

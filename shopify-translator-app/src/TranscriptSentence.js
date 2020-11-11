@@ -241,18 +241,21 @@ const SentencePlayingDiv = styled.div`
   display: flex;
 
   flex-direction: row;
+  padding-bottom: 10px;
 
   border: none;
   cursor: pointer;
   z-index: 1;
   padding-bottom: 10px;
+  /*
   @media (max-width: 600px) {
     padding-bottom: 10px;
-    /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. */
+    /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. 
     flex-direction: row-reverse;
-    /* background-color: red; */
+    /* background-color: red; 
     justify-content: flex-end;
   }
+  */
 `;
 
 const SentenceDiv = styled.div`
