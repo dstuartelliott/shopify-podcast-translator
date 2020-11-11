@@ -90,12 +90,10 @@ const TranscriptSearch = styled.input`
   background-color: transparent;
   padding-left: 20px;
   /* @media (max-width: 600px) {
-    /* width: 200px; */
     width: 90%;
-    /* have to make this min 16 pxfont size so safari mobile won't zoom in  */
     font-size: 16px;
     height: 25px;
-  } */
+  }  */
 `;
 
 const Wrapper = styled.div`
