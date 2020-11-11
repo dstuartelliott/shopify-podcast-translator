@@ -6,7 +6,6 @@ import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch, useSelector } from "react-redux";
-import Top from "./Top";
 
 import TopFigma from "./TopFigma";
 import Player from "./Player";
@@ -150,8 +149,6 @@ function App() {
           <TopDivs>
             {/* {resizeListener} */}
 
-            {/* <Top></Top>
-            <PlayerHTML></PlayerHTML> */}
             <TopFigma />
             <Player />
           </TopDivs>

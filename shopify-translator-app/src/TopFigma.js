@@ -159,12 +159,12 @@ function TopFigma() {
                   force
                   config={{ tension: 2000, friction: 100, precision: 1 }}
                   from={{
-                    width: toggle ? 0 : 200,
+                    width: toggle ? 0 : 180,
                     height: toggle ? 0 : "auto",
                     paddingLeft: toggle ? 0 : 5,
                   }}
                   to={{
-                    width: toggle ? 200 : 0,
+                    width: toggle ? 180 : 0,
                     height: toggle ? "auto" : 0,
                     paddingLeft: toggle ? 5 : 0,
                   }}
@@ -210,19 +210,21 @@ const Menu = styled.div`
 
 const MenuItem = styled.div`
   padding-top: 5px;
-  padding-left: 10px;
+  padding-right: 10px;
   height: 25px;
   color: #20404e;
   :hover {
     color: #091216;
     cursor: pointer;
   }
+  text-align: right;
 `;
 
 const LastMenuItem = styled.div`
   padding-top: 5px;
   padding-bottom: 5px;
-  padding-left: 10px;
+  padding-right: 10px;
+  text-align: right;
 
   height: 20px;
   color: #20404e;
@@ -331,6 +333,7 @@ const MenuTitle = styled.div`
   font-size: 12px;
   line-height: 100%;
   /* identical to box height, or 22px */
+  align-self: center;
 
   background: linear-gradient(45deg, #37313c, ${(props) => props.stroke})
     no-repeat;
@@ -351,7 +354,7 @@ const BurgerButton = styled.button`
 const BurgerIcon = styled.div`
   /* SUNRISE / Light Charcoal */
   padding-left: 5px;
-  align-self: center;
+  align-self: flex-start;
 `;
 
 const TeenyHeartIcon = styled.div`
