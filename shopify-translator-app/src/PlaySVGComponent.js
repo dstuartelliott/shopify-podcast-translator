@@ -1,10 +1,10 @@
 import React from "react";
 
-function PlaySVGComponent({ stroke }) {
+function PlaySVGComponent({ stroke, height, width }) {
   return (
     <svg
-      width="28"
-      height="30"
+      width={width}
+      height={height}
       viewBox="0 0 28 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

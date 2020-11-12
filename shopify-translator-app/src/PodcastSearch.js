@@ -6,10 +6,9 @@ import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch, useSelector } from "react-redux";
-
+import PodcastListingSearch from "./PodcastListingSearch";
 import TopFigma from "./TopFigma";
 import TopSearch from "./TopSearch";
-import Player from "./Player";
 
 import Scrolltext from "./Scrolltext";
 
@@ -27,8 +26,9 @@ import {
 import { getHamburgerSize } from "./reducers";
 
 import { markEnglishAsPlaying, changeTranslation } from "./actions";
+import PlayerMinimal from "./PlayerMinimal";
 
-function PodcastEpisodeHome() {
+function PodcastSearch() {
   //eslint-disable-next-line
   const dispatch = useDispatch();
 
@@ -61,13 +61,9 @@ function PodcastEpisodeHome() {
     <FleXApp className="App">
       <AppProvider i18n={enTranslations}>
         <TopDivs>
-          {/* {resizeListener} */}
-
-          <TopFigma />
-          <Player />
-          <TopSearch />
+          <PlayerMinimal />
+          <PodcastListingSearch />
         </TopDivs>
-        <Scrolltext></Scrolltext>
       </AppProvider>
     </FleXApp>
   );
@@ -118,4 +114,4 @@ const FocusVisible = styled.div`
   }
 `;
 
-export default PodcastEpisodeHome;
+export default PodcastSearch;

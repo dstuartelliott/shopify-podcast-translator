@@ -72,7 +72,7 @@ function secondsToTime(e) {
   }
 }
 
-function Player() {
+function PlayerMinimal() {
   let mp3PlayerState = useSelector(getMP3PlayerState);
   const dispatch = useDispatch();
   const [resizeListenerProgressBar, sizes] = useResizeAware();
@@ -110,7 +110,7 @@ function Player() {
 
   const [circleToggle, setcircleToggle] = React.useState(false);
 
-  sizeOfJogArea = sizes.width - 115 - 10;
+  sizeOfJogArea = sizes.width - 70;
 
   areaOfScrollBar = sizeOfJogArea - 30;
 
@@ -247,7 +247,6 @@ function Player() {
     // console.log(data.lastX);
 
     let percentage = data.lastX / areaOfScrollBar;
-    console.log(percentage);
 
     setAudioCirclePosition({ x: data.lastX, y: 0 });
 
@@ -263,7 +262,10 @@ function Player() {
   function handleDrag(event, data) {
     let percentage = (data.lastX / areaOfScrollBar) * 100;
     let remaining = 100 - percentage;
+    // console.log(data.lastX);
 
+    console.log(areaOfScrollBar);
+    console.log(sizeOfJogArea);
     setDragPercentage(percentage + " ," + remaining);
 
     dragging = true;
@@ -305,15 +307,9 @@ function Player() {
 
     dragging = false;
   }
-  function handleHoverBar() {
-    setshowProgressWheel(true);
-  }
-  function handleOutBar() {
-    setshowProgressWheel(false);
-  }
 
   return (
-    <Wrapper onMouseEnter={handleOutBar}>
+    <Wrapper>
       <CircleSunButton
         onClick={playButtonHit}
         onMouseEnter={() => setcircleToggle(!circleToggle)}
@@ -344,7 +340,7 @@ function Player() {
                       height={24}
                       width={30}
                       stroke={props.stroke}
-                      strokeWidth={"3"}
+                      strokeWidth={"2"}
                     ></PauseSVGComponent>
                   </PauseImageDiv>
                 ) : (
@@ -357,15 +353,14 @@ function Player() {
                   </PlayImageDiv>
                 )}
               </PlayerTriangleImgFlex>
-
               <CircleSunComponent
                 // alt="Circle Background behind play button"
                 // opacity={showProgressWheel ? 0 : 100}
                 bottom={props.bottom}
                 top={props.top}
                 gradient_bottom_x={props.gradient_bottom_x}
-                width={110}
-                height={110}
+                width={60}
+                height={60}
               ></CircleSunComponent>
             </div>
           )}
@@ -380,9 +375,10 @@ function Player() {
           playingTime={playingTime}
           clicking={clicking}
           clickGoal={clickGoal}
-          width={"120px"}
-          height={"120px"}
-          fontSizeUpper={"24px"}
+          width={"70px"}
+          height={"70px"}
+          fontSizeUpper={"14px"}
+          hideTotalTime={true}
         ></Doughnut>
       </DoughnutDiv>
 
@@ -391,7 +387,7 @@ function Player() {
 
         <PlayerWrapper id={"hello"}>
           <PlayerDiv>
-            <AudioDivBelow
+            <AudioDiv
               ref={audioref}
               src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3"
               // onPlay={playerPlay}
@@ -401,7 +397,7 @@ function Player() {
               onTimeUpdate={announceListen}
               onLoadedData={ableToPlay}
               onLoadStart={loadingStarted}
-            ></AudioDivBelow>
+            ></AudioDiv>
           </PlayerDiv>
           <InvisibleProgressButton
             sizeLength={sizeOfJogArea + "px"}
@@ -434,14 +430,20 @@ function Player() {
             </ProgressBarFiller>
           </ProgressBar>
         </PlayerWrapper>
+
+        {/* <PlayerHTMLFigma
+          sizeOfJogArea={sizes.width - 115 - 10}
+        ></PlayerHTMLFigma> */}
       </ProgressBarDiv>
     </Wrapper>
   );
 }
 
+// MOUSEWHEEL UP AND DOWN TO JOG
+
 const DoughnutDiv = styled.div`
   position: absolute;
-  left: -10px;
+  left: -7px;
 `;
 
 const InvisibleProgressButton = styled.button`
@@ -492,7 +494,7 @@ const ProgressBarCircle = styled.button`
   /* width: 10%; */
 `;
 
-const AudioDivBelow = styled.audio``;
+const AudioDiv = styled.audio``;
 
 const PlayerWrapper = styled.div`
   display: flex;
@@ -524,8 +526,8 @@ const CircleSunDiv = styled.div`
 `;
 
 const CircleSunButton = styled.button`
-  width: 115px;
-  height: 115px;
+  width: 50px;
+  height: 50px;
   background-color: transparent;
   border-radius: 5px;
   z-index: 99;
@@ -540,8 +542,8 @@ const PlayerTriangleImgFlex = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row;
-  height: 115px;
-  width: 115px;
+  height: 60px;
+  width: 60px;
   position: absolute;
   z-index: 3;
   transition: opacity 0.3s ease-in-out;
@@ -550,10 +552,11 @@ const PlayerTriangleImgFlex = styled.div`
 `;
 const PlayImageDiv = styled.div`
   align-self: center;
+  padding-left: 3px;
 `;
 
 const PauseImageDiv = styled.div`
-  padding-right: 5px;
+  padding-right: 1px;
   align-self: center;
 `;
 
@@ -566,4 +569,4 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-export default Player;
+export default PlayerMinimal;

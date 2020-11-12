@@ -9,6 +9,11 @@ function Doughnut({
   totalTime,
   dragging,
   playingTime,
+  height,
+  width,
+  hideTotalTime,
+  fontSizeUpper,
+  fontSizeLower,
 }) {
   // console.log(doughnutValues.doughnutValues);
 
@@ -28,10 +33,13 @@ function Doughnut({
       to={{ value: doughnutValues }}
     >
       {(props) => (
-        <Wrapper>
+        <Wrapper height={height} width={width}>
           <Numbers>
-            <Current>{dragging ? minutesDrag : playingTime}</Current>
-            <Remaining>/ {totalTime}</Remaining>
+            <Current fontSizeUpper={fontSizeUpper}>
+              {dragging ? minutesDrag : playingTime}
+            </Current>
+
+            {!hideTotalTime && <Remaining>/ {totalTime}</Remaining>}
           </Numbers>
           <svg width="100%" height="100%" viewBox="0 0 42 42" class="donut">
             <circle
@@ -79,15 +87,16 @@ const Numbers = styled.div`
 `;
 const Current = styled.div`
   text-align: center;
-  font-size: 24px;
+  font-size: ${(props) => props.fontSizeUpper};
 `;
 const Remaining = styled.div`
   text-align: center;
 `;
 
 const Wrapper = styled.div`
-  width: 130px;
-  height: 130px;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+
   display: flex;
   flex-direction: row;
   justify-content: center;

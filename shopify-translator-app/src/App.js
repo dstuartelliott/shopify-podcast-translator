@@ -7,6 +7,7 @@ import { AppProvider } from "@shopify/polaris";
 import { useDispatch, useSelector } from "react-redux";
 
 import PodcastEpisodeHome from "./PodcastEpisodeHome";
+import PodcastSearch from "./PodcastSearch";
 
 import "focus-visible";
 
@@ -22,6 +23,7 @@ import {
 import { getHamburgerSize } from "./reducers";
 
 import { markEnglishAsPlaying, changeTranslation } from "./actions";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 const gapiLoaded = () =>
   new Promise((resolve) => {
@@ -74,24 +76,13 @@ function App() {
 
           let id_token = current_user.getAuthResponse().id_token;
 
-          // console.log(id_token);
-
-          // let verified_token = await databaseContext.getVerifiedToken(id_token);
-
-          // // let added_to_db = await databaseContext.initialAuthSend(verified_token);
-          // console.log(verified_token);
-
           let verified_token1 = await databaseContext.getVerifiedTokenLocal(
             id_token
           );
 
-          // getVerifiedTokenLocal
-
           let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(
             id_token
           );
-
-          /* Ready. Make a call to gapi.auth2.init or some other API */
         });
       }
     }
@@ -122,24 +113,21 @@ function App() {
     setProfileName(profile.getName());
   }
 
-  // React.useEffect(() => {
-  //   // console.log("Top inside App Do something with the new size values");
-  //   // console.log(sizesTop);
-  // }, [sizesTop]);
-
-  // React.useEffect(() => {
-  //   console.log("App Do something with the new size values");
-  //   console.log(sizesApp);
-  // }, [sizesApp]);
-
-  // if (isMobile) {
-  //   return <div> Mobile version coming soon (like, in a day) </div>;
-  // } else {
   return (
     <FocusVisible className="js-focus-visible focus-visible">
       <FleXApp className="App">
         <AppProvider i18n={enTranslations}>
-          <PodcastEpisodeHome></PodcastEpisodeHome>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/">
+                <PodcastEpisodeHome></PodcastEpisodeHome>
+              </Route>
+              <Route path="/podcastsearch">
+                <PodcastSearch />
+              </Route>
+            </Switch>
+          </BrowserRouter>
+
           <BottomElement>
             <div className="g-signin2" data-onsuccess="onSignIn"></div>
             {profileName}

@@ -1,10 +1,10 @@
 import React from "react";
 
-function CircleSunComponent({ bottom, top, gradient_bottom_x }) {
+function CircleSunComponent({ gradient_bottom_x, width, height }) {
   return (
     <svg
-      width="109"
-      height="109"
+      width={width}
+      height={height}
       viewBox="0 0 109 109"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
