@@ -1,32 +1,18 @@
 import React from "react";
 import styled from "styled-components/macro";
-import HeroSrc from "./images/bullseye-logo.jpg";
-import TeenyBurger from "./images/TeenyBurger.svg";
-import TeenyHeart from "./images/TeenyHeart.svg";
-import DropDown from "./images/DropDown.png";
-import CircleSun from "./images/CircleSun.svg";
-import CircleOver from "./images/circle_over2.svg";
-import PauseImage from "./images/pause.svg";
-import { Spring, config } from "react-spring/renderprops";
-import PlayImage from "./images/Play.svg";
+import { Spring } from "react-spring/renderprops";
 import CircleSunComponent from "./CircleSunComponent";
 import PauseSVGComponent from "./PauseSVGComponent";
 import PlaySVGComponent from "./PlaySVGComponent";
 
-import TopSearch from "./TopSearch";
-import { BiPlayCircle, BiPauseCircle, BiMenu } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
-import TestMenu from "./TestMenu";
-import PlayerHTMLFigma from "./PlayerHTMLFigma";
 import Doughnut from "./Doughnut";
 import Draggable from "react-draggable";
-import { useSpring, animated } from "react-spring";
 import {
   getMP3PlayerState,
   getTimeToJumpTo,
   getUUIDsandTimes,
   getTranslationPlaying,
-  getShowTranslation,
 } from "./reducers";
 
 import {
@@ -41,14 +27,11 @@ import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import useResizeAware from "react-resize-aware";
 
 let sizeOfJogArea;
-let last_time_frame = 0.0;
 // eslint-disable-next-line
 let current_uuid;
 let isloaded = false;
 let areaOfScrollBar;
 let dragging = false;
-
-let ProgressBarOver = false;
 
 function secondsToTime(e) {
   let h = Math.floor(e / 3600)
@@ -87,7 +70,7 @@ function PlayerMinimal() {
 
   let uuids_and_times = useSelector(getUUIDsandTimes);
 
-  let showTranslation = useSelector(getShowTranslation);
+  // let showTranslation = useSelector(getShowTranslation);
   let audioref = React.useRef(null);
 
   let [ProgressBarFillerWidth, setProgressBarFillerWidth] = React.useState(
@@ -105,8 +88,6 @@ function PlayerMinimal() {
 
   let [totalTime, setTotalTime] = React.useState("");
   let [playingTime, setplayingTime] = React.useState("0:00");
-  let [clickGoal, setclickGoal] = React.useState(0);
-  let [clicking, setClicking] = React.useState(false);
 
   const [circleToggle, setcircleToggle] = React.useState(false);
 
@@ -115,6 +96,7 @@ function PlayerMinimal() {
   areaOfScrollBar = sizeOfJogArea - 30;
 
   React.useEffect(() => {
+    // eslint-disable-next-line
     switch (mp3PlayerState) {
       case MP3_PLAYER_STATES.PLAYING:
         if (audioref.current.paused) {
@@ -150,12 +132,10 @@ function PlayerMinimal() {
         recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
       );
     } else if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
-      {
-        dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
-        dispatch(
-          recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
-        );
-      }
+      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
+      dispatch(
+        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+      );
     }
   }
 
@@ -182,7 +162,6 @@ function PlayerMinimal() {
       let percentage =
         event.nativeEvent.target.currentTime /
         event.nativeEvent.target.duration;
-      let audioPer = percentage * 100;
 
       if (dragging === false) {
         let circle_x = percentage * (sizeOfJogArea - 30);
@@ -199,11 +178,6 @@ function PlayerMinimal() {
 
         dispatch(addCurrentTime({ current_time }));
         quickishFindUUID(current_time);
-
-        // if (Math.abs(last_time_frame - current_time) > 2.0) {
-        // }
-
-        last_time_frame = current_time;
       }
     }
   }
@@ -373,8 +347,6 @@ function PlayerMinimal() {
           totalTime={totalTime}
           dragging={dragging}
           playingTime={playingTime}
-          clicking={clicking}
-          clickGoal={clickGoal}
           width={"70px"}
           height={"70px"}
           fontSizeUpper={"14px"}
@@ -450,8 +422,12 @@ const InvisibleProgressButton = styled.button`
   position: absolute;
   width: ${(props) => props.sizeLength};
   background-color: transparent;
+  border: transparent;
+  height: 20px;
+
   :hover {
     background-color: transparent;
+    cursor: pointer;
   }
 `;
 
@@ -489,6 +465,7 @@ const ProgressBarCircle = styled.button`
 
   :hover {
     background-color: white;
+    cursor: pointer;
   }
 
   /* width: 10%; */
@@ -505,12 +482,6 @@ const PlayerWrapper = styled.div`
 
 const PlayerDiv = styled.div`
   flex-grow: 4;
-`;
-
-const PlayButton = styled.button`
-  border: 0px;
-  background-color: transparent;
-  color: red;
 `;
 
 const ProgressBarDiv = styled.div`
@@ -532,9 +503,11 @@ const CircleSunButton = styled.button`
   border-radius: 5px;
   z-index: 99;
   position: absolute;
+  border: transparent;
 
   :hover {
     background-color: transparent;
+    cursor: pointer;
   }
 `;
 

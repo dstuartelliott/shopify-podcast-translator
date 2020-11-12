@@ -1,7 +1,5 @@
 import React, { createContext } from "react";
-import { useDispatch } from "react-redux";
 
-import { addTranscript, addUUIDSandTimes } from "./actions";
 const { MongoClient } = require("mongodb");
 
 export const DatabaseContext = createContext();
@@ -14,8 +12,6 @@ const options = {
 };
 
 export const DatabaseContextProvider = ({ children }) => {
-  const dispatch = useDispatch();
-
   let client, db;
   const initialAuthSend = async (googleAuth) => {
     try {

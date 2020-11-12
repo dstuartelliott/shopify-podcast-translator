@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { Spring, config } from "react-spring/renderprops";
+import { Spring } from "react-spring/renderprops";
 
 let old_doughnut_values = "1, 99";
 function Doughnut({
@@ -15,13 +15,6 @@ function Doughnut({
   fontSizeUpper,
   fontSizeLower,
 }) {
-  // console.log(doughnutValues.doughnutValues);
-
-  React.useEffect(() => {
-    old_doughnut_values = "1,99";
-    doughnutValues = "1,99";
-  }, []);
-
   function done() {
     old_doughnut_values = doughnutValues;
   }

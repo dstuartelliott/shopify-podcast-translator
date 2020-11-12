@@ -55,7 +55,9 @@ function TopSearch() {
 
   return (
     <Wrapper>
-      <FlagsDiv>🇨🇦 🇫🇷 🇨🇳</FlagsDiv>
+      <FlagsDiv>
+        <span>Flags </span>
+      </FlagsDiv>
       <SearchDiv>
         <TranscriptSearch
           type="text"

@@ -20,7 +20,6 @@ import {
   getUUIDPlaying,
   getShowTranslation,
   getShouldTranslationsAutoPlay,
-  getHamburgerSize,
 } from "./reducers";
 
 import { updateShouldTranslationsAutoPlay } from "./actions";
@@ -34,8 +33,6 @@ import {
 import { isMobile } from "react-device-detect";
 import { IoMdLock } from "react-icons/io";
 
-import { Spring, animated } from "react-spring/renderprops";
-
 import SpinnerJustKF from "./SpinnerJustKF";
 // import { combineReducers } from "redux";
 
@@ -48,8 +45,6 @@ function Scrolltext(heightOfText) {
   let simplifiedSentences = useSelector(getSimplifiedSentences);
 
   let uuidPlaying = useSelector(getUUIDPlaying);
-
-  let hamburgerSize = useSelector(getHamburgerSize);
 
   const [currentUUID, setcurrentUUID] = React.useState({
     uuid: "intro-uuid",
@@ -226,8 +221,6 @@ function Scrolltext(heightOfText) {
     setToggle(!toggle);
     // eslint-disable-next-line
   }, [podcast_player_state]);
-
-  React.useEffect(() => {}, [{ hamburgerSize }]);
 
   if (isMobile && playerWasClicked === false) {
     return (

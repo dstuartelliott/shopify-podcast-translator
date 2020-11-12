@@ -68,12 +68,6 @@ function PodcastListingSearch() {
   );
 }
 
-const FlagsDiv = styled.div`
-  width: 100px;
-  font-size: 25px;
-  align-self: center;
-`;
-
 const SearchDiv = styled.div`
   flex-grow: 2;
   background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Lighter};

@@ -7,8 +7,6 @@ import { useDispatch } from "react-redux";
 
 import { reportHamburgerMenuSize } from "./actions";
 
-const LOREM = `Hello world`;
-
 const MenuItems = [
   "Login",
   "Search For Podcasts",
@@ -30,19 +28,9 @@ function TestMenu() {
   }, [sizes.width, sizes.height]);
 
   const [toggle, setToggle] = React.useState(false);
-  const [text, setText] = React.useState(MenuItems);
 
   function onToggle() {
     setToggle(!toggle);
-  }
-  function onAddText() {
-    setToggle(true);
-    setText([...text, LOREM]);
-  }
-
-  function onRemoveText() {
-    setToggle(true);
-    setText(text.slice(1));
   }
 
   function reportSize(event) {
@@ -74,7 +62,7 @@ function TestMenu() {
             <animated.div className="item" style={props}>
               {resizeListener}
 
-              {text.map((t, i) => (
+              {MenuItems.map((t, i) => (
                 <p key={i}>{t}</p>
               ))}
             </animated.div>

@@ -4,59 +4,34 @@ import "./App.css";
 import styled from "styled-components/macro";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import PodcastEpisodeHome from "./PodcastEpisodeHome";
 import PodcastSearch from "./PodcastSearch";
 
 import "focus-visible";
 
-import { PlayerContext } from "./PlayerContext";
 import { DatabaseContext } from "./DatabaseContext";
-import useResizeAware from "react-resize-aware";
 
 import {
   updateShouldTranslationsAutoPlay,
   updateClickMeHasBeenClicked,
 } from "./actions";
 
-import { getHamburgerSize } from "./reducers";
-
 import { markEnglishAsPlaying, changeTranslation } from "./actions";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-
-const gapiLoaded = () =>
-  new Promise((resolve) => {
-    console.log("promise");
-    const interval = setInterval(() => {
-      if (window.gapi != null) {
-        clearInterval(interval);
-        resolve();
-      }
-    }, 100);
-  });
 
 function App() {
   //eslint-disable-next-line
   const dispatch = useDispatch();
 
-  let hamburgerSize = useSelector(getHamburgerSize);
-
   // const customReporter = (target) => ({
   //   clientWidth: target != null ? target.clientWidth : null,
   // });
-  const playerContext = React.useContext(PlayerContext);
   const databaseContext = React.useContext(DatabaseContext);
-  const [resizeListener, sizesTop] = useResizeAware();
   // const [resizeAppListener, sizesApp] = useResizeAware();
 
   //test
-
-  React.useEffect(() => {
-    console.log("hamgurber size");
-    console.log(sizesTop);
-    // eslint-disable-next-line
-  }, [hamburgerSize]);
 
   React.useEffect(() => {
     dispatch(markEnglishAsPlaying(0.0, "TBD"));
@@ -76,10 +51,12 @@ function App() {
 
           let id_token = current_user.getAuthResponse().id_token;
 
+          // eslint-disable-next-line
           let verified_token1 = await databaseContext.getVerifiedTokenLocal(
             id_token
           );
 
+          // eslint-disable-next-line
           let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(
             id_token
           );
@@ -100,6 +77,7 @@ function App() {
 
   const [profileName, setProfileName] = React.useState("none");
 
+  // eslint-disable-next-line
   function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     // var id_token = googleUser.getAuthResponse().id_token;
@@ -139,38 +117,16 @@ function App() {
   // }
 }
 
-const TopDivs = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-content: flex-start;
-`;
-
-const FlexElements = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-content: flex-start;
-  height: 100%;
-`;
-
 const FleXApp = styled.div`
   min-width: 500px;
   max-width: 900px;
   margin: auto;
-`;
-const TopDiv = styled.div`
-  background-color: transparent;
 `;
 
 const BottomElement = styled.div`
   background-color: blue;
   bottom: 0px;
   position: absolute;
-`;
-const TopAndPlayer = styled.div``;
-
-const ScrollDiv = styled.div`
-  background-color: red;
 `;
 
 const FocusVisible = styled.div`

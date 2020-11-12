@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components/macro";
-import { COLORS_SHOPIFY_GREYS_PALLETE } from "./constants.js";
 
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import {
@@ -17,7 +16,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import {
   COLORS_SHOPIFY_BLUE_PALLETE,
-  COLORS_FLAG,
   COLORS_SHOPIFY_YELLOW_PALLETE,
 } from "./constants.js";
 

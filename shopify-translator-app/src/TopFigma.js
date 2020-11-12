@@ -1,33 +1,11 @@
 import React from "react";
 import styled from "styled-components/macro";
 import HeroSrc from "./images/bullseye-logo.jpg";
-import TeenyBurger from "./images/TeenyBurger.svg";
 import TeenyHeart from "./images/TeenyHeart.svg";
 import DropDown from "./images/DropDown.png";
 
 import TeenyBurgerComponent from "./TeenyBurgerComponent";
-import CircleSun from "./images/CircleSun.svg";
-import PlayImage from "./images/Play.svg";
 import { Spring, config } from "react-spring/renderprops";
-import TopSearch from "./TopSearch";
-import { BiPlayCircle, BiPauseCircle, BiMenu } from "react-icons/bi";
-import { useSelector, useDispatch } from "react-redux";
-import TestMenu from "./TestMenu";
-import { useSpring, animated } from "react-spring";
-import { getMP3PlayerState } from "./reducers";
-
-import {
-  recordMP3PlayerState,
-  recordTranslationMP3PlayerState,
-} from "./actions";
-
-import {
-  COLORS_SHOPIFY_YELLOW_PALLETE,
-  COLORS_SHOPIFY_BLUE_PALLETE,
-  COLORS_SHOPIFY_GREYS_PALLETE,
-} from "./constants.js";
-import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
-import useResizeAware from "react-resize-aware";
 
 const MenuItems = [
   "Login",
@@ -37,26 +15,9 @@ const MenuItems = [
 ];
 
 function TopFigma() {
-  let mp3PlayerState = useSelector(getMP3PlayerState);
-  const dispatch = useDispatch();
-  const [resizeListenerTop, sizes] = useResizeAware();
-  const [text, setText] = React.useState(MenuItems);
-
-  let [burgerStrokeColor, setBurgerStrokeColor] = React.useState("red");
-
   const [burgerToggle, setBurgerToggle] = React.useState(false);
 
-  function BurgerOver() {
-    setBurgerStrokeColor("blue");
-  }
-
-  function BurgerLeave() {
-    setBurgerStrokeColor("red");
-  }
   const [toggle, setToggle] = React.useState(false);
-  function onToggle() {
-    setToggle(!toggle);
-  }
 
   return (
     <Wrapper>
@@ -173,8 +134,8 @@ function TopFigma() {
                     <Menu style={props}>
                       {/* {resizeListener} */}
                       <InternalMenu>
-                        {text.map((t, i) =>
-                          i === text.length - 1 ? (
+                        {MenuItems.map((t, i) =>
+                          i === MenuItems.length - 1 ? (
                             <LastMenuItem key={i}>{t}</LastMenuItem>
                           ) : (
                             <MenuItem key={i}>{t}</MenuItem>
@@ -232,8 +193,6 @@ const LastMenuItem = styled.div`
     cursor: pointer;
   }
 `;
-
-const TwoImages = styled.div``;
 
 const PodcastEpisode = styled.div`
   display: flex;
