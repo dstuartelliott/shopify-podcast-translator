@@ -12,7 +12,7 @@ function PauseSVGComponent({ stroke, height, width, strokeWidth }) {
       <path
         d="M2.20001 0.200012V21.8M11.8 0.200012V21.8"
         stroke={stroke}
-        stroke-width={strokeWidth}
+        strokeWidth={strokeWidth}
       />
     </svg>
   );

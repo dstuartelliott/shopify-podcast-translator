@@ -3,8 +3,8 @@
 <circle cx="54.5" cy="54.5" r="54.5" fill="url(#paint0_linear)"/>
 <defs>
 <linearGradient id="paint0_linear" x1="55" y1="-27" x2="55" y2="194.5" gradientUnits="userSpaceOnUse">
-<stop stop-color="#FCDA71"/>
-<stop offset="1" stop-color="white" stop-opacity="0"/>
+<stop stopColor="#FCDA71"/>
+<stop offset="1" stopColor="white" stop-opacity="0"/>
 </linearGradient>
 </defs>
 </svg>

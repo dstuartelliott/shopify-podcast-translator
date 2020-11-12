@@ -41,34 +41,34 @@ function Doughnut({
 
             {!hideTotalTime && <Remaining>/ {totalTime}</Remaining>}
           </Numbers>
-          <svg width="100%" height="100%" viewBox="0 0 42 42" class="donut">
+          <svg width="100%" height="100%" viewBox="0 0 42 42" className="donut">
             <circle
-              class="donut-hole"
+              className="donut-hole"
               cx="21"
               cy="21"
               r="15.91549430918954"
               fill="transparent"
             ></circle>
             <circle
-              class="donut-ring"
+              className="donut-ring"
               cx="21"
               cy="21"
               r="15.91549430918954"
               fill="transparent"
               stroke="#F1EBF5"
-              stroke-width="3"
+              strokeWidth="3"
               stroke-linecap="round"
             ></circle>
 
             <circle
-              class="donut-segment"
+              className="donut-segment"
               cx="21"
               cy="21"
               r="15.91549430918954"
               fill="transparent"
               // stroke={dragging ? "#FFE9AF" : "#FFD159"}
               stroke="#fddf00"
-              stroke-width="3"
+              strokeWidth="3"
               stroke-linecap="round"
               stroke-dasharray={props.value}
               stroke-dashoffset="0"

@@ -337,8 +337,8 @@ function PlayerMinimal() {
                 {mp3PlayerState === MP3_PLAYER_STATES.PLAYING ? (
                   <PauseImageDiv>
                     <PauseSVGComponent
-                      height={24}
-                      width={30}
+                      height={18}
+                      width={18}
                       stroke={props.stroke}
                       strokeWidth={"2"}
                     ></PauseSVGComponent>
@@ -346,8 +346,8 @@ function PlayerMinimal() {
                 ) : (
                   <PlayImageDiv>
                     <PlaySVGComponent
-                      height={28}
-                      width={30}
+                      height={20}
+                      width={20}
                       stroke={props.stroke}
                     ></PlaySVGComponent>
                   </PlayImageDiv>
@@ -553,11 +553,13 @@ const PlayerTriangleImgFlex = styled.div`
 const PlayImageDiv = styled.div`
   align-self: center;
   padding-left: 3px;
+  padding-top: 7px;
 `;
 
 const PauseImageDiv = styled.div`
   padding-right: 1px;
   align-self: center;
+  padding-top: 7px;
 `;
 
 const Wrapper = styled.div`

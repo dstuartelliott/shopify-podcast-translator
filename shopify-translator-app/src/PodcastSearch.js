@@ -55,6 +55,15 @@ function PodcastSearch() {
     dispatch(changeTranslation(true));
     dispatch(updateShouldTranslationsAutoPlay(true));
     dispatch(updateClickMeHasBeenClicked(false));
+
+    async function getPodcasts() {
+      // eslint-disable-next-line
+      console.log("going to get");
+
+      let podcasts = await playerContext.getTopPodcastsFromItunes();
+      console.log(podcasts);
+    }
+    getPodcasts();
   }, []);
 
   return (

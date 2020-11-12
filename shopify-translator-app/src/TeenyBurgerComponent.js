@@ -19,8 +19,8 @@ function TeenyBurgerComponent({ stroke }) {
           y2="26"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color={"#37313C"} />
-          <stop offset="1" stop-color={stroke} />
+          <stop stopColor={"#37313C"} />
+          <stop offset="1" stopColor={stroke} />
         </linearGradient>
       </defs> */}
     </svg>

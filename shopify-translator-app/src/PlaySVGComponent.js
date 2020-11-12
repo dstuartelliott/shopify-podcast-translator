@@ -12,8 +12,8 @@ function PlaySVGComponent({ stroke, height, width }) {
       <path
         d="M1 29V1L27 15L1 29Z"
         stroke={stroke}
-        stroke-width="2"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinejoin="round"
       />
     </svg>
   );

@@ -101,16 +101,19 @@ export const PlayerContextProvider = ({ children }) => {
     let myPromise = new Promise((resolve, reject) => {
       // const apiUrl = "https://www.justheard.ca:8000/returntranslationrecords3";
       const apiUrl =
-        " https://rss.itunes.apple.com/api/v1/us/podcasts/top-podcasts/all/10/explicit.json";
+        "https://rss.itunes.apple.com/api/v1/us/apple-music/coming-soon/all/10/explicit.json";
 
       fetch(apiUrl)
         .then((response) => {
           let data = response.json();
           // profileObject = data;
+          console.log(response);
 
           resolve(data);
         })
         .catch((error) => {
+          console.log(error);
+
           resolve({ error });
         });
     });

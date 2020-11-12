@@ -19,10 +19,10 @@ function CircleSunComponent({ gradient_bottom_x, width, height }) {
           y2={gradient_bottom_x}
           gradientUnits="userSpaceOnUse"
         >
-          {/* <stop stop-color={top} />
-          <stop offset="1" stop-color={bottom} /> */}
-          <stop stop-color="#FFDECC" />
-          <stop offset="1" stop-color="#fde800" />
+          {/* <stop stopColor={top} />
+          <stop offset="1" stopColor={bottom} /> */}
+          <stop stopColor="#FFDECC" />
+          <stop offset="1" stopColor="#fde800" />
         </linearGradient>
       </defs>
     </svg>
