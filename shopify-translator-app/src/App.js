@@ -2,21 +2,13 @@ import React from "react";
 import "./App.css";
 // import styled from "styled-components/macro";
 import styled from "styled-components/macro";
-import { createGlobalStyle } from "styled-components";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch, useSelector } from "react-redux";
 
-import TopFigma from "./TopFigma";
-import TopSearch from "./TopSearch";
-import Player from "./Player";
-
-import Scrolltext from "./Scrolltext";
-
-import TestMenu from "./TestMenu";
+import PodcastEpisodeHome from "./PodcastEpisodeHome";
 
 import "focus-visible";
-import { BiMenu } from "react-icons/bi";
 
 import { PlayerContext } from "./PlayerContext";
 import { DatabaseContext } from "./DatabaseContext";
@@ -147,14 +139,7 @@ function App() {
     <FocusVisible className="js-focus-visible focus-visible">
       <FleXApp className="App">
         <AppProvider i18n={enTranslations}>
-          <TopDivs>
-            {/* {resizeListener} */}
-
-            <TopFigma />
-            <Player />
-            <TopSearch></TopSearch>
-          </TopDivs>
-          <Scrolltext></Scrolltext>
+          <PodcastEpisodeHome></PodcastEpisodeHome>
           <BottomElement>
             <div className="g-signin2" data-onsuccess="onSignIn"></div>
             {profileName}

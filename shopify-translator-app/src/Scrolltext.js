@@ -401,10 +401,13 @@ function Scrolltext(heightOfText) {
 }
 
 const AudioDivBelow = styled.audio`
-  width: 95%;
+  width: 48%;
   height: 20px;
-  padding-left: 0px;
+  padding-left: 440px;
+  margin-top: -7px;
+  z-index: 5;
 
+  position: absolute;
   @media (max-width: 600px) {
     padding-left: 0px;
   }
@@ -452,7 +455,7 @@ const TranscriptList = styled.div`
   @media (max-width: 600px) {
   }
 
-  /* doesn't seem to work on firefox */
+  /* doesn't seem to work on firefox 
   &::-webkit-scrollbar-track {
     background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Light};
     border-radius: 10px;
@@ -471,10 +474,9 @@ const TranscriptList = styled.div`
 
   ::-webkit-scrollbar-thumb {
     width: 10px;
-    /* box-shadow: inset 0 0 3px ${COLORS_SHOPIFY_BLUE_PALLETE.Blue}; */
     border-radius: 20px;
     background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
-  }
+  }*/
 `;
 
 const Line = styled.div`

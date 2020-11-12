@@ -214,13 +214,17 @@ const Wrapper = styled.div`
 `;
 
 const SpeakerEnglish = styled.span`
-  /* color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Yellow}; */
-  color: ${COLORS_FLAG.Canada};
+  background-color: #f1ebf585;
+  border-radius: 3px;
+  padding-bottom: 2px;
+  padding-top: 2px;
 `;
 
 const SpeakerFrench = styled.span`
-  /* color: ${COLORS_SHOPIFY_BLUE_PALLETE.Blue}; */
-  color: ${COLORS_FLAG.Quebec};
+  background-color: #f1ebf585;
+  border-radius: 3px;
+  padding-bottom: 2px;
+  padding-top: 2px;
 `;
 
 const SentenceAndSpeakerSelected = styled.div`
@@ -228,13 +232,6 @@ const SentenceAndSpeakerSelected = styled.div`
   flex-direction: row;
   margin-top: 20px;
   padding-top: 15px;
-
-  border-left: 1px solid #eaeaea;
-  background-color: #fcfcfc;
-
-  /* border-bottom: 1px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky}; */
-  border-radius: 5px;
-  box-shadow: 3px 3px 10px #d2cdd5;
 `;
 
 const SentencePlayingDiv = styled.div`
@@ -274,17 +271,26 @@ const SentenceDiv = styled.div`
 `;
 
 const SentenceHighlighted = styled.div`
-  background-color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Lighter};
-  padding-left: 11px;
+  border-radius: 20px;
+  border-left: 1px solid #eaeaea;
+  background-color: #fcfcfc;
 
-  color: rgba(26, 26, 26);
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px #d2cdd5;
 
-  @media (max-width: 600px) {
+  color: #1e1e1e;
+
+  background-color: #f2f2f2;
+
+  padding-left: 10px;
+  width: 425px;
+
+  /* @media (max-width: 600px) {
     background-color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Lighter};
     padding-left: 11px;
 
-    color: rgba(26, 26, 26);
-  }
+    color: #ffb800;
+  } */
 `;
 
 const SentenceAndSpeaker = styled.div`
@@ -313,20 +319,22 @@ const SentenceQuebec = styled.div`
     padding-left: 11px;
     color: rgba(26, 26, 26);
   }
+  margin-right: 10px;
 `;
 
 const SentenceHighlightedQuebec = styled.div`
-  padding-left: 11px;
-  background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Lighter};
+  border-radius: 20px;
+  border-left: 1px solid #eaeaea;
+  background-color: #fcfcfc;
+  padding-left: 10px;
 
-  color: rgba(26, 26, 26);
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px #d2cdd5;
 
-  @media (max-width: 600px) {
-    background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Lighter};
-    padding-left: 11px;
+  color: #1e1e1e;
 
-    color: rgba(26, 26, 26);
-  }
+  background-color: #f2f2f2;
+  margin-right: 10px;
 `;
 
 export default TranscriptSentence;

@@ -97,6 +97,26 @@ export const PlayerContextProvider = ({ children }) => {
     return myPromise;
   };
 
+  const getTopPodcastsFromItunes = async () => {
+    let myPromise = new Promise((resolve, reject) => {
+      // const apiUrl = "https://www.justheard.ca:8000/returntranslationrecords3";
+      const apiUrl =
+        " https://rss.itunes.apple.com/api/v1/us/podcasts/top-podcasts/all/10/explicit.json";
+
+      fetch(apiUrl)
+        .then((response) => {
+          let data = response.json();
+          // profileObject = data;
+
+          resolve(data);
+        })
+        .catch((error) => {
+          resolve({ error });
+        });
+    });
+    return myPromise;
+  };
+
   const computeTranscript = async () => {
     console.log("expensive transcript operation");
 
@@ -273,6 +293,7 @@ export const PlayerContextProvider = ({ children }) => {
         getTranslatedMP3s3,
         computeTranscript,
         getCombined3FomLinodeBucket,
+        getTopPodcastsFromItunes,
       }}
     >
       {children}
