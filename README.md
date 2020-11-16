@@ -1,8 +1,6 @@
 # shopify-podcast-translator
 
-Check out the app in action! -->
-https://david-elliott-shopify-personal-project.netlify.app/
-
+Coming soon!  This week!
 Supporting the Podcast industry is a passion of mine, so I thought I would take the great Shopify Masters podcast and see if I could add some value to it.
 
 I decided to try something a little ambitious - could I produce an interactive french version of the podcast using NodeJS, React and Redux?
