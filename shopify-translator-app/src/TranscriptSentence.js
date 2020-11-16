@@ -49,6 +49,8 @@ function TranscriptSentence({
 
   let clickMeStatus = useSelector(getClickMeStatus);
 
+  let StarCircleSize = 21;
+
   // const [showTranslation, setshowTranslation] = React.useState(false);
 
   let [clipMouseOverToggle, setclipMouseOverToggle] = React.useState(false);
@@ -113,17 +115,18 @@ function TranscriptSentence({
   }
 
   function clipOver(event) {
-    console.log("over");
-    console.log(event);
-
     setclipMouseOverToggle(!clipMouseOverToggle);
   }
 
   function clipOut(event) {
-    console.log("out");
-    console.log(event);
-
     setclipMouseOverToggle(!clipMouseOverToggle);
+  }
+
+  function favourClip(event) {
+    console.log("favourClip");
+
+    console.log(event);
+    console.log(sentence_object.uuid);
   }
 
   // this might look ugly, but it's better than a bunch of nesteed ternary statements imho
@@ -135,7 +138,10 @@ function TranscriptSentence({
         {clipMouseOverToggle ? (
           <ActionButtons>
             <StarClipButton>
-              <StarComponent width={"41"} height={"41"}></StarComponent>
+              <StarComponent
+                width={StarCircleSize}
+                height={StarCircleSize}
+              ></StarComponent>
             </StarClipButton>
           </ActionButtons>
         ) : (
@@ -210,8 +216,11 @@ function TranscriptSentence({
       <Wrapper onMouseEnter={clipOver} onMouseLeave={clipOut}>
         {clipMouseOverToggle ? (
           <ActionButtons>
-            <StarClipButton>
-              <StarComponent width={"41"} height={"41"}></StarComponent>
+            <StarClipButton onClick={favourClip}>
+              <StarComponent
+                width={StarCircleSize}
+                height={StarCircleSize}
+              ></StarComponent>
             </StarClipButton>
           </ActionButtons>
         ) : (
@@ -257,11 +266,16 @@ function TranscriptSentence({
 const ActionButtons = styled.div`
   width: 50px;
   position: absolute;
+  padding-top: 15px;
+  display: flex;
 `;
 
 const StarClipButton = styled.button`
   background-color: transparent;
   border: transparent;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const ClickMeButton = styled.button`
