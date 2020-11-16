@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components/macro";
 import { Spring } from "react-spring/renderprops";
-import CircleSunComponent from "./CircleSunComponent";
+import CircleSunComponent from "./SVGs/CircleSunComponent.js";
 import PauseSVGComponent from "./PauseSVGComponent";
 import PlaySVGComponent from "./PlaySVGComponent";
 
 import { useSelector, useDispatch } from "react-redux";
-import Doughnut from "./Doughnut";
+import Doughnut from "./SVGs/Doughnut.js";
 import Draggable from "react-draggable";
 import {
   getMP3PlayerState,

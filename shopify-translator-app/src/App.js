@@ -42,6 +42,7 @@ function App() {
     async function getGoogle() {
       if (window.gapi !== undefined) {
         window.gapi.load("auth2", async function () {
+          console.log("google");
           let auth_object = await window.gapi.auth2.init({
             client_id:
               "112704103478-qojm07it64b672dk2mto976ivf6592jm.apps.googleusercontent.com",
@@ -60,6 +61,8 @@ function App() {
           let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(
             id_token
           );
+
+          console.log(verified_in_db);
         });
       }
     }

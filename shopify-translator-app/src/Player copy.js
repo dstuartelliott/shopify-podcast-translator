@@ -15,7 +15,7 @@ import { BiPlayCircle, BiPauseCircle, BiMenu } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
 import TestMenu from "./TestMenu";
 import PlayerHTMLFigma from "./PlayerHTMLFigma";
-import Doughnut from "./Doughnut";
+import Doughnut from "./SVGs/Doughnut.js";
 
 import { getMP3PlayerState } from "./reducers";
 

@@ -50,7 +50,7 @@ function Doughnut({
               fill="transparent"
               stroke="#F1EBF5"
               strokeWidth="3"
-              stroke-linecap="round"
+              strokeLinecap="round"
             ></circle>
 
             <circle
@@ -62,9 +62,9 @@ function Doughnut({
               // stroke={dragging ? "#FFE9AF" : "#FFD159"}
               stroke="#fddf00"
               strokeWidth="3"
-              stroke-linecap="round"
-              stroke-dasharray={props.value}
-              stroke-dashoffset="0"
+              strokeLinecap="round"
+              strokeDasharray={props.value}
+              strokeDashoffset="0"
             ></circle>
           </svg>{" "}
         </Wrapper>

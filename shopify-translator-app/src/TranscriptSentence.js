@@ -1,7 +1,12 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components/macro";
-
+import {
+  Spring,
+  config,
+  animated,
+  interpolate,
+} from "react-spring/renderprops";
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import {
   jumpToTime,
@@ -25,6 +30,8 @@ import {
   getClickMeStatus,
 } from "./reducers";
 
+import StarComponent from "./SVGs/StarComponent";
+
 function TranscriptSentence({
   sentence_object,
   englishHighlighted,
@@ -41,6 +48,12 @@ function TranscriptSentence({
   let clickMeStatus = useSelector(getClickMeStatus);
 
   // const [showTranslation, setshowTranslation] = React.useState(false);
+
+  let [clipMouseOverToggle, setclipMouseOverToggle] = React.useState(false);
+  let [
+    clipMouseOverToggleSelected,
+    setclipMouseOverToggleSelected,
+  ] = React.useState(false);
 
   function handleClickedSentence(event) {
     englishHighlighted = true;
@@ -97,13 +110,44 @@ function TranscriptSentence({
     }
   }
 
+  function clipOver(event) {
+    console.log("over");
+    console.log(event);
+
+    setclipMouseOverToggle(!clipMouseOverToggle);
+  }
+
+  function clipOut(event) {
+    console.log("out");
+    console.log(event);
+
+    setclipMouseOverToggle(!clipMouseOverToggle);
+  }
+
   // this might look ugly, but it's better than a bunch of nesteed ternary statements imho
   // also, I originally had a Button instead of the  SentenceDiv, but then I got a react warning about nesteed buttons so I've opted
 
   if (englishHighlighted) {
     return (
       <Wrapper>
-        <SentenceAndSpeakerSelected>
+        <SentenceAndSpeakerSelected
+        // onMouseEnter={() =>
+        //   setclipMouseOverToggleSelected(!clipMouseOverToggleSelected)
+        // }
+        // onMouseLeave={() =>
+        //   setclipMouseOverToggleSelected(!clipMouseOverToggleSelected)
+        // }
+        >
+          {/* {clipMouseOverToggleSelected ? (
+            <ActionButtons>
+              <StarClipButton>
+                <StarComponent></StarComponent>
+              </StarClipButton>
+            </ActionButtons>
+          ) : (
+            <ActionButtons>{""}</ActionButtons>
+          )}
+ */}
           <SentencePlayingDiv
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
@@ -164,10 +208,37 @@ function TranscriptSentence({
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
           >
-            <Sentence>
+            <Sentence
+              onMouseEnter={() => clipOver}
+              onMouseLeave={() => clipOut}
+            >
               <SpeakerEnglish>{sentence_object.speaker}</SpeakerEnglish>:{" "}
               {sentence_object.english_sentence}
             </Sentence>
+            <Spring
+              // from={{
+              //   transform: clipMouseOverToggle
+              //     ? "translate3d(0,-40px,0)"
+              //     : "translate3d(0,0px,0)",
+
+              // }}
+              from={{
+                backgroundColor: clipMouseOverToggle ? "#F1EBF5" : "#FFD159",
+              }}
+              to={{
+                backgroundColor: clipMouseOverToggle ? "#FFD159" : "#F1EBF5",
+              }}
+            >
+              {(props) => (
+                <animated.div>
+                  <ActionButtons>
+                    <StarClipButton style={props}>
+                      <StarComponent width={"41"} height={"41"}></StarComponent>
+                    </StarClipButton>
+                  </ActionButtons>
+                </animated.div>
+              )}
+            </Spring>
           </SentenceDiv>
           {i_from_list === 1 && showTranslation && !clickMeStatus ? (
             <ClickMeButton onClick={handleTranslatedClickedSentence}>
@@ -194,6 +265,17 @@ function TranscriptSentence({
     );
   }
 }
+
+const ActionButtons = styled.div`
+  /* background-color: red; */
+  /* height: ${(props) => props.height}; */
+`;
+
+const StarClipButton = styled.button`
+  background-color: transparent;
+  border: transparent;
+`;
+
 const ClickMeButton = styled.button`
   color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Darker};
   background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Light};
@@ -255,7 +337,7 @@ const SentencePlayingDiv = styled.div`
 
 const SentenceDiv = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   cursor: pointer;
   z-index: 1;
   padding-bottom: 10px;
@@ -301,7 +383,7 @@ const SentenceAndSpeaker = styled.div`
 const Sentence = styled.div`
   padding-left: 11px;
   color: rgba(26, 26, 26);
-  width: 425px;
+  width: 418px;
   @media (max-width: 600px) {
     background-color: white;
     padding-left: 11px;
