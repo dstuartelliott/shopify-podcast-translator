@@ -1,6 +1,7 @@
 # shopify-podcast-translator
 
 Coming soon!  This week!
+
 Supporting the Podcast industry is a passion of mine, so I thought I would take the great Shopify Masters podcast and see if I could add some value to it.
 
 I decided to try something a little ambitious - could I produce an interactive french version of the podcast using NodeJS, React and Redux?
