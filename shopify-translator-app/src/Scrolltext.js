@@ -426,7 +426,7 @@ const ScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  max-width: 800px;
+  /* max-width: 1800px; */
 `;
 
 const TranscriptList = styled.div`
@@ -434,8 +434,8 @@ const TranscriptList = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   overflow-y: scroll;
-  max-width: 910px;
-  overflow-x: hidden; //horizontal
+  max-width: 960px;
+  transform: translateX(-50px); /* background-color: red; */
 
   bottom: 20px;
   top: 360px;
@@ -447,29 +447,6 @@ const TranscriptList = styled.div`
 
   @media (max-width: 600px) {
   }
-
-  /* doesn't seem to work on firefox 
-  &::-webkit-scrollbar-track {
-    background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Light};
-    border-radius: 10px;
-    border-top: 2px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
-    border-bottom: 2px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    border-radius: 20px;
-    background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Lighter};
-    height: 30px;
-    position: absolute;
-    top: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    width: 10px;
-    border-radius: 20px;
-    background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
-  }*/
 `;
 
 const Line = styled.div`

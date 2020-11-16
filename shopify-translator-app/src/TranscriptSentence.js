@@ -41,6 +41,8 @@ function TranscriptSentence({
 }) {
   const dispatch = useDispatch();
 
+  const englishSentenceWidth = "418px";
+
   let translationMp3PlayerState = useSelector(getTranslationMP3PlayerState);
 
   let showTranslation = useSelector(getShowTranslation);
@@ -130,24 +132,17 @@ function TranscriptSentence({
   if (englishHighlighted) {
     return (
       <Wrapper>
-        <SentenceAndSpeakerSelected
-        // onMouseEnter={() =>
-        //   setclipMouseOverToggleSelected(!clipMouseOverToggleSelected)
-        // }
-        // onMouseLeave={() =>
-        //   setclipMouseOverToggleSelected(!clipMouseOverToggleSelected)
-        // }
-        >
-          {/* {clipMouseOverToggleSelected ? (
-            <ActionButtons>
-              <StarClipButton>
-                <StarComponent></StarComponent>
-              </StarClipButton>
-            </ActionButtons>
-          ) : (
-            <ActionButtons>{""}</ActionButtons>
-          )}
- */}
+        {clipMouseOverToggle ? (
+          <ActionButtons>
+            <StarClipButton>
+              <StarComponent width={"41"} height={"41"}></StarComponent>
+            </StarClipButton>
+          </ActionButtons>
+        ) : (
+          <ActionButtons></ActionButtons>
+        )}
+
+        <SentenceAndSpeakerSelected>
           <SentencePlayingDiv
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
@@ -175,6 +170,16 @@ function TranscriptSentence({
   } else if (translatedHightlighted) {
     return (
       <Wrapper>
+        {clipMouseOverToggle ? (
+          <ActionButtons>
+            <StarClipButton>
+              <StarComponent width={"41"} height={"41"}></StarComponent>
+            </StarClipButton>
+          </ActionButtons>
+        ) : (
+          <ActionButtons></ActionButtons>
+        )}
+
         <SentenceAndSpeakerSelected>
           <SentenceDiv
             onClick={handleClickedSentence}
@@ -202,43 +207,26 @@ function TranscriptSentence({
     );
   } else {
     return (
-      <Wrapper>
+      <Wrapper onMouseEnter={clipOver} onMouseLeave={clipOut}>
+        {clipMouseOverToggle ? (
+          <ActionButtons>
+            <StarClipButton>
+              <StarComponent width={"41"} height={"41"}></StarComponent>
+            </StarClipButton>
+          </ActionButtons>
+        ) : (
+          <ActionButtons></ActionButtons>
+        )}
+
         <SentenceAndSpeaker>
           <SentenceDiv
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
           >
-            <Sentence
-              onMouseEnter={() => clipOver}
-              onMouseLeave={() => clipOut}
-            >
+            <Sentence width={englishSentenceWidth}>
               <SpeakerEnglish>{sentence_object.speaker}</SpeakerEnglish>:{" "}
               {sentence_object.english_sentence}
             </Sentence>
-            <Spring
-              // from={{
-              //   transform: clipMouseOverToggle
-              //     ? "translate3d(0,-40px,0)"
-              //     : "translate3d(0,0px,0)",
-
-              // }}
-              from={{
-                backgroundColor: clipMouseOverToggle ? "#F1EBF5" : "#FFD159",
-              }}
-              to={{
-                backgroundColor: clipMouseOverToggle ? "#FFD159" : "#F1EBF5",
-              }}
-            >
-              {(props) => (
-                <animated.div>
-                  <ActionButtons>
-                    <StarClipButton style={props}>
-                      <StarComponent width={"41"} height={"41"}></StarComponent>
-                    </StarClipButton>
-                  </ActionButtons>
-                </animated.div>
-              )}
-            </Spring>
           </SentenceDiv>
           {i_from_list === 1 && showTranslation && !clickMeStatus ? (
             <ClickMeButton onClick={handleTranslatedClickedSentence}>
@@ -267,8 +255,8 @@ function TranscriptSentence({
 }
 
 const ActionButtons = styled.div`
-  /* background-color: red; */
-  /* height: ${(props) => props.height}; */
+  width: 50px;
+  position: absolute;
 `;
 
 const StarClipButton = styled.button`
@@ -305,13 +293,6 @@ const SpeakerFrench = styled.span`
   border-radius: 3px;
   padding-bottom: 2px;
   padding-top: 2px;
-`;
-
-const SentenceAndSpeakerSelected = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 20px;
-  padding-top: 15px;
 `;
 
 const SentencePlayingDiv = styled.div`
@@ -377,13 +358,23 @@ const SentenceAndSpeaker = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 20px;
-  padding-top: 15px; ;
+  padding-top: 15px;
+  padding-left: 40px;
+`;
+
+const SentenceAndSpeakerSelected = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  padding-top: 15px;
+  padding-left: 40px;
 `;
 
 const Sentence = styled.div`
   padding-left: 11px;
   color: rgba(26, 26, 26);
-  width: 418px;
+  width: ${(props) => props.width};
+
   @media (max-width: 600px) {
     background-color: white;
     padding-left: 11px;
