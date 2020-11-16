@@ -175,7 +175,7 @@ const MenuItem = styled.div`
   color: #20404e;
   :hover {
     color: #091216;
-    cursor: pointer;
+    cursor: hand;
   }
   text-align: right;
 `;
@@ -190,7 +190,7 @@ const LastMenuItem = styled.div`
   color: #20404e;
   :hover {
     color: #091216;
-    cursor: pointer;
+    cursor: hand;
   }
 `;
 
@@ -303,6 +303,7 @@ const MenuTitle = styled.div`
 const BurgerButton = styled.button`
   background-color: transparent;
   position: absolute;
+  border: transparent;
   height: 20px;
   :hover {
     background-color: transparent;
