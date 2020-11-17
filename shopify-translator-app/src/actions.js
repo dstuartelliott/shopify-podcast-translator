@@ -23,6 +23,11 @@ export const addTranscript = (transcript) => ({
   transcript,
 });
 
+export const addFaveSentenceClip = (faveSentenceClip) => ({
+  type: "ADD_FAVESENTENCLIP",
+  faveSentenceClip,
+});
+
 export const addUUIDSandTimes = (uuidsAndTimes) => ({
   type: "ADD_UUIDS_TIMES",
   uuidsAndTimes,

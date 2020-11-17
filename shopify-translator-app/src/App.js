@@ -61,11 +61,11 @@ function App() {
           console.log("verified_in_db start");
 
           // eslint-disable-next-line
-          let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(
-            id_token
-          );
+          // let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(
+          //   id_token
+          // );
 
-          console.log(verified_in_db);
+          // console.log(verified_in_db);
         });
       }
     }

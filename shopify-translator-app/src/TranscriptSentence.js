@@ -31,6 +31,7 @@ import {
 } from "./reducers";
 
 import StarComponent from "./SVGs/StarComponent";
+import SideActionButtons from "./SideActionButtons";
 
 function TranscriptSentence({
   sentence_object,
@@ -122,13 +123,6 @@ function TranscriptSentence({
     setclipMouseOverToggle(!clipMouseOverToggle);
   }
 
-  function favourClip(event) {
-    console.log("favourClip");
-
-    console.log(event);
-    console.log(sentence_object.uuid);
-  }
-
   // this might look ugly, but it's better than a bunch of nesteed ternary statements imho
   // also, I originally had a Button instead of the  SentenceDiv, but then I got a react warning about nesteed buttons so I've opted
 
@@ -215,14 +209,10 @@ function TranscriptSentence({
     return (
       <Wrapper onMouseEnter={clipOver} onMouseLeave={clipOut}>
         {clipMouseOverToggle ? (
-          <ActionButtons>
-            <StarClipButton onClick={favourClip}>
-              <StarComponent
-                width={StarCircleSize}
-                height={StarCircleSize}
-              ></StarComponent>
-            </StarClipButton>
-          </ActionButtons>
+          <SideActionButtons
+            sentenceUUID={sentence_object.uuid}
+            StarCircleSize={StarCircleSize}
+          ></SideActionButtons>
         ) : (
           <ActionButtons></ActionButtons>
         )}

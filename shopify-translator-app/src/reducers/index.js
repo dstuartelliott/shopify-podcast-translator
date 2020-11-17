@@ -25,6 +25,10 @@ export default function appReducer(state = initialState, action) {
       return { ...state, transcript: action.transcript };
     }
 
+    case "ADD_FAVESENTENCLIP": {
+      return { ...state, faveSentenceClip: action.faveSentenceClip };
+    }
+
     case "ADD_UUIDS_TIMES": {
       // console.log("ADD_TRANSCRIPT");
       // console.log(action.transcript);
@@ -235,6 +239,10 @@ export const getLCSentencesForSearch = (state) => {
     });
   }
   return simplified_transcript;
+};
+
+export const getSavedFaceSentences = (state) => {
+  return state.faveSentenceClip;
 };
 
 export const getUUIDsandTimes = (state) => {
