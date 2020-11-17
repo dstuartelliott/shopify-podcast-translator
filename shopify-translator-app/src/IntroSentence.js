@@ -85,7 +85,8 @@ const SentenceAndSpeaker = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 20px;
-  padding-top: 15px; ;
+  padding-top: 15px;
+  padding-left: 40px;
 `;
 
 const SentenceAndSpeakerSelected = styled.div`
@@ -93,6 +94,7 @@ const SentenceAndSpeakerSelected = styled.div`
   flex-direction: row;
   margin-top: 20px;
   padding-top: 15px;
+  padding-left: 40px;
 
   border-left: 1px solid #eaeaea;
   background-color: #fcfcfc;
