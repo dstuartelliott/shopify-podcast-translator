@@ -57,6 +57,30 @@ const returnEnglishText = async (req, res) => {
     client.close();
   }
 };
+const sendGoogleAuthIntoRemoteDB = async (req, res) => {
+{
+  let client, db;
+  try {
+    client = await MongoClient(MONGO_URI, options);
+    await client.connect();
+    db = client.db("users");
+
+    let oneUpdated = await db
+      .collection("user_records")
+      .updateOne({ _id: "testdave" }, { $set: { dave: "dave" } });
+
+    console.info(oneUpdated);
+
+    return res.json({
+      oneUpdated,
+    });
+  } catch (err) {
+    console.error(err);
+    return err;
+  } finally {
+    client.close();
+  }
+}
 
 const returnTraslatedText = async (req, res) => {
   //   const allFlights = Object.keys(flights);
@@ -185,6 +209,7 @@ app.get(
   "/verifyTokenAndSlapItIntoDatabase/:token",
   verifyTokenAndSlapItIntoDatabase
 );
+app.get("/sendToRemoteDB", sendGoogleAuthIntoRemoteDB)
 
 let server = app.listen(8000, function () {
   var host = server.address().address;

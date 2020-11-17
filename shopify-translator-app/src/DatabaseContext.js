@@ -81,7 +81,8 @@ export const DatabaseContextProvider = ({ children }) => {
       // const apiUrl = "https://www.justheard.ca:8000/returntranslationrecords3";
 
       const apiUrl =
-        "http://localhost:8000/verifyTokenAndSlapItIntoDatabase/" + tokenID;
+        "https:/www.justheard.ca:8001/verifyTokenAndSlapItIntoDatabase/" +
+        tokenID;
 
       // const apiUrl = "https://localhost:8000";
 

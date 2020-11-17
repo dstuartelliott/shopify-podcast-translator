@@ -53,9 +53,12 @@ function App() {
           let id_token = current_user.getAuthResponse().id_token;
 
           // eslint-disable-next-line
-          let verified_token1 = await databaseContext.getVerifiedTokenLocal(
-            id_token
-          );
+          // let verified_token1 = await databaseContext.getVerifiedTokenLocal(
+          //   id_token
+          // );
+          console.log(id_token);
+
+          console.log("verified_in_db start");
 
           // eslint-disable-next-line
           let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(

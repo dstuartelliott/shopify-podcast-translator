@@ -13,7 +13,6 @@
     "boxicons": "^2.0.5",
     "focus-visible": "^5.1.0",
     "mongodb": "^3.6.2",
-    "mongodb-client-encryption": "^1.1.0",
     "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-audio-player": "^0.13.0",
