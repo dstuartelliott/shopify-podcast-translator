@@ -3,13 +3,18 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 
 import StarComponent from "./SVGs/StarComponent";
+import { addFaveSentenceClip } from "./actions";
+import { useDispatch } from "react-redux";
 
 function SideActionsButtons({ sentenceUUID, StarCircleSize }) {
+  const dispatch = useDispatch();
+
   function favourClip(event) {
     console.log("favourClip");
 
     console.log(event);
     console.log({ sentenceUUID });
+    dispatch(addFaveSentenceClip({ sentenceUUID }));
   }
 
   return (

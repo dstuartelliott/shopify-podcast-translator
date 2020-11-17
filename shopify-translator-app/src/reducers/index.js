@@ -26,7 +26,17 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "ADD_FAVESENTENCLIP": {
-      return { ...state, faveSentenceClip: action.faveSentenceClip };
+      console.log(action.faveSentenceClip);
+
+      if (state.faveSentenceClip !== undefined) {
+        const newActions = [...state.faveSentenceClip];
+        newActions.push(action.faveSentenceClip);
+
+        return { ...state, faveSentenceClip: newActions };
+      }
+      const newActions = [action.faveSentenceClip];
+
+      return { ...state, faveSentenceClip: newActions };
     }
 
     case "ADD_UUIDS_TIMES": {
