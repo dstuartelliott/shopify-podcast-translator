@@ -252,7 +252,9 @@ export const getLCSentencesForSearch = (state) => {
 };
 
 export const getSavedFaceSentences = (state) => {
-  return state.faveSentenceClip;
+  if (state.faveSentenceClip !== undefined) {
+    return state.faveSentenceClip;
+  } else return [];
 };
 
 export const getUUIDsandTimes = (state) => {

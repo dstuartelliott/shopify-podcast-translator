@@ -7,12 +7,7 @@ import DropDown from "./images/DropDown.png";
 import TeenyBurgerComponent from "./TeenyBurgerComponent";
 import { Spring, config } from "react-spring/renderprops";
 
-const MenuItems = [
-  "Login",
-  "Search For Podcasts",
-  "Books I've heard",
-  "Languages To Learn",
-];
+const MenuItems = ["Login", "Search For Podcasts", "Starred Clips", "About"];
 
 function TopFigma() {
   const [burgerToggle, setBurgerToggle] = React.useState(false);

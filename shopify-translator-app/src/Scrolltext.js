@@ -20,6 +20,7 @@ import {
   getUUIDPlaying,
   getShowTranslation,
   getShouldTranslationsAutoPlay,
+  getSavedFaceSentences,
 } from "./reducers";
 
 import { updateShouldTranslationsAutoPlay } from "./actions";
@@ -63,6 +64,7 @@ function Scrolltext(heightOfText) {
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
 
   let podcast_player_state = useSelector(getMP3PlayerState);
+
   let translation_podcast_player_state = useSelector(
     getTranslationMP3PlayerState
   );
