@@ -4,6 +4,7 @@ import styled from "styled-components/macro";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch } from "react-redux";
+import TopFigmaForPSearch from "./TopFigmaForPSearch";
 import PodcastListingSearch from "./PodcastListingSearch";
 
 import "focus-visible";
@@ -42,7 +43,11 @@ function PodcastSearch() {
     <FleXApp className="App">
       <AppProvider i18n={enTranslations}>
         <TopDivs>
-          <PlayerMinimal />
+          <PlayerAtTop>
+            <TopFigmaForPSearch></TopFigmaForPSearch>
+            <PlayerMinimal />
+          </PlayerAtTop>
+
           <PodcastListingSearch />
         </TopDivs>
       </AppProvider>
@@ -51,6 +56,9 @@ function PodcastSearch() {
   // }
 }
 
+const PlayerAtTop = styled.div`
+  padding-bottom: 10px;
+`;
 const TopDivs = styled.div`
   position: relative;
   display: flex;
