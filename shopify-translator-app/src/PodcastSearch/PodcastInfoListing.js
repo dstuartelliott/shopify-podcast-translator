@@ -5,8 +5,8 @@ import { NavLink, Link } from "react-router-dom";
 import { changePodcastShowing } from "../actions";
 import { useDispatch } from "react-redux";
 
-function PSRListing({ searchResultItem }) {
-  //   console.log(searchResultItem);
+function PodcastInfoListing({ searchResultItem }) {
+  console.log(searchResultItem);
   const dispatch = useDispatch();
 
   let filtered_genres = searchResultItem.genres.filter(
@@ -164,4 +164,4 @@ const Wrapper = styled.div`
   padding: 10px;
 `;
 
-export default PSRListing;
+export default PodcastInfoListing;

@@ -3,9 +3,10 @@ import React from "react";
 import styled from "styled-components/macro";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TopFigmaForPSearch from "./TopFigmaForPSearch";
-import PodcastListingSearch from "./PodcastListingSearch";
+import PodcastInfoListing from "./PodcastInfoListing";
+import { getPodcastShowing } from "../reducers";
 
 import "focus-visible";
 
@@ -20,9 +21,11 @@ import { markEnglishAsPlaying, changeTranslation } from "../actions";
 import PlayerMinimal from "../PlayerMinimal";
 
 function IndividualPodcast() {
+  let podcastShowing = useSelector(getPodcastShowing);
+
   //eslint-disable-next-line
   const dispatch = useDispatch();
-
+  console.log(podcastShowing);
   const playerContext = React.useContext(PlayerContext);
 
   React.useEffect(() => {
@@ -31,13 +34,26 @@ function IndividualPodcast() {
     dispatch(updateShouldTranslationsAutoPlay(true));
     dispatch(updateClickMeHasBeenClicked(false));
 
-    async function getPodcasts() {
-      let podcasts = await playerContext.getTopPodcastsFromItunes();
-      console.log(podcasts);
-    }
-    getPodcasts();
     // eslint-disable-next-line
   }, []);
+
+  if (podcastShowing.state !== "loading") {
+    return (
+      <FleXApp className="App">
+        <AppProvider i18n={enTranslations}>
+          <TopDivs>
+            <PlayerAtTop>
+              <TopFigmaForPSearch></TopFigmaForPSearch>
+              <PlayerMinimal />
+            </PlayerAtTop>
+          </TopDivs>
+          <PodcastInfoListing
+            searchResultItem={podcastShowing.state}
+          ></PodcastInfoListing>
+        </AppProvider>
+      </FleXApp>
+    );
+  }
 
   return (
     <FleXApp className="App">
@@ -47,12 +63,12 @@ function IndividualPodcast() {
             <TopFigmaForPSearch></TopFigmaForPSearch>
             <PlayerMinimal />
           </PlayerAtTop>
-
-          <PodcastListingSearch />
         </TopDivs>
+        No Podcast Present
       </AppProvider>
     </FleXApp>
   );
+
   // }
 }
 

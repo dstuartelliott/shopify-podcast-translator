@@ -39,6 +39,10 @@ export default function appReducer(state = initialState, action) {
       return { ...state, faveSentenceClip: newActions };
     }
 
+    case "ADD_PODCAST_SHOWING": {
+      return { ...state, podcastShowing: action.podcastShowing };
+    }
+
     case "ADD_UUIDS_TIMES": {
       // console.log("ADD_TRANSCRIPT");
       // console.log(action.transcript);
@@ -255,6 +259,12 @@ export const getSavedFaceSentences = (state) => {
   if (state.faveSentenceClip !== undefined) {
     return state.faveSentenceClip;
   } else return [];
+};
+
+export const getPodcastShowing = (state) => {
+  if (state.podcastShowing !== undefined) {
+    return { state: state.podcastShowing };
+  } else return { state: "loading" };
 };
 
 export const getUUIDsandTimes = (state) => {

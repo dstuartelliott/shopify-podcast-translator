@@ -28,6 +28,11 @@ export const addFaveSentenceClip = (faveSentenceClip) => ({
   faveSentenceClip,
 });
 
+export const changePodcastShowing = (podcastShowing) => ({
+  type: "ADD_PODCAST_SHOWING",
+  podcastShowing,
+});
+
 export const addUUIDSandTimes = (uuidsAndTimes) => ({
   type: "ADD_UUIDS_TIMES",
   uuidsAndTimes,

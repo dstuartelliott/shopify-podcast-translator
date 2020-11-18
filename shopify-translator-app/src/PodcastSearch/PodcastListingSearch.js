@@ -37,7 +37,6 @@ function PodcastListingSearch() {
   async function sendSearchToItunes(term) {
     // eslint-disable-next-line
     let search_results = await dataBaseContext.getItunesSearchResult(term);
-    console.log(search_results.json.results);
     setSearchResults(search_results.json.results);
   }
 
