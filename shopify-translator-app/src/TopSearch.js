@@ -55,9 +55,9 @@ function TopSearch() {
 
   return (
     <Wrapper>
-      <FlagsDiv>
+      {/* <FlagsDiv>
         <span>Flags </span>
-      </FlagsDiv>
+      </FlagsDiv> */}
       <SearchDiv>
         <TranscriptSearch
           type="text"

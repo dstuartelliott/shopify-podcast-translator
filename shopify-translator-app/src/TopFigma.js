@@ -70,10 +70,6 @@ function TopFigma() {
                 </PodcastEpisodeTitle>
               )}
             </Spring>
-            <TeenyHeartIcon
-              image_source={TeenyHeart}
-              alt="Heart Icon"
-            ></TeenyHeartIcon>
           </TitleAndHeart>
 
           <Spring
@@ -90,9 +86,7 @@ function TopFigma() {
                 <PodcastEpisodeDescription height={props.height}>
                   {podcastSelected.description}
                 </PodcastEpisodeDescription>
-                <Elipses>...</Elipses>
-
-                <DownArrow image_source={DropDown}></DownArrow>
+                {toggle ? <Elipses>...</Elipses> : <Elipses></Elipses>}
               </TextAndDownArrow>
             )}
           </Spring>
