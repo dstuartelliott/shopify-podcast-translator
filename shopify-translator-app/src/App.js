@@ -50,14 +50,23 @@ function App() {
               "112704103478-qojm07it64b672dk2mto976ivf6592jm.apps.googleusercontent.com",
           });
 
+          console.log(auth_object);
+
           let current_user = auth_object.currentUser.get();
 
-          let id_token = current_user.getAuthResponse().id_token;
+          console.log(current_user);
 
-          // eslint-disable-next-line
-          // let verified_token1 = await databaseContext.getVerifiedTokenLocal(
+          // let current_user = auth_object.currentUser.get();
+
+          // let id_token = current_user.getAuthResponse().id_token;
+
+          // // eslint-disable-next-line
+          // let verified_token1 = await databaseContext.getVerifiedToken(
           //   id_token
           // );
+
+          // console.log(verified_token1);
+
           // let itunes_seach = await databaseContext.getItunesSearchResult();
 
           // console.log(itunes_seach);
@@ -117,10 +126,9 @@ function App() {
             </Switch>
           </BrowserRouter>
 
-          <BottomElement>
+          {/* <BottomElement>
             <div className="g-signin2" data-onsuccess="onSignIn"></div>
-            {profileName}
-          </BottomElement>
+          </BottomElement> */}
         </AppProvider>
       </FleXApp>
     </FocusVisible>

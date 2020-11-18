@@ -2,7 +2,17 @@ import React from "react";
 
 import styled, { keyframes } from "styled-components";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
+
+var divStyle = {
+  scope: "profile email",
+  width: 100,
+  height: 20,
+  fontSize: 18,
+  longtitle: true,
+  borderRaduis: 5,
+  color: "#4287f5",
+};
 
 function MenuComponent() {
   return (
@@ -23,13 +33,25 @@ function MenuComponent() {
         </MenuItemWrapper>
 
         <MenuItemWrapper>
-          <MenuItem>Login</MenuItem>
-          <MenuItemLink to="/podcastsearch" />
+          <MenuItem>
+            <GoogleSignIn
+              className="g-signin2"
+              data-onsuccess="onSignIn"
+              style={divStyle}
+            ></GoogleSignIn>
+          </MenuItem>
         </MenuItemWrapper>
       </InternalMenu>
     </Wrapper>
   );
 }
+
+const GoogleSignIn = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  padding-left: 80px;
+`;
 
 const InternalMenu = styled.div`
   background-color: #f1ebf5;

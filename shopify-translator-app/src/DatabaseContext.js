@@ -16,6 +16,7 @@ export const DatabaseContextProvider = ({ children }) => {
 
       const apiUrl = "https://www.justheard.ca:8000/verifyToken/" + tokenID;
 
+      console.log(apiUrl);
       fetch(apiUrl)
         .then((response) => {
           let data = response.json();
