@@ -16,9 +16,14 @@ function PSRListing({ searchResultItem }) {
   filtered_genres = filtered_genres.slice(0, 3);
 
   const [genresArray, setgenresArray] = React.useState(filtered_genres);
+  const [podcastToExpand, setpodcastToExpand] = React.useState("");
 
+  function handleClick(event) {
+    console.log(event);
+  }
   return (
     <Wrapper>
+      <BigButton onClick={handleClick}></BigButton>
       <InnerWrapper>
         <PodcastLogo
           image_source={searchResultItem.artworkUrl600}
@@ -39,13 +44,20 @@ function PSRListing({ searchResultItem }) {
   );
 }
 
-{
-  /* <Genres>
-        {searchResultItem.genres.map((element, i) => {
-          return <Genre key={i}>{element}</Genre>;
-        })}
-      </Genres> */
-}
+const BigButton = styled.button`
+  position: absolute;
+  width: 250px;
+  height: 290px;
+  background: transparent;
+  border: transparent;
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 500px;
+  }
+  :hover {
+    cursor: pointer;
+  }
+`;
 
 const PodcastLogo = styled.div`
   width: 250px;

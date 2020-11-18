@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 
 import PodcastEpisodeHome from "./PodcastEpisodeHome";
 import PodcastSearch from "./PodcastSearch/PodcastSearch.js";
+import IndividualPodcast from "./PodcastSearch/IndividualPodcast.js";
 
 import "focus-visible";
 
@@ -108,6 +109,9 @@ function App() {
               </Route>
               <Route path="/podcastsearch">
                 <PodcastSearch />
+              </Route>
+              <Route path="/podcast">
+                <IndividualPodcast />
               </Route>
             </Switch>
           </BrowserRouter>
