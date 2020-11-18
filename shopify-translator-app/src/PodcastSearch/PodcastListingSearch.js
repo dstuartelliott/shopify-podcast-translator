@@ -9,13 +9,19 @@ import {
   updateShouldTranslationsAutoPlay,
 } from "../actions";
 import { useDispatch } from "react-redux";
+import { DatabaseContext } from "../DatabaseContext.js";
+import PSRListing from "./PSRListing.js";
 
 let filtered_sentences = [];
 
 function PodcastListingSearch() {
   const dispatch = useDispatch();
+  const dataBaseContext = React.useContext(DatabaseContext);
 
   const [textfieldValue, setTextField] = React.useState("...search here!");
+
+  const [searchResults, setSearchResults] = React.useState([]);
+
   let simplifiedSentences = useSelector(getLCSentencesForSearch);
 
   function handleClick(event) {
@@ -24,34 +30,29 @@ function PodcastListingSearch() {
     }
   }
 
-  function handleKeyPress(event) {}
-  function findSentence(event) {
-    filtered_sentences = [];
-    dispatch(updateShouldTranslationsAutoPlay(false));
+  React.useEffect(() => {
+    sendSearchToItunes("help");
+  }, []);
 
-    let sentenceSearchText = event.target.value.toLowerCase();
-    let original_search_phrase = event.target.value;
+  async function sendSearchToItunes(term) {
+    // eslint-disable-next-line
+    let search_results = await dataBaseContext.getItunesSearchResult(term);
+    console.log(search_results.json.results);
+    setSearchResults(search_results.json.results);
+  }
 
-    simplifiedSentences.forEach((sentence) => {
-      if (
-        sentence.english_sentence.includes(sentenceSearchText) ||
-        sentence.translated_sentence.includes(sentenceSearchText)
-      ) {
-        filtered_sentences.push(sentence.uuid);
-      }
-    });
+  function handleKeyPress(event) {
+    // console.log(event.target.value);
 
-    if (sentenceSearchText === "") {
-      dispatch(updateSearchResults([]));
-    } else {
-      dispatch(
-        updateSearchResults({
-          filtered_sentences,
-          sentenceSearchText,
-          original_search_phrase,
-        })
-      );
+    if (event.key === "Enter") {
+      console.log("enter press here! ");
+      console.log(event.target.value);
+      sendSearchToItunes(event.target.value);
     }
+
+    // console.log(computed_transcript)
+  }
+  function findSentence(event) {
     setTextField(event.target.value);
   }
 
@@ -61,13 +62,34 @@ function PodcastListingSearch() {
         <TranscriptSearch
           type="text"
           value={textfieldValue}
-          // onChange={findSentence}
+          onChange={findSentence}
           onKeyDown={handleKeyPress}
         ></TranscriptSearch>
       </SearchDiv>
+      <SearchResults>
+        {searchResults.map((element, i) => {
+          return (
+            <PSRListing
+              searchResultItem={element}
+              key={element.uuid}
+            ></PSRListing>
+          );
+        })}
+      </SearchResults>
     </Wrapper>
   );
 }
+
+const SearchResults = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  @media (max-width: 600px) {
+    justify-content: center;
+    flex-wrap: no-wrap;
+  }
+`;
 
 const SearchDiv = styled.div`
   flex-grow: 2;
@@ -94,6 +116,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding-top: 15px;
   display: flex;
+  flex-direction: column;
   padding-bottom: 30px;
   height: 30px;
 
