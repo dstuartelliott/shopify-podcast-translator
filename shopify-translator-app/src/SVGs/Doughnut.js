@@ -77,6 +77,8 @@ const Numbers = styled.div`
   position: fixed;
   align-self: center;
   color: #605866;
+  text-align: center;
+  z-index: 1;
 `;
 const Current = styled.div`
   text-align: center;

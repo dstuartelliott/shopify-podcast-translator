@@ -120,6 +120,33 @@ export const PlayerContextProvider = ({ children }) => {
     return myPromise;
   };
 
+  const getPodcastEpisodes = async (feedUrl) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: feedUrl }),
+    };
+
+    let myPromise = new Promise((resolve, reject) => {
+      // const apiUrl = "https://www.justheard.ca:8000/returntranslationrecords3";
+
+      fetch("https://www.justheard.ca:8000/getEpisodes", requestOptions)
+        .then((response) => {
+          let data = response.json();
+          // profileObject = data;
+          console.log(response);
+
+          resolve(data);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          resolve({ error });
+        });
+    });
+    return myPromise;
+  };
+
   const computeTranscript = async () => {
     console.log("expensive transcript operation");
 
@@ -297,6 +324,7 @@ export const PlayerContextProvider = ({ children }) => {
         computeTranscript,
         getCombined3FomLinodeBucket,
         getTopPodcastsFromItunes,
+        getPodcastEpisodes,
       }}
     >
       {children}

@@ -33,6 +33,11 @@ export const changePodcastShowing = (podcastShowing) => ({
   podcastShowing,
 });
 
+export const changePodcastSelectedToPlay = (podcastSelectedToPlay) => ({
+  type: "ADD_PODCAST_SELECTED_TO_PLAY",
+  podcastSelectedToPlay,
+});
+
 export const addUUIDSandTimes = (uuidsAndTimes) => ({
   type: "ADD_UUIDS_TIMES",
   uuidsAndTimes,

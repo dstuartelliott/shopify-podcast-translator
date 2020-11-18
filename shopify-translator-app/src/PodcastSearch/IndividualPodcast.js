@@ -5,6 +5,8 @@ import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch, useSelector } from "react-redux";
 import TopFigmaForPSearch from "./TopFigmaForPSearch";
+import TopFigma from "../TopFigma";
+
 import PodcastInfoListing from "./PodcastInfoListing";
 import { getPodcastShowing } from "../reducers";
 
@@ -43,7 +45,7 @@ function IndividualPodcast() {
         <AppProvider i18n={enTranslations}>
           <TopDivs>
             <PlayerAtTop>
-              <TopFigmaForPSearch></TopFigmaForPSearch>
+              <TopFigma></TopFigma>
               <PlayerMinimal />
             </PlayerAtTop>
           </TopDivs>
@@ -60,7 +62,7 @@ function IndividualPodcast() {
       <AppProvider i18n={enTranslations}>
         <TopDivs>
           <PlayerAtTop>
-            <TopFigmaForPSearch></TopFigmaForPSearch>
+            <TopFigma></TopFigma>
             <PlayerMinimal />
           </PlayerAtTop>
         </TopDivs>

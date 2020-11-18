@@ -35,6 +35,7 @@
     "react-sizeme": "^2.6.12",
     "react-spinners": "^0.9.0",
     "react-spring": "^8.0.27",
+    "react-xml-parser": "^1.1.8",
     "redux": "^4.0.5",
     "styled-components": "^5.1.1"
   },

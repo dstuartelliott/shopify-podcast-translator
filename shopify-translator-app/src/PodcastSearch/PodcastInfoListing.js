@@ -4,10 +4,16 @@ import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
 import { changePodcastShowing } from "../actions";
 import { useDispatch } from "react-redux";
+import { PlayerContext } from "../PlayerContext";
 
+import PodcastEpisodeComponent from "./PodcastEpisodeComponent";
+var XMLParser = require("react-xml-parser");
+
+let podcastFeed;
 function PodcastInfoListing({ searchResultItem }) {
   console.log(searchResultItem);
   const dispatch = useDispatch();
+  const playerContext = React.useContext(PlayerContext);
 
   let filtered_genres = searchResultItem.genres.filter(
     (word) => word !== "Podcasts"
@@ -17,11 +23,54 @@ function PodcastInfoListing({ searchResultItem }) {
 
   const [genresArray, setgenresArray] = React.useState(filtered_genres);
   const [podcastToExpand, setpodcastToExpand] = React.useState("");
+  const [podcastSummary, setPodcastSummary] = React.useState("");
+
+  const [podcastEpisodes, setPodcastEpisodes] = React.useState([{}]);
 
   function handleClick(event) {
     console.log(event);
     dispatch(changePodcastShowing(searchResultItem));
   }
+
+  React.useEffect(() => {
+    console.info(searchResultItem.feedUrl);
+    async function getPodcastEpisodes(feed_url) {
+      console.info("episodes starting");
+
+      // eslint-disable-next-line
+      let episodes = await playerContext.getPodcastEpisodes(feed_url);
+      podcastFeed = episodes.dataAsJson.elements[0].elements[0].elements;
+
+      let clipped = podcastFeed.slice(0, 50);
+
+      const summary = clipped.find((element) => element.name === "description");
+      const episodesArray = clipped.filter(
+        (element) => element.name === "item"
+      );
+
+      // let option1 = summary.elements[0].text;
+      // let option2 = summary.elements[0].cdata;
+
+      // console.info(summary);
+
+      console.info(podcastFeed);
+      console.info(episodesArray);
+      setPodcastEpisodes(episodesArray);
+
+      // console.info(option1);
+      // console.info(option2);
+
+      if (summary.elements[0].text !== undefined) {
+        setPodcastSummary(summary.elements[0].text);
+      } else {
+        setPodcastSummary(summary.elements[0].cdata);
+      }
+    }
+    getPodcastEpisodes(searchResultItem.feedUrl);
+
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <Wrapper>
       <MenuItemLink onClick={handleClick} to="/podcast"></MenuItemLink>
@@ -39,12 +88,30 @@ function PodcastInfoListing({ searchResultItem }) {
               return <Genre>{element}</Genre>;
             })}
           </Genres>
+          <SummaryText>{podcastSummary}</SummaryText>
         </TextBelow>
       </InnerWrapper>
+      <Episodes>
+        {podcastEpisodes.map((element, i) => {
+          return (
+            <PodcastEpisodeComponent
+              episode={element}
+              image={searchResultItem.artworkUrl600}
+            />
+          );
+        })}
+      </Episodes>
     </Wrapper>
   );
 }
 
+const Episodes = styled.div``;
+
+const SummaryText = styled.div`
+  font-size: 12px;
+  color: #807985;
+  text-align: justify;
+`;
 const MenuItemLink = styled(NavLink)`
   color: black;
   font-weight: bold;
@@ -58,21 +125,6 @@ const MenuItemLink = styled(NavLink)`
   height: 290px;
 `;
 
-const BigButton = styled.button`
-  position: absolute;
-  width: 250px;
-  height: 290px;
-  background: transparent;
-  border: transparent;
-  @media (max-width: 600px) {
-    width: 100%;
-    height: 500px;
-  }
-  :hover {
-    cursor: pointer;
-  }
-`;
-
 const PodcastLogo = styled.div`
   width: 250px;
   height: 200px;
@@ -81,21 +133,12 @@ const PodcastLogo = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 5px;
-
-  @media (max-width: 600px) {
-    width: 400px;
-    height: 400px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
 `;
 
 const TextBelow = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding-left: 25px;
+  width: 400px;
 
   @media (max-width: 600px) {
     padding-left: 5px;
@@ -104,24 +147,15 @@ const TextBelow = styled.div`
 const TrackName = styled.div`
   font-weight: 500;
   padding-top: 5px;
-  font-size: 13px;
-  width: 200px;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
+  font-size: 24px;
 
   @media (max-width: 600px) {
-    width: 300px;
   }
 `;
 const ArtistName = styled.div`
   font-weight: 500;
   padding-top: 5px;
   font-size: 13px;
-  width: 200px;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
 
   @media (max-width: 600px) {
     width: 400px;
@@ -150,9 +184,9 @@ const InnerWrapper = styled.div`
   z-index: 6;
   border: 1px solid #f5f5f5;
   border-radius: 10px;
-  width: 250px;
-  height: 290px;
   box-shadow: 3px 3px 10px #d2cdd5;
+  display: flex;
+  flex-direction: row;
 
   @media (max-width: 600px) {
     width: 100%;
@@ -162,6 +196,10 @@ const InnerWrapper = styled.div`
 
 const Wrapper = styled.div`
   padding: 10px;
+  overflow-y: scroll;
+  bottom: 10px;
+  position: absolute;
+  top: 250px;
 `;
 
 export default PodcastInfoListing;

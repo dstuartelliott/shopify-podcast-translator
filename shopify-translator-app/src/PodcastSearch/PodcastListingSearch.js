@@ -31,12 +31,13 @@ function PodcastListingSearch() {
   }
 
   React.useEffect(() => {
-    sendSearchToItunes("help");
+    sendSearchToItunes("BullsEye");
   }, []);
 
   async function sendSearchToItunes(term) {
     // eslint-disable-next-line
     let search_results = await dataBaseContext.getItunesSearchResult(term);
+    console.log(search_results.json.results);
     setSearchResults(search_results.json.results);
   }
 
@@ -117,7 +118,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 30px;
-  height: 30px;
 
   @media (max-width: 600px) {
     padding-top: 23px;

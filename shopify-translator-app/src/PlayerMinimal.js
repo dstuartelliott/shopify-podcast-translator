@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { Spring } from "react-spring/renderprops";
 import CircleSunComponent from "./SVGs/CircleSunComponent.js";
@@ -13,6 +13,7 @@ import {
   getTimeToJumpTo,
   getUUIDsandTimes,
   getTranslationPlaying,
+  getPodcastSelectedToPlay,
 } from "./reducers";
 
 import {
@@ -69,6 +70,8 @@ function PlayerMinimal() {
   let seeking = false;
 
   let uuids_and_times = useSelector(getUUIDsandTimes);
+
+  let podcastSelected = useSelector(getPodcastSelectedToPlay);
 
   // let showTranslation = useSelector(getShowTranslation);
   let audioref = React.useRef(null);
@@ -361,7 +364,8 @@ function PlayerMinimal() {
           <PlayerDiv>
             <AudioDiv
               ref={audioref}
-              src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3"
+              // src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3"
+              src={podcastSelected.url}
               // onPlay={playerPlay}
               // onPause={playerPause}
               onSeeking={seekingHappening}

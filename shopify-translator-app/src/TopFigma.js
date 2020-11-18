@@ -5,13 +5,18 @@ import TeenyHeart from "./images/TeenyHeart.svg";
 import DropDown from "./images/DropDown.png";
 import { NavLink } from "react-router-dom";
 import MenuComponent from "./MenuComponent";
+import { useSelector, useDispatch } from "react-redux";
+
 import TeenyBurgerComponent from "./TeenyBurgerComponent";
 import { Spring, config } from "react-spring/renderprops";
+
+import { getPodcastSelectedToPlay } from "./reducers";
 
 const MenuItems = ["Login", "Search For Podcasts", "Starred Clips", "About"];
 
 function TopFigma() {
   const [burgerToggle, setBurgerToggle] = React.useState(false);
+  let podcastSelected = useSelector(getPodcastSelectedToPlay);
 
   const [toggle, setToggle] = React.useState(false);
 
@@ -42,7 +47,10 @@ function TopFigma() {
         )}
       </Spring>
       <PodcastEpisode>
-        <PodcastLogo image_source={HeroSrc} alt="Podcast Image"></PodcastLogo>
+        <PodcastLogo
+          image_source={podcastSelected.image}
+          alt="Podcast Image"
+        ></PodcastLogo>
         <PodcastText>
           <TitleAndHeart>
             <Spring
@@ -58,7 +66,7 @@ function TopFigma() {
             >
               {(props) => (
                 <PodcastEpisodeTitle stroke={props.stroke}>
-                  Bullseye with Jesse Thorn: Padma Lakshmi
+                  {podcastSelected.title}
                 </PodcastEpisodeTitle>
               )}
             </Spring>
@@ -80,15 +88,7 @@ function TopFigma() {
             {(props) => (
               <TextAndDownArrow>
                 <PodcastEpisodeDescription height={props.height}>
-                  Padma Lakshmi is a model, actress and the host of Top Chef on
-                  Bravo. She’s the person telling everyone to pack their knives
-                  and go home. Her latest television series is Taste the Nation
-                  With Padma Lakshmi on Hulu. Each episode, Padma travels to a
-                  different part of the Padma Lakshmi is a model, actress and
-                  the host of Top Chef on Bravo. She’s the person telling
-                  everyone to pack their knives and go home. Her latest
-                  television series is Taste the Nation With Padma Lakshmi on
-                  Hulu. Each episode, Padma travels to a different part of the
+                  {podcastSelected.description}
                 </PodcastEpisodeDescription>
                 <Elipses>...</Elipses>
 

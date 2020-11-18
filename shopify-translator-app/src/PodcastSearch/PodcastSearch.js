@@ -18,6 +18,9 @@ import {
 
 import { markEnglishAsPlaying, changeTranslation } from "../actions";
 import PlayerMinimal from "../PlayerMinimal";
+import Player from "../Player";
+
+import TopFigma from "../TopFigma";
 
 function PodcastSearch() {
   //eslint-disable-next-line
@@ -44,17 +47,34 @@ function PodcastSearch() {
       <AppProvider i18n={enTranslations}>
         <TopDivs>
           <PlayerAtTop>
-            <TopFigmaForPSearch></TopFigmaForPSearch>
-            <PlayerMinimal />
+            <TopFigma></TopFigma>
+            <Player />
           </PlayerAtTop>
 
-          <PodcastListingSearch />
+          <ScrollBox>
+            <PodcastListingSearch />
+          </ScrollBox>
         </TopDivs>
       </AppProvider>
     </FleXApp>
   );
   // }
 }
+
+const ScrollBox = styled.div`
+  background-color: white;
+  z-index: 2;
+  /* overflow-y: scroll;
+  max-width: 960px;
+  transform: translateX(-50px); 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  bottom: 20px;
+  top: 360px;
+  position: absolute; */
+`;
 
 const PlayerAtTop = styled.div`
   padding-bottom: 10px;
