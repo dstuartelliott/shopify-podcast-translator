@@ -99,6 +99,7 @@ const CircleSunDiv = styled.button`
   background-size: cover;
   border-radius: 5px;
   transition: 0.3s ease-in-out;
+  outline: none;
 
   :hover {
     background-color: transparent;

@@ -247,6 +247,8 @@ const MenuTitle = styled.div`
 const BurgerButton = styled.button`
   background-color: transparent;
   position: absolute;
+  outline: none;
+
   border: transparent;
   height: 20px;
   :hover {

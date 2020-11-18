@@ -60,6 +60,8 @@ const MenuItemLink = styled(NavLink)`
 
 const BigButton = styled.button`
   position: absolute;
+  outline: none;
+
   width: 250px;
   height: 290px;
   background: transparent;

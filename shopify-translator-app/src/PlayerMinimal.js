@@ -424,6 +424,8 @@ const DoughnutDiv = styled.div`
 
 const InvisibleProgressButton = styled.button`
   position: absolute;
+  outline: none;
+
   width: ${(props) => props.sizeLength};
   background-color: transparent;
   border: transparent;
@@ -455,6 +457,8 @@ const ProgressBarFiller = styled.div`
 const ProgressBarCircle = styled.button`
   background-color: white;
   width: 30px;
+  outline: none;
+
   height: 30px;
   position: absolute;
   top: -8px;
@@ -503,6 +507,8 @@ const CircleSunDiv = styled.div`
 const CircleSunButton = styled.button`
   width: 50px;
   height: 50px;
+  outline: none;
+
   background-color: transparent;
   border-radius: 5px;
   z-index: 99;

@@ -476,7 +476,7 @@ const TranscriptList = styled.div`
   transform: translateX(-50px); /* background-color: red; */
 
   bottom: 20px;
-  top: 360px;
+  top: 400px;
   position: absolute;
 
   @media (min-width: 675px) {

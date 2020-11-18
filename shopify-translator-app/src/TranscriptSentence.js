@@ -129,19 +129,6 @@ function TranscriptSentence({
   if (englishHighlighted) {
     return (
       <Wrapper>
-        {clipMouseOverToggle ? (
-          <ActionButtons>
-            <StarClipButton>
-              <StarComponent
-                width={StarCircleSize}
-                height={StarCircleSize}
-              ></StarComponent>
-            </StarClipButton>
-          </ActionButtons>
-        ) : (
-          <ActionButtons></ActionButtons>
-        )}
-
         <SentenceAndSpeakerSelected>
           <SentencePlayingDiv
             onClick={handleClickedSentence}
@@ -170,14 +157,6 @@ function TranscriptSentence({
   } else if (translatedHightlighted) {
     return (
       <Wrapper>
-        {clipMouseOverToggle ? (
-          <SideActionButtons
-            sentenceUUID={sentence_object.uuid}
-            StarCircleSize={StarCircleSize}
-          ></SideActionButtons>
-        ) : (
-          <ActionButtons></ActionButtons>
-        )}
         <SentenceAndSpeaker>
           <SentenceDiv
             onClick={handleClickedSentence}
@@ -206,15 +185,6 @@ function TranscriptSentence({
   } else {
     return (
       <Wrapper onMouseEnter={clipOver} onMouseLeave={clipOut}>
-        {clipMouseOverToggle ? (
-          <SideActionButtons
-            sentenceUUID={sentence_object.uuid}
-            StarCircleSize={StarCircleSize}
-          ></SideActionButtons>
-        ) : (
-          <ActionButtons></ActionButtons>
-        )}
-
         <SentenceAndSpeaker>
           <SentenceDiv
             onClick={handleClickedSentence}
@@ -267,6 +237,8 @@ const StarClipButton = styled.button`
 `;
 
 const ClickMeButton = styled.button`
+  outline: none;
+
   color: ${COLORS_SHOPIFY_YELLOW_PALLETE.Darker};
   background-color: ${COLORS_SHOPIFY_BLUE_PALLETE.Light};
   transform: rotate(-15deg);

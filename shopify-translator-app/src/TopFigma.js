@@ -301,9 +301,11 @@ const BurgerButton = styled.button`
   background-color: transparent;
   position: absolute;
   border: transparent;
+  outline: none;
   height: 20px;
   :hover {
     background-color: transparent;
+    cursor: pointer;
   }
 `;
 

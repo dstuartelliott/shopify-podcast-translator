@@ -27,10 +27,10 @@ function MenuComponent() {
           <MenuItemLink to="/podcastsearch" />
         </MenuItemWrapper>
 
-        <MenuItemWrapper>
+        {/* <MenuItemWrapper>
           <MenuItem>Starred Clips</MenuItem>
           <MenuItemLink to="/podcastsearch" />
-        </MenuItemWrapper>
+        </MenuItemWrapper> */}
 
         <MenuItemWrapper>
           <MenuItem>

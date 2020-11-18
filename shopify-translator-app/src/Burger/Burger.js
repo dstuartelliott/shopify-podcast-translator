@@ -14,6 +14,8 @@ const Burger = () => {
 
 const StyledBurger = styled.button`
   position: absolute;
+  outline: none;
+
   top: 5%;
   left: 2rem;
   display: flex;

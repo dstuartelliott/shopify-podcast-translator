@@ -419,6 +419,8 @@ const InvisibleProgressButton = styled.button`
   border: transparent;
   height: 30px;
   background-color: transparent;
+  outline: none;
+
   :hover {
     background-color: transparent;
     cursor: pointer;
@@ -444,6 +446,8 @@ const ProgressBarFiller = styled.div`
 
 const ProgressBarCircle = styled.button`
   background-color: white;
+  outline: none;
+
   width: 30px;
   height: 30px;
   position: absolute;
@@ -492,6 +496,8 @@ const CircleSunDiv = styled.div`
 
 const CircleSunButton = styled.button`
   width: 115px;
+  outline: none;
+
   height: 115px;
   background-color: transparent;
   border-radius: 5px;

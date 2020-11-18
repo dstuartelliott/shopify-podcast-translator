@@ -94,7 +94,8 @@ const SentenceAndSpeakerSelected = styled.div`
   flex-direction: row;
   margin-top: 20px;
   padding-top: 15px;
-  padding-left: 40px;
+  margin-left: 45px;
+  margin-right: 5px;
 
   border-left: 1px solid #eaeaea;
   background-color: #fcfcfc;
@@ -108,7 +109,6 @@ const SentencePlayingDiv = styled.div`
   display: flex;
 
   flex-direction: row;
-
   border: none;
   cursor: pointer;
   z-index: 1;

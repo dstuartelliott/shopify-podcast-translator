@@ -318,6 +318,8 @@ function PlayerHTMLFigma({ sizeOfJogArea }) {
 
 const InvisibleProgressButton = styled.button`
   position: absolute;
+  outline: none;
+
   width: ${(props) => props.sizeLength};
   background-color: transparent;
   :hover {
