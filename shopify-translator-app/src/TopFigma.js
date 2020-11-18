@@ -3,6 +3,7 @@ import styled from "styled-components/macro";
 import HeroSrc from "./images/bullseye-logo.jpg";
 import TeenyHeart from "./images/TeenyHeart.svg";
 import DropDown from "./images/DropDown.png";
+import { NavLink } from "react-router-dom";
 
 import TeenyBurgerComponent from "./TeenyBurgerComponent";
 import { Spring, config } from "react-spring/renderprops";
@@ -128,14 +129,40 @@ function TopFigma() {
                   {(props) => (
                     <Menu style={props}>
                       {/* {resizeListener} */}
+
                       <InternalMenu>
-                        {MenuItems.map((t, i) =>
+                        <MenuItemWrapper>
+                          <MenuItem>Episode Player</MenuItem>
+                          <MenuItemLink to="/podcastsearch" />
+                        </MenuItemWrapper>
+                        <MenuItemWrapper>
+                          <MenuItem>Find Podcasts</MenuItem>
+                          <MenuItemLink to="/podcastsearch" />
+                        </MenuItemWrapper>
+
+                        <MenuItemWrapper>
+                          <MenuItem>Starred Clips</MenuItem>
+                          <MenuItemLink to="/podcastsearch" />
+                        </MenuItemWrapper>
+
+                        <MenuItemWrapper>
+                          <MenuItem>Login</MenuItem>
+                          <MenuItemLink to="/podcastsearch" />
+                        </MenuItemWrapper>
+
+                        {/* {MenuItems.map((t, i) =>
                           i === MenuItems.length - 1 ? (
-                            <LastMenuItem key={i}>{t}</LastMenuItem>
+                            <div>
+                              <LastMenuItem key={i}>{t}</LastMenuItem>
+                              <MenuItemLink to="/podcastsearch" />
+                            </div>
                           ) : (
-                            <MenuItem key={i}>{t}</MenuItem>
+                            <div>
+                              <MenuItem key={i}>{t}</MenuItem>
+                              <MenuItemLink to="/podcastsearch" />
+                            </div>
                           )
-                        )}
+                        )} */}
                       </InternalMenu>
                     </Menu>
                   )}
@@ -159,8 +186,23 @@ const InternalMenu = styled.div`
 
   border-radius: 5px;
 `;
+
+const MenuItemWrapper = styled.div``;
 const Menu = styled.div`
   overflow: hidden;
+`;
+const MenuItemLink = styled(NavLink)`
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: transparent;
+  position: absolute;
+  transform: translateY(-25px);
+  z-index: 99;
+
+  position: absolute;
+  height: 25px;
+  width: 180px;
 `;
 
 const MenuItem = styled.div`
