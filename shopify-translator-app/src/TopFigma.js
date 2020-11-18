@@ -4,7 +4,7 @@ import HeroSrc from "./images/bullseye-logo.jpg";
 import TeenyHeart from "./images/TeenyHeart.svg";
 import DropDown from "./images/DropDown.png";
 import { NavLink } from "react-router-dom";
-
+import MenuComponent from "./MenuComponent";
 import TeenyBurgerComponent from "./TeenyBurgerComponent";
 import { Spring, config } from "react-spring/renderprops";
 
@@ -129,41 +129,7 @@ function TopFigma() {
                   {(props) => (
                     <Menu style={props}>
                       {/* {resizeListener} */}
-
-                      <InternalMenu>
-                        <MenuItemWrapper>
-                          <MenuItem>Episode Player</MenuItem>
-                          <MenuItemLink to="/podcastsearch" />
-                        </MenuItemWrapper>
-                        <MenuItemWrapper>
-                          <MenuItem>Find Podcasts</MenuItem>
-                          <MenuItemLink to="/podcastsearch" />
-                        </MenuItemWrapper>
-
-                        <MenuItemWrapper>
-                          <MenuItem>Starred Clips</MenuItem>
-                          <MenuItemLink to="/podcastsearch" />
-                        </MenuItemWrapper>
-
-                        <MenuItemWrapper>
-                          <MenuItem>Login</MenuItem>
-                          <MenuItemLink to="/podcastsearch" />
-                        </MenuItemWrapper>
-
-                        {/* {MenuItems.map((t, i) =>
-                          i === MenuItems.length - 1 ? (
-                            <div>
-                              <LastMenuItem key={i}>{t}</LastMenuItem>
-                              <MenuItemLink to="/podcastsearch" />
-                            </div>
-                          ) : (
-                            <div>
-                              <MenuItem key={i}>{t}</MenuItem>
-                              <MenuItemLink to="/podcastsearch" />
-                            </div>
-                          )
-                        )} */}
-                      </InternalMenu>
+                      <MenuComponent></MenuComponent>
                     </Menu>
                   )}
                 </Spring>
