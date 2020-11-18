@@ -5,46 +5,52 @@ import { useDispatch } from "react-redux";
 import { changePodcastSelectedToPlay } from "../actions";
 
 function PodcastEpisodeComponents({ episode, image }) {
+  let description = "";
+  let title = "";
+  let date = "";
+  let url = "";
   const dispatch = useDispatch();
 
   function handleClick(event) {
-    let description;
-    let date = episode.elements[2].elements[0].text;
-
-    let just_date = date.split(":")[0];
-    just_date = just_date.slice(0, just_date.length - 2);
-    if (episode.elements[1].elements[0].cdata !== undefined) {
-      description = episode.elements[1].elements[0].cdata;
-    }
-
-    if (episode.elements[1].elements[0].text !== undefined) {
-      description = episode.elements[1].elements[0].text;
-    }
-
-    if (episode.elements[1].elements[0].text !== undefined) {
-      description = episode.elements[1].elements[0].text;
-    }
-
-    let title = episode.elements[0].elements[0].text;
-    let url = episode.elements[13].attributes.url;
-
     dispatch(changePodcastSelectedToPlay({ title, description, url, image }));
-    console.log(episode);
+    // console.log(episode);
 
-    console.log(episode.elements[13].attributes.url);
-    console.log(episode.elements[13].attributes.url);
+    // console.log(episode.elements[13].attributes.url);
+    // console.log(episode.elements[13].attributes.url);
   }
   if (episode.elements !== undefined) {
-    let description;
-    console.log(episode.elements);
+    // console.log(episode.elements);
+
+    let url_array_element = episode.elements.filter(
+      (element) => element.name === "enclosure"
+    );
 
     let date_array_element = episode.elements.filter(
       (element) => element.name === "pubDate"
     );
-    let date = "";
+
+    let description_element = episode.elements.filter(
+      (element) => element.name === "description"
+    );
+
+    let title_element = episode.elements.filter(
+      (element) => element.name === "title"
+    );
+
+    url = url_array_element[0].attributes.url;
+
+    // console.info(title_element);
+
     if (date_array_element[0].elements[0] !== undefined) {
       date = date_array_element[0].elements[0].text;
     }
+
+    if (title_element[0].elements[0] !== undefined) {
+      title = title_element[0].elements[0].text;
+    }
+    // console.info(title);
+
+    let focused_date_element = description_element[0].elements[0];
 
     let just_date;
     if (date.includes(":")) {
@@ -53,30 +59,27 @@ function PodcastEpisodeComponents({ episode, image }) {
     } else {
       just_date = date;
     }
-    if (episode.elements[1].elements[0].cdata !== undefined) {
-      description = episode.elements[1].elements[0].cdata;
+    if (focused_date_element.cdata !== undefined) {
+      description = focused_date_element.cdata;
     }
 
-    if (episode.elements[1].elements[0].text !== undefined) {
-      description = episode.elements[1].elements[0].text;
-    }
-
-    if (episode.elements[1].elements[0].text !== undefined) {
-      description = episode.elements[1].elements[0].text;
+    if (focused_date_element.text !== undefined) {
+      description = focused_date_element.text;
     }
 
     let regex = /(<([^>]+)>)/gi,
       body = description,
       result = body.replace(regex, "");
 
+    description = result;
     return (
       <Wrapper>
         <Episode>
           <TitleAndDate>
-            <Title>{episode.elements[0].elements[0].text}</Title>
+            <Title>{title}</Title>
             <Date> {just_date}</Date>
           </TitleAndDate>
-          <Description>{result}</Description>
+          <Description>{description}</Description>
           <PlayButton onClick={handleClick}>Play</PlayButton>
         </Episode>
       </Wrapper>
