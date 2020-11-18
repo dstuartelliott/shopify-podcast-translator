@@ -31,7 +31,7 @@ function PodcastListingSearch() {
   }
 
   React.useEffect(() => {
-    sendSearchToItunes("BullsEye");
+    sendSearchToItunes("shopify");
   }, []);
 
   async function sendSearchToItunes(term) {

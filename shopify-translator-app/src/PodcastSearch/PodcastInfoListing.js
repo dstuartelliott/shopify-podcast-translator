@@ -39,7 +39,15 @@ function PodcastInfoListing({ searchResultItem }) {
 
       // eslint-disable-next-line
       let episodes = await playerContext.getPodcastEpisodes(feed_url);
-      podcastFeed = episodes.dataAsJson.elements[0].elements[0].elements;
+
+      console.info(episodes.dataAsJson.elements);
+
+      let root_element = episodes.dataAsJson.elements.filter(
+        (element) => element.type === "element"
+      );
+      console.info(root_element[0].elements[0].elements);
+
+      podcastFeed = root_element[0].elements[0].elements;
 
       let clipped = podcastFeed.slice(0, 50);
 
@@ -111,6 +119,8 @@ const SummaryText = styled.div`
   font-size: 12px;
   color: #807985;
   text-align: justify;
+  padding-top: 10px;
+  padding-right: 10px;
 `;
 const MenuItemLink = styled(NavLink)`
   color: black;
@@ -138,8 +148,7 @@ const PodcastLogo = styled.div`
 const TextBelow = styled.div`
   display: flex;
   flex-direction: column;
-  width: 400px;
-
+  flex-shrink: 10;
   @media (max-width: 600px) {
     padding-left: 5px;
   }
@@ -199,7 +208,8 @@ const Wrapper = styled.div`
   overflow-y: scroll;
   bottom: 10px;
   position: absolute;
-  top: 250px;
+  top: 300px;
+  width: 900px;
 `;
 
 export default PodcastInfoListing;
