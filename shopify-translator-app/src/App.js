@@ -56,9 +56,9 @@ function App() {
           // let verified_token1 = await databaseContext.getVerifiedTokenLocal(
           //   id_token
           // );
-          console.log(id_token);
+          let itunes_seach = await databaseContext.getItunesSearchResult();
 
-          console.log("verified_in_db start");
+          console.log(itunes_seach);
 
           // eslint-disable-next-line
           // let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(

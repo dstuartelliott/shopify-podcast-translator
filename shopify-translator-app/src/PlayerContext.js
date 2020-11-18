@@ -23,6 +23,22 @@ export const PlayerContextProvider = ({ children }) => {
     return myPromise;
   };
 
+  const getItunesSearchResults = () => {
+    let myPromise = new Promise((resolve, reject) => {
+      const apiUrl = "https://itunes.apple.com/search?term=hello&media=podcast";
+      fetch(apiUrl)
+        .then((response) => {
+          let data = response.json();
+          // profileObject = data;
+          resolve(data);
+        })
+        .catch((error) => {
+          resolve({ error });
+        });
+    });
+    return myPromise;
+  };
+
   const getCombined3FomLinodeBucket = () => {
     let myPromise = new Promise((resolve, reject) => {
       const apiUrl =
@@ -132,6 +148,9 @@ export const PlayerContextProvider = ({ children }) => {
     let sorted_combined = combined.sort((a, b) => a.iteration - b.iteration);
 
     let translated_mp3s = await getTranslatedMP3sPureChimp();
+
+    let itunes_results = await getItunesSearchResults();
+    console.log(itunes_results);
 
     let numObjs = [];
 
@@ -297,6 +316,7 @@ export const PlayerContextProvider = ({ children }) => {
         computeTranscript,
         getCombined3FomLinodeBucket,
         getTopPodcastsFromItunes,
+        getItunesSearchResults,
       }}
     >
       {children}
