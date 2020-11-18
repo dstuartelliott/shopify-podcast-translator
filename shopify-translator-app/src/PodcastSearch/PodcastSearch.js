@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 // import styled from "styled-components/macro";
 import styled from "styled-components/macro";
 import enTranslations from "@shopify/polaris/locales/en.json";
@@ -9,15 +8,15 @@ import PodcastListingSearch from "./PodcastListingSearch";
 
 import "focus-visible";
 
-import { PlayerContext } from "./PlayerContext";
+import { PlayerContext } from "../PlayerContext";
 
 import {
   updateShouldTranslationsAutoPlay,
   updateClickMeHasBeenClicked,
-} from "./actions";
+} from "../actions";
 
-import { markEnglishAsPlaying, changeTranslation } from "./actions";
-import PlayerMinimal from "./PlayerMinimal";
+import { markEnglishAsPlaying, changeTranslation } from "../actions";
+import PlayerMinimal from "../PlayerMinimal";
 
 function PodcastSearch() {
   //eslint-disable-next-line

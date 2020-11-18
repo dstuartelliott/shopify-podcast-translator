@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { COLORS_SHOPIFY_GREYS_PALLETE } from "./constants.js";
+import { COLORS_SHOPIFY_GREYS_PALLETE } from "../constants.js";
 
 import { useSelector } from "react-redux";
-import { getLCSentencesForSearch } from "./reducers";
+import { getLCSentencesForSearch } from "../reducers";
 import {
   updateSearchResults,
   updateShouldTranslationsAutoPlay,
-} from "./actions";
+} from "../actions";
 import { useDispatch } from "react-redux";
 
 let filtered_sentences = [];
@@ -23,6 +23,8 @@ function PodcastListingSearch() {
       setTextField("");
     }
   }
+
+  function handleKeyPress(event) {}
   function findSentence(event) {
     filtered_sentences = [];
     dispatch(updateShouldTranslationsAutoPlay(false));
@@ -59,9 +61,8 @@ function PodcastListingSearch() {
         <TranscriptSearch
           type="text"
           value={textfieldValue}
-          onChange={findSentence}
-          // onKeyDown={handleKeyPress}
-          onClick={handleClick}
+          // onChange={findSentence}
+          onKeyDown={handleKeyPress}
         ></TranscriptSearch>
       </SearchDiv>
     </Wrapper>

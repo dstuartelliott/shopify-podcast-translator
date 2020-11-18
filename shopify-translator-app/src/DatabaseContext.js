@@ -30,13 +30,9 @@ export const DatabaseContextProvider = ({ children }) => {
     return myPromise;
   };
 
-  const getItunesSearchResult = async (tokenID) => {
+  const getItunesSearchResult = async (search_term) => {
     let myPromise = new Promise((resolve, reject) => {
-      // const apiUrl = "https://www.justheard.ca:8000/returntranslationrecords3";
-
-      // https://itunes.apple.com/search?term=hello&media=podcast
-
-      const apiUrl = "https://itunes.apple.com/search?term=hello&media=podcast";
+      const apiUrl = `https://www.justheard.ca:8000/searchForPodcasts/${search_term}`;
 
       fetch(apiUrl)
         .then((response) => {

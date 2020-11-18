@@ -7,7 +7,7 @@ import { AppProvider } from "@shopify/polaris";
 import { useDispatch } from "react-redux";
 
 import PodcastEpisodeHome from "./PodcastEpisodeHome";
-import PodcastSearch from "./PodcastSearch";
+import PodcastSearch from "./PodcastSearch/PodcastSearch.js";
 
 import "focus-visible";
 
