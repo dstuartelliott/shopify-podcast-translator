@@ -4,7 +4,7 @@ import "./App.css";
 import styled from "styled-components/macro";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import TopFigma from "./TopFigma";
 import TopSearch from "./TopSearch";
@@ -13,6 +13,8 @@ import Player from "./Player";
 import Scrolltext from "./Scrolltext";
 
 import "focus-visible";
+
+import { getPodcastSelectedToPlay } from "./reducers";
 
 import {
   updateShouldTranslationsAutoPlay,
@@ -24,6 +26,7 @@ import { markEnglishAsPlaying, changeTranslation } from "./actions";
 function PodcastEpisodeHome() {
   //eslint-disable-next-line
   const dispatch = useDispatch();
+  let podcastSelected = useSelector(getPodcastSelectedToPlay);
 
   React.useEffect(() => {
     dispatch(markEnglishAsPlaying(0.0, "TBD"));
@@ -41,9 +44,20 @@ function PodcastEpisodeHome() {
 
           <TopFigma />
           <Player />
-          <TopSearch />
+          {podcastSelected.title ===
+          "Achieving High Conversion Rates in a Saturated Market" ? (
+            <TopSearch />
+          ) : (
+            <div></div>
+          )}
         </TopDivs>
-        <Scrolltext></Scrolltext>
+
+        {podcastSelected.title ===
+        "Achieving High Conversion Rates in a Saturated Market" ? (
+          <Scrolltext></Scrolltext>
+        ) : (
+          <div></div>
+        )}
       </AppProvider>
     </FleXApp>
   );

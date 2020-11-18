@@ -302,12 +302,14 @@ function Scrolltext(heightOfText) {
                   translationPlaying &&
                   showTranslation &&
                   shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
-                    <AudioDivBelow
-                      controls
-                      autoPlay
-                      ref={audioref}
-                      src={translatedAudioSrc}
-                    ></AudioDivBelow>
+                    <AudioFlex>
+                      <AudioDivBelowTrans
+                        controls
+                        autoPlay
+                        ref={audioref}
+                        src={translatedAudioSrc}
+                      ></AudioDivBelowTrans>
+                    </AudioFlex>
                   ) : (
                     <div></div>
                   )}
@@ -403,6 +405,40 @@ const AudioDivBelow = styled.audio`
   z-index: 5;
 
   position: absolute;
+  @media (max-width: 600px) {
+    padding-left: 0px;
+  }
+
+  ::-webkit-media-controls-panel {
+    height: 20px;
+    border-radius: 5px;
+    background-color: white;
+    padding-left: 2px;
+  }
+
+  ::-webkit-media-controls-play-button {
+    background-color: white;
+  }
+
+  ::-webkit-media-controls-volume-slider-container {
+    display: hidden;
+    visibility: hidden;
+  }
+`;
+
+const AudioFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const AudioDivBelowTrans = styled.audio`
+  width: 50%;
+  height: 20px;
+  margin-top: -7px;
+  z-index: 5;
+  align-self: flex-end;
+  padding-right: 10px;
+
   @media (max-width: 600px) {
     padding-left: 0px;
   }

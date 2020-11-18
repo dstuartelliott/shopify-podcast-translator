@@ -171,16 +171,14 @@ function TranscriptSentence({
     return (
       <Wrapper>
         {clipMouseOverToggle ? (
-          <ActionButtons>
-            <StarClipButton>
-              <StarComponent width={"41"} height={"41"}></StarComponent>
-            </StarClipButton>
-          </ActionButtons>
+          <SideActionButtons
+            sentenceUUID={sentence_object.uuid}
+            StarCircleSize={StarCircleSize}
+          ></SideActionButtons>
         ) : (
           <ActionButtons></ActionButtons>
         )}
-
-        <SentenceAndSpeakerSelected>
+        <SentenceAndSpeaker>
           <SentenceDiv
             onClick={handleClickedSentence}
             id={sentence_object.uuid}
@@ -191,18 +189,18 @@ function TranscriptSentence({
             </Sentence>
           </SentenceDiv>
           {showTranslation ? (
-            <SentencePlayingDiv
+            <SentenceDiv
               onClick={handleTranslatedClickedSentence}
               id={translatedUUID}
             >
               <SentenceHighlightedQuebec className="”notranslate”">
                 {sentence_object.speaker}: {sentence_object.translated_sentence}
               </SentenceHighlightedQuebec>
-            </SentencePlayingDiv>
+            </SentenceDiv>
           ) : (
             <div></div>
           )}
-        </SentenceAndSpeakerSelected>
+        </SentenceAndSpeaker>
       </Wrapper>
     );
   } else {
@@ -303,7 +301,6 @@ const SentencePlayingDiv = styled.div`
   display: flex;
 
   flex-direction: row;
-  padding-bottom: 10px;
 
   border: none;
   cursor: pointer;
@@ -394,21 +391,21 @@ const SentenceQuebec = styled.div`
     padding-left: 11px;
     color: rgba(26, 26, 26);
   }
+  padding-left: 11px;
+
   margin-right: 10px;
 `;
 
 const SentenceHighlightedQuebec = styled.div`
-  border-radius: 20px;
   border-left: 1px solid #eaeaea;
-  background-color: #fcfcfc;
-  padding-left: 10px;
-
   border-radius: 5px;
   box-shadow: 3px 3px 10px #d2cdd5;
 
   color: #1e1e1e;
-
   background-color: #f2f2f2;
+
+  padding-left: 11px;
+
   margin-right: 10px;
 `;
 
