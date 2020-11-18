@@ -6,7 +6,7 @@ import DropDown from "../images/DropDown.png";
 
 import TeenyBurgerComponent from "../TeenyBurgerComponent";
 import { Spring, config } from "react-spring/renderprops";
-
+import MenuComponent from "../MenuComponent";
 const MenuItems = ["Login", "Search For Podcasts", "Starred Clips", "About"];
 
 function TopFigma() {
@@ -94,15 +94,7 @@ function TopFigma() {
                   {(props) => (
                     <Menu style={props}>
                       {/* {resizeListener} */}
-                      <InternalMenu>
-                        {MenuItems.map((t, i) =>
-                          i === MenuItems.length - 1 ? (
-                            <LastMenuItem key={i}>{t}</LastMenuItem>
-                          ) : (
-                            <MenuItem key={i}>{t}</MenuItem>
-                          )
-                        )}
-                      </InternalMenu>
+                      <MenuComponent></MenuComponent>
                     </Menu>
                   )}
                 </Spring>
