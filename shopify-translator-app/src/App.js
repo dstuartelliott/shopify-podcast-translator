@@ -40,56 +40,6 @@ function App() {
     dispatch(changeTranslation(true));
     dispatch(updateShouldTranslationsAutoPlay(true));
     dispatch(updateClickMeHasBeenClicked(false));
-
-    async function getGoogle() {
-      if (window.gapi !== undefined) {
-        window.gapi.load("auth2", async function () {
-          console.log("google");
-          let auth_object = await window.gapi.auth2.init({
-            client_id:
-              "112704103478-qojm07it64b672dk2mto976ivf6592jm.apps.googleusercontent.com",
-          });
-
-          console.log(auth_object);
-
-          let current_user = auth_object.currentUser.get();
-
-          console.log(current_user);
-
-          // let current_user = auth_object.currentUser.get();
-
-          // let id_token = current_user.getAuthResponse().id_token;
-
-          // // eslint-disable-next-line
-          // let verified_token1 = await databaseContext.getVerifiedToken(
-          //   id_token
-          // );
-
-          // console.log(verified_token1);
-
-          // let itunes_seach = await databaseContext.getItunesSearchResult();
-
-          // console.log(itunes_seach);
-
-          // eslint-disable-next-line
-          // let verified_in_db = await databaseContext.verifyTokenAndSlapItIntoDatabase(
-          //   id_token
-          // );
-
-          // console.log(verified_in_db);
-        });
-      }
-    }
-
-    getGoogle();
-
-    // window.gapi.load("auth2", () => {
-    //   this.auth2 = gapi.auth2.init({
-    //     client_id: "YOUR_CLIENT_ID",
-    //   });
-    // });
-
-    // eslint-disable-next-line
   }, []);
 
   const [profileName, setProfileName] = React.useState("none");

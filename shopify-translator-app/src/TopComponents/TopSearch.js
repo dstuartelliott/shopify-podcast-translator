@@ -72,11 +72,11 @@ function TopSearch() {
   );
 }
 
-const FlagsDiv = styled.div`
-  width: 100px;
-  font-size: 25px;
-  align-self: center;
-`;
+// const FlagsDiv = styled.div`
+//   width: 100px;
+//   font-size: 25px;
+//   align-self: center;
+// `;
 
 const SearchDiv = styled.div`
   flex-grow: 2;

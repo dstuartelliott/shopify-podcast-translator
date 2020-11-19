@@ -3,7 +3,6 @@ import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { changePodcastSelectedToPlay } from "../actions";
-import PlaySVGComponent from "../PlaySVGComponent";
 
 function PodcastEpisodeComponents({ episode, image }) {
   let description = "";
@@ -90,26 +89,6 @@ function PodcastEpisodeComponents({ episode, image }) {
   }
   //   let title = episode.episode.elements[0].elements[0].text;
 }
-const PlayImageDiv = styled.div`
-  align-self: center;
-`;
-
-const CircleSunButton = styled.button`
-  width: 115px;
-  outline: none;
-
-  height: 115px;
-  background-color: transparent;
-  border-radius: 5px;
-  z-index: 99;
-  position: absolute;
-  border: transparent;
-
-  :hover {
-    background-color: transparent;
-    cursor: pointer;
-  }
-`;
 
 const TitleAndDate = styled.div`
   display: flex;
