@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { MP3_PLAYER_STATES } from "./constants";
 import {
   jumpToTime,
@@ -10,7 +10,10 @@ import {
   updateSpeechSynthState,
 } from "./actions";
 
-import { COLORS_SHOPIFY_BLUE_PALLETE } from "./constants.js";
+import {
+  COLORS_SHOPIFY_GREYS_PALLETE,
+  COLORS_SHOPIFY_BLUE_PALLETE,
+} from "./constants.js";
 
 import { useDispatch } from "react-redux";
 
@@ -78,15 +81,34 @@ const Wrapper = styled.div`
   text-align: left;
 `;
 
-const SentenceAndSpeaker = styled.div``;
+const SentenceAndSpeaker = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  padding-top: 15px;
+  padding-left: 40px;
+`;
 
-const SentenceAndSpeakerSelected = styled.div``;
+const SentenceAndSpeakerSelected = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  padding-top: 15px;
+  margin-left: 45px;
+  margin-right: 5px;
+
+  border-left: 1px solid #eaeaea;
+  background-color: #fcfcfc;
+
+  /* border-bottom: 1px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky}; */
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px #d2cdd5;
+`;
 
 const SentencePlayingDiv = styled.div`
   display: flex;
 
   flex-direction: row;
-
   border: none;
   cursor: pointer;
   z-index: 1;
@@ -117,7 +139,6 @@ const SentenceDiv = styled.div`
 `;
 
 const SentenceHighlighted = styled.div`
-  background-color: white;
   padding-left: 11px;
 
   color: rgba(26, 26, 26);
@@ -131,7 +152,6 @@ const SentenceHighlighted = styled.div`
 `;
 
 const Sentence = styled.div`
-  background-color: white;
   padding-left: 11px;
   color: ${COLORS_SHOPIFY_BLUE_PALLETE.Text};
 

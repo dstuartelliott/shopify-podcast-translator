@@ -92,6 +92,7 @@ async function quickStart() {
 }
 
 let records = [];
+
 async function translateSingleSentence(text, voice, i, sentence) {
   // The text to synthesize
   // Construct the request
@@ -135,10 +136,8 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function translateIndivSentence() {
-  const sentences_data = await openFilePromise(
-    "pre_launchcombined_speakers_and_translationsfr.json"
-  );
+async function translateIndivSentence(fileName) {
+  const sentences_data = await openFilePromise(fileName);
 
   let sentences = JSON.parse(sentences_data);
 
@@ -147,6 +146,7 @@ async function translateIndivSentence() {
   let with_speakers = [];
 
   console.log(sorted[33]);
+
   sorted.forEach((element, i) => {
     if (element.speaker === undefined) {
       // console.log("undefined");
@@ -160,9 +160,6 @@ async function translateIndivSentence() {
     }
   });
 
-  //   console.log(sentences[0]);
-
-  // let cut = sentences.slice(0, 5);
   let prev_voice;
 
   with_speakers.forEach(async (sentence, i) => {
@@ -214,15 +211,7 @@ async function translateIndivSentence() {
   });
   //   console.log(cut);
 
-  //   await translateSingleSentence(sentences[0].translation, voice);
   console.log("done all");
-  //   voice: {
-  //     languageCode: "fr-CA",
-  //     ssmlGender: "FEMALE",
-  //     name: "fr-CA-Wavenet-A",
-  //   },
-
-  //   translateSingleSentence("test text", )
 }
 
 async function lookAtRecords() {
@@ -274,6 +263,8 @@ async function test() {
 }
 
 // test();
-translateIndivSentence();
+translateIndivSentence(
+  "healthish_v3_combined_speakers_and_translationsfr.json"
+);
 
 // lookAtRecords();

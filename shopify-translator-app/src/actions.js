@@ -8,6 +8,11 @@ export const addCurrentTime = (time) => ({
   time,
 });
 
+export const reportHamburgerMenuSize = (hamburger_height) => ({
+  type: "REPORT_HAMBURGER_MENU_SIZE",
+  hamburger_height,
+});
+
 export const changeUUIDPlaying = (uuid) => ({
   type: "CHANGE_UUID_PLAYING",
   uuid,
@@ -16,6 +21,21 @@ export const changeUUIDPlaying = (uuid) => ({
 export const addTranscript = (transcript) => ({
   type: "ADD_TRANSCRIPT",
   transcript,
+});
+
+export const addFaveSentenceClip = (faveSentenceClip) => ({
+  type: "ADD_FAVESENTENCLIP",
+  faveSentenceClip,
+});
+
+export const changePodcastShowing = (podcastShowing) => ({
+  type: "ADD_PODCAST_SHOWING",
+  podcastShowing,
+});
+
+export const changePodcastSelectedToPlay = (podcastSelectedToPlay) => ({
+  type: "ADD_PODCAST_SELECTED_TO_PLAY",
+  podcastSelectedToPlay,
 });
 
 export const addUUIDSandTimes = (uuidsAndTimes) => ({
@@ -101,15 +121,11 @@ export const updateWindowDimensions = (dim) => ({
 export const updateSearchResults = (searchResults) => ({
   type: "UPDATE_SEARCH_RESULTS",
   searchResults: searchResults,
-
-  // type_curently_playing: "Translation",
 });
 
 export const setRespondToSearchState = (repsondToSearchState) => ({
   type: "SET_RESPOND_TO_SEARCH_RATE",
   repsondToSearchState: repsondToSearchState,
-
-  // type_curently_playing: "Translation",
 });
 
 export const updateShouldTranslationsAutoPlay = (
@@ -117,6 +133,9 @@ export const updateShouldTranslationsAutoPlay = (
 ) => ({
   type: "UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY",
   shouldTranslationsAutoPlay: shouldTranslationsAutoPlay,
+});
 
-  // type_curently_playing: "Translation",
+export const updateClickMeHasBeenClicked = (clickMeHasBeenClicked) => ({
+  type: "UPDATE_CLICK_ME_HAS_BEEN_CLICKED",
+  clickMeHasBeenClicked: clickMeHasBeenClicked,
 });

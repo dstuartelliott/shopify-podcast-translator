@@ -1,47 +1,68 @@
 import React from "react";
 import "./App.css";
-import styled from "styled-components";
-import { createGlobalStyle } from "styled-components";
+// import styled from "styled-components/macro";
+import styled from "styled-components/macro";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch } from "react-redux";
-import Top from "./Top";
-import Player from "./Player";
-import Scrolltext from "./Scrolltext";
+
+import PodcastEpisodeHome from "./PodcastEpisodeHome";
+import PodcastSearch from "./PodcastSearch/PodcastSearch.js";
+import IndividualPodcast from "./PodcastSearch/IndividualPodcast.js";
+
 import "focus-visible";
 
-import { updateShouldTranslationsAutoPlay } from "./actions";
+// import { DatabaseContext } from "./Contexts/DatabaseContext";
+
+import {
+  updateShouldTranslationsAutoPlay,
+  updateClickMeHasBeenClicked,
+} from "./actions";
 
 import { markEnglishAsPlaying, changeTranslation } from "./actions";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 function App() {
   //eslint-disable-next-line
   const dispatch = useDispatch();
 
+  // const customReporter = (target) => ({
+  //   clientWidth: target != null ? target.clientWidth : null,
+  // });
+  // const databaseContext = React.useContext(DatabaseContext);
+  // const [resizeAppListener, sizesApp] = useResizeAware();
+
   //test
+
   React.useEffect(() => {
     dispatch(markEnglishAsPlaying(0.0, "TBD"));
     dispatch(changeTranslation(true));
     dispatch(updateShouldTranslationsAutoPlay(true));
+    dispatch(updateClickMeHasBeenClicked(false));
     // eslint-disable-next-line
   }, []);
 
-  // if (isMobile) {
-  //   return <div> Mobile version coming soon (like, in a day) </div>;
-  // } else {
   return (
     <FocusVisible className="js-focus-visible focus-visible">
       <FleXApp className="App">
-        <GlobalStyles></GlobalStyles>
         <AppProvider i18n={enTranslations}>
-          <TopDiv>
-            <Top></Top>
-          </TopDiv>
-          <Player></Player>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/">
+                <PodcastEpisodeHome></PodcastEpisodeHome>
+              </Route>
+              <Route path="/podcastsearch">
+                <PodcastSearch />
+              </Route>
+              <Route path="/podcast">
+                <IndividualPodcast />
+              </Route>
+            </Switch>
+          </BrowserRouter>
 
-          <ScrollDiv>
-            <Scrolltext></Scrolltext>
-          </ScrollDiv>
+          {/* <BottomElement>
+            <div className="g-signin2" data-onsuccess="onSignIn"></div>
+          </BottomElement> */}
         </AppProvider>
       </FleXApp>
     </FocusVisible>
@@ -49,13 +70,10 @@ function App() {
   // }
 }
 
-const FleXApp = styled.div``;
-const TopDiv = styled.div`
-  background-color: transparent;
-`;
-
-const ScrollDiv = styled.div`
-  background-color: transparent;
+const FleXApp = styled.div`
+  min-width: 500px;
+  max-width: 900px;
+  margin: auto;
 `;
 
 const FocusVisible = styled.div`
@@ -66,159 +84,6 @@ const FocusVisible = styled.div`
     outline: none;
     border: 3px solid #528deb;
   }
-`;
-
-// available diver styles if I need them.
-// const Line = styled.div`
-//   border-top: 1px solid #eec200;
-//   @media (max-width: 600px) {
-//     border-top: 1px solid white;
-//   }
-// `;
-
-// const ThickLine = styled.div`
-//   border-top: 3px solid #eec200;
-//   @media (max-width: 600px) {
-//     border-top: 1px solid white;
-//   }
-// `;
-
-// const Divider = styled.div``;
-// const DividerTop = styled.div``;
-
-const GlobalStyles = createGlobalStyle`
-  * {
-
-  }
-  
-
-
-
-.nav-items
-{
-  padding-right: 5px;
-}
-
-nav
-{
-  display: flex;
-
-}
-
-/* Link{
-  padding-right: 0px;
-  color:green;
-  font-size: 50px;
-
-  :visited {
-    text-decoration: none;
-  }
-
-} */
-
-/* adopted from https://polaris.shopify.com/design/typography#section-display-styles */
-
-displayXlarge
-{
-  /* font-size: 42px;
-  line-height: 44px;
-  font-weight: 500; */
-
-  font-size: 27px;
-    line-height: 36px;
-    font-weight: 500;
-
-  @media (max-width: 800px) {
-    font-size: 27px;
-    line-height: 36px;
-    font-weight: 500;
-    }
-}
-
-displayLarge
-{
-  font-size: 28;
-  line-height: 32px;
-  font-weight: 500;
-
-  @media (max-width: 800px) {
-    font-size: 24px;
-    line-height: 28px;
-    font-weight: 500;
-    }
-}
-
-displayMedium
-{
-  font-size: 26px;
-  line-height: 32px;
-  font-weight: 400;
-
-  @media (max-width: 800px) {
-    font-size: 21px;
-    line-height: 28px;
-    font-weight: 400;
-    }
-}
-
-displaySmall
-{
-  font-size: 20px;
-  line-height: 24px;
-  font-weight: 400;
-
-  @media (max-width: 800px) {
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    }
-}
-
-heading
-{
-  font-size: 16px;
-line-height: 24px;
-font-weight: 500;
-
-  @media (max-width: 800px) {
-    font-size: 17px;
-line-height: 24px;
-font-weight: 500;
-    }
-}
-
-subHeading
-{
-  font-size: 12px;
-line-height: 16px;
-font-weight: 600;
-text-transform: uppercase;
-
-  @media (max-width: 800px) {
-    font-size: 13px;
-line-height: 16px;
-font-weight: 600;
-text-transform: uppercase;
-    }
-}
-
-caption
-{
-  font-size: 12px;
-line-height: 16px;
-font-weight: 400;
-
-  @media (max-width: 800px) {
-    font-size: 13px;
-line-height: 20px;
-font-weight: 400;
-    }
-}
-
-
-
-
-
 `;
 
 export default App;

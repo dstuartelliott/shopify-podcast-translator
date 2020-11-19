@@ -1,15 +1,14 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import "./App.css";
-import { PlayerContext } from "./PlayerContext";
+import { PlayerContext } from "./Contexts/PlayerContext";
 
 import TranscriptSentence from "./TranscriptSentence.js";
 import SearchResultTranscriptSentence from "./SearchResultTranscriptSentence.js";
 import IntroSentence from "./IntroSentence.js";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { recordTranslationMP3PlayerState } from "./actions";
-import { useSelector } from "react-redux";
 import {
   getSimplifiedSentences,
   getTranslationPlaying,
@@ -26,20 +25,20 @@ import { updateShouldTranslationsAutoPlay } from "./actions";
 
 import {
   COLORS_SHOPIFY_BLUE_PALLETE,
-  COLORS_SHOPIFY_GREYS_PALLETE,
   TRANSLATION_MP3_PLAYER_STATES,
 } from "./constants.js";
 
 import { isMobile } from "react-device-detect";
 import { IoMdLock } from "react-icons/io";
 
-import SpinnerJustKF from "./SpinnerJustKF";
+import SpinnerJustKF from "./Singles/SpinnerJustKF";
 // import { combineReducers } from "redux";
 
-function Scrolltext() {
+function Scrolltext(heightOfText) {
   const playerContext = React.useContext(PlayerContext);
 
   const dispatch = useDispatch();
+  const [toggle, setToggle] = React.useState(false);
 
   let simplifiedSentences = useSelector(getSimplifiedSentences);
 
@@ -62,6 +61,7 @@ function Scrolltext() {
   let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
 
   let podcast_player_state = useSelector(getMP3PlayerState);
+
   let translation_podcast_player_state = useSelector(
     getTranslationMP3PlayerState
   );
@@ -75,9 +75,14 @@ function Scrolltext() {
   const audioref = React.useRef(null);
 
   React.useEffect(() => {
+    // let filename =
+    //   "https://us-east-1.linodeobjects.com/podcast-files/third/" +
+    //   translationTimeCodeUUID.translated_filename;
+
     let filename =
-      "https://us-east-1.linodeobjects.com/podcast-files/second/" +
+      "https://us-east-1.linodeobjects.com/podcast-files/pureChimp/" +
       translationTimeCodeUUID.translated_filename;
+
     setTranslatedAudioSource(filename);
   }, [translationTimeCodeUUID, translationPlaying]);
 
@@ -94,6 +99,16 @@ function Scrolltext() {
     dispatch(
       recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
     );
+
+    if (audioref.current !== null) {
+      audioref.current.addEventListener(
+        "seeking",
+        function () {
+          console.log("seeked done");
+        },
+        true
+      );
+    }
 
     // eslint-disable-next-line
   }, []);
@@ -116,10 +131,38 @@ function Scrolltext() {
 
   //uuidPlaying
   React.useEffect(() => {
-    console.log("uuidPlaying changed");
+    // console.log("uuidPlaying changed");
 
-    console.log(shouldTranslationsAutoPlay.shouldTranslationsAutoPlay);
-    console.log(audioref.current);
+    // console.log(shouldTranslationsAutoPlay.shouldTranslationsAutoPlay);
+    // console.log(audioref.current);
+
+    if (audioref.current !== null) {
+      audioref.current.addEventListener(
+        "play",
+        function () {
+          console.log("translaiton playing");
+          dispatch(
+            recordTranslationMP3PlayerState(
+              TRANSLATION_MP3_PLAYER_STATES.PLAYING
+            )
+          );
+        },
+        true
+      );
+
+      audioref.current.addEventListener(
+        "pause",
+        function () {
+          console.log("translaiton paused");
+          dispatch(
+            recordTranslationMP3PlayerState(
+              TRANSLATION_MP3_PLAYER_STATES.PAUSED
+            )
+          );
+        },
+        true
+      );
+    }
 
     if (uuidPlaying !== undefined) {
       setcurrentUUID(uuidPlaying);
@@ -147,7 +190,6 @@ function Scrolltext() {
   }, [uuidPlaying, showTranslation]);
 
   React.useEffect(() => {
-    console.log("showTranslation changed");
     dispatch(updateShouldTranslationsAutoPlay(false));
 
     if (uuidPlaying !== undefined) {
@@ -175,6 +217,7 @@ function Scrolltext() {
         console.log("setting player state");
       }
     }
+    setToggle(!toggle);
     // eslint-disable-next-line
   }, [podcast_player_state]);
 
@@ -240,7 +283,7 @@ function Scrolltext() {
               search_results.searchResults.filtered_sentences.length === 0
             ) {
               return (
-                <div>
+                <div key={element.uuid + "topdiv"}>
                   <TranscriptSentence
                     sentence_object={element}
                     key={element.uuid}
@@ -250,17 +293,20 @@ function Scrolltext() {
                       element.uuid === translationTimeCodeUUID.uuid
                     }
                     next_start_time={element.next_start_time}
+                    i_from_list={i}
                   ></TranscriptSentence>
                   {element.uuid === translationTimeCodeUUID.uuid &&
                   translationPlaying &&
                   showTranslation &&
                   shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
-                    <AudioDivBelow
-                      controls
-                      autoPlay
-                      ref={audioref}
-                      src={translatedAudioSrc}
-                    ></AudioDivBelow>
+                    <AudioFlex>
+                      <AudioDivBelowTrans
+                        controls
+                        autoPlay
+                        ref={audioref}
+                        src={translatedAudioSrc}
+                      ></AudioDivBelowTrans>
+                    </AudioFlex>
                   ) : (
                     <div></div>
                   )}
@@ -349,9 +395,46 @@ function Scrolltext() {
 }
 
 const AudioDivBelow = styled.audio`
-  width: 95%;
+  width: 48%;
   height: 20px;
-  padding-left: 0px;
+  padding-left: 440px;
+  margin-top: -7px;
+  z-index: 5;
+
+  position: absolute;
+  @media (max-width: 600px) {
+    padding-left: 0px;
+  }
+
+  ::-webkit-media-controls-panel {
+    height: 20px;
+    border-radius: 5px;
+    background-color: white;
+    padding-left: 2px;
+  }
+
+  ::-webkit-media-controls-play-button {
+    background-color: white;
+  }
+
+  ::-webkit-media-controls-volume-slider-container {
+    display: hidden;
+    visibility: hidden;
+  }
+`;
+
+const AudioFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const AudioDivBelowTrans = styled.audio`
+  width: 50%;
+  height: 20px;
+  margin-top: -7px;
+  z-index: 5;
+  align-self: flex-end;
+  padding-right: 10px;
 
   @media (max-width: 600px) {
     padding-left: 0px;
@@ -378,55 +461,26 @@ const ScrollWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  max-width: 800px;
+  /* max-width: 1800px; */
 `;
 
 const TranscriptList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow: scroll;
-  width: 97%;
-  max-width: 910px;
-  overflow-x: hidden; //horizontal
+  overflow-y: scroll;
+  max-width: 960px;
+  transform: translateX(-50px); /* background-color: red; */
 
   bottom: 20px;
-  top: 230px;
+  top: 400px;
   position: absolute;
 
   @media (min-width: 675px) {
-    bottom: 20px;
-    top: 200px;
-    position: absolute;
+    /* height: 200px; */
   }
 
   @media (max-width: 600px) {
-    top: 190px;
-    bottom: 20px;
-  }
-
-  /* doesn't seem to work on firefox */
-  &::-webkit-scrollbar-track {
-    background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Light};
-    border-radius: 10px;
-    border-top: 2px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
-    border-bottom: 2px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    border-radius: 20px;
-    background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Lighter};
-    height: 30px;
-    position: absolute;
-    top: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    width: 10px;
-    /* box-shadow: inset 0 0 3px ${COLORS_SHOPIFY_BLUE_PALLETE.Blue}; */
-    border-radius: 20px;
-    background-color: ${COLORS_SHOPIFY_GREYS_PALLETE.Sky};
   }
 `;
 

@@ -10,6 +10,10 @@ export default function appReducer(state = initialState, action) {
       return { ...state, current_time: action.time };
     }
 
+    case "REPORT_HAMBURGER_MENU_SIZE": {
+      return { ...state, hamburger_height: action.hamburger_height };
+    }
+
     case "CHANGE_UUID_PLAYING": {
       return { ...state, uuid: action.uuid };
     }
@@ -19,6 +23,28 @@ export default function appReducer(state = initialState, action) {
       // console.log(action.transcript);
 
       return { ...state, transcript: action.transcript };
+    }
+
+    case "ADD_FAVESENTENCLIP": {
+      console.log(action.faveSentenceClip);
+
+      if (state.faveSentenceClip !== undefined) {
+        const newActions = [...state.faveSentenceClip];
+        newActions.push(action.faveSentenceClip);
+
+        return { ...state, faveSentenceClip: newActions };
+      }
+      const newActions = [action.faveSentenceClip];
+
+      return { ...state, faveSentenceClip: newActions };
+    }
+
+    case "ADD_PODCAST_SHOWING": {
+      return { ...state, podcastShowing: action.podcastShowing };
+    }
+
+    case "ADD_PODCAST_SELECTED_TO_PLAY": {
+      return { ...state, podcastSelectedToPlay: action.podcastSelectedToPlay };
     }
 
     case "ADD_UUIDS_TIMES": {
@@ -33,8 +59,8 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "JUMP_TO_TIME": {
-      console.log("JUMP_TO_TIME");
-      console.log(action.time);
+      // console.log("JUMP_TO_TIME");
+      // console.log(action.time);
 
       return { ...state, jump_to_time: action.time };
     }
@@ -51,10 +77,10 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "MARK_ENGLISH_AS_PLAYING": {
-      console.log("action MARK_ENGLISH_AS_PLAYING");
-      console.log(action.english_time_code);
-      console.log(action.english_uuid);
-      console.log(action.type_curently_playing);
+      // console.log("action MARK_ENGLISH_AS_PLAYING");
+      // console.log(action.english_time_code);
+      // console.log(action.english_uuid);
+      // console.log(action.type_curently_playing);
 
       return {
         ...state,
@@ -111,8 +137,8 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "UPDATE_SEARCH_RESULTS": {
-      console.log("update search results");
-      console.log(action);
+      // console.log("update search results");
+      // console.log(action);
 
       return {
         ...state,
@@ -121,12 +147,22 @@ export default function appReducer(state = initialState, action) {
     }
 
     case "UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY": {
-      console.log("UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY");
-      console.log(action);
+      // console.log("UPDATE_SHOULD_TRANSLATIONS_AUTOPLAY");
+      // console.log(action);
 
       return {
         ...state,
         shouldTranslationsAutoPlay: action.shouldTranslationsAutoPlay,
+      };
+    }
+
+    case "UPDATE_CLICK_ME_HAS_BEEN_CLICKED": {
+      // console.log("UPDATE_CLICK_ME_HAS_BEEN_CLICKED");
+      // console.log(action);
+
+      return {
+        ...state,
+        clickMeHasBeenClicked: action.clickMeHasBeenClicked,
       };
     }
 
@@ -155,9 +191,17 @@ export const getSimplifiedSentences = (state) => {
         next_start_time = -99.9;
       }
       let minutes = Math.floor(element.word.word.start / 60);
+
       let seconds = element.word.word.start - minutes * 60;
 
       let time_string = minutes + ":" + Math.floor(seconds);
+
+      if (time_string === "NaN:NaN") {
+        minutes = Math.floor(element.word.start / 60);
+
+        seconds = element.word.start - minutes * 60;
+        time_string = minutes + ":" + Math.floor(seconds);
+      }
 
       let start;
       if (element.word.word.start === undefined) {
@@ -215,10 +259,21 @@ export const getLCSentencesForSearch = (state) => {
   return simplified_transcript;
 };
 
+export const getSavedFaceSentences = (state) => {
+  if (state.faveSentenceClip !== undefined) {
+    return state.faveSentenceClip;
+  } else return [];
+};
+
 export const getUUIDsandTimes = (state) => {
-  if (state.uuidsAndTimes !== undefined) {
-    return state.uuidsAndTimes;
-  }
+  return state.uuidsAndTimes;
+
+  // if (state.uuidsAndTimes !== undefined) {
+  //   return state.uuidsAndTimes;
+  // } else {
+  //   console.log("returning nothing");
+  //   console.log(state);
+  // }
 };
 
 export const getCurrentTime = (state) => {
@@ -400,4 +455,81 @@ export const getShouldTranslationsAutoPlay = (state) => {
   } else {
     return { shouldTranslationsAutoPlay: false };
   }
+};
+
+export const getClickMeStatus = (state) => {
+  if (state.clickMeHasBeenClicked !== undefined) {
+    return state.clickMeHasBeenClicked;
+  }
+};
+
+export const getHamburgerSize = (state) => {
+  if (state.hamburger_height !== undefined) {
+    return state.hamburger_height;
+  }
+};
+
+export const getPodcastSelectedToPlay = (state) => {
+  if (state.podcastSelectedToPlay !== undefined) {
+    return state.podcastSelectedToPlay;
+  } else
+    return {
+      title: "Achieving High Conversion Rates in a Saturated Market",
+      description:
+        "Instead of going on a gap year, Dean Legg started his second business after selling his first. Honing in on his interests, Dean launched PureChimp to showcase matcha and natural skincare through commerce and pledges 5% of profits to charities that provide care for chimpanzees. In this episode of Shopify Masters, we chat with Dean about social media ads and how to achieve high conversion rates in a saturated market.",
+      url:
+        "https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3",
+      image:
+        "https://is1-ssl.mzstatic.com/image/thumb/Podcasts113/v4/eb/81/46/eb8146c4-0112-8f4f-9a54-80bceddffbaa/mza_2429360785917253582.jpg/100x100bb.jpg",
+    };
+};
+
+export const getPodcastShowing = (state) => {
+  if (state.podcastShowing !== undefined) {
+    return { state: state.podcastShowing };
+  } else
+    return {
+      state: {
+        wrapperType: "track",
+        kind: "podcast",
+        artistId: 125443881,
+        collectionId: 73331298,
+        trackId: 73331298,
+        artistName: "NPR",
+        collectionName: "Bullseye with Jesse Thorn",
+        trackName: "Bullseye with Jesse Thorn",
+        collectionCensoredName: "Bullseye with Jesse Thorn",
+        trackCensoredName: "Bullseye with Jesse Thorn",
+        artistViewUrl:
+          "https://podcasts.apple.com/us/artist/npr/125443881?uo=4",
+        collectionViewUrl:
+          "https://podcasts.apple.com/us/podcast/bullseye-with-jesse-thorn/id73331298?uo=4",
+        feedUrl: "https://feeds.npr.org/510309/podcast.xml",
+        trackViewUrl:
+          "https://podcasts.apple.com/us/podcast/bullseye-with-jesse-thorn/id73331298?uo=4",
+        artworkUrl30:
+          "https://is3-ssl.mzstatic.com/image/thumb/Podcasts113/v4/d6/bb/b6/d6bbb629-386f-1f2a-f163-b755915e9fe1/mza_5702869081043519057.jpg/30x30bb.jpg",
+        artworkUrl60:
+          "https://is3-ssl.mzstatic.com/image/thumb/Podcasts113/v4/d6/bb/b6/d6bbb629-386f-1f2a-f163-b755915e9fe1/mza_5702869081043519057.jpg/60x60bb.jpg",
+        artworkUrl100:
+          "https://is3-ssl.mzstatic.com/image/thumb/Podcasts113/v4/d6/bb/b6/d6bbb629-386f-1f2a-f163-b755915e9fe1/mza_5702869081043519057.jpg/100x100bb.jpg",
+        collectionPrice: 0,
+        trackPrice: 0,
+        trackRentalPrice: 0,
+        collectionHdPrice: 0,
+        trackHdPrice: 0,
+        trackHdRentalPrice: 0,
+        releaseDate: "2020-11-17T08:00:00Z",
+        collectionExplicitness: "notExplicit",
+        trackExplicitness: "notExplicit",
+        trackCount: 372,
+        country: "USA",
+        currency: "USD",
+        primaryGenreName: "Society & Culture",
+        artworkUrl600:
+          "https://is3-ssl.mzstatic.com/image/thumb/Podcasts113/v4/d6/bb/b6/d6bbb629-386f-1f2a-f163-b755915e9fe1/mza_5702869081043519057.jpg/600x600bb.jpg",
+        genreIds: ["1324", "26"],
+        genres: ["Society & Culture", "Podcasts"],
+      },
+    };
 };
