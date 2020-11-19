@@ -9,7 +9,7 @@ import PodcastListingSearch from "./PodcastListingSearch";
 
 import "focus-visible";
 
-import { PlayerContext } from "../PlayerContext";
+import { PlayerContext } from "../Contexts/PlayerContext";
 
 import {
   updateShouldTranslationsAutoPlay,

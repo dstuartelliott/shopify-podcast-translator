@@ -1,7 +1,7 @@
 import React, { createContext } from "react";
 import { useDispatch } from "react-redux";
 
-import { addTranscript, addUUIDSandTimes } from "./actions";
+import { addTranscript, addUUIDSandTimes } from "../actions";
 
 export const PlayerContext = createContext();
 export const PlayerContextProvider = ({ children }) => {

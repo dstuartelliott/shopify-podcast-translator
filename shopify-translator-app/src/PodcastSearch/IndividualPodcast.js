@@ -12,7 +12,7 @@ import { getPodcastShowing } from "../reducers";
 
 import "focus-visible";
 
-import { PlayerContext } from "../PlayerContext";
+import { PlayerContext } from "../Contexts/PlayerContext";
 
 import {
   updateShouldTranslationsAutoPlay,

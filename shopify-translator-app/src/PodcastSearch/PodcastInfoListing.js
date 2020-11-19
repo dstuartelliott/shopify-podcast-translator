@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
 import { changePodcastShowing } from "../actions";
 import { useDispatch } from "react-redux";
-import { PlayerContext } from "../PlayerContext";
+import { PlayerContext } from "../Contexts/PlayerContext";
 
 import PodcastEpisodeComponent from "./PodcastEpisodeComponent";
 var XMLParser = require("react-xml-parser");

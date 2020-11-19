@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { PlayerContextProvider } from "./PlayerContext";
-import { DatabaseContextProvider } from "./DatabaseContext";
+import { PlayerContextProvider } from "./Contexts/PlayerContext";
+import { DatabaseContextProvider } from "./Contexts/DatabaseContext";
 
 import { createStore } from "redux";
 import { Provider } from "react-redux";

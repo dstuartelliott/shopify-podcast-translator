@@ -13,7 +13,7 @@ import { NavLink } from "react-router-dom";
 
 import "focus-visible";
 
-import { DatabaseContext } from "./DatabaseContext";
+// import { DatabaseContext } from "./Contexts/DatabaseContext";
 
 import {
   updateShouldTranslationsAutoPlay,
@@ -30,7 +30,7 @@ function App() {
   // const customReporter = (target) => ({
   //   clientWidth: target != null ? target.clientWidth : null,
   // });
-  const databaseContext = React.useContext(DatabaseContext);
+  // const databaseContext = React.useContext(DatabaseContext);
   // const [resizeAppListener, sizesApp] = useResizeAware();
 
   //test

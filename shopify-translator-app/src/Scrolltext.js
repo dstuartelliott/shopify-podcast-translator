@@ -1,15 +1,14 @@
 import React from "react";
 import styled from "styled-components/macro";
 import "./App.css";
-import { PlayerContext } from "./PlayerContext";
+import { PlayerContext } from "./Contexts/PlayerContext";
 
 import TranscriptSentence from "./TranscriptSentence.js";
 import SearchResultTranscriptSentence from "./SearchResultTranscriptSentence.js";
 import IntroSentence from "./IntroSentence.js";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { recordTranslationMP3PlayerState } from "./actions";
-import { useSelector } from "react-redux";
 import {
   getSimplifiedSentences,
   getTranslationPlaying,
@@ -34,7 +33,7 @@ import {
 import { isMobile } from "react-device-detect";
 import { IoMdLock } from "react-icons/io";
 
-import SpinnerJustKF from "./SpinnerJustKF";
+import SpinnerJustKF from "./Misc/SpinnerJustKF";
 // import { combineReducers } from "redux";
 
 function Scrolltext(heightOfText) {

@@ -406,10 +406,6 @@ function PlayerMinimal() {
             </ProgressBarFiller>
           </ProgressBar>
         </PlayerWrapper>
-
-        {/* <PlayerHTMLFigma
-          sizeOfJogArea={sizes.width - 115 - 10}
-        ></PlayerHTMLFigma> */}
       </ProgressBarDiv>
     </Wrapper>
   );

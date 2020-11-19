@@ -2,14 +2,14 @@ import React from "react";
 
 import styled, { keyframes } from "styled-components";
 
-import { Icon } from "react-icons-kit";
-
-import { loader } from "react-icons-kit/feather/loader";
+import LoadingArrowsComponent from "../SVGs/LoadingArrowsComponent";
 
 function SpinnerJustKF() {
   return (
     <Wrapper>
-      <Icon icon={loader} size={64} />
+      <AnimationDiv>
+        <LoadingArrowsComponent></LoadingArrowsComponent>
+      </AnimationDiv>
     </Wrapper>
   );
 }
@@ -22,14 +22,14 @@ const spin = keyframes`
 
   }
 `;
-
 const Wrapper = styled.div`
-  width: 100px;
-  height: 100px;
+  padding-bottom: 10px;
+`;
+
+const AnimationDiv = styled.div`
   display: block;
   @media (prefers-reduced-motion: no-preference) {
     animation: ${spin} 1900ms linear infinite;
-    transform-origin: 35% 30%;
   }
 
   @media (prefers-reduced-motion: reduce) {

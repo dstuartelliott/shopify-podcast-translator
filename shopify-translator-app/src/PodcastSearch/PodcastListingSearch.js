@@ -9,7 +9,7 @@ import {
   updateShouldTranslationsAutoPlay,
 } from "../actions";
 import { useDispatch } from "react-redux";
-import { DatabaseContext } from "../DatabaseContext.js";
+import { DatabaseContext } from "../Contexts/DatabaseContext.js";
 import PSRListing from "./PSRListing.js";
 
 let filtered_sentences = [];
