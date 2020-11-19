@@ -1,12 +1,6 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components/macro";
-import {
-  Spring,
-  config,
-  animated,
-  interpolate,
-} from "react-spring/renderprops";
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import {
   jumpToTime,
@@ -30,8 +24,8 @@ import {
   getClickMeStatus,
 } from "./reducers";
 
-import StarComponent from "./SVGs/StarComponent";
-import SideActionButtons from "./SideActionButtons";
+// import StarComponent from "./SVGs/StarComponent";
+// import SideActionButtons from "./SideActionButtons";
 
 function TranscriptSentence({
   sentence_object,
@@ -50,16 +44,11 @@ function TranscriptSentence({
 
   let clickMeStatus = useSelector(getClickMeStatus);
 
-  let StarCircleSize = 21;
+  // let StarCircleSize = 21;
 
   // const [showTranslation, setshowTranslation] = React.useState(false);
 
   let [clipMouseOverToggle, setclipMouseOverToggle] = React.useState(false);
-  let [
-    clipMouseOverToggleSelected,
-    setclipMouseOverToggleSelected,
-  ] = React.useState(false);
-
   function handleClickedSentence(event) {
     englishHighlighted = true;
     translatedHightlighted = false;
@@ -221,20 +210,20 @@ function TranscriptSentence({
   }
 }
 
-const ActionButtons = styled.div`
-  width: 50px;
-  position: absolute;
-  padding-top: 15px;
-  display: flex;
-`;
+// const ActionButtons = styled.div`
+//   width: 50px;
+//   position: absolute;
+//   padding-top: 15px;
+//   display: flex;
+// `;
 
-const StarClipButton = styled.button`
-  background-color: transparent;
-  border: transparent;
-  :hover {
-    cursor: pointer;
-  }
-`;
+// const StarClipButton = styled.button`
+//   background-color: transparent;
+//   border: transparent;
+//   :hover {
+//     cursor: pointer;
+//   }
+// `;
 
 const ClickMeButton = styled.button`
   outline: none;

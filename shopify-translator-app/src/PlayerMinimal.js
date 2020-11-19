@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components/macro";
 import { Spring } from "react-spring/renderprops";
 import CircleSunComponent from "./SVGs/CircleSunComponent.js";

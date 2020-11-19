@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import PodcastEpisodeHome from "./PodcastEpisodeHome";
 import PodcastSearch from "./PodcastSearch/PodcastSearch.js";
 import IndividualPodcast from "./PodcastSearch/IndividualPodcast.js";
-import { NavLink } from "react-router-dom";
 
 import "focus-visible";
 
@@ -40,23 +39,8 @@ function App() {
     dispatch(changeTranslation(true));
     dispatch(updateShouldTranslationsAutoPlay(true));
     dispatch(updateClickMeHasBeenClicked(false));
+    // eslint-disable-next-line
   }, []);
-
-  const [profileName, setProfileName] = React.useState("none");
-
-  // eslint-disable-next-line
-  function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    // var id_token = googleUser.getAuthResponse().id_token;
-
-    console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log("Name: " + profile.getName());
-    console.log("Image URL: " + profile.getImageUrl());
-    console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
-    // console.log("Email: " + id_token); // This is null if the 'email' scope is not present.
-
-    setProfileName(profile.getName());
-  }
 
   return (
     <FocusVisible className="js-focus-visible focus-visible">
@@ -90,12 +74,6 @@ const FleXApp = styled.div`
   min-width: 500px;
   max-width: 900px;
   margin: auto;
-`;
-
-const BottomElement = styled.div`
-  background-color: blue;
-  bottom: 0px;
-  position: absolute;
 `;
 
 const FocusVisible = styled.div`

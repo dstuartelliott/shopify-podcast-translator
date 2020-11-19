@@ -19,14 +19,12 @@ import {
   getUUIDPlaying,
   getShowTranslation,
   getShouldTranslationsAutoPlay,
-  getSavedFaceSentences,
 } from "./reducers";
 
 import { updateShouldTranslationsAutoPlay } from "./actions";
 
 import {
   COLORS_SHOPIFY_BLUE_PALLETE,
-  COLORS_SHOPIFY_GREYS_PALLETE,
   TRANSLATION_MP3_PLAYER_STATES,
 } from "./constants.js";
 

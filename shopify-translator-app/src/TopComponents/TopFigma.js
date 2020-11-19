@@ -1,15 +1,12 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { NavLink } from "react-router-dom";
 import MenuComponent from "../Singles/MenuComponent";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import TeenyBurgerComponent from "../SVGs/TeenyBurgerComponent";
 import { Spring, config } from "react-spring/renderprops";
 
 import { getPodcastSelectedToPlay } from "../reducers";
-
-const MenuItems = ["Login", "Search For Podcasts", "Starred Clips", "About"];
 
 function TopFigma() {
   const [burgerToggle, setBurgerToggle] = React.useState(false);
@@ -137,70 +134,14 @@ const MenuWrapper = styled.div`
   margin-top: -3px;
 `;
 
-const InternalMenu = styled.div`
-  background-color: #f1ebf5;
-  background: linear-gradient(45deg, #f1ebf5, #fcda71);
-
-  border-radius: 5px;
-`;
-
-const MenuItemWrapper = styled.div``;
 const Menu = styled.div`
   overflow: hidden;
-`;
-const MenuItemLink = styled(NavLink)`
-  color: black;
-  font-weight: bold;
-  text-decoration: none;
-  background-color: transparent;
-  position: absolute;
-  transform: translateY(-25px);
-  z-index: 99;
-
-  position: absolute;
-  height: 25px;
-  width: 180px;
-`;
-
-const MenuItem = styled.div`
-  padding-top: 5px;
-  padding-right: 10px;
-  height: 25px;
-  color: #20404e;
-  :hover {
-    color: #091216;
-    cursor: hand;
-  }
-  text-align: right;
-`;
-
-const LastMenuItem = styled.div`
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-right: 10px;
-  text-align: right;
-
-  height: 20px;
-  color: #20404e;
-  :hover {
-    color: #091216;
-    cursor: hand;
-  }
 `;
 
 const PodcastEpisode = styled.div`
   display: flex;
   flex-direction: row;
   padding-top: 10px;
-`;
-
-const DownArrow = styled.div`
-  width: 20px;
-  height: 20px;
-  background: url("${(props) => props.image_source}");
-  background-size: contain;
-  background-repeat: no-repeat;
-  align-self: flex-end;
 `;
 
 const TitleAndHeart = styled.div`
@@ -310,17 +251,6 @@ const BurgerIcon = styled.div`
   /* SUNRISE / Light Charcoal */
   padding-left: 5px;
   align-self: flex-start;
-`;
-
-const TeenyHeartIcon = styled.div`
-  width: 23px;
-  height: 23px;
-  background-image: url("${(props) => props.image_source}");
-  background-size: contain;
-  background-repeat: no-repeat;
-  align-self: flex-start;
-  padding-bottom: 3px;
-  margin-left: 5px;
 `;
 
 const Wrapper = styled.div`

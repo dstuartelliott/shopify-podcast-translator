@@ -1,10 +1,10 @@
 import React from "react";
 
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-var divStyle = {
+let divStyle = {
   scope: "profile email",
   width: 100,
   height: 20,
@@ -15,6 +15,21 @@ var divStyle = {
 };
 
 function MenuComponent() {
+  // const [profileName, setProfileName] = React.useState("none");
+
+  // function onSignIn(googleUser) {
+  //   var profile = googleUser.getBasicProfile();
+  //   // var id_token = googleUser.getAuthResponse().id_token;
+
+  //   console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  //   console.log("Name: " + profile.getName());
+  //   console.log("Image URL: " + profile.getImageUrl());
+  //   console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+  //   // console.log("Email: " + id_token); // This is null if the 'email' scope is not present.
+
+  //   setProfileName(profile.getName());
+  // }
+
   return (
     <Wrapper>
       <InternalMenu>
@@ -27,11 +42,6 @@ function MenuComponent() {
           <MenuItemLink to="/podcastsearch" />
         </MenuItemWrapper>
 
-        {/* <MenuItemWrapper>
-          <MenuItem>Starred Clips</MenuItem>
-          <MenuItemLink to="/podcastsearch" />
-        </MenuItemWrapper> */}
-
         <MenuItemWrapper>
           <MenuItem>
             <GoogleSignIn
@@ -39,6 +49,7 @@ function MenuComponent() {
               data-onsuccess="onSignIn"
               style={divStyle}
             ></GoogleSignIn>
+            {/* {profileName} */}
           </MenuItem>
         </MenuItemWrapper>
       </InternalMenu>
@@ -61,9 +72,6 @@ const InternalMenu = styled.div`
 `;
 
 const MenuItemWrapper = styled.div``;
-const Menu = styled.div`
-  overflow: hidden;
-`;
 const MenuItemLink = styled(NavLink)`
   color: black;
   font-weight: bold;

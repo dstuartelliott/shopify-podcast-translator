@@ -1,12 +1,11 @@
 import React from "react";
 
 import styled from "styled-components";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { changePodcastShowing } from "../actions";
 import { useDispatch } from "react-redux";
 
 function PSRListing({ searchResultItem }) {
-  //   console.log(searchResultItem);
   const dispatch = useDispatch();
 
   let filtered_genres = searchResultItem.genres.filter(
@@ -14,9 +13,6 @@ function PSRListing({ searchResultItem }) {
   );
 
   filtered_genres = filtered_genres.slice(0, 3);
-
-  const [genresArray, setgenresArray] = React.useState(filtered_genres);
-  const [podcastToExpand, setpodcastToExpand] = React.useState("");
 
   function handleClick(event) {
     console.log(event);
@@ -35,7 +31,7 @@ function PSRListing({ searchResultItem }) {
           <TrackName>{searchResultItem.trackName}</TrackName>
           <ArtistName>{searchResultItem.artistName}</ArtistName>
           <Genres>
-            {genresArray.map((element, i) => {
+            {filtered_genres.map((element, i) => {
               return <Genre>{element}</Genre>;
             })}
           </Genres>
@@ -56,23 +52,6 @@ const MenuItemLink = styled(NavLink)`
   position: absolute;
   width: 250px;
   height: 290px;
-`;
-
-const BigButton = styled.button`
-  position: absolute;
-  outline: none;
-
-  width: 250px;
-  height: 290px;
-  background: transparent;
-  border: transparent;
-  @media (max-width: 600px) {
-    width: 100%;
-    height: 500px;
-  }
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 const PodcastLogo = styled.div`
@@ -131,7 +110,6 @@ const ArtistName = styled.div`
   color: #807985;
   padding-top: 5px;
 `;
-const Country = styled.div``;
 
 const Genres = styled.div`
   display: flex;
@@ -145,7 +123,6 @@ const Genres = styled.div`
 const Genre = styled.div`
   padding-right: 10px;
 `;
-const ArtWork = styled.div;
 
 const InnerWrapper = styled.div`
   padding: 10px;

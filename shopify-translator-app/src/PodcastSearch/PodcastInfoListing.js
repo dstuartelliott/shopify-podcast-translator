@@ -1,13 +1,12 @@
 import React from "react";
 
 import styled from "styled-components";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { changePodcastShowing } from "../actions";
 import { useDispatch } from "react-redux";
 import { PlayerContext } from "../Contexts/PlayerContext";
 
 import PodcastEpisodeComponent from "./PodcastEpisodeComponent";
-var XMLParser = require("react-xml-parser");
 
 let podcastFeed;
 function PodcastInfoListing({ searchResultItem }) {
@@ -21,8 +20,6 @@ function PodcastInfoListing({ searchResultItem }) {
 
   filtered_genres = filtered_genres.slice(0, 3);
 
-  const [genresArray, setgenresArray] = React.useState(filtered_genres);
-  const [podcastToExpand, setpodcastToExpand] = React.useState("");
   const [podcastSummary, setPodcastSummary] = React.useState("");
 
   const [podcastEpisodes, setPodcastEpisodes] = React.useState([{}]);
@@ -92,7 +89,7 @@ function PodcastInfoListing({ searchResultItem }) {
           <TrackName>{searchResultItem.trackName}</TrackName>
           <ArtistName>{searchResultItem.artistName}</ArtistName>
           <Genres>
-            {genresArray.map((element, i) => {
+            {filtered_genres.map((element, i) => {
               return <Genre>{element}</Genre>;
             })}
           </Genres>
@@ -172,7 +169,6 @@ const ArtistName = styled.div`
   color: #807985;
   padding-top: 5px;
 `;
-const Country = styled.div``;
 
 const Genres = styled.div`
   display: flex;
@@ -186,7 +182,6 @@ const Genres = styled.div`
 const Genre = styled.div`
   padding-right: 10px;
 `;
-const ArtWork = styled.div;
 
 const InnerWrapper = styled.div`
   padding: 10px;
