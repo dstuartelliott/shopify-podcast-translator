@@ -6,8 +6,8 @@ import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useSelector, useDispatch } from "react-redux";
 
-import TopFigma from "./TopFigma";
-import TopSearch from "./TopSearch";
+import TopFigma from "./TopComponents/TopFigma";
+import TopSearch from "./TopComponents/TopSearch.js";
 import Player from "./Player";
 
 import Scrolltext from "./Scrolltext";

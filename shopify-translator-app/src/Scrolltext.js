@@ -33,7 +33,7 @@ import {
 import { isMobile } from "react-device-detect";
 import { IoMdLock } from "react-icons/io";
 
-import SpinnerJustKF from "./Misc/SpinnerJustKF";
+import SpinnerJustKF from "./Singles/SpinnerJustKF";
 // import { combineReducers } from "redux";
 
 function Scrolltext(heightOfText) {

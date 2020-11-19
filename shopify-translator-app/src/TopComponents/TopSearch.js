@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { COLORS_SHOPIFY_GREYS_PALLETE } from "./constants.js";
+import { COLORS_SHOPIFY_GREYS_PALLETE } from "../constants.js";
 
 import { useSelector } from "react-redux";
-import { getLCSentencesForSearch } from "./reducers";
+import { getLCSentencesForSearch } from "../reducers";
 import {
   updateSearchResults,
   updateShouldTranslationsAutoPlay,
-} from "./actions";
+} from "../actions.js";
 import { useDispatch } from "react-redux";
 
 let filtered_sentences = [];

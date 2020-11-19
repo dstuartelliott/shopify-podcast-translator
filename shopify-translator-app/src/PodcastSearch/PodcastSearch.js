@@ -4,7 +4,6 @@ import styled from "styled-components/macro";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch } from "react-redux";
-import TopFigmaForPSearch from "./TopFigmaForPSearch";
 import PodcastListingSearch from "./PodcastListingSearch";
 
 import "focus-visible";
@@ -17,10 +16,9 @@ import {
 } from "../actions";
 
 import { markEnglishAsPlaying, changeTranslation } from "../actions";
-import PlayerMinimal from "../PlayerMinimal";
 import Player from "../Player";
 
-import TopFigma from "../TopFigma";
+import TopFigma from "../TopComponents/TopFigma";
 
 function PodcastSearch() {
   //eslint-disable-next-line

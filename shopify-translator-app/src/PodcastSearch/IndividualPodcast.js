@@ -4,15 +4,12 @@ import styled from "styled-components/macro";
 import enTranslations from "@shopify/polaris/locales/en.json";
 import { AppProvider } from "@shopify/polaris";
 import { useDispatch, useSelector } from "react-redux";
-import TopFigmaForPSearch from "./TopFigmaForPSearch";
-import TopFigma from "../TopFigma";
+import TopFigma from "../TopComponents/TopFigma";
 
 import PodcastInfoListing from "./PodcastInfoListing";
 import { getPodcastShowing } from "../reducers";
 
 import "focus-visible";
-
-import { PlayerContext } from "../Contexts/PlayerContext";
 
 import {
   updateShouldTranslationsAutoPlay,
@@ -28,7 +25,6 @@ function IndividualPodcast() {
   //eslint-disable-next-line
   const dispatch = useDispatch();
   console.log(podcastShowing);
-  const playerContext = React.useContext(PlayerContext);
 
   React.useEffect(() => {
     dispatch(markEnglishAsPlaying(0.0, "TBD"));

@@ -1,16 +1,13 @@
 import React from "react";
 import styled from "styled-components/macro";
-import HeroSrc from "./images/bullseye-logo.jpg";
-import TeenyHeart from "./images/TeenyHeart.svg";
-import DropDown from "./images/DropDown.png";
 import { NavLink } from "react-router-dom";
-import MenuComponent from "./MenuComponent";
+import MenuComponent from "../Singles/MenuComponent";
 import { useSelector, useDispatch } from "react-redux";
 
-import TeenyBurgerComponent from "./TeenyBurgerComponent";
+import TeenyBurgerComponent from "../SVGs/TeenyBurgerComponent";
 import { Spring, config } from "react-spring/renderprops";
 
-import { getPodcastSelectedToPlay } from "./reducers";
+import { getPodcastSelectedToPlay } from "../reducers";
 
 const MenuItems = ["Login", "Search For Podcasts", "Starred Clips", "About"];
 

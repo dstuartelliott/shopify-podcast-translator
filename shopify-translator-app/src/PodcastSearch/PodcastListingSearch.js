@@ -2,27 +2,15 @@ import React from "react";
 import styled from "styled-components/macro";
 import { COLORS_SHOPIFY_GREYS_PALLETE } from "../constants.js";
 
-import { useSelector } from "react-redux";
-import { getLCSentencesForSearch } from "../reducers";
-import {
-  updateSearchResults,
-  updateShouldTranslationsAutoPlay,
-} from "../actions";
-import { useDispatch } from "react-redux";
 import { DatabaseContext } from "../Contexts/DatabaseContext.js";
 import PSRListing from "./PSRListing.js";
 
-let filtered_sentences = [];
-
 function PodcastListingSearch() {
-  const dispatch = useDispatch();
   const dataBaseContext = React.useContext(DatabaseContext);
 
   const [textfieldValue, setTextField] = React.useState("...search here!");
 
   const [searchResults, setSearchResults] = React.useState([]);
-
-  let simplifiedSentences = useSelector(getLCSentencesForSearch);
 
   function handleClick(event) {
     if (textfieldValue === "...search here!") {
@@ -32,10 +20,10 @@ function PodcastListingSearch() {
 
   React.useEffect(() => {
     sendSearchToItunes("shopify");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function sendSearchToItunes(term) {
-    // eslint-disable-next-line
     let search_results = await dataBaseContext.getItunesSearchResult(term);
     console.log(search_results.json.results);
     setSearchResults(search_results.json.results);
@@ -64,6 +52,7 @@ function PodcastListingSearch() {
           value={textfieldValue}
           onChange={findSentence}
           onKeyDown={handleKeyPress}
+          onClick={handleClick}
         ></TranscriptSearch>
       </SearchDiv>
       <SearchResults>
