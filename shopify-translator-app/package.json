@@ -3,14 +3,40 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-hook/size": "^2.1.1",
+    "@shopify/polaris": "^5.2.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "babel-plugin-macros": "^2.8.0",
+    "bootstrap": "^4.5.2",
+    "boxicons": "^2.0.5",
+    "focus-visible": "^5.1.0",
+    "mongodb": "^3.6.2",
+    "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-audio-player": "^0.13.0",
+    "react-bootstrap": "^1.3.0",
+    "react-device-detect": "^1.13.1",
     "react-dom": "^16.13.1",
+    "react-draggable": "^4.4.3",
+    "react-h5-audio-player": "^3.4.1",
+    "react-icons": "^3.11.0",
+    "react-icons-kit": "^1.3.1",
+    "react-measure": "^2.5.2",
+    "react-overlays": "^4.1.0",
+    "react-redux": "^7.2.1",
+    "react-resize-aware": "^3.0.1",
+    "react-router-dom": "^4.3.1",
     "react-say": "^2.0.1",
-    "react-scripts": "3.4.3",
+    "react-scripts": "^3.4.4",
+    "react-scroll": "^1.8.1",
+    "react-scroll-to": "^3.0.0-beta.6",
+    "react-sizeme": "^2.6.12",
+    "react-spinners": "^0.9.0",
+    "react-spring": "^8.0.27",
+    "react-xml-parser": "^1.1.8",
+    "redux": "^4.0.5",
     "styled-components": "^5.1.1"
   },
   "scripts": {
@@ -33,5 +59,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.11.1"
   }
 }

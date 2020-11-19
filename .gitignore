@@ -5,5 +5,10 @@
 ._*
 *.mp3
 node_modules/
+<<<<<<< HEAD
 
 Lister-ba5f9edd11af.json
+=======
+data_files/Lister-ba5f9edd11af.json
+.env
+>>>>>>> fec6e2a314203404b7fce20e1e9dbe08c500cbdb

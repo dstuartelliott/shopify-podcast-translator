@@ -1,0 +1,128 @@
+/Users/davidelliott/Desktop/shopify/shopify-podcast-translator/data_files/pre_launchsentences_and_translations_shopify_fr.json
+
+When I make this, I just need to emulater combioned by adding the speaker
+
+
+export GOOGLE_APPLICATION_CREDENTIALS="Lister-ba5f9edd11af.json"  
+
+There is no 31 in healthish__translations_with_aligned_timing
+
+
+Ok so what's the order ops now here?
+
+appv3_translate first?
+
+Then text_aligner copy?
+
+Then appTextToSpeech?
+
+
+
+I think the fuck up is happening in text-text_aligner
+with_aligned
+
+
+
+sorted_combined[31].still_to_be_done_element
+'Got it. So the most critical part of working with the designer is to spend that upfront work, finding the right designer?\r'
+
+{
+  sentence: "Got it. So the most critical part of working with the designer is to spend that upfront work, finding the right designer?\r",
+  full_sentences_just_text_filtered_i: 37,
+}
+
+"Got it. So when you were putting these mock-ups or prototypes out there to get feedback, how do you ask for it in a way that is going to get you the honest feedback and not just, people being nice?\r"
+
+So wlelement is correct - it has the mockups.
+
+Ok so sorted_combined is the thing that's missing.
+
+----
+
+Ok so letr's just detect when a UUID changes, and when iut's being changed,
+
+translationTimeCodeUUID
+
+translationPlaying
+
+  let translationPlaying = useSelector(getTranslationPlaying);
+  let translationTimeCodeUUID = useSelector(getTranslationTimeCodeAndUUID);
+
+
+state.translation_playing
+MARK_TRANSLATION_AS_PLAYING
+MARK_TRANSLATION_AS_DONE_PLAYING? is that what's being 
+
+
+timecode: state.translation_time_code
+
+markTranslationAsDonePlayingPaused
+
+so eveyrthing happens under announcelisten
+translationTimeCodeUUID
+
+getTranslationTimeCodeAndUUID
+
+
+///
+456af16e-d191-4e96-b67c-43b8174045d5
+No
+
+It's probably because last word and first word will be the same word, so a differnet model is needed.
+
+
+Donc, si vous allez sur Social Blade, vous pouvez rechercher le compte Instagram réel des influenceurs Instagram, et vous pouvez voir combien d'abonnés ils gagnent ou perdent chaque jour. Maintenant, s'ils perdent des abonnés chaque jour, il y a en fait une forte possibilité qu'ils aient acheté des abonnés ou que leur compte ne soit tout simplement pas engagé. Mais si vous trouvez un compte ou un influenceur qui, je suppose, grandit chaque jour et que vous regardez l'engagement de leurs six à douze dernières images, et vous pouvez voir qu'il y a de vraies personnes qui commentent et qu'ils ont une relation vraiment très forte, alors c'est quelqu'un avec qui vous devriez être prêt à travailler parce que ce n'est pas la taille de ce qui suit, c'est la relation que, cet influenceur entretient avec son public.
+50137153-4613-4190-a1bc-d093bf9e76b7trans
+doesn't work for translations?  
+
+Nathan: Et plus ils sont préparés, plus l'influenceur passe du temps sur la vidéo, donc à faire des histoires quotidiennes sur Instagram, ou à YouTube également, plus la relation qu'ils entretiennent avec leur communauté est forte. Donc, quand ils utilisent la bouteille Healthish et qu'ils le veulent, nous ne demandons même pas aux gens de poster s'ils ne le veulent pas. Nous disons simplement, écoutez, si vous aimez le produit, nous serions ravis que vous le partagiez et le partagiez avec votre communauté, vos fans ou votre public.
+
+Nathan: Nous voulons donc créer un excellent produit que les gens aiment vraiment et qu'ils sont heureux de recevoir dans le cadre d'un contrat ou d'une publication sponsorisée ou autre. Et ils veulent le recommander car cela a en fait changé leur vie. C'est comme un produit incroyable. Et je pense que c'est un gros avantage pour les gens, c'est que les gens pensent, avec le marketing d'influence, que puis-je tirer des influenceurs? Et ce n'est pas du tout comme ça. C'est quelque chose que j'ai appris des grands petits gars et ils sont énormes. C'est à ce sujet, quel est le gagnant-gagnant pour l'influenceur et pour la marque.
+
+
+All don't work.
+
+
+
+Nathan: Après cela, nous ferons la collaboration payante et ils verront leurs ventes augmenter considérablement car ils publient sur le fil. Amener les influenceurs à publier sur le fil par rapport aux histoires apporte toujours un meilleur résultat. Nous avons trouvé des tests. Et puis, disons que nous voulons travailler à nouveau avec eux. Lorsque nous travaillons à nouveau avec eux, les résultats sont loin d'être aussi bons que la première fois. Donc, nous avons tendance à simplement, si nous payons, nous ne payons vraiment qu'une seule fois et c'est ce que nous avons trouvé.
+faaa03b9-f66b-4d1e-a091-3eff11dbee5dtrans"
+
+
+Show stopping bug - when I play the translation, ands then 
+
+
+    "filename": "104__En_82817df3-dba7-4e44-98e5-d564df50b1e0.mp3",
+    "text": "En ce qui concerne le choix des influenceurs, nous recherchons toujours ceux qui ont un bon engagement. Je pense que c'est un très bon plat à emporter. Vous ne voulez pas simplement envoyer à qui que ce soit ou travailler avec qui que ce soit. Et je pense qu'il est également très important d'étudier leur récit. Comme passer ces quelques minutes supplémentaires. Vous ne pouvez pas passer le temps à aimer constamment 10 minutes ou 20 minutes sur chaque compte individuel. Mais il existe un outil que vous pouvez utiliser appelé Social Blade.\r",
+    "sentence": {
+      "text_local": "In regards to choosing the influencers, we're always looking for ones with good engagement. I think that's a really good takeaway to have. You don't just want to send to anyone or work with anyone. And I think it's really important as well to actually study their account. Like spend that extra couple of minutes. You can't spend the time to constantly like 10 minutes or 20 minutes on each individual account. But there's a tool that you can use called Social Blade.\r",
+      "translation": "En ce qui concerne le choix des influenceurs, nous recherchons toujours ceux qui ont un bon engagement. Je pense que c'est un très bon plat à emporter. Vous ne voulez pas simplement envoyer à qui que ce soit ou travailler avec qui que ce soit. Et je pense qu'il est également très important d'étudier leur récit. Comme passer ces quelques minutes supplémentaires. Vous ne pouvez pas passer le temps à aimer constamment 10 minutes ou 20 minutes sur chaque compte individuel. Mais il existe un outil que vous pouvez utiliser appelé Social Blade.\r",
+      "i": 1,
+      "ii": 4,
+      "iteration": 104,
+      "speaker": "Nathan"
+    }
+  },
+  {
+    "filename": "108__Je_0b98e0ce-6b34-4239-928b-932dfb348f7a.mp3",
+    "text": "Je pense donc que pour récapituler, vous avez mentionné la diffusion d'un large réseau de niches différentes, de chaînes différentes, même que ce soit YouTube ou Instagram et les essais et erreurs, voyez ce qui fonctionne, ce qui ne fonctionne pas. Et pouvez-vous nous dire comment mesurez-vous le succès? Comment mesurez-vous si une relation avec un influenceur vaut la peine d'être poursuivie ou non et si elle vous convient ou non?\r",
+    "sentence": {
+      "speaker": "Felix",
+      "text_local": "So I think just to recap, you mentioned casting a wide net of different niches, different channels, even whether it be YouTube or Instagram and trial and error, see what works, what doesn't work. And can you tell us about how do you measure success? How do you measure if a relationship with an influencer is worth continuing or not and whether it was a good fit or not?\r",
+      "translation": "Je pense donc que pour récapituler, vous avez mentionné la diffusion d'un large réseau de niches différentes, de chaînes différentes, même que ce soit YouTube ou Instagram et les essais et erreurs, voyez ce qui fonctionne, ce qui ne fonctionne pas. Et pouvez-vous nous dire comment mesurez-vous le succès? Comment mesurez-vous si une relation avec un influenceur vaut la peine d'être poursuivie ou non et si elle vous convient ou non?\r",
+      "i": 1,
+      "ii": 8,
+      "iteration": 108
+    }
+
+
+
+
+
+
+
+    appv3_translate first?
+
+Then text_aligner copy?
+
+Then appTextToSpeech?
+https://feeds.simplecast.com/_Mc9bpsL

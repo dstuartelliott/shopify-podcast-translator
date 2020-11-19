@@ -23,3 +23,247 @@ https://www.npmjs.com/package/react-say
 install react-say
 
 So there may be a weird audio bug where everythime I call state rerender on my transcript list, the player re renders, and when it does, it's almost like a new player and the browser automatically stops it from playing?
+
+
+
+TODO - PUT IN LOADING SCREENS
+
+TODO - SEARCH.  
+
+Those should be the two other features you implement.
+
+
+TODO - FEATURE - PULL THE TEXT TO THE SIDE TO REVEAL.. METADATA?  OTHER LANGUAGES?
+https://polaris.shopify.com/components/titles-and-text/text-container#navigation
+
+TODO - FOCUS: OUTLINE NONE ON THE BUTTONS IS BAD.  BREAKS ACCESIBILITY.  SHOULD PUT IN A KEYBOARD MODIFIER FOR TABS.
+https://www.eventbrite.com/engineering/how-to-fix-the-ugly-focus-ring-and-not-break-accessibility-in-react/
+
+TODO - USE ROUTES, MAKE SEVERAL DIFFERENT EPISODES, FROM A HOME PAGE?
+
+
+replace all useSelector with React.useSelector
+
+Was going to use Scrollable Text from Shoipify Polaris, but 
+Best practices
+Scrollable containers should:
+
+Be used when it’s helpful to provide an extra visual cue to let merchants know that content exists below or above the fold
+Only be used for length text such as terms of service or other legal disclaimers and never for instructional or action-oriented text
+
+yarn add react-spinners
+
+npm install --save @emotion/core
+
+
+I put the window dimensions into my reducers.  I know I coould call window dimensions elsewhere, at the component level, but I think it's good to have all state flow through the redux model, if I'm going to make choices about responding to it.
+
+
+
+-------
+Ok UUID.
+
+If it hasn't played yet, the jogging works 
+
+So when hogging it goes to the wrong one.  It goes to the one AFTER where it shoudl be.  
+
+---
+
+Nathan: With the frosted.
+Felix: Got it. So when you were putting these mock-ups or prototypes out there to get feedback, how do you ask for it in a way that is going to get you the honest feedback and not just, people being nice?
+Nathan: Well look, I think in these Facebook groups and stuff like that, or if you're in a community of like-minded people, I think if you just put yourself out there and just openly ask for honest feedback, I think sometimes people are prepared to be pretty critical because, everyone has an opinion. And you just got to try and get it from as many sources as possible. So try random Facebook groups, try your own personal Facebook profile or Instagram profile. And then, just ask close friends or family, but really push them just to be honest with you.
+
+IT'S IN THE WRONG ORDER FROM MY TRANSLATION!!!
+https://cdn.shopify.com/s/files/1/0070/7032/files/Shopify_Master_s__Healthish_Transcript.txt?v=1598319826
+
+28 and 29 are out of order.
+
+
+
+/// so there are a few things wrong right now.
+
+15 is missing.
+
+and we you get way down, Natahn is missing from the speakers.  
+]
+
+// Ok, so at So if you go to social Blade
+
+
+//
+'But it was, the content was relevant to the target market that we wanted to attract people that would be interested in their health and wellness. And we didn't have different photos of the product or samples of the product. It was photos that we would find on Pinterest or like Emily said a mood board. And so that was three months beforehand. So we tried to post like at least probably around once a day in preparation for the launch, and tried to build the email list and the wait list for that product. So we just send people to the Shopify wait-list on the store and before we even had the product ready, we did the presale and made a few thousand dollars. How long do people have to wait? I can't remember to get the product. It was a few weeks maybe.\r'
+51
+sorted_combined[51].iteration
+'Mais c'était, le contenu était pertinent pour le marché cible que nous voulions attirer des personnes qui seraient intéressées par leur santé et leur bien-être. Et nous n'avions pas de photos différentes du produit ou d'échantillons du produit. C'étaient des photos que l'on retrouverait sur Pinterest ou comme Emily disait un mood board. Et c'était donc trois mois à l'avance. Nous avons donc essayé de publier au moins probablement une fois par jour en préparation du lancement, et avons essayé de créer la liste de diffusion et la liste d'attente pour ce produit. Nous envoyons donc simplement des gens sur la liste d'attente Shopify sur le magasin et avant même d'avoir le produit prêt, nous avons fait la prévente et avons gagné quelques milliers de dollars. Combien de temps les gens doivent-ils attendre? Je ne me souviens pas d'avoir acheté le produit. C'était peut-être quelques semaines.\r'
+
+{alignedWord: 'weeks', case: 'success', end: 1448.8700000000001, endOffset: 19845, phones: Array(4), …}
+
+
+uuid(pin): "83157715-a02a-4915-a5f0-0a88da6a8402"
+start(pin): 318.09000000000003
+end(pin): 319.309999
+
+
+r	"Emily"
+english	"... I can practice what I preach.\r"
+translation	"... Je peux pratiquer ce que je prêche.\r"
+words	[…]
+full_sentences_i	12
+uuid	"83157715-a02a-4915-a5f0-0a88da6a8402"
+iteration
+
+
+Ok, so when I click on "So healthyish.com", I get "For Me, Personally", the next one.  
+
+1) Let's check the source data.
+
+So the source data looks fine, actually.
+
+Ok so the data is not good, actually.
+
+The words on eelement 1245 should end at 40 but continie on.  I'ver submitted the wrong word listing in the construction of the data object.
+
+This is the secret sauce for the player - I should refactor with this - https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
+
+
+Emily Chong
+
+Nathan Chan
+@NathanHChan
+@FelixThea
+
+
+Felix Theae
+
+
+
+----
+Oct 16
+Focus!
+
+Your brain is wandering, that's ok.  When you get distracted, just come here and write down your disctraction.
+
+Then go back to the thing you were doing - which is.... submitting the auth token to the databse.
+
+Morning folks! 
+Fun fact - I went to art school for 7 years.  4 years of that was a filmmaking degree.  
+So, as we head into the weekend, I thought I might gin up a bit of a 100% NO-COVID movie list. So here are some suggestions, if you have Netlflix or Amazon Prime.
+
+A good marker of a well written movie can be the Bechdel test. In general, the test involves two women talking to each other about something *other* than a man. I would say there are bonus points if they get what they want without marrying a man at the end.
+
+TLDR watch Frances Ha on Prime, it is *delightful*.  
+
+Passes the Bechdel test on Prime:
+Little Women (Greta Gerwig version.  Word of warning - you will 100% cry.)
+Frances Ha <---- Super fun!!
+Late Night <-- Written by and starring Mindy Kaling
+
+
+Pasess the Bechdel Test on Netflix:
+Steel Magnolias <--- Dolly Parton.  
+Silver Linings Playbook <--- Passes the test, but barely.
+
+
+The best overlooked movie on Prime imho:
+Patterson. <--- Slow but cute.
+
+The best overlooked movie on Netflix imho:
+My Octopus teacher. <--- Man learns to love by cavorting in the ocean.  Docummentary.  Utterly fails Bechdel.  But is so non-covid that I had to include it.
+
+
+OK JESUS ACTUALLY DO works
+
+"111051286225017513385"
+
+
+----
+
+Fresh Brain.
+
+In order to communicate witrh ther google server and use a .env file it has be on the server, not the client.
+
+Yesterday - google auth totally working with database backend.  
+Started on HTML5 Player - almost done that!
+-----
+
+Finish HTML 5 player - just need to get it to do the announcements well.
+
+Today - better front end look and feel.  
+Hamburger Menu.
+
+----
+
+Fresh Brain.  Oct 19 
+
+-- Fresh Brain Oct 22
+
+Why don't we check out the trello board.
+
+Well, we know that we need to do the hamgurger, right?
+
+So start with the hamgurger.
+
+8:39.  Let's do this thing.  Ten minutes david.
+
+8:56.  See, if you're doing something that interestes you, it's easy to work.
+
+Oct 24.
+
+Ok, so this is rididuclous.  You need to code on this, every day, until you're done the trello thing.
+
+And let's come up with something very exotic for the TCs to help with.
+
+Ok.  Hamburger menu you clearly don't want to dop thios but do it anyeways.
+
+https://www.react-spring.io/docs/hooks/basics
+Flex and grid units (fr, etc)
+
+AL HTML Attriobutes?
+
+
+Ok, so what I want to do is.... maybe.... 
+
+What if I put it all into a flexbox?
+
+
+....
+
+Doing this in 
+
+----
+Oct 30
+
+Ok, so with commit "cascading changes with sizeAware in Top", I can get the divs to report changes in size, from the Top div, but it slows things down considerably.
+
+So I can make something that is ultra size aware, but it's not's fast.  I have to pre-bake in the the sizes, I think.  Which I can do, maybe with min-maxs?
+
+Can I di min max?
+
+Like, add the nummber to mn and max.  
+
+
+---
+Nov1 
+
+Ok so I'm going to have to make like all the audio controls because of fucking firefox.  
+
+
+---
+Nov 3 - audtio controls mostly working.  I'm going to do another hour before I switch to telus worlk.
+
+
+Nov 7 - I have finally got the navigation part done.  It looks fucking beautiful by the way.
+
+75 from the left
+112 from Top
+
+
+---
+Nov 8.
+Ok, finish up the circle thing and move on.
+
+const Elipses = styled.div`
+  align-self: flex;
+`;
+                </PodcastEpisodeDescription>
+                <Elipses>...</Elipses>

@@ -3,19 +3,29 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { PlayerContextProvider } from "./PlayerContext";
-import { PlayerBoundariesContextProvider } from "./PlayerBoundariesContext";
-import { HighlighterContextProvider } from "./HighlighterContext";
+import { PlayerContextProvider } from "./Contexts/PlayerContext";
+import { DatabaseContextProvider } from "./Contexts/DatabaseContext";
+
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import reducer from "./reducers";
+
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+document.title = "How People Talk";
 
 ReactDOM.render(
   <React.StrictMode>
-    <HighlighterContextProvider>
-      <PlayerBoundariesContextProvider>
+    <Provider store={store}>
+      <DatabaseContextProvider>
         <PlayerContextProvider>
           <App />
         </PlayerContextProvider>
-      </PlayerBoundariesContextProvider>
-    </HighlighterContextProvider>
+      </DatabaseContextProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

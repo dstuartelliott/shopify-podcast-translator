@@ -1,0 +1,42 @@
+figure {
+  max-width: 64rem;
+  width: 100%;
+  max-height: 30.875rem;
+  height: 100%;
+  margin: 1.25rem auto;
+  padding: 1.051%;
+  background-color: blue;
+}
+
+.controls {
+  height: auto;
+  background-color: red;
+}
+
+.controls > * {
+  display: block;
+  width: 16.6667%;
+  margin-left: 0;
+  height: 2.5rem;
+  margin-top: 2.5rem;
+  background-color: red;
+}
+
+.controls .progress {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  float: none;
+  margin-top: 0;
+  background-color: red;
+}
+
+.controls .progress progress {
+  width: 98%;
+  margin: 0 auto;
+  background-color: red;
+}
+
+.controls button {
+  background-position: center center;
+}
