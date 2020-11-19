@@ -7,22 +7,6 @@ export const PlayerContext = createContext();
 export const PlayerContextProvider = ({ children }) => {
   const dispatch = useDispatch();
 
-  const getCombined3 = () => {
-    let myPromise = new Promise((resolve, reject) => {
-      const apiUrl = "https://www.justheard.ca:8000/returnCombined3";
-      fetch(apiUrl)
-        .then((response) => {
-          let data = response.json();
-          // profileObject = data;
-          resolve(data);
-        })
-        .catch((error) => {
-          resolve({ error });
-        });
-    });
-    return myPromise;
-  };
-
   const getCombined3FomLinodeBucket = () => {
     let myPromise = new Promise((resolve, reject) => {
       const apiUrl =
@@ -120,6 +104,7 @@ export const PlayerContextProvider = ({ children }) => {
     return myPromise;
   };
 
+  // this happens on my server, but I included the code in /server in the project
   const getPodcastEpisodes = async (feedUrl) => {
     const requestOptions = {
       method: "POST",
@@ -319,7 +304,6 @@ export const PlayerContextProvider = ({ children }) => {
   return (
     <PlayerContext.Provider
       value={{
-        getCombined3,
         getTranslatedMP3s3,
         computeTranscript,
         getCombined3FomLinodeBucket,

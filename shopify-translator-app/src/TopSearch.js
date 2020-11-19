@@ -65,6 +65,7 @@ function TopSearch() {
           onChange={findSentence}
           // onKeyDown={handleKeyPress}
           onClick={handleClick}
+          style={{ outline: "none" }}
         ></TranscriptSearch>
       </SearchDiv>
     </Wrapper>
@@ -87,10 +88,16 @@ const SearchDiv = styled.div`
 `;
 
 const TranscriptSearch = styled.input`
-  width: auto;
+  width: 500px;
   border-color: transparent;
   background-color: transparent;
   padding-left: 20px;
+  padding-right: 0px;
+  &:focus {
+    outline: 0;
+    border: none;
+  }
+
   /* @media (max-width: 600px) {
     width: 90%;
     font-size: 16px;
