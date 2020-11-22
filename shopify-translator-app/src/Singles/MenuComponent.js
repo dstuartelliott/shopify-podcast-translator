@@ -16,6 +16,7 @@ let divStyle = {
 
 function MenuComponent() {
   const [profileName, setProfileName] = React.useState("none");
+  const [profileImg, setProfileImg] = React.useState("none");
 
   function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
@@ -29,6 +30,41 @@ function MenuComponent() {
 
     setProfileName(profile.getName());
   }
+
+  React.useEffect(() => {
+    async function getGoogle() {
+      if (window.gapi !== undefined) {
+        window.gapi.load("auth2", async function () {
+          console.log("google");
+          let auth_object = await window.gapi.auth2.init({
+            client_id:
+              "112704103478-qojm07it64b672dk2mto976ivf6592jm.apps.googleusercontent.com",
+          });
+
+          let current_user = auth_object.currentUser.get();
+
+          let profile = current_user.getBasicProfile();
+
+          setProfileName(profile.getName());
+
+          setProfileImg(profile.getImageUrl());
+          console.log(current_user);
+
+          console.log(profile);
+        });
+      }
+    }
+
+    getGoogle();
+
+    // window.gapi.load("auth2", () => {
+    //   this.auth2 = gapi.auth2.init({
+    //     client_id: "YOUR_CLIENT_ID",
+    //   });
+    // });
+
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Wrapper>
@@ -49,13 +85,33 @@ function MenuComponent() {
               data-onsuccess="onSignIn"
               style={divStyle}
             ></GoogleSignIn>
-            {/* {profileName} */}
+          </MenuItem>
+
+          <MenuItem>
+            <ProfileName>{profileName}</ProfileName>
+            <ProfileImage
+              image_source={profileImg}
+              alt="Podcast Image"
+            ></ProfileImage>
+
+            {/* <div>hello {profileName}</div> */}
           </MenuItem>
         </MenuItemWrapper>
       </InternalMenu>
     </Wrapper>
   );
 }
+
+const ProfileName = styled.div``;
+
+const ProfileImage = styled.div`
+  width: 20px;
+  height: 20px;
+  background: url("${(props) => props.image_source}");
+  background-size: contain;
+  background-position: center;
+  border-radius: 5px;
+`;
 
 const GoogleSignIn = styled.div`
   display: flex;
@@ -83,7 +139,7 @@ const MenuItemLink = styled(NavLink)`
 
   position: absolute;
   height: 25px;
-  width: 180px;
+  width: 10px;
 `;
 
 const MenuItem = styled.div`
