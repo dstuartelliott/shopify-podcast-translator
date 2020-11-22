@@ -1,10 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 import styled from "styled-components";
 
 import { NavLink } from "react-router-dom";
-import GoogleLogin from "react-google-login";
 
 let divStyle = {
   scope: "profile email",
@@ -14,10 +12,6 @@ let divStyle = {
   longtitle: true,
   borderRaduis: 5,
   color: "#4287f5",
-};
-
-const responseGoogle = (response) => {
-  console.log(response);
 };
 
 function MenuComponent() {
@@ -72,105 +66,58 @@ function MenuComponent() {
     // eslint-disable-next-line
   }, []);
 
-  let element = document.getElementById("googleButton");
-
   return (
     <Wrapper>
       <InternalMenu>
         <MenuItemWrapper>
-          <MenuItemLink to="/">Episode Player</MenuItemLink>
+          <MenuItem>Episode Player</MenuItem>
+          <MenuItemLink to="/" />
         </MenuItemWrapper>
         <MenuItemWrapper>
-          <MenuItemLink to="/podcastsearch">Find Podcasts</MenuItemLink>
+          <MenuItem>Find Podcasts</MenuItem>
+          <MenuItemLink to="/podcastsearch" />
         </MenuItemWrapper>
 
         <MenuItemWrapper>
-          <LoggedInOrNotDiv>
-            <LoggedInOrNot>
-              {profileName === "none" ? (
-                <GoogleLogin
-                  clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-                  render={(renderProps) => (
-                    <GoogleSignInButton
-                      onClick={renderProps.onClick}
-                      disabled={renderProps.disabled}
-                    >
-                      Login To Google
-                    </GoogleSignInButton>
-                  )}
-                  buttonText="Login"
-                  onSuccess={responseGoogle}
-                  onFailure={responseGoogle}
-                  cookiePolicy={"single_host_origin"}
-                />
-              ) : (
-                <GoogleSignInButton>
-                  <ProfileImage
-                    image_source={profileImg}
-                    alt="Podcast Image"
-                  ></ProfileImage>
-                </GoogleSignInButton>
-              )}
-            </LoggedInOrNot>
-          </LoggedInOrNotDiv>
+          <MenuItem>
+            <GoogleSignIn
+              className="g-signin2"
+              data-onsuccess="onSignIn"
+              style={divStyle}
+            ></GoogleSignIn>
+          </MenuItem>
+
+          <MenuItem>
+            <ProfileName>{profileName}</ProfileName>
+            <ProfileImage
+              image_source={profileImg}
+              alt="Podcast Image"
+            ></ProfileImage>
+
+            {/* <div>hello {profileName}</div> */}
+          </MenuItem>
         </MenuItemWrapper>
       </InternalMenu>
     </Wrapper>
   );
 }
 
-const LoggedInOrNotDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  background-color: red;
-`;
-
-const LoggedInOrNot = styled.button`
-  background-color: transparent;
-  border: transparent;
-  :hover {
-    color: #091216;
-    cursor: pointer;
-  }
-  height: 40px;
-  background-color: blue;
-`;
+const ProfileName = styled.div``;
 
 const ProfileImage = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   background: url("${(props) => props.image_source}");
   background-size: contain;
   background-position: center;
-  border-radius: 20px;
+  border-radius: 5px;
 `;
 
-const GoogleSignInButton = styled.button`
-  height: 20px;
-  width: 150px;
-  background-color: transparent;
-  border: transparent;
-  color: black;
-  font-weight: bold;
-  text-decoration: none;
-  text-align: right;
-`;
+const GoogleSignIn = styled.div`
+  display: flex;
+  flex-direction: column;
 
-const MenuItemWrapper = styled.div`
-  text-align: right;
-  height: 40px;
-`;
-const MenuItemLink = styled(NavLink)`
-  padding: 10px;
-  height: 25px;
-  color: #20404e;
-  text-decoration: none;
-  :hover {
-    color: #091216;
-    cursor: hand;
-  }
-  background-color: red;
+  padding-left: 80px;
 `;
 
 const InternalMenu = styled.div`
@@ -178,8 +125,33 @@ const InternalMenu = styled.div`
   background: linear-gradient(45deg, #f1ebf5, #fcda71);
 
   border-radius: 5px;
-  display: flex;
-  flex-direction: column;
+`;
+
+const MenuItemWrapper = styled.div``;
+const MenuItemLink = styled(NavLink)`
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: transparent;
+  position: absolute;
+  transform: translateY(-25px);
+  z-index: 99;
+
+  position: absolute;
+  height: 25px;
+  width: 10px;
+`;
+
+const MenuItem = styled.div`
+  padding-top: 5px;
+  padding-right: 10px;
+  height: 25px;
+  color: #20404e;
+  :hover {
+    color: #091216;
+    cursor: hand;
+  }
+  text-align: right;
 `;
 
 const Wrapper = styled.div``;

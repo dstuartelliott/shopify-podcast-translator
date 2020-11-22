@@ -72,7 +72,7 @@ function TopFigma() {
               height: toggle ? "80px" : "40px",
             }}
             to={{
-              height: toggle ? "40px" : "75px",
+              height: toggle ? "40px" : "80px",
             }}
           >
             {(props) => (
