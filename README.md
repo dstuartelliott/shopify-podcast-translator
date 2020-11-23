@@ -1,4 +1,4 @@
-# shopify-podcast-translator
+# How People Talk
 
 It is live - https://how-people-talk.netlify.app/
 
