@@ -1,20 +1,19 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 import styled from "styled-components";
 
 import { NavLink } from "react-router-dom";
 import GoogleLogin from "react-google-login";
 
-let divStyle = {
-  scope: "profile email",
-  width: 100,
-  height: 20,
-  fontSize: 18,
-  longtitle: true,
-  borderRaduis: 5,
-  color: "#4287f5",
-};
+// let divStyle = {
+//   scope: "profile email",
+//   width: 100,
+//   height: 20,
+//   fontSize: 18,
+//   longtitle: true,
+//   borderRaduis: 5,
+//   color: "#4287f5",
+// };
 
 const responseGoogle = (response) => {
   console.log(response);
@@ -23,7 +22,7 @@ const responseGoogle = (response) => {
 function MenuComponent() {
   const [profileName, setProfileName] = React.useState("none");
   const [profileImg, setProfileImg] = React.useState("none");
-
+  // eslint-disable-next-line
   function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     // var id_token = googleUser.getAuthResponse().id_token;
@@ -116,12 +115,12 @@ function MenuComponent() {
   );
 }
 
-const LoggedInOrNotDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  background-color: red;
-`;
+// const LoggedInOrNotDiv = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: flex-end;
+//   background-color: red;
+// `;
 
 const LoggedInOrNot = styled.button`
   background-color: transparent;
