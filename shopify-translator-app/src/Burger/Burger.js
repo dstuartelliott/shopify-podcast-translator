@@ -29,7 +29,7 @@ const StyledBurger = styled.button`
   padding: 0;
   z-index: 10;
 
-  &:focus {
+  &:focus-visible {
     outline: none;
   }
 
