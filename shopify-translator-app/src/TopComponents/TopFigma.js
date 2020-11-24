@@ -104,19 +104,18 @@ function TopFigma() {
                   config={{ tension: 2000, friction: 100, precision: 1 }}
                   from={{
                     width: toggle ? 0 : 180,
-                    height: toggle ? 0 : "auto",
+                    height: toggle ? 0 : 200,
                     paddingLeft: toggle ? 0 : 5,
                   }}
                   to={{
                     width: toggle ? 180 : 0,
-                    height: toggle ? "auto" : 0,
+                    height: toggle ? 200 : 0,
                     paddingLeft: toggle ? 5 : 0,
                   }}
                   // onRest={reportSize}
                 >
                   {(props) => (
                     <Menu style={props}>
-                      {/* {resizeListener} */}
                       <MenuComponent></MenuComponent>
                     </Menu>
                   )}

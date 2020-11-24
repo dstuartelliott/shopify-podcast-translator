@@ -51,12 +51,11 @@ function MenuComponent() {
 
           let profile = current_user.getBasicProfile();
 
-          setProfileName(profile.getName());
+          if (profile !== undefined) {
+            setProfileName(profile.getName());
 
-          setProfileImg(profile.getImageUrl());
-          console.log(current_user);
-
-          console.log(profile);
+            setProfileImg(profile.getImageUrl());
+          }
         });
       }
     }
@@ -85,34 +84,32 @@ function MenuComponent() {
         </MenuItemWrapper>
 
         <MenuItemWrapper>
-          <LoggedInOrNotDiv>
-            <LoggedInOrNot>
-              {profileName === "none" ? (
-                <GoogleLogin
-                  clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-                  render={(renderProps) => (
-                    <GoogleSignInButton
-                      onClick={renderProps.onClick}
-                      disabled={renderProps.disabled}
-                    >
-                      Login To Google
-                    </GoogleSignInButton>
-                  )}
-                  buttonText="Login"
-                  onSuccess={responseGoogle}
-                  onFailure={responseGoogle}
-                  cookiePolicy={"single_host_origin"}
-                />
-              ) : (
-                <GoogleSignInButton>
-                  <ProfileImage
-                    image_source={profileImg}
-                    alt="Podcast Image"
-                  ></ProfileImage>
-                </GoogleSignInButton>
-              )}
-            </LoggedInOrNot>
-          </LoggedInOrNotDiv>
+          <LoggedInOrNot>
+            {profileName === "none" ? (
+              <GoogleLogin
+                clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                render={(renderProps) => (
+                  <GoogleSignInButton
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                  >
+                    Login
+                  </GoogleSignInButton>
+                )}
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={"single_host_origin"}
+              />
+            ) : (
+              <GoogleSignInButtonSignedIn>
+                <ProfileImage
+                  image_source={profileImg}
+                  alt="Podcast Image"
+                ></ProfileImage>
+              </GoogleSignInButtonSignedIn>
+            )}
+          </LoggedInOrNot>
         </MenuItemWrapper>
       </InternalMenu>
     </Wrapper>
@@ -134,7 +131,7 @@ const LoggedInOrNot = styled.button`
     cursor: pointer;
   }
   height: 40px;
-  background-color: blue;
+  transform: translateY(-10px);
 `;
 
 const ProfileImage = styled.div`
@@ -147,14 +144,38 @@ const ProfileImage = styled.div`
 `;
 
 const GoogleSignInButton = styled.button`
-  height: 20px;
-  width: 150px;
+  width: 40px;
+  font-family: Avenir Next;
+  font-style: normal;
+  font-size: 15px;
+
   background-color: transparent;
   border: transparent;
-  color: black;
-  font-weight: bold;
-  text-decoration: none;
   text-align: right;
+  color: #20404e;
+  text-decoration: none;
+  :hover {
+    color: #091216;
+    cursor: pointer;
+  }
+  padding-right: 40px;
+`;
+
+const GoogleSignInButtonSignedIn = styled.button`
+  width: 40px;
+  font-family: Avenir Next;
+  font-style: normal;
+  font-size: 15px;
+
+  background-color: transparent;
+  border: transparent;
+  text-align: right;
+  color: #20404e;
+  text-decoration: none;
+  :hover {
+    color: #091216;
+    cursor: pointer;
+  }
 `;
 
 const MenuItemWrapper = styled.div`
@@ -162,15 +183,19 @@ const MenuItemWrapper = styled.div`
   height: 40px;
 `;
 const MenuItemLink = styled(NavLink)`
-  padding: 10px;
   height: 25px;
+  padding: 10px;
+
+  font-family: Avenir Next;
+  font-style: normal;
+  font-size: 15px;
+
   color: #20404e;
   text-decoration: none;
   :hover {
     color: #091216;
     cursor: hand;
   }
-  background-color: red;
 `;
 
 const InternalMenu = styled.div`
@@ -180,6 +205,7 @@ const InternalMenu = styled.div`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  padding-top: 20px;
 `;
 
 const Wrapper = styled.div``;
