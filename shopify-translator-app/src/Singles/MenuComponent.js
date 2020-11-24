@@ -43,7 +43,7 @@ function MenuComponent() {
           console.log("google");
           let auth_object = await window.gapi.auth2.init({
             client_id:
-              "112704103478-qojm07it64b672dk2mto976ivf6592jm.apps.googleusercontent.com",
+              "112704103478-imo9ps7s422m37opivm7q9r8k4cc3hu3.apps.googleusercontent.com",
           });
 
           let current_user = auth_object.currentUser.get();
@@ -70,7 +70,8 @@ function MenuComponent() {
     // eslint-disable-next-line
   }, []);
 
-  // let element = document.getElementById("googleButton");
+  // eslint-disable-next-line
+  let element = document.getElementById("googleButton");
 
   return (
     <Wrapper>
@@ -86,7 +87,7 @@ function MenuComponent() {
           <LoggedInOrNot>
             {profileName === "none" ? (
               <GoogleLogin
-                clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                clientId="112704103478-imo9ps7s422m37opivm7q9r8k4cc3hu3.apps.googleusercontent.com"
                 render={(renderProps) => (
                   <GoogleSignInButton
                     onClick={renderProps.onClick}
