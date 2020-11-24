@@ -70,7 +70,7 @@ function MenuComponent() {
     // eslint-disable-next-line
   }, []);
 
-  let element = document.getElementById("googleButton");
+  // let element = document.getElementById("googleButton");
 
   return (
     <Wrapper>
