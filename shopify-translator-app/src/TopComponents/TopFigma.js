@@ -46,42 +46,44 @@ function TopFigma() {
           alt="Podcast Image"
         ></PodcastLogo>
         <PodcastText>
-          <TitleAndHeart>
-            <Spring
-              // config={config.gentle}
-              config={{
-                tension: 170,
-                friction: 171,
-                precision: 0.01,
-                velocity: 0,
-              }}
-              from={{ stroke: burgerToggle ? "#37313C" : "#FDC500" }}
-              to={{ stroke: burgerToggle ? "#FDC500" : "#37313C" }}
-            >
-              {(props) => (
-                <PodcastEpisodeTitle stroke={props.stroke}>
+          <Spring
+            // config={config.gentle}
+            config={{
+              tension: 170,
+              friction: 171,
+              precision: 0.01,
+              velocity: 0,
+            }}
+            from={{ stroke: burgerToggle ? "#37313C" : "#FDC500" }}
+            to={{ stroke: burgerToggle ? "#FDC500" : "#37313C" }}
+          >
+            {(sunlightProps) => (
+              <div>
+                <PodcastEpisodeTitle stroke={sunlightProps.stroke}>
                   {podcastSelected.title}
                 </PodcastEpisodeTitle>
-              )}
-            </Spring>
-          </TitleAndHeart>
-
-          <Spring
-            config={config.stiff}
-            from={{
-              height: toggle ? "80px" : "40px",
-            }}
-            to={{
-              height: toggle ? "40px" : "80px",
-            }}
-          >
-            {(props) => (
-              <TextAndDownArrow>
-                <PodcastEpisodeDescription height={props.height}>
-                  {podcastSelected.description}
-                </PodcastEpisodeDescription>
-                {toggle ? <Elipses>...</Elipses> : <Elipses></Elipses>}
-              </TextAndDownArrow>
+                <Spring
+                  config={config.stiff}
+                  from={{
+                    height: toggle ? "80px" : "40px",
+                  }}
+                  to={{
+                    height: toggle ? "40px" : "80px",
+                  }}
+                >
+                  {(props) => (
+                    <TextAndDownArrow>
+                      <PodcastEpisodeDescription
+                        stroke={sunlightProps.stroke}
+                        height={props.height}
+                      >
+                        {podcastSelected.description}
+                      </PodcastEpisodeDescription>
+                      {toggle ? <Elipses>...</Elipses> : <Elipses></Elipses>}
+                    </TextAndDownArrow>
+                  )}
+                </Spring>
+              </div>
             )}
           </Spring>
         </PodcastText>
@@ -168,11 +170,20 @@ const PodcastEpisodeDescription = styled.div`
   text-align: justify;
   height: ${(props) => props.height};
 
+  background: radial-gradient(circle at 0%, #37313c, ${(props) => props.stroke})
+    no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  color: #37313c;
+
   overflow-y: hidden;
 
   /* SUNRISE / Text Grey */
 
-  color: #605866;
+  /* color: #605866; */
 `;
 
 const Elipses = styled.div`
