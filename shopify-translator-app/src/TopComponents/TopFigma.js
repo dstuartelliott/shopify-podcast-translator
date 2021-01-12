@@ -145,11 +145,11 @@ const PodcastEpisode = styled.div`
   padding-top: 10px;
 `;
 
-const TitleAndHeart = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
+// const TitleAndHeart = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+// `;
 const PodcastText = styled.div`
   padding-left: 20px;
   flex-shrink: 10;
