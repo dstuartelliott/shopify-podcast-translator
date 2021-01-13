@@ -1,6 +1,6 @@
 # How people talk
 
-Check it out here! https://how-people-talk.netlify.app/
+Check it out here! https://howpeopletalk.com/
 
 Supporting the Podcast industry is a passion of mine, so I thought I would take the great Shopify Masters podcast and see if I could add some value to it.
 
