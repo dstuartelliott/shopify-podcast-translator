@@ -105,13 +105,13 @@ function TopFigma() {
                   force
                   config={{ tension: 2000, friction: 100, precision: 1 }}
                   from={{
-                    width: toggle ? 0 : 180,
-                    height: toggle ? 0 : 200,
+                    width: toggle ? 0 : 150,
+                    height: toggle ? 0 : 150,
                     paddingLeft: toggle ? 0 : 5,
                   }}
                   to={{
-                    width: toggle ? 180 : 0,
-                    height: toggle ? 200 : 0,
+                    width: toggle ? 150 : 0,
+                    height: toggle ? 150 : 0,
                     paddingLeft: toggle ? 5 : 0,
                   }}
                   // onRest={reportSize}
@@ -266,7 +266,6 @@ const BurgerIcon = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 15px;
 `;
 
 export default TopFigma;

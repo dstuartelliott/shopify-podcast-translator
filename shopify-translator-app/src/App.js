@@ -71,8 +71,10 @@ function App() {
 }
 
 const FleXApp = styled.div`
-  min-width: 500px;
   max-width: 900px;
+  padding-right: 10px;
+  padding-left: 10px;
+
   margin: auto;
 `;
 
