@@ -72,7 +72,6 @@ const TopDivs = styled.div`
 `;
 
 const FleXApp = styled.div`
-  min-width: 500px;
   max-width: 900px;
   margin: auto;
 `;

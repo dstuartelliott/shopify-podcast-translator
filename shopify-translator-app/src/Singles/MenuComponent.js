@@ -4,64 +4,72 @@ import styled from "styled-components";
 
 import { NavLink } from "react-router-dom";
 
-let divStyle = {
-  scope: "profile email",
-  width: 100,
-  height: 20,
-  fontSize: 18,
-  longtitle: true,
-  borderRaduis: 5,
-  color: "#4287f5",
-};
+// };
+function goToDave() {
+  window.location.href = "https://davidstuartelliott.com";
+}
 
 function MenuComponent() {
-  // const [profileName, setProfileName] = React.useState("none");
+  // eslint-disable-next-line
 
-  // function onSignIn(googleUser) {
-  //   var profile = googleUser.getBasicProfile();
-  //   // var id_token = googleUser.getAuthResponse().id_token;
-
-  //   console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  //   console.log("Name: " + profile.getName());
-  //   console.log("Image URL: " + profile.getImageUrl());
-  //   console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
-  //   // console.log("Email: " + id_token); // This is null if the 'email' scope is not present.
-
-  //   setProfileName(profile.getName());
-  // }
+  // eslint-disable-next-line
 
   return (
     <Wrapper>
       <InternalMenu>
         <MenuItemWrapper>
-          <MenuItem>Episode Player</MenuItem>
-          <MenuItemLink to="/" />
+          <MenuItemLink to="/">Episode Player</MenuItemLink>
         </MenuItemWrapper>
         <MenuItemWrapper>
-          <MenuItem>Find Podcasts</MenuItem>
-          <MenuItemLink to="/podcastsearch" />
+          <MenuItemLink to="/podcastsearch">Find Podcasts</MenuItemLink>
         </MenuItemWrapper>
-
         <MenuItemWrapper>
-          <MenuItem>
-            <GoogleSignIn
-              className="g-signin2"
-              data-onsuccess="onSignIn"
-              style={divStyle}
-            ></GoogleSignIn>
-            {/* {profileName} */}
-          </MenuItem>
+          <MenuItemExternalLink onClick={goToDave}>
+            Hire David
+          </MenuItemExternalLink>
         </MenuItemWrapper>
       </InternalMenu>
     </Wrapper>
   );
 }
 
-const GoogleSignIn = styled.div`
-  display: flex;
-  flex-direction: column;
+const MenuItemExternalLink = styled.button`
+  height: 15px;
 
-  padding-left: 80px;
+  font-family: Avenir Next;
+  font-style: normal;
+
+  font-weight: 500;
+  font-size: 15px;
+  background-color: transparent;
+  border: 0px;
+
+  color: #20404e;
+  text-decoration: none;
+  :hover {
+    color: #00848e;
+    cursor: hand;
+  }
+`;
+
+const MenuItemWrapper = styled.div`
+  text-align: right;
+  height: 40px;
+`;
+const MenuItemLink = styled(NavLink)`
+  height: 25px;
+  padding: 10px;
+
+  font-family: Avenir Next;
+  font-style: normal;
+  font-size: 15px;
+
+  color: #20404e;
+  text-decoration: none;
+  :hover {
+    color: #091216;
+    cursor: hand;
+  }
 `;
 
 const InternalMenu = styled.div`
@@ -69,33 +77,9 @@ const InternalMenu = styled.div`
   background: linear-gradient(45deg, #f1ebf5, #fcda71);
 
   border-radius: 5px;
-`;
-
-const MenuItemWrapper = styled.div``;
-const MenuItemLink = styled(NavLink)`
-  color: black;
-  font-weight: bold;
-  text-decoration: none;
-  background-color: transparent;
-  position: absolute;
-  transform: translateY(-25px);
-  z-index: 99;
-
-  position: absolute;
-  height: 25px;
-  width: 180px;
-`;
-
-const MenuItem = styled.div`
-  padding-top: 5px;
-  padding-right: 10px;
-  height: 25px;
-  color: #20404e;
-  :hover {
-    color: #091216;
-    cursor: hand;
-  }
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
 `;
 
 const Wrapper = styled.div``;

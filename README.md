@@ -1,8 +1,5 @@
 # How people talk
 
-Check it out here! https://howpeopletalk.com/
-
-Status: [![Netlify Status](https://api.netlify.com/api/v1/badges/87f5ff4a-e033-4127-a49f-f7b3c8c9a743/deploy-status)](https://app.netlify.com/sites/how-people-talk/deploys)
 
 Supporting the Podcast industry is a passion of mine, so I thought I would take the great Shopify Masters podcast and see if I could add some value to it.
 

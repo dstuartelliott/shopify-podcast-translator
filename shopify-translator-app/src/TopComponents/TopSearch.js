@@ -88,12 +88,12 @@ const SearchDiv = styled.div`
 `;
 
 const TranscriptSearch = styled.input`
-  width: 500px;
+  width: 100%;
   border-color: transparent;
   background-color: transparent;
   padding-left: 20px;
   padding-right: 0px;
-  &:focus {
+  &:focus-visible {
     outline: 0;
     border: none;
   }
