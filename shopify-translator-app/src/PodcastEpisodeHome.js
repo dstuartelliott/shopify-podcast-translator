@@ -44,20 +44,20 @@ function PodcastEpisodeHome() {
 
           <TopFigma />
           <Player />
-          {/* {podcastSelected.title ===
+          {podcastSelected.title ===
           "Achieving High Conversion Rates in a Saturated Market" ? (
             <TopSearch />
           ) : (
             <div></div>
-          )} */}
+          )}
         </TopDivs>
 
-        {/* {podcastSelected.title ===
+        {podcastSelected.title ===
         "Achieving High Conversion Rates in a Saturated Market" ? (
           <Scrolltext></Scrolltext>
         ) : (
           <div></div>
-        )} */}
+        )}
       </AppProvider>
     </FleXApp>
   );
