@@ -210,17 +210,13 @@ const PodcastEpisodeTitle = styled.div`
 `;
 
 const PodcastLogo = styled.div`
-  height: 170px;
   width: 180px;
   background: url("${(props) => props.image_source}");
   background-size: contain;
   background-position: top;
 
-  border-radius: 15px;
-
   @media (max-width: 800px) {
     width: 120px;
-    border-radius: 5px;
     background-repeat: no-repeat;
   }
 `;

@@ -43,7 +43,7 @@ function PodcastEpisodeHome() {
           {/* {resizeListener} */}
 
           <TopFigma />
-          {/* <Player /> */}
+          <Player />
           {/* {podcastSelected.title ===
           "Achieving High Conversion Rates in a Saturated Market" ? (
             <TopSearch />
