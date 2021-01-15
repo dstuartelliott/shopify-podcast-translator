@@ -267,15 +267,16 @@ const SentencePlayingDiv = styled.div`
   cursor: pointer;
   z-index: 1;
   padding-bottom: 10px;
-  /*
-  @media (max-width: 600px) {
+
+  /* @media (max-width: 800px) {
     padding-bottom: 10px;
+    flex-direction: column;
+    background-color: red;
     /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. 
     flex-direction: row-reverse;
     /* background-color: red; 
     justify-content: flex-end;
-  }
-  */
+  } */
 `;
 
 const SentenceDiv = styled.div`
@@ -285,7 +286,7 @@ const SentenceDiv = styled.div`
   z-index: 1;
   padding-bottom: 10px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     padding-bottom: 10px;
     /* background-color: blue; */
 
@@ -322,6 +323,13 @@ const SentenceAndSpeaker = styled.div`
   margin-top: 20px;
   padding-top: 15px;
   padding-left: 40px;
+  @media (max-width: 800px) {
+    flex-direction: column;
+    /* background-color: blue; */
+    padding-left: 10px;
+
+    /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. */
+  }
 `;
 
 const SentenceAndSpeakerSelected = styled.div`
@@ -330,6 +338,13 @@ const SentenceAndSpeakerSelected = styled.div`
   margin-top: 20px;
   padding-top: 15px;
   padding-left: 40px;
+  @media (max-width: 800px) {
+    flex-direction: column;
+    /* background-color: blue; */
+    padding-left: 10px;
+
+    /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. */
+  }
 `;
 
 const Sentence = styled.div`

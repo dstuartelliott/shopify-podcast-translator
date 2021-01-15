@@ -65,18 +65,15 @@ function TopFigma() {
                 <Spring
                   config={config.stiff}
                   from={{
-                    height: toggle ? "80px" : "40px",
+                    height: toggle ? "85px" : "40px",
                   }}
                   to={{
-                    height: toggle ? "40px" : "80px",
+                    height: toggle ? "40px" : "85px",
                   }}
                 >
                   {(props) => (
                     <TextAndDownArrow>
-                      <PodcastEpisodeDescription
-                        stroke={sunlightProps.stroke}
-                        height={props.height}
-                      >
+                      <PodcastEpisodeDescription height={props.height}>
                         {podcastSelected.description}
                       </PodcastEpisodeDescription>
                       {toggle ? <Elipses>...</Elipses> : <Elipses></Elipses>}
@@ -105,12 +102,12 @@ function TopFigma() {
                   force
                   config={{ tension: 2000, friction: 100, precision: 1 }}
                   from={{
-                    width: toggle ? 0 : 150,
+                    width: toggle ? 0 : 135,
                     height: toggle ? 0 : 150,
                     paddingLeft: toggle ? 0 : 5,
                   }}
                   to={{
-                    width: toggle ? 150 : 0,
+                    width: toggle ? 135 : 0,
                     height: toggle ? 150 : 0,
                     paddingLeft: toggle ? 5 : 0,
                   }}
@@ -170,20 +167,17 @@ const PodcastEpisodeDescription = styled.div`
   text-align: justify;
   height: ${(props) => props.height};
 
-  background: radial-gradient(circle at 0%, #37313c, ${(props) => props.stroke})
-    no-repeat;
-  -webkit-background-clip: text;
-  background-clip: text;
-
-  -webkit-text-fill-color: transparent;
-
-  color: #37313c;
-
   overflow-y: hidden;
+
+  @media (max-width: 800px) {
+    line-height: 100%;
+    text-align: left;
+    padding-top: 2px;
+  }
 
   /* SUNRISE / Text Grey */
 
-  /* color: #605866; */
+  color: #605866;
 `;
 
 const Elipses = styled.div`
@@ -208,16 +202,23 @@ const PodcastEpisodeTitle = styled.div`
   -webkit-text-fill-color: transparent;
 
   color: #37313c;
+
+  @media (max-width: 800px) {
+    font-size: 15px;
+    line-height: 110%;
+  }
 `;
 
 const PodcastLogo = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 180px;
   background: url("${(props) => props.image_source}");
   background-size: contain;
-  background-position: center;
+  background-position: top;
 
-  border-radius: 5px;
+  @media (max-width: 800px) {
+    width: 120px;
+    background-repeat: no-repeat;
+  }
 `;
 
 const MenuHeader = styled.div`

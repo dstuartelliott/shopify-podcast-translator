@@ -79,30 +79,25 @@ function IntroSentence({
 const Wrapper = styled.div`
   z-index: 2;
   text-align: left;
+  margin-left: 47px;
+  @media (max-width: 800px) {
+    margin-left: 18px;
+  }
 `;
 
 const SentenceAndSpeaker = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
-  padding-top: 15px;
-  padding-left: 40px;
 `;
 
 const SentenceAndSpeakerSelected = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
-  padding-top: 15px;
-  margin-left: 45px;
-  margin-right: 5px;
 
-  border-left: 1px solid #eaeaea;
   background-color: #fcfcfc;
-
   /* border-bottom: 1px solid ${COLORS_SHOPIFY_GREYS_PALLETE.Sky}; */
-  border-radius: 5px;
-  box-shadow: 3px 3px 10px #d2cdd5;
+  @media (max-width: 800px) {
+  }
 `;
 
 const SentencePlayingDiv = styled.div`
@@ -112,9 +107,7 @@ const SentencePlayingDiv = styled.div`
   border: none;
   cursor: pointer;
   z-index: 1;
-  padding-bottom: 10px;
   @media (max-width: 600px) {
-    padding-bottom: 10px;
     /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. */
     flex-direction: row-reverse;
     /* background-color: red; */
@@ -128,10 +121,8 @@ const SentenceDiv = styled.div`
   border: none;
   cursor: pointer;
   z-index: 1;
-  padding-bottom: 10px;
 
   @media (max-width: 600px) {
-    padding-bottom: 10px;
     /* background-color: blue; */
 
     /* TODO it's row-reverse because of right-handed mobile operation.  Todo - put in left handed option. */
@@ -139,27 +130,21 @@ const SentenceDiv = styled.div`
 `;
 
 const SentenceHighlighted = styled.div`
-  padding-left: 11px;
-
   color: rgba(26, 26, 26);
 
   @media (max-width: 600px) {
     background-color: white;
-    padding-left: 11px;
 
     color: rgba(26, 26, 26);
   }
 `;
 
 const Sentence = styled.div`
-  padding-left: 11px;
   color: ${COLORS_SHOPIFY_BLUE_PALLETE.Text};
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     background-color: white;
-    padding-left: 11px;
     color: ${COLORS_SHOPIFY_BLUE_PALLETE.Text};
-    margin-right: 0px;
   }
 `;
 

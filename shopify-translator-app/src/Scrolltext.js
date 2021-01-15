@@ -402,8 +402,9 @@ const AudioDivBelow = styled.audio`
   z-index: 5;
 
   position: absolute;
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     padding-left: 0px;
+    width: 80%;
   }
 
   ::-webkit-media-controls-panel {
@@ -436,15 +437,17 @@ const AudioDivBelowTrans = styled.audio`
   align-self: flex-end;
   padding-right: 10px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
+    padding-right: 0px;
+
     padding-left: 0px;
+    width: 100%;
   }
 
   ::-webkit-media-controls-panel {
     height: 20px;
     border-radius: 5px;
     background-color: white;
-    padding-left: 2px;
   }
 
   ::-webkit-media-controls-play-button {
@@ -476,11 +479,10 @@ const TranscriptList = styled.div`
   top: 400px;
   position: absolute;
 
-  @media (min-width: 675px) {
-    /* height: 200px; */
-  }
+  @media (max-width: 800px) {
+    top: 330px;
 
-  @media (max-width: 600px) {
+    transform: translateX(-10px); /* background-color: red; */
   }
 `;
 

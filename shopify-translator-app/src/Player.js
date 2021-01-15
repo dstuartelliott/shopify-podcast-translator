@@ -534,7 +534,6 @@ const PauseImageDiv = styled.div`
 
 const Wrapper = styled.div`
   max-width: 900px;
-  min-width: 500px;
   display: flex;
   flex-direction: row;
   padding-top: 15px;

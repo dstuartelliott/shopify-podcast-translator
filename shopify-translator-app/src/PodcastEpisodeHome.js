@@ -73,7 +73,6 @@ const TopDivs = styled.div`
 
 const FleXApp = styled.div`
   max-width: 900px;
-  margin: auto;
 `;
 
 export default PodcastEpisodeHome;
