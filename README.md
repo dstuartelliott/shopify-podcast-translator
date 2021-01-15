@@ -1,6 +1,5 @@
 # How people talk
 
-Check it out here! https://how-people-talk.netlify.app/
 
 Supporting the Podcast industry is a passion of mine, so I thought I would take the great Shopify Masters podcast and see if I could add some value to it.
 
@@ -21,3 +20,5 @@ Some other interesting tidbits behind the making of this app -
 - I use the Google Text to Speech API, so I can use customized female and male voices with Quebec accents. I switched from the SpeechSynthesis framework because the voice results were too variant across browsers and devices.
 - As far an an MVP goes, it's actually getting there now. One episode of a Shopify podcast works as a rough tech demo, and the "Podcast Player" browser part works independently.
 - I was running my own Node Express server to serve out the data (the server is still up). I have a bunch of juicy JSON files from all the transcribing code I've written. However, I've switched to a bit bucket on Linode to serve out the JSON along with the individual translated MP3 files because I'm about to tweet this project out and I neeed a more robust solution.
+
+
