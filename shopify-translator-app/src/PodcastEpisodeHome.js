@@ -43,21 +43,21 @@ function PodcastEpisodeHome() {
           {/* {resizeListener} */}
 
           <TopFigma />
-          <Player />
-          {podcastSelected.title ===
+          {/* <Player /> */}
+          {/* {podcastSelected.title ===
           "Achieving High Conversion Rates in a Saturated Market" ? (
             <TopSearch />
           ) : (
             <div></div>
-          )}
+          )} */}
         </TopDivs>
 
-        {podcastSelected.title ===
+        {/* {podcastSelected.title ===
         "Achieving High Conversion Rates in a Saturated Market" ? (
           <Scrolltext></Scrolltext>
         ) : (
           <div></div>
-        )}
+        )} */}
       </AppProvider>
     </FleXApp>
   );
@@ -73,7 +73,6 @@ const TopDivs = styled.div`
 
 const FleXApp = styled.div`
   max-width: 900px;
-  margin: auto;
 `;
 
 export default PodcastEpisodeHome;
