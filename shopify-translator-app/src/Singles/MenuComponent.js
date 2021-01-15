@@ -17,42 +17,42 @@ function MenuComponent() {
   return (
     <Wrapper>
       <InternalMenu>
-        <MenuItemWrapper>
+        <MenuItemDiv>
           <MenuItemLink to="/">Episode Player</MenuItemLink>
-        </MenuItemWrapper>
-        <MenuItemWrapper>
+        </MenuItemDiv>
+        <MenuItemDiv>
           <MenuItemLink to="/podcastsearch">Find Podcasts</MenuItemLink>
-        </MenuItemWrapper>
-        <MenuItemWrapper>
+        </MenuItemDiv>
+        <MenuItemDiv>
           <MenuItemExternalLink onClick={goToDave}>
             Hire David
           </MenuItemExternalLink>
-        </MenuItemWrapper>
+        </MenuItemDiv>
       </InternalMenu>
     </Wrapper>
   );
 }
 
 const MenuItemExternalLink = styled.button`
-  height: 15px;
+  height: 40px;
 
   font-family: Avenir Next;
   font-style: normal;
 
-  font-weight: 500;
   font-size: 15px;
-  background-color: transparent;
   border: 0px;
-
+  padding: 10px;
+  background-color: transparent;
+  margin-top: -10px;
   color: #20404e;
   text-decoration: none;
   :hover {
-    color: #00848e;
-    cursor: hand;
+    color: #091216;
+    cursor: pointer;
   }
 `;
 
-const MenuItemWrapper = styled.div`
+const MenuItemDiv = styled.div`
   text-align: right;
   height: 40px;
 `;
@@ -60,6 +60,7 @@ const MenuItemLink = styled(NavLink)`
   height: 25px;
   padding: 10px;
 
+  /* background-color: red; */
   font-family: Avenir Next;
   font-style: normal;
   font-size: 15px;
@@ -79,7 +80,7 @@ const InternalMenu = styled.div`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
+  padding-top: 15px;
 `;
 
 const Wrapper = styled.div``;
