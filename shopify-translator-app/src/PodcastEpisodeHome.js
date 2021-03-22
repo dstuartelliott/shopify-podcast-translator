@@ -10,7 +10,7 @@ import TopFigma from "./TopComponents/TopFigma";
 import TopSearch from "./TopComponents/TopSearch.js";
 import Player from "./Player";
 
-import Scrolltext from "./Scrolltext";
+import ScrolltextWSB from "./ScrolltextWSB";
 
 import "focus-visible";
 
@@ -39,25 +39,19 @@ function PodcastEpisodeHome() {
   return (
     <FleXApp className="App">
       <AppProvider i18n={enTranslations}>
-        <TopDivs>
-          {/* {resizeListener} */}
+        <Player />
 
+        {/* <TopDivs>
           <TopFigma />
-          <Player />
           {podcastSelected.title ===
           "Achieving High Conversion Rates in a Saturated Market" ? (
             <TopSearch />
           ) : (
             <div></div>
           )}
-        </TopDivs>
+        </TopDivs> */}
 
-        {podcastSelected.title ===
-        "Achieving High Conversion Rates in a Saturated Market" ? (
-          <Scrolltext></Scrolltext>
-        ) : (
-          <div></div>
-        )}
+        <ScrolltextWSB></ScrolltextWSB>
       </AppProvider>
     </FleXApp>
   );

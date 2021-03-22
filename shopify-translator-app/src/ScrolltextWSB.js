@@ -35,7 +35,7 @@ import { IoMdLock } from "react-icons/io";
 import SpinnerJustKF from "./Singles/SpinnerJustKF";
 // import { combineReducers } from "redux";
 
-function Scrolltext(heightOfText) {
+function ScrolltextWSB(heightOfText) {
   const playerContext = React.useContext(PlayerContext);
 
   const dispatch = useDispatch();
@@ -92,8 +92,8 @@ function Scrolltext(heightOfText) {
     async function getTranscriptSentences() {
       // eslint-disable-next-line
       // let computed_transcript = await playerContext.computeTranscript();
-      let computed_transcript = await playerContext.computeWSBTranscript();
 
+      let computed_wsb_transcript = await playerContext.computeWSBTranscript();
       setIsLoaded(true);
     }
     getTranscriptSentences();
@@ -258,6 +258,7 @@ function Scrolltext(heightOfText) {
     <ScrollWrapper>
       <TranscriptList>
         {
+          START HERE TOMMOROW
           //eslint-disable-next-line
           simplifiedSentences.map((element, i) => {
             if (i === 0) {
@@ -276,117 +277,6 @@ function Scrolltext(heightOfText) {
                   }
                   next_start_time={element.next_start_time}
                 ></IntroSentence>
-              );
-            }
-
-            if (
-              search_results === undefined ||
-              search_results.searchResults.filtered_sentences === undefined ||
-              search_results.searchResults.filtered_sentences.length === 0
-            ) {
-              return (
-                <div key={element.uuid + "topdiv"}>
-                  <TranscriptSentence
-                    sentence_object={element}
-                    key={element.uuid}
-                    englishHighlighted={element.uuid === currentUUID.uuid}
-                    translatedUUID={element.uuid + "trans"}
-                    translatedHightlighted={
-                      element.uuid === translationTimeCodeUUID.uuid
-                    }
-                    next_start_time={element.next_start_time}
-                    i_from_list={i}
-                  ></TranscriptSentence>
-                  {element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying &&
-                  showTranslation &&
-                  shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
-                    <AudioFlex>
-                      <AudioDivBelowTrans
-                        controls
-                        autoPlay
-                        ref={audioref}
-                        src={translatedAudioSrc}
-                      ></AudioDivBelowTrans>
-                    </AudioFlex>
-                  ) : (
-                    <div></div>
-                  )}
-                  {element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying &&
-                  showTranslation &&
-                  !shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
-                    <AudioDivBelow
-                      controls
-                      ref={audioref}
-                      src={translatedAudioSrc}
-                    ></AudioDivBelow>
-                  ) : (
-                    <div></div>
-                  )}{" "}
-                </div>
-              );
-            } else if (
-              search_results.searchResults.filtered_sentences.length > 0 &&
-              search_results.searchResults.filtered_sentences.includes(
-                element.uuid
-              )
-            ) {
-              return (
-                <div>
-                  <TimeDividerTop>
-                    <TimeText>{element.time_string}</TimeText> <Line></Line>
-                  </TimeDividerTop>
-
-                  <SearchResultTranscriptSentence
-                    sentence_object={element}
-                    key={element.uuid}
-                    englishHighlighted={
-                      element.uuid === currentUUID.uuid &&
-                      translationPlaying === false
-                    }
-                    translatedUUID={element.uuid + "trans"}
-                    translatedHightlighted={
-                      element.uuid === translationTimeCodeUUID.uuid &&
-                      translationPlaying
-                    }
-                    next_start_time={element.next_start_time}
-                    search_phrase={
-                      search_results.searchResults.sentenceSearchText
-                    }
-                    original_search_phrase={
-                      search_results.searchResults.original_search_phrase
-                    }
-                  ></SearchResultTranscriptSentence>
-
-                  {/* I have to do this because when the translations show up again after selecting the quebec flag, I don't want it to autoplay.  However, if the user has clicked on the translation, I do want it to autoplay. */}
-                  {element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying &&
-                  showTranslation &&
-                  shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
-                    <AudioDivBelow
-                      controls
-                      autoPlay
-                      ref={audioref}
-                      src={translatedAudioSrc}
-                    ></AudioDivBelow>
-                  ) : (
-                    <div></div>
-                  )}
-
-                  {element.uuid === translationTimeCodeUUID.uuid &&
-                  translationPlaying &&
-                  showTranslation &&
-                  !shouldTranslationsAutoPlay.shouldTranslationsAutoPlay ? (
-                    <AudioDivBelow
-                      controls
-                      ref={audioref}
-                      src={translatedAudioSrc}
-                    ></AudioDivBelow>
-                  ) : (
-                    <div></div>
-                  )}
-                </div>
               );
             }
           })
@@ -544,4 +434,4 @@ const UnlockWarning = styled.div`
   text-align: center;
 `;
 
-export default Scrolltext;
+export default ScrolltextWSB;

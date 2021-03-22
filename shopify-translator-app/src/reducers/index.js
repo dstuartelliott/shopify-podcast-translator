@@ -25,6 +25,13 @@ export default function appReducer(state = initialState, action) {
       return { ...state, transcript: action.transcript };
     }
 
+    case "ADD_WSB_TRANSCRIPT": {
+      // console.log("ADD_TRANSCRIPT");
+      // console.log(action.transcript);
+
+      return { ...state, wsbtranscript: action.wsb_transcript };
+    }
+
     case "ADD_FAVESENTENCLIP": {
       console.log(action.faveSentenceClip);
 
@@ -226,6 +233,15 @@ export const getSimplifiedSentences = (state) => {
     });
   }
   return simplified_transcript;
+};
+
+export const getSimplifiedSentencesWSB = (state) => {
+  let transcripts = [];
+
+  if (state.wsbtranscript !== undefined) {
+    return state.wsbtranscript;
+  }
+  return transcripts;
 };
 
 export const getLCSentencesForSearch = (state) => {

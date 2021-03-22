@@ -23,6 +23,11 @@ export const addTranscript = (transcript) => ({
   transcript,
 });
 
+export const addWSBTranscript = (wsb_transcript) => ({
+  type: "ADD_WSB_TRANSCRIPT",
+  wsb_transcript,
+});
+
 export const addFaveSentenceClip = (faveSentenceClip) => ({
   type: "ADD_FAVESENTENCLIP",
   faveSentenceClip,
