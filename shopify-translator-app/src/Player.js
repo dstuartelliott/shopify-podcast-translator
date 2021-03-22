@@ -13,6 +13,7 @@ import {
   getTimeToJumpTo,
   getUUIDsandTimes,
   getTranslationPlaying,
+  getPodcastSelectedToPlay,
   // getShowTranslation,
 } from "./reducers";
 
@@ -57,6 +58,8 @@ function secondsToTime(e) {
 }
 
 function Player() {
+  let podcastSelected = useSelector(getPodcastSelectedToPlay);
+
   let mp3PlayerState = useSelector(getMP3PlayerState);
   const dispatch = useDispatch();
   const [resizeListenerProgressBar, sizes] = useResizeAware();
@@ -358,51 +361,57 @@ function Player() {
       <ProgressBarDiv>
         {resizeListenerProgressBar}
 
-        <PlayerWrapper id={"hello"}>
-          <PlayerDiv>
-            <AudioDivBelow
-              ref={audioref}
-              src="https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3"
-              // onPlay={playerPlay}
-              // onPause={playerPause}
-              onSeeking={seekingHappening}
-              onSeeked={seekingDone}
-              onTimeUpdate={announceListen}
-              onLoadedData={ableToPlay}
-              onLoadStart={loadingStarted}
-            ></AudioDivBelow>
-          </PlayerDiv>
-          <InvisibleProgressButton
-            sizeLength={sizeOfJogArea + "px"}
-            onClick={handleInvisibleProgressButtonClicl}
-            onMouseEnter={() => setshowProgressWheel(true)}
-            onMouseLeave={() => setshowProgressWheel(false)}
-          ></InvisibleProgressButton>
-          <ProgressBar>
-            <ProgressBarFiller ProgressBarFillerWidth={ProgressBarFillerWidth}>
-              <Draggable
-                axis="x"
-                handle=".handle"
-                defaultPosition={{ x: 0, y: 0 }}
-                position={audioCirclePosition}
-                scale={1}
-                bounds={{ left: 0, right: sizeOfJogArea - 30 }}
-                // onStart={this.handleStart}
-                onDrag={handleDrag}
-                onStop={handleStop}
+        {podcastSelected.state !== "loading" ? (
+          <PlayerWrapper id={"hello"}>
+            <PlayerDiv>
+              <AudioDivBelow
+                ref={audioref}
+                src={podcastSelected.url}
+                // onPlay={playerPlay}
+                // onPause={playerPause}
+                onSeeking={seekingHappening}
+                onSeeked={seekingDone}
+                onTimeUpdate={announceListen}
+                onLoadedData={ableToPlay}
+                onLoadStart={loadingStarted}
+              ></AudioDivBelow>
+            </PlayerDiv>
+            <InvisibleProgressButton
+              sizeLength={sizeOfJogArea + "px"}
+              onClick={handleInvisibleProgressButtonClicl}
+              onMouseEnter={() => setshowProgressWheel(true)}
+              onMouseLeave={() => setshowProgressWheel(false)}
+            ></InvisibleProgressButton>
+            <ProgressBar>
+              <ProgressBarFiller
+                ProgressBarFillerWidth={ProgressBarFillerWidth}
               >
-                <div>
-                  <ProgressBarCircle
-                    className="handle"
-                    ref={circleRef}
-                    onMouseEnter={() => setshowProgressWheel(true)}
-                    onMouseLeave={() => setshowProgressWheel(false)}
-                  ></ProgressBarCircle>
-                </div>
-              </Draggable>
-            </ProgressBarFiller>
-          </ProgressBar>
-        </PlayerWrapper>
+                <Draggable
+                  axis="x"
+                  handle=".handle"
+                  defaultPosition={{ x: 0, y: 0 }}
+                  position={audioCirclePosition}
+                  scale={1}
+                  bounds={{ left: 0, right: sizeOfJogArea - 30 }}
+                  // onStart={this.handleStart}
+                  onDrag={handleDrag}
+                  onStop={handleStop}
+                >
+                  <div>
+                    <ProgressBarCircle
+                      className="handle"
+                      ref={circleRef}
+                      onMouseEnter={() => setshowProgressWheel(true)}
+                      onMouseLeave={() => setshowProgressWheel(false)}
+                    ></ProgressBarCircle>
+                  </div>
+                </Draggable>
+              </ProgressBarFiller>
+            </ProgressBar>
+          </PlayerWrapper>
+        ) : (
+          <div></div>
+        )}
       </ProgressBarDiv>
     </Wrapper>
   );

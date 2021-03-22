@@ -154,6 +154,18 @@ export const PlayerContextProvider = ({ children }) => {
 
     let combined = await getWSBTranscript();
 
+    combined = combined.map((word_element) => {
+      let idIntVal = word_element.start * 1000;
+      idIntVal = Math.round(idIntVal);
+
+      return {
+        word: word_element.word,
+        start: word_element.start,
+        end: word_element.end,
+        id: idIntVal,
+      };
+    });
+
     dispatch(addWSBTranscript(combined));
 
     return true;

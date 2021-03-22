@@ -485,18 +485,34 @@ export const getHamburgerSize = (state) => {
   }
 };
 
+// export const getPodcastSelectedToPlay = (state) => {
+//   if (state.podcastSelectedToPlay !== undefined) {
+//     return state.podcastSelectedToPlay;
+//   } else
+//     return {
+//       title: "Achieving High Conversion Rates in a Saturated Market",
+//       description:
+//         "Instead of going on a gap year, Dean Legg started his second business after selling his first. Honing in on his interests, Dean launched PureChimp to showcase matcha and natural skincare through commerce and pledges 5% of profits to charities that provide care for chimpanzees. In this episode of Shopify Masters, we chat with Dean about social media ads and how to achieve high conversion rates in a saturated market.",
+//       url:
+//         "https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3",
+//       image:
+//         "https://is1-ssl.mzstatic.com/image/thumb/Podcasts113/v4/eb/81/46/eb8146c4-0112-8f4f-9a54-80bceddffbaa/mza_2429360785917253582.jpg/100x100bb.jpg",
+//     };
+// };
+
 export const getPodcastSelectedToPlay = (state) => {
   if (state.podcastSelectedToPlay !== undefined) {
     return state.podcastSelectedToPlay;
   } else
     return {
-      title: "Achieving High Conversion Rates in a Saturated Market",
+      title:
+        "NFTs: Blockchain-Powered Art, Trading Cards, Music, and More with Aftab Hossain",
       description:
-        "Instead of going on a gap year, Dean Legg started his second business after selling his first. Honing in on his interests, Dean launched PureChimp to showcase matcha and natural skincare through commerce and pledges 5% of profits to charities that provide care for chimpanzees. In this episode of Shopify Masters, we chat with Dean about social media ads and how to achieve high conversion rates in a saturated market.",
+        "What are NFTs, why are they collectible, and why should you care? In this episode, Kevin interviews NFT guru Aftab Hossain, aka 'DC Investor'. They answer all your most pressing questions as well as bring you up to speed on all things NFT.",
       url:
-        "https://dts.podtrac.com/redirect.mp3/cdn.simplecast.com/audio/1153d0/1153d031-e1ea-4aa1-8df0-78aa8be2c970/71a9cfe9-dbbd-4572-b3d2-391c3d2f2c85/ep375-purechimp_tc.mp3",
+        "https://cdn.simplecast.com/audio/63481825-db46-492b-b02e-8ee9ba92abae/episodes/50a4a404-bb36-4264-abfe-70f2a373139c/audio/5ba18e95-ffd8-4d68-889e-b14dba71e7d1/default_tc.mp3",
       image:
-        "https://is1-ssl.mzstatic.com/image/thumb/Podcasts113/v4/eb/81/46/eb8146c4-0112-8f4f-9a54-80bceddffbaa/mza_2429360785917253582.jpg/100x100bb.jpg",
+        "https://image.simplecastcdn.com/images/8c79ecb6-a837-42eb-9cdc-79ebd709a3e0/549ce24e-4d15-49e5-8945-61414a9d2017/3000x3000/mofi-3.jpg",
     };
 };
 

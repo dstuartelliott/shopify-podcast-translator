@@ -41,15 +41,15 @@ function PodcastEpisodeHome() {
       <AppProvider i18n={enTranslations}>
         <Player />
 
-        {/* <TopDivs>
+        <TopDivs>
           <TopFigma />
           {podcastSelected.title ===
-          "Achieving High Conversion Rates in a Saturated Market" ? (
+          "NFTs: Blockchain-Powered Art, Trading Cards, Music, and More with Aftab Hossain" ? (
             <TopSearch />
           ) : (
             <div></div>
           )}
-        </TopDivs> */}
+        </TopDivs>
 
         <ScrolltextWSB></ScrolltextWSB>
       </AppProvider>

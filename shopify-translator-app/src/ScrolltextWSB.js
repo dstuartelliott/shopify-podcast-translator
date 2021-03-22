@@ -5,7 +5,7 @@ import { PlayerContext } from "./Contexts/PlayerContext";
 
 import TranscriptSentence from "./TranscriptSentence.js";
 import SearchResultTranscriptSentence from "./SearchResultTranscriptSentence.js";
-import IntroSentence from "./IntroSentence.js";
+import IntroSentenceWSB from "./IntroSentenceWSB.js";
 
 import { useDispatch, useSelector } from "react-redux";
 import { recordTranslationMP3PlayerState } from "./actions";
@@ -41,7 +41,7 @@ function ScrolltextWSB(heightOfText) {
   const dispatch = useDispatch();
   const [toggle, setToggle] = React.useState(false);
 
-  let simplifiedSentences = useSelector(getSimplifiedSentencesWSB);
+  let wsbSentences = useSelector(getSimplifiedSentencesWSB);
 
   let uuidPlaying = useSelector(getUUIDPlaying);
 
@@ -258,27 +258,23 @@ function ScrolltextWSB(heightOfText) {
     <ScrollWrapper>
       <TranscriptList>
         {
-          START HERE TOMMOROW
           //eslint-disable-next-line
-          simplifiedSentences.map((element, i) => {
-            if (i === 0) {
-              return (
-                <IntroSentence
-                  sentence_object={element}
-                  key={element.uuid}
-                  englishHighlighted={
-                    element.uuid === currentUUID.uuid &&
-                    translationPlaying === false
-                  }
-                  translatedUUID={element.uuid + "trans"}
-                  translatedHightlighted={
-                    element.uuid === translationTimeCodeUUID.uuid &&
-                    translationPlaying
-                  }
-                  next_start_time={element.next_start_time}
-                ></IntroSentence>
-              );
-            }
+          wsbSentences.map((element, i) => {
+            let next = i + 1;
+            return (
+              <IntroSentenceWSB
+                sentence_object={element}
+                key={element.id}
+                id={element.id}
+                word={element.word}
+                highlighted={element.id === currentUUID.uuid}
+                next_start_time={
+                  i !== wsbSentences.length - 1
+                    ? wsbSentences[next].start
+                    : element.end
+                }
+              ></IntroSentenceWSB>
+            );
           })
         }
       </TranscriptList>
@@ -361,9 +357,11 @@ const ScrollWrapper = styled.div`
 
 const TranscriptList = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
-  overflow-y: scroll;
+  overflow-x: scroll;
+  flex-wrap: wrap;
+
   max-width: 960px;
   transform: translateX(-50px); /* background-color: red; */
 
