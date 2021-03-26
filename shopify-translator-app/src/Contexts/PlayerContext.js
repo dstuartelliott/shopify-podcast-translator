@@ -44,7 +44,7 @@ export const PlayerContextProvider = ({ children }) => {
   const getWSBTranscript = () => {
     let myPromise = new Promise((resolve, reject) => {
       const apiUrl =
-        "https://us-east-1.linodeobjects.com/podcast-files/wsb/words_with_times.json";
+        "https://us-east-1.linodeobjects.com/podcast-files/wsb/words_with_times2short.json";
       fetch(apiUrl)
         .then((response) => {
           let data = response.json();

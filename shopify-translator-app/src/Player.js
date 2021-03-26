@@ -118,6 +118,8 @@ function Player() {
 
   React.useEffect(() => {
     if (timeToJumpTo > 0.0) {
+      console.log("jumping");
+
       audioref.current.currentTime = timeToJumpTo;
       // audioref.current.audio.current.currentTime = timeToJumpTo;
     }

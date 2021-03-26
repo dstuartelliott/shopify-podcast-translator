@@ -500,6 +500,22 @@ export const getHamburgerSize = (state) => {
 //     };
 // };
 
+// export const getPodcastSelectedToPlay = (state) => {
+//   if (state.podcastSelectedToPlay !== undefined) {
+//     return state.podcastSelectedToPlay;
+//   } else
+//     return {
+//       title:
+//         "NFTs: Blockchain-Powered Art, Trading Cards, Music, and More with Aftab Hossain",
+//       description:
+//         "What are NFTs, why are they collectible, and why should you care? In this episode, Kevin interviews NFT guru Aftab Hossain, aka 'DC Investor'. They answer all your most pressing questions as well as bring you up to speed on all things NFT.",
+//       url:
+//         "https://cdn.simplecast.com/audio/63481825-db46-492b-b02e-8ee9ba92abae/episodes/50a4a404-bb36-4264-abfe-70f2a373139c/audio/5ba18e95-ffd8-4d68-889e-b14dba71e7d1/default_tc.mp3",
+//       image:
+//         "https://image.simplecastcdn.com/images/8c79ecb6-a837-42eb-9cdc-79ebd709a3e0/549ce24e-4d15-49e5-8945-61414a9d2017/3000x3000/mofi-3.jpg",
+//     };
+// };
+
 export const getPodcastSelectedToPlay = (state) => {
   if (state.podcastSelectedToPlay !== undefined) {
     return state.podcastSelectedToPlay;
@@ -509,8 +525,7 @@ export const getPodcastSelectedToPlay = (state) => {
         "NFTs: Blockchain-Powered Art, Trading Cards, Music, and More with Aftab Hossain",
       description:
         "What are NFTs, why are they collectible, and why should you care? In this episode, Kevin interviews NFT guru Aftab Hossain, aka 'DC Investor'. They answer all your most pressing questions as well as bring you up to speed on all things NFT.",
-      url:
-        "https://cdn.simplecast.com/audio/63481825-db46-492b-b02e-8ee9ba92abae/episodes/50a4a404-bb36-4264-abfe-70f2a373139c/audio/5ba18e95-ffd8-4d68-889e-b14dba71e7d1/default_tc.mp3",
+      url: "https://us-east-1.linodeobjects.com/podcast-files/wsb/kr5.mp3",
       image:
         "https://image.simplecastcdn.com/images/8c79ecb6-a837-42eb-9cdc-79ebd709a3e0/549ce24e-4d15-49e5-8945-61414a9d2017/3000x3000/mofi-3.jpg",
     };

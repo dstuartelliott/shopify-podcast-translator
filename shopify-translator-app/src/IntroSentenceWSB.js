@@ -29,6 +29,8 @@ function IntroSentenceWSB({
   function handleClickedSentence(event) {
     console.log(event);
     console.log(sentence_object.start);
+    console.log(sentence_object);
+
     dispatch(markTranslationAsDonePlaying());
     dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
     dispatch(updateSpeechSynthState(false));
