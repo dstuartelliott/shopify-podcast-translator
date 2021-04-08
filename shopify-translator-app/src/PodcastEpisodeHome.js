@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import TopFigma from "./TopComponents/TopFigma";
 import TopSearch from "./TopComponents/TopSearch.js";
-import Player from "./Player";
+import PlayerAudioContext from "./PlayerAudioContext";
 
 import ScrolltextWSB from "./ScrolltextWSB";
 
@@ -39,7 +39,7 @@ function PodcastEpisodeHome() {
   return (
     <FleXApp className="App">
       <AppProvider i18n={enTranslations}>
-        <Player />
+        <PlayerAudioContext />
 
         <TopDivs>
           <TopFigma />

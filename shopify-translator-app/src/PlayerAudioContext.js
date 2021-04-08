@@ -27,6 +27,9 @@ import {
 
 import { MP3_PLAYER_STATES, TRANSLATION_MP3_PLAYER_STATES } from "./constants";
 import useResizeAware from "react-resize-aware";
+const context = new AudioContext();
+let audioBufferGlobal;
+const source = context.createBufferSource();
 
 let sizeOfJogArea;
 // eslint-disable-next-line
@@ -57,7 +60,7 @@ function secondsToTime(e) {
   }
 }
 
-function Player() {
+function PlayerAudioContext() {
   let podcastSelected = useSelector(getPodcastSelectedToPlay);
 
   let mp3PlayerState = useSelector(getMP3PlayerState);
@@ -127,21 +130,65 @@ function Player() {
     // eslint-disable-next-line
   }, [timeToJumpTo]);
 
-  function playButtonHit() {
-    console.log("hit");
-    console.log(mp3PlayerState);
+  React.useEffect(() => {
+    async function getTranscriptSentences() {
+      // eslint-disable-next-line
+      // let computed_transcript = await playerContext.computeTranscript();
+      // https://us-east-1.linodeobjects.com/podcast-files/wsb/kr5.mp3
+      fetch("https://us-east-1.linodeobjects.com/podcast-files/wsb/kr5.mp3")
+        .then((response) => response.arrayBuffer())
+        .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
+        .then((audioBuffer) => {
+          audioBufferGlobal = audioBuffer;
+          audioBuffer = audioBuffer;
+          source.buffer = audioBuffer;
+          source.connect(context.destination);
+          context.suspend();
+          console.log(context.state);
+        })
 
-    if (mp3PlayerState === MP3_PLAYER_STATES.PAUSED) {
-      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
-      dispatch(
-        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
-      );
-    } else if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
-      dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
-      dispatch(
-        recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
-      );
+        .catch((error) => {
+          console.log(error);
+        });
     }
+    getTranscriptSentences();
+
+    // eslint-disable-next-line
+  }, []);
+
+  function playButtonHit() {
+    console.log("audioBuffer hit");
+    console.log(context.state);
+    console.log(source);
+
+    // if (context.state === "suspended" && context.currentTime === 0) {
+    //   source.start();
+    //   context.resume();
+    // } else if (source.context.state === "suspended") {
+    //   //      source.start();
+
+    //   context.resume();
+    // } else if (source.context.state === "running") {
+    //   context.suspend();
+    // }
+
+    if (context.state === "suspended") {
+      context.resume();
+    } else if (context.state === "running") {
+      context.suspend();
+    }
+
+    // if (mp3PlayerState === MP3_PLAYER_STATES.PAUSED) {
+    //   dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PLAYING));
+    //   dispatch(
+    //     recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+    //   );
+    // } else if (mp3PlayerState === MP3_PLAYER_STATES.PLAYING) {
+    //   dispatch(recordMP3PlayerState(MP3_PLAYER_STATES.PAUSED));
+    //   dispatch(
+    //     recordTranslationMP3PlayerState(TRANSLATION_MP3_PLAYER_STATES.PAUSED)
+    //   );
+    // }
   }
 
   function quickishFindUUID(current_time) {
@@ -290,6 +337,7 @@ function Player() {
 
   return (
     <Wrapper onMouseEnter={handleOutBar}>
+      {source.context.state}
       <CircleSunButton
         onClick={playButtonHit}
         onMouseEnter={() => setcircleToggle(!circleToggle)}
@@ -359,7 +407,6 @@ function Player() {
           fontSizeUpper={"24px"}
         ></Doughnut>
       </DoughnutDiv>
-
       <ProgressBarDiv>
         {resizeListenerProgressBar}
 
@@ -415,6 +462,9 @@ function Player() {
           <div></div>
         )}
       </ProgressBarDiv>
+      <button id="play" disabled>
+        Yodel!
+      </button>
     </Wrapper>
   );
 }
@@ -549,6 +599,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   padding-top: 15px;
   align-items: center;
+  background-color: green;
 `;
 
-export default Player;
+export default PlayerAudioContext;
